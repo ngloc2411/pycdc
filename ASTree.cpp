@@ -4184,10 +4184,40 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             stack.pop();
             break;
         case Pyc::SWAP_A:
-            /* Python 3.11+: swap TOS with the operand-th element from the top.
-               A plain stack operation (used by chained comparisons, starred
-               unpacking, etc.). */
-            stack.swap(operand);
+            {
+                /* Python 3.11+: swap TOS with the operand-th element from the
+                   top. Chained comparisons use it as a real stack operation
+                   (SWAP n; COPY n). Every other use is the reordering that
+                   precedes a parallel assignment (`a, b = b, a`), which is
+                   modelled as the construction of the unpack tuple. */
+                int pkOp = 0, pkOperand = 0;
+                int savedSrc = source.pos();
+                int savedPos = pos;
+                if (!source.atEof())
+                    bc_next(source, mod, pkOp, pkOperand, pos);
+                source.setPos(savedSrc);
+                pos = savedPos;
+                if (pkOp == Pyc::COPY_A || operand < 2
+                        || (int)stack.size() < operand) {
+                    stack.swap(operand);
+                    break;
+                }
+
+                unpack = operand;
+                ASTTuple::value_t values;
+                ASTTuple::value_t next_tuple;
+                values.resize(operand);
+                for (int i = 0; i < operand; i++) {
+                    values[operand - i - 1] = stack.top();
+                    stack.pop();
+                }
+                auto tup = new ASTTuple(values);
+                tup->setRequireParens(false);
+                auto next_tup = new ASTTuple(next_tuple);
+                next_tup->setRequireParens(false);
+                stack.push(tup);
+                stack.push(next_tup);
+            }
             break;
         case Pyc::BINARY_SLICE:
             {
