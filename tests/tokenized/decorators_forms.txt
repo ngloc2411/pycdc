@@ -1,0 +1,25 @@
+def deco ( fn ) : <EOL>
+<INDENT>
+return fn <EOL>
+<OUTDENT>
+@ deco <EOL>
+def a ( ) : <EOL>
+<INDENT>
+pass <EOL>
+<OUTDENT>
+class C : <EOL>
+<INDENT>
+@ property <EOL>
+def p ( self ) : <EOL>
+<INDENT>
+return 1 <EOL>
+<OUTDENT>
+@ staticmethod <EOL>
+def s ( x ) : <EOL>
+<INDENT>
+return x <EOL>
+<OUTDENT>
+@ classmethod <EOL>
+def c ( cls , x ) : <EOL>
+<INDENT>
+return cls <EOL>

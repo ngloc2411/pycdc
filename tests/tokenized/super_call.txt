@@ -1,0 +1,17 @@
+class A : <EOL>
+<INDENT>
+def __init__ ( self , v ) : <EOL>
+<INDENT>
+self . v = v <EOL>
+<OUTDENT>
+<OUTDENT>
+class B ( A ) : <EOL>
+<INDENT>
+def __init__ ( self , v , w ) : <EOL>
+<INDENT>
+super ( ) . __init__ ( v ) <EOL>
+self . w = w <EOL>
+<OUTDENT>
+def m ( self ) : <EOL>
+<INDENT>
+return super ( ) . __repr__ ( ) <EOL>

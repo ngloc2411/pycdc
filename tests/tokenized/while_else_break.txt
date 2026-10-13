@@ -1,0 +1,16 @@
+def f ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j > 5 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+j = 100 <EOL>
+<OUTDENT>
+return j <EOL>

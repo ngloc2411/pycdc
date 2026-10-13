@@ -1,0 +1,5 @@
+def f ( a ) : <EOL>
+<INDENT>
+with a : <EOL>
+<INDENT>
+return 5 <EOL>

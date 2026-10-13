@@ -1,0 +1,16 @@
+def f ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+raise RuntimeError ( 'a' ) <EOL>
+<OUTDENT>
+except RuntimeError : <EOL>
+<INDENT>
+raise ValueError ( 'b' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+pass <EOL>

@@ -1,0 +1,23 @@
+async def agen ( n ) : <EOL>
+<INDENT>
+for i in range ( n ) : <EOL>
+<INDENT>
+yield i <EOL>
+<OUTDENT>
+<OUTDENT>
+async def work ( x ) : <EOL>
+<INDENT>
+return x <EOL>
+<OUTDENT>
+async def main ( a ) : <EOL>
+<INDENT>
+print ( await work ( 2 ) ) <EOL>
+async with a as v : <EOL>
+<INDENT>
+print ( v ) <EOL>
+<OUTDENT>
+async for i in agen ( 2 ) : <EOL>
+<INDENT>
+print ( i ) <EOL>
+<OUTDENT>
+return [ i async for i in agen ( 3 ) ] <EOL>

@@ -1,0 +1,12 @@
+def f ( a ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+with a : <EOL>
+<INDENT>
+raise ValueError ( 'x' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+print ( 'handled' ) <EOL>

@@ -1,0 +1,9 @@
+class O : <EOL>
+<INDENT>
+pass <EOL>
+<OUTDENT>
+o = O ( ) <EOL>
+o . x = 1 <EOL>
+del o . x <EOL>
+a = 1 <EOL>
+del a <EOL>

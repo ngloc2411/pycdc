@@ -1,0 +1,4 @@
+def f ( a : int , b : str = 'x' ) -> str : <EOL>
+<INDENT>
+v : int = 3 <EOL>
+return b * v <EOL>

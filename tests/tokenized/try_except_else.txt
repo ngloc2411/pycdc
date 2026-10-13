@@ -1,0 +1,15 @@
+def f ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+a = 1 <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+a = 2 <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+a = 3 <EOL>
+<OUTDENT>
+return a <EOL>

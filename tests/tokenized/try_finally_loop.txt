@@ -1,0 +1,15 @@
+def f ( ) : <EOL>
+<INDENT>
+for i in range ( 3 ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+if i == 1 : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+print ( i ) <EOL>
+<OUTDENT>
+finally : <EOL>
+<INDENT>
+print ( 'f' ) <EOL>

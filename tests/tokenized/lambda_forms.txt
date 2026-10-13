@@ -1,0 +1,4 @@
+f = lambda a , b = 1 : a * b <EOL>
+g = lambda : None <EOL>
+h = lambda * a , ** k : ( a , k ) <EOL>
+print ( list ( map ( lambda v : v + 1 , [ 1 , 2 ] ) ) ) <EOL>

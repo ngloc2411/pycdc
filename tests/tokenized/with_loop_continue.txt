@@ -1,0 +1,11 @@
+def f ( a ) : <EOL>
+<INDENT>
+for i in range ( 2 ) : <EOL>
+<INDENT>
+with a : <EOL>
+<INDENT>
+if i : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+print ( i ) <EOL>

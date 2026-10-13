@@ -1,0 +1,5 @@
+def f ( a , b ) : <EOL>
+<INDENT>
+with a as x , b as y : <EOL>
+<INDENT>
+print ( x , y ) <EOL>

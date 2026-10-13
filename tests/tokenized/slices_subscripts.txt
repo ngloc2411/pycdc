@@ -1,0 +1,8 @@
+l = [ 1 , 2 , 3 ] <EOL>
+d = { } <EOL>
+print ( l [ 1 : ] , l [ : 2 ] , l [ : : 2 ] , l [ - 1 ] , d [ 'a' ] ) <EOL>
+l [ 0 ] = 9 <EOL>
+del l [ 1 ] <EOL>
+d [ 'c' ] = 3 <EOL>
+del d [ 'c' ] <EOL>
+l [ 1 : 2 ] = [ 5 ] <EOL>

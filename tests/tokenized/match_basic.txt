@@ -1,0 +1,23 @@
+def m ( v ) : <EOL>
+<INDENT>
+match v : <EOL>
+<INDENT>
+case 0 : <EOL>
+<INDENT>
+return 'zero' <EOL>
+<OUTDENT>
+case [ a , b ] : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+case { 'k' : x } : <EOL>
+<INDENT>
+return x <EOL>
+<OUTDENT>
+case str ( ) as s : <EOL>
+<INDENT>
+return s <EOL>
+<OUTDENT>
+case _ : <EOL>
+<INDENT>
+return 'other' <EOL>

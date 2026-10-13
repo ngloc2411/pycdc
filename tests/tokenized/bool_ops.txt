@@ -1,0 +1,19 @@
+def f ( a , b , c ) : <EOL>
+<INDENT>
+x = a and b <EOL>
+y = a or b <EOL>
+z = a and b or c <EOL>
+w = a or b and c <EOL>
+if a and b : <EOL>
+<INDENT>
+return 1 <EOL>
+<OUTDENT>
+if a or b : <EOL>
+<INDENT>
+return 2 <EOL>
+<OUTDENT>
+if a and ( b or c ) : <EOL>
+<INDENT>
+return 3 <EOL>
+<OUTDENT>
+return not a <EOL>

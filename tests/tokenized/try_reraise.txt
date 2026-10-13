@@ -1,0 +1,9 @@
+def f ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+1 / 0 <EOL>
+<OUTDENT>
+except ZeroDivisionError : <EOL>
+<INDENT>
+raise <EOL>

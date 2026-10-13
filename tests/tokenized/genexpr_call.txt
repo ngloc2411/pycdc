@@ -1,0 +1,5 @@
+def f ( xs ) : <EOL>
+<INDENT>
+print ( sum ( x for x in xs ) ) <EOL>
+print ( any ( x > 4 for x in xs ) ) <EOL>
+return sorted ( x for x in xs if x ) <EOL>

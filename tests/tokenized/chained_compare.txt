@@ -1,0 +1,7 @@
+def f ( x ) : <EOL>
+<INDENT>
+if 0 < x < 10 : <EOL>
+<INDENT>
+return 1 <EOL>
+<OUTDENT>
+return 1 <= x <= 2 != 3 <EOL>

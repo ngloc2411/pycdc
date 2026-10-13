@@ -1,0 +1,7 @@
+def f ( data ) : <EOL>
+<INDENT>
+if ( n := len ( data ) ) > 2 : <EOL>
+<INDENT>
+print ( n ) <EOL>
+<OUTDENT>
+return [ y for x in data if ( y := x * 2 ) > 2 ] <EOL>

@@ -1,0 +1,17 @@
+def f ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+pass <EOL>
+<OUTDENT>
+except ValueError as e : <EOL>
+<INDENT>
+print ( e ) <EOL>
+<OUTDENT>
+except ( KeyError , IndexError ) as e : <EOL>
+<INDENT>
+print ( e ) <EOL>
+<OUTDENT>
+except Exception : <EOL>
+<INDENT>
+pass <EOL>

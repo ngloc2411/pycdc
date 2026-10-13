@@ -1,0 +1,15 @@
+def f ( a ) : <EOL>
+<INDENT>
+a += 1 <EOL>
+a -= 2 <EOL>
+a *= 3 <EOL>
+a //= 2 <EOL>
+a %= 7 <EOL>
+a |= 1 <EOL>
+a &= 7 <EOL>
+a ^= 2 <EOL>
+a <<= 1 <EOL>
+a >>= 1 <EOL>
+a **= 2 <EOL>
+a /= 2 <EOL>
+return a <EOL>

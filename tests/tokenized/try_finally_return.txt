@@ -1,0 +1,9 @@
+def f ( x ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+return 10 // x <EOL>
+<OUTDENT>
+finally : <EOL>
+<INDENT>
+print ( 'done' ) <EOL>

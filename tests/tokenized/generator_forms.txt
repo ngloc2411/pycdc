@@ -1,0 +1,12 @@
+def gen ( n ) : <EOL>
+<INDENT>
+for i in range ( n ) : <EOL>
+<INDENT>
+yield i <EOL>
+<OUTDENT>
+yield from range ( 2 ) <EOL>
+<OUTDENT>
+def gen2 ( ) : <EOL>
+<INDENT>
+x = yield 1 <EOL>
+print ( x ) <EOL>

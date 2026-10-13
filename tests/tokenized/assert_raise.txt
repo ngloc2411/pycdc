@@ -1,0 +1,5 @@
+def f ( a ) : <EOL>
+<INDENT>
+assert a == 4 , 'msg' <EOL>
+assert a <EOL>
+raise ValueError ( 'x' ) from None <EOL>

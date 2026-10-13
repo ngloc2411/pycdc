@@ -1,0 +1,16 @@
+G = 0 <EOL>
+def setg ( ) : <EOL>
+<INDENT>
+global G <EOL>
+G = 7 <EOL>
+<OUTDENT>
+def counter ( ) : <EOL>
+<INDENT>
+n = 0 <EOL>
+def inc ( ) : <EOL>
+<INDENT>
+nonlocal n <EOL>
+n += 1 <EOL>
+return n <EOL>
+<OUTDENT>
+return inc <EOL>
