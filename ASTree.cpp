@@ -5467,7 +5467,10 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
             PycRef<ASTObject> retObj = ret->value().try_cast<ASTObject>();
             if (ret->value() == NULL || ret->value().type() == ASTNode::NODE_LOCALS ||
                     (retObj && retObj->object().type() == PycObject::TYPE_NONE)) {
-                clean->removeLast();  // Always an extraneous return statement
+                /* ...except in a lambda, where it is the whole body
+                   (`lambda: None`). */
+                if (!(code->name()->isEqual("<lambda>") && clean->nodes().size() == 1))
+                    clean->removeLast();  // Always an extraneous return statement
             }
         }
 
