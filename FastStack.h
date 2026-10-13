@@ -70,6 +70,8 @@ public:
         return m_ptr == -1;
     }
 
+    int size() const { return m_ptr + 1; }
+
 private:
     std::vector<PycRef<ASTNode>> m_stack;
     int m_ptr;

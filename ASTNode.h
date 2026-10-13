@@ -109,7 +109,7 @@ private:
 class ASTUnary : public ASTNode {
 public:
     enum UnOp {
-        UN_POSITIVE, UN_NEGATIVE, UN_INVERT, UN_NOT
+        UN_POSITIVE, UN_NEGATIVE, UN_INVERT, UN_NOT, UN_UNPACK
     };
 
     ASTUnary(PycRef<ASTNode> operand, int op)
@@ -320,7 +320,7 @@ public:
     typedef std::list<PycRef<ASTStore>> list_t;
 
     ASTImport(PycRef<ASTNode> name, PycRef<ASTNode> fromlist)
-        : ASTNode(NODE_IMPORT), m_name(std::move(name)), m_fromlist(std::move(fromlist)) { }
+        : ASTNode(NODE_IMPORT), m_name(std::move(name)), m_fromlist(std::move(fromlist)), m_level(0) { }
 
     PycRef<ASTNode> name() const { return m_name; }
     list_t stores() const { return m_stores; }
@@ -328,11 +328,18 @@ public:
 
     PycRef<ASTNode> fromlist() const { return m_fromlist; }
 
+    /* Relative-import level (the number of leading dots in `from . import x`
+       / `from .. import x` / `from .pkg import x`). 0 means an absolute
+       import -- co_names[namei] is used as-is with no leading dot. */
+    int level() const { return m_level; }
+    void setLevel(int level) { m_level = level; }
+
 private:
     PycRef<ASTNode> m_name;
     list_t m_stores;
 
     PycRef<ASTNode> m_fromlist;
+    int m_level;
 };
 
 
