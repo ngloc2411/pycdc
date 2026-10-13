@@ -564,6 +564,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     int curpos = 0;
     int pos = 0;
     int unpack = 0;
+    /* Node pushed by the most recent LOAD_ASSERTION_ERROR (3.9+). */
+    PycRef<ASTNode> assertErrNode;
     bool else_pop = false;
     bool need_try = false;
     bool variable_annotations = false;
@@ -1484,6 +1486,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                                 || (func.type() == ASTNode::NODE_CALL
                                     && func.cast<ASTCall>()->isDecorator()));
 
+                        /* `assert cond, msg` compiles to LOAD_ASSERTION_ERROR; <msg>;
+                           CALL 0: the message sits in the callable slot and
+                           AssertionError in the self slot (3.11+). */
+                        bool belowIsAssert = below != NULL && below == assertErrNode;
+
                         bool belowIsComp = false;
                         if (hadGetIter && below != NULL && below.type() == ASTNode::NODE_FUNCTION) {
                             /* Only trust this as the comprehension's own
@@ -1504,7 +1511,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                                     || !strcmp(bnm, "<genexpr>"));
                         }
 
-                        if (belowIsComp) {
+                        if (belowIsAssert) {
+                            pparamList.push_front(func);
+                            func = stack.top();
+                            stack.pop();
+                        } else if (belowIsComp) {
                             /* Inline the comprehension. The callable is `below`
                                and the iterable is `func` (TOS). Decompile the
                                comprehension body and substitute its implicit
@@ -3002,7 +3013,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             {
                 PycRef<PycString> assertName = new PycString();
                 assertName->setValue("AssertionError");
-                stack.push(new ASTName(assertName));
+                assertErrNode = new ASTName(assertName);
+                stack.push(assertErrNode);
             }
             break;
         case Pyc::LOAD_BUILD_CLASS:
@@ -4776,6 +4788,40 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 print_block(blk, mod, pyc_output);
                 end_line(pyc_output);
                 break;
+            }
+
+            /* `if not cond: raise AssertionError[(msg)]` is how `assert` is
+               compiled; print it back as an assert statement. */
+            if (blk->blktype() == ASTBlock::BLK_IF && blk->size() == 1
+                    && blk->nodes().front().type() == ASTNode::NODE_RAISE
+                    && blk.cast<ASTCondBlock>()->negative()) {
+                const auto& rp = blk->nodes().front().cast<ASTRaise>()->params();
+                PycRef<ASTNode> exc = rp.size() == 1 ? rp.front() : PycRef<ASTNode>();
+                PycRef<ASTNode> msg;
+                bool isAssert = false;
+                auto isAssertName = [](const PycRef<ASTNode>& n) {
+                    return n != NULL && n.type() == ASTNode::NODE_NAME
+                           && n.cast<ASTName>()->name()->isEqual("AssertionError");
+                };
+                if (isAssertName(exc)) {
+                    isAssert = true;
+                } else if (exc != NULL && exc.type() == ASTNode::NODE_CALL) {
+                    PycRef<ASTCall> c = exc.cast<ASTCall>();
+                    if (isAssertName(c->func()) && c->pparams().size() == 1
+                            && c->kwparams().empty() && !c->hasVar() && !c->hasKW()) {
+                        isAssert = true;
+                        msg = c->pparams().front();
+                    }
+                }
+                if (isAssert) {
+                    pyc_output << "assert ";
+                    print_src(blk.cast<ASTCondBlock>()->cond(), mod, pyc_output);
+                    if (msg != NULL) {
+                        pyc_output << ", ";
+                        print_src(msg, mod, pyc_output);
+                    }
+                    break;
+                }
             }
 
             pyc_output << blk->type_str();
