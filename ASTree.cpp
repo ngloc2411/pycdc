@@ -2010,6 +2010,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     if (mod->verCompare(3, 10) >= 0)
                         end *= sizeof(uint16_t); // // BPO-27129
                     end += pos;
+                    /* 3.12+: the jump is relative to the instruction after
+                       FOR_ITER's single inline CACHE entry. */
+                    if (mod->verCompare(3, 12) >= 0)
+                        end += sizeof(uint16_t);
                     {
                         const char* cn = code->name()->value();
                         comprehension = cn && (!strcmp(cn, "<listcomp>")
@@ -3302,14 +3306,22 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                    Due to CACHE instructions at play, the end indicated in
                    the for loop by pycdas is not correct, it is off by
                    some small amount. */
-                if (curblock->blktype() == ASTBlock::BLK_FOR) {
+                if (curblock->blktype() == ASTBlock::BLK_FOR
+                        && (curblock->end() == curpos || curblock->end() == 0
+                            || curblock->end() < curpos)) {
                     PycRef<ASTBlock> prev = blocks.top();
                     blocks.pop();
 
                     curblock = blocks.top();
                     curblock->append(prev.cast<ASTNode>());
                 }
-                else {
+                else if (curblock->blktype() == ASTBlock::BLK_FOR) {
+                    /* The loop being closed here was already finished by its
+                       closing JUMP_BACKWARD; this END_FOR belongs to it. */
+                }
+                else if (curblock->blktype() != ASTBlock::BLK_MAIN) {
+                    /* (A BLK_MAIN here means the closing JUMP_BACKWARD already
+                       ended the for block, which is the normal 3.12 shape.) */
                     fprintf(stderr, "Wrong block type %i for END_FOR\n", curblock->blktype());
                 }
             }
