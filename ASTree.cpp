@@ -1694,9 +1694,42 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     stack.pop();
                 }
 
-                PycRef<ASTNode> call = new ASTCall(func, ASTCall::pparam_t(),
-                                                   ASTCall::kwparam_t());
-                call.cast<ASTCall>()->setVar(var);
+                ASTCall::pparam_t exPos;
+                ASTCall::kwparam_t exKw;
+                /* `f(a, *args)` compiles to f(*(a, *args)) and
+                   `f(c=c, **kw)` to f(**{'c': c, **kw}); undo that so the
+                   call reads like the original source. */
+                if (var != NULL && var.type() == ASTNode::NODE_TUPLE) {
+                    for (const auto& v : var.cast<ASTTuple>()->values())
+                        exPos.push_back(v);
+                    var = NULL;
+                }
+                if (kw != NULL && kw.type() == ASTNode::NODE_MAP) {
+                    PycRef<ASTNode> unpackedKw;
+                    int unpackCount = 0;
+                    bool allSimple = true;
+                    for (const auto& kv : kw.cast<ASTMap>()->values()) {
+                        if (kv.first == NULL) {
+                            unpackCount++;
+                            unpackedKw = kv.second;
+                        } else if (kv.first.type() != ASTNode::NODE_OBJECT
+                                   || kv.first.cast<ASTObject>()->object()
+                                          .try_cast<PycString>() == NULL) {
+                            allSimple = false;
+                        }
+                    }
+                    if (allSimple && unpackCount <= 1) {
+                        for (const auto& kv : kw.cast<ASTMap>()->values()) {
+                            if (kv.first != NULL)
+                                exKw.push_back(kv);
+                        }
+                        kw = unpackedKw;   /* NULL when there was no ** entry */
+                    }
+                }
+
+                PycRef<ASTNode> call = new ASTCall(func, exPos, exKw);
+                if (var != NULL)
+                    call.cast<ASTCall>()->setVar(var);
                 if (kw != NULL)
                     call.cast<ASTCall>()->setKW(kw);
                 stack.push(call);

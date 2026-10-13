@@ -1,4 +1,4 @@
-d = { 'a' : 1 , ** { 'b' : 2 } } <EOL>
+d = { 'a' : 1 , ** other } <EOL>
 l = [ 1 , * range ( 3 ) ] <EOL>
 t = ( 1 , * l ) <EOL>
 s = { 1 , 2 , * l } <EOL>
