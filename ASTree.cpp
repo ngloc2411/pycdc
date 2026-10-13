@@ -2499,13 +2499,35 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                            body (pos == block end), and an explicit `continue`
                            somewhere earlier (pos < block end). Only the former
                            closes the loop; the latter emits a continue. */
-                        int target = (mod->verCompare(3, 10) >= 0)
+                        int target = (mod->verCompare(3, 11) >= 0)
                                      ? (pos - offs)
-                                     : offs;
+                                     : offs;   /* absolute up to 3.10 */
                         bool is_jump_to_start =
                                 target == curblock.cast<ASTIterBlock>()->start();
                         bool at_loop_end = (curblock->end() != 0)
                                      && (pos == curblock->end());
+                        if (!at_loop_end && is_jump_to_start && curblock->end() > pos
+                                && !curblock.cast<ASTIterBlock>()->isComprehension()) {
+                            /* The compiler may place a duplicated `return None`
+                               epilogue (for an enclosing branch that skips the
+                               loop) between the loop-back jump and the loop
+                               exit. That still makes this jump the natural end
+                               of the loop, not a `continue`. */
+                            PycBuffer look(code->code()->value(), code->code()->length());
+                            look.setPos(pos);
+                            int lp = pos, lop = 0, lopnd = 0;
+                            bool onlyEpilogue = true, sawReturn = false;
+                            while (lp < curblock->end() && !look.atEof()) {
+                                bc_next(look, mod, lop, lopnd, lp);
+                                if (lop == Pyc::RETURN_VALUE || lop == Pyc::RETURN_CONST_A)
+                                    sawReturn = true;
+                                else if (lop != Pyc::LOAD_CONST_A && lop != Pyc::NOP
+                                         && lop != Pyc::CACHE)
+                                    onlyEpilogue = false;
+                            }
+                            if (onlyEpilogue && sawReturn && lp == curblock->end())
+                                at_loop_end = true;
+                        }
                         bool should_pop_for_block = curblock.cast<ASTIterBlock>()->isComprehension();
                         // in v3.8, SETUP_LOOP is deprecated and for blocks aren't terminated by POP_BLOCK, so we add them here
                         bool should_add_for_block = mod->majorVer() == 3 && mod->minorVer() >= 8 && is_jump_to_start && at_loop_end && !curblock.cast<ASTIterBlock>()->isComprehension();
