@@ -29,6 +29,10 @@ static bool cleanBuild;
 /* Use this to prevent printing return keywords and newlines in lambdas. */
 static bool inLambda = false;
 
+/* Set just before printing a lambda that sits directly in a call argument
+   list, where it needs no enclosing parentheses. */
+static bool lambdaBare = false;
+
 /* Use this to keep track of whether we need to print out any docstring and
  * the list of global variables that we are using (such as inside a function). */
 static bool printDocstringAndGlobals = false;
@@ -4596,7 +4600,9 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             for (const auto& param : call->pparams()) {
                 if (!first)
                     pyc_output << ", ";
+                lambdaBare = (param.type() == ASTNode::NODE_FUNCTION);
                 print_src(param, mod, pyc_output);
+                lambdaBare = false;
                 first = false;
             }
             for (const auto& param : call->kwparams()) {
@@ -4608,7 +4614,9 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                     PycRef<PycString> str_name = param.first.cast<ASTObject>()->object().cast<PycString>();
                     pyc_output << str_name->value() << " = ";
                 }
+                lambdaBare = (param.second.type() == ASTNode::NODE_FUNCTION);
                 print_src(param.second, mod, pyc_output);
+                lambdaBare = false;
                 first = false;
             }
             if (call->hasVar()) {
@@ -5043,7 +5051,9 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_FUNCTION:
         {
             /* Actual named functions are NODE_STORE with a name */
-            pyc_output << "(lambda ";
+            const bool bare = lambdaBare;
+            lambdaBare = false;
+            pyc_output << (bare ? "lambda " : "(lambda ");
             PycRef<ASTNode> code = node.cast<ASTFunction>()->code();
             PycRef<PycCode> code_src = code.cast<ASTObject>()->object().cast<PycCode>();
             ASTFunction::defarg_t defargs = node.cast<ASTFunction>()->defargs();
@@ -5077,7 +5087,8 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             print_src(code, mod, pyc_output);
             inLambda = false;
 
-            pyc_output << ")";
+            if (!bare)
+                pyc_output << ")";
         }
         break;
     case ASTNode::NODE_STORE:

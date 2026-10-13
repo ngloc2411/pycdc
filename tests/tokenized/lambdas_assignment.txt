@@ -6,4 +6,4 @@ print var <EOL>
 asdf = { } <EOL>
 asdf [ 'a' ] = lambda x : test_logger ( 1 , x ) <EOL>
 asdf [ 'b' ] = lambda y : test_logger ( 2 , y ) <EOL>
-mult3 = filter ( ( lambda x : x % 3 == 0 ) , [ 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ] ) <EOL>
+mult3 = filter ( lambda x : x % 3 == 0 , [ 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ] ) <EOL>
