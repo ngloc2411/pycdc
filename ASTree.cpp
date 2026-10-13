@@ -5136,6 +5136,9 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                         pyc_output << " = ";
                         print_src(*da++, mod, pyc_output);
                     }
+                    if (code_src->posOnlyArgCount() > 0
+                            && i == code_src->posOnlyArgCount() - 1)
+                        pyc_output << ", /";
                 }
                 if (hasVarArgs) {
                     if (!firstParam) pyc_output << ", ";
