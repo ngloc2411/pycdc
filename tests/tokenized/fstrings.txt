@@ -1,5 +1,4 @@
 name = 'x' <EOL>
 n = 3 <EOL>
 print ( f'{name}={n!r:>5} {n + 1}' ) <EOL>
-print ( f'plain' ) <EOL>
 print ( f'{name}' ) <EOL>

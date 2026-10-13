@@ -3,4 +3,4 @@ def f ( a , b ) : <EOL>
 x = a or { } <EOL>
 y = a and b <EOL>
 z = ( a or b ) and a <EOL>
-return x , y , z <EOL>
+return ( x , y , z ) <EOL>

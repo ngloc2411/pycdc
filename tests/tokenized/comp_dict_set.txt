@@ -2,4 +2,4 @@ def f ( xs ) : <EOL>
 <INDENT>
 a = { x : x for x in xs if x } <EOL>
 b = { x % 3 for x in xs } <EOL>
-return a , b <EOL>
+return ( a , b ) <EOL>
