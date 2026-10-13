@@ -2982,21 +2982,18 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 PycRef<ASTSet> lhs = stack.top().cast<ASTSet>();
                 stack.pop();
 
-                if (rhs.type() != ASTNode::NODE_OBJECT) {
-                    fprintf(stderr, "Unsupported argument found for SET_UPDATE\n");
-                    break;
-                }
-
-                // I've only ever seen this be a TYPE_FROZENSET, but let's be careful...
-                PycRef<PycObject> obj = rhs.cast<ASTObject>()->object();
-                if (obj->type() != PycObject::TYPE_FROZENSET) {
-                    fprintf(stderr, "Unsupported argument type found for SET_UPDATE\n");
-                    break;
-                }
-
                 ASTSet::value_t result = lhs->values();
-                for (const auto& it : obj.cast<PycSet>()->values()) {
-                    result.push_back(new ASTObject(it));
+                PycRef<PycObject> obj = rhs.type() == ASTNode::NODE_OBJECT
+                        ? rhs.cast<ASTObject>()->object() : PycRef<PycObject>();
+                if (obj != NULL && obj->type() == PycObject::TYPE_FROZENSET) {
+                    for (const auto& it : obj.cast<PycSet>()->values())
+                        result.push_back(new ASTObject(it));
+                } else if (rhs.type() == ASTNode::NODE_SET) {
+                    for (const auto& it : rhs.cast<ASTSet>()->values())
+                        result.push_back(it);
+                } else {
+                    /* {a, *expr}: the elements aren't known at decompile time. */
+                    result.push_back(new ASTUnary(rhs, ASTUnary::UN_UNPACK));
                 }
 
                 stack.push(new ASTSet(result));
