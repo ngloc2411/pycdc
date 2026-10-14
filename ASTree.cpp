@@ -1695,6 +1695,36 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 
                 bool isDecoratorApply = false;
                 bool compInlined = false;
+                if (mod->verCompare(3, 11) < 0 && func != NULL
+                        && func.type() == ASTNode::NODE_FUNCTION
+                        && pparamList.size() == 1 && kwparamList.empty()) {
+                    /* Python <= 3.10: a comprehension is a nested function
+                       called with the iterator: MAKE_FUNCTION; <iter>; GET_ITER;
+                       CALL_FUNCTION 1. */
+                    PycRef<PycCode> ccode = func.cast<ASTFunction>()->code()
+                            .cast<ASTObject>()->object().cast<PycCode>();
+                    const char* cnm = ccode->name()->value();
+                    if (cnm && (!strcmp(cnm, "<listcomp>") || !strcmp(cnm, "<setcomp>")
+                            || !strcmp(cnm, "<dictcomp>") || !strcmp(cnm, "<genexpr>"))) {
+                        bool savedClean = cleanBuild;
+                        PycRef<ASTNode> compAst = BuildFromCode(ccode, mod);
+                        cleanBuild = savedClean;
+                        PycRef<ASTComprehension> comp = FindComprehension(compAst);
+                        if (comp == NULL)
+                            comp = SynthGenexpr(compAst);
+                        if (comp != NULL && !comp->generators().empty()) {
+                            if (!strcmp(cnm, "<setcomp>"))
+                                comp->setKind(ASTComprehension::KIND_SET);
+                            else if (!strcmp(cnm, "<dictcomp>"))
+                                comp->setKind(ASTComprehension::KIND_DICT);
+                            else if (!strcmp(cnm, "<genexpr>"))
+                                comp->setKind(ASTComprehension::KIND_GENERATOR);
+                            comp->generators().front()->setIter(pparamList.front());
+                            stack.push(comp.cast<ASTNode>());
+                            compInlined = true;
+                        }
+                    }
+                }
                 if (opcode == Pyc::CALL_A || opcode == Pyc::INSTRUMENTED_CALL_A) {
                     if (!stack.empty() && stack.top() == nullptr) {
                         /* Normal call: discard the NULL self slot. */
