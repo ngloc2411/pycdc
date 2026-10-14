@@ -4056,7 +4056,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 } else {
                     PycRef<ASTNode> value = stack.top();
                     stack.pop();
-                    PycRef<ASTNode> name = new ASTName(code->getCellVar(mod, operand));
+                    PycRef<PycString> derefName = code->getCellVar(mod, operand);
+                    PycRef<ASTNode> name = new ASTName(derefName);
+                    if (code->isFreeVar(mod, operand))
+                        code->markNonlocal(derefName);   /* rebinding a free var */
 
                     if (value.type() == ASTNode::NODE_CHAINSTORE) {
                         append_to_chain_store(value, name, stack, curblock);
@@ -5999,6 +6002,19 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
                 if (!first)
                     pyc_output << ", ";
                 pyc_output << glob->value();
+                first = false;
+            }
+            pyc_output << "\n";
+        }
+        PycCode::globals_t nonlocs = code->getNonlocals();
+        if (nonlocs.size()) {
+            start_line(cur_indent + 1, pyc_output);
+            pyc_output << "nonlocal ";
+            bool first = true;
+            for (const auto& nl : nonlocs) {
+                if (!first)
+                    pyc_output << ", ";
+                pyc_output << nl->value();
                 first = false;
             }
             pyc_output << "\n";

@@ -92,11 +92,26 @@ public:
 
     PycRef<PycString> getCellVar(PycModule* mod, int idx) const;
 
+    /* True if cell index `idx` (as used by LOAD/STORE_DEREF) names a free
+       variable (one captured from an enclosing function). */
+    bool isFreeVar(PycModule* mod, int idx) const;
+
     const globals_t& getGlobals() const { return m_globalsUsed; }
 
     void markGlobal(PycRef<PycString> varname)
     {
         m_globalsUsed.emplace_back(std::move(varname));
+    }
+
+    /* Free variables this code rebinds (needs a `nonlocal` declaration). */
+    const globals_t& getNonlocals() const { return m_nonlocalsUsed; }
+
+    void markNonlocal(PycRef<PycString> varname)
+    {
+        for (const auto& n : m_nonlocalsUsed)
+            if (n->isEqual(varname->value()))
+                return;
+        m_nonlocalsUsed.emplace_back(std::move(varname));
     }
 
     std::vector<PycExceptionTableEntry> exceptionTableEntries() const;
@@ -118,6 +133,7 @@ private:
     PycRef<PycString> m_lnTable;
     PycRef<PycString> m_exceptTable;
     globals_t m_globalsUsed; /* Global vars used in this code */
+    globals_t m_nonlocalsUsed; /* Free vars rebound in this code */
 };
 
 #endif

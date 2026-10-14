@@ -129,6 +129,17 @@ PycRef<PycString> PycCode::getCellVar(PycModule* mod, int idx) const
         : m_cellVars->get(idx).cast<PycString>();
 }
 
+bool PycCode::isFreeVar(PycModule* mod, int idx) const
+{
+    if (mod->verCompare(3, 11) >= 0) {
+        const int kindsLen = m_localKinds->length();
+        if (idx < 0 || idx >= kindsLen)
+            return false;
+        return (m_localKinds->value()[idx] & 0x80) != 0;   /* CO_FAST_FREE */
+    }
+    return idx >= m_cellVars->size();
+}
+
 int _parse_varint(PycBuffer& data, int& pos) {
     int b = data.getByte();
     pos += 1;
