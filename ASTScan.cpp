@@ -240,7 +240,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
     const int unit = mod->verCompare(3, 10) >= 0 ? 2 : 1;   /* jump operand unit */
     enum Kind { NONE, UNCOND, COND };
     /* Returns jump kind; sets target. */
-    auto jump = [&](const Ins& in, int& target) -> Kind {
+    auto jumpRaw = [&](const Ins& in, int& target) -> Kind {
         switch (in.op) {
         case Pyc::JUMP_ABSOLUTE_A:
             target = in.arg * unit;
@@ -278,6 +278,20 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         default:
             return NONE;
         }
+    };
+    /* A backward jump may land on a NOP line marker just before the real
+       loop header (`while True:` and `continue`); treat both as one target. */
+    auto jump = [&](const Ins& in, int& target) -> Kind {
+        Kind k = jumpRaw(in, target);
+        if (k != NONE && target < in.pos) {
+            auto it = idxAt.find(target);
+            while (it != idxAt.end() && ins[it->second].op == Pyc::NOP
+                    && it->second + 1 < (int)ins.size()) {
+                target = ins[it->second + 1].pos;
+                it = idxAt.find(target);
+            }
+        }
+        return k;
     };
     auto isExprOp = [](int op) {
         switch (op) {
