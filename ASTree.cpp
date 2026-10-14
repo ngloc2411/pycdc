@@ -5376,7 +5376,19 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_IMPORT:
         {
             PycRef<ASTImport> import = node.cast<ASTImport>();
-            if (import->stores().size()) {
+            /* `import a.b as c` compiles to IMPORT_NAME a.b (fromlist None)
+               followed by IMPORT_FROM b; STORE c. */
+            bool plainImportAs = import->stores().size() == 1
+                    && (import->fromlist() == NULL
+                        || (import->fromlist().type() == ASTNode::NODE_OBJECT
+                            && import->fromlist().cast<ASTObject>()->object() == Pyc_None))
+                    && import->name().type() == ASTNode::NODE_NAME;
+            if (plainImportAs) {
+                pyc_output << "import ";
+                print_src(import->name(), mod, pyc_output);
+                pyc_output << " as ";
+                print_src(import->stores().front()->dest(), mod, pyc_output);
+            } else if (import->stores().size()) {
                 ASTImport::list_t stores = import->stores();
 
                 pyc_output << "from ";
@@ -5634,7 +5646,11 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                     pyc_output << "import ";
                     PycRef<ASTNode> import_name = import->name();
                     print_src(import_name, mod, pyc_output);
-                    if (!dest.cast<ASTName>()->name()->isEqual(import_name.cast<ASTName>()->name().cast<PycObject>())) {
+                    /* `import a.b.c` binds `a`: that is the plain form. */
+                    std::string full = import_name.cast<ASTName>()->name()->strValue();
+                    std::string firstPart = full.substr(0, full.find('.'));
+                    if (!dest.cast<ASTName>()->name()->isEqual(import_name.cast<ASTName>()->name().cast<PycObject>())
+                            && dest.cast<ASTName>()->name()->strValue() != firstPart) {
                         pyc_output << " as ";
                         print_src(dest, mod, pyc_output);
                     }
