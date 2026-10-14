@@ -1184,6 +1184,15 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         switch (opcode) {
         case Pyc::BINARY_OP_A:
             {
+                if (operand == 26 && mod->verCompare(3, 14) >= 0) {
+                    /* NB_SUBSCR: a[b] */
+                    PycRef<ASTNode> subscr = stack.top();
+                    stack.pop();
+                    PycRef<ASTNode> src = stack.top();
+                    stack.pop();
+                    stack.push(new ASTSubscr(src, subscr));
+                    break;
+                }
                 ASTBinary::BinOp op = ASTBinary::from_binary_op(operand);
                 if (op == ASTBinary::BIN_INVALID)
                     fprintf(stderr, "Unsupported `BINARY_OP` operand value: %d\n", operand);
@@ -3470,6 +3479,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 }
                 stack.push(new ASTFunction(fn->code(), defArgs, kwDefArgs));
             }
+            break;
+        case Pyc::POP_ITER:
+            /* 3.14: the iterator is popped separately from END_FOR; the
+               stack model already dropped it there. */
             break;
         case Pyc::NOT_TAKEN:
         case Pyc::NOP:
