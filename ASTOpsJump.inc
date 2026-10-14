@@ -543,7 +543,15 @@
                     if ((cn && !strcmp(cn, "<setcomp>")) || !inlineComps.empty()) {
                         curblock->append(new ASTReturn(value, ASTReturn::YIELD));
                     } else {
-                        stack.push(new ASTSubscr(set, value)); /* Total hack */
+                        if (set.type() == ASTNode::NODE_SET) {
+                            /* {*a, 1}: add to the set literal under construction */
+                            ASTSet::value_t vals = set.cast<ASTSet>()->values();
+                            vals.push_back(value);
+                            stack.pop();
+                            stack.push(new ASTSet(vals));
+                        } else {
+                            stack.push(new ASTSubscr(set, value)); /* Total hack */
+                        }
                     }
                 }
             }
@@ -570,7 +578,15 @@
                            (with its filter condition). */
                         curblock->append(new ASTReturn(value, ASTReturn::YIELD));
                     } else {
-                        stack.push(new ASTSubscr(list, value)); /* Total hack */
+                        if (list.type() == ASTNode::NODE_LIST) {
+                            /* [*a, 1]: append to the list literal under construction */
+                            ASTList::value_t vals = list.cast<ASTList>()->values();
+                            vals.push_back(value);
+                            stack.pop();
+                            stack.push(new ASTList(vals));
+                        } else {
+                            stack.push(new ASTSubscr(list, value)); /* Total hack */
+                        }
                     }
                 }
             }
