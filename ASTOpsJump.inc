@@ -8,6 +8,18 @@
                 if (mod->verCompare(3, 10) >= 0)
                     offs *= sizeof(uint16_t); // // BPO-27129
 
+                {
+                    /* end of a try body / except handler that closes the loop
+                       body: a jump over the remaining handlers, not a `continue` */
+                    auto tej = loops.tryEndJump.find(curpos);
+                    if (tej != loops.tryEndJump.end() && opcode == Pyc::JUMP_ABSOLUTE_A) {
+                        int rel = tej->second - pos;
+                        operand = mod->verCompare(3, 10) >= 0 ? rel / 2 : rel;
+                        opcode = Pyc::JUMP_FORWARD_A;
+                        goto jump_forward_impl;
+                    }
+                }
+
                 if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0
                         && offs < pos
                         && (curblock->blktype() == ASTBlock::BLK_IF
@@ -303,6 +315,7 @@
                 curblock = blocks.top();
             }
             break;
+        jump_forward_impl:
         case Pyc::JUMP_FORWARD_A:
         case Pyc::INSTRUMENTED_JUMP_FORWARD_A:
             {

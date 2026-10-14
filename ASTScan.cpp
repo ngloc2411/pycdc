@@ -833,10 +833,26 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 if (exitX < 0) exitX = t;
                 else if (exitX != t) consistent = false;
             } else if (!l.typeII && t == l.T) {
-                cont.push_back(ins[i].pos);
+                /* the end of a try body / except handler that threads straight to
+                   the loop head when the whole `try` closes the loop body (the
+                   closing back-edge follows its END_FINALLY) is not a `continue` */
+                int bIdx0 = idxAt[l.B];
+                bool tryEnd = i > 0 && bIdx0 > 0 && (ins[bIdx0 - 1].op == Pyc::END_FINALLY || ins[bIdx0 - 1].op == Pyc::RERAISE || ins[bIdx0 - 1].op == Pyc::RERAISE_A)
+                        && (ins[i - 1].op == Pyc::POP_BLOCK || ins[i - 1].op == Pyc::POP_EXCEPT);
+                if (tryEnd)
+                    out.tryEndJump[ins[i].pos] = l.B;   /* acts like a jump over the handlers */
+                else
+                    cont.push_back(ins[i].pos);
             } else if (l.typeII && (t == l.csStart || t == gcStart)
                        && ins[i].pos < l.csStart) {
-                cont.push_back(ins[i].pos);
+                /* end of a try body / handler right before the duplicated
+                   loop test (3.10): a jump over the handlers, not a `continue` */
+                int ti = idxAt.count(t) ? idxAt[t] : -1;
+                bool tryEnd = i > 0 && ti > 0
+                        && (ins[ti - 1].op == Pyc::RERAISE || ins[ti - 1].op == Pyc::RERAISE_A || ins[ti - 1].op == Pyc::END_FINALLY)
+                        && (ins[i - 1].op == Pyc::POP_BLOCK || ins[i - 1].op == Pyc::POP_EXCEPT);
+                if (!tryEnd)
+                    cont.push_back(ins[i].pos);
             }
         }
         (void)consistent;
