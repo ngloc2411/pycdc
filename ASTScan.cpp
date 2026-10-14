@@ -287,7 +287,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         case Pyc::CONTAINS_OP_A: case Pyc::BINARY_OP_A: case Pyc::BINARY_SUBSCR:
         case Pyc::UNARY_NOT: case Pyc::UNARY_NEGATIVE: case Pyc::CALL_A:
         case Pyc::CALL_FUNCTION_A: case Pyc::CALL_METHOD_A: case Pyc::PRECALL_A:
-        case Pyc::PUSH_NULL: case Pyc::KW_NAMES_A: case Pyc::TO_BOOL:
+        case Pyc::PUSH_NULL: case Pyc::KW_NAMES_A: case Pyc::TO_BOOL: case Pyc::NOT_TAKEN:
         case Pyc::CACHE: case Pyc::LOAD_FAST_LOAD_FAST_A: case Pyc::LOAD_FAST_BORROW_A:
         case Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A: case Pyc::LOAD_SMALL_INT_A:
         case Pyc::BINARY_ADD: case Pyc::BINARY_SUBTRACT: case Pyc::BINARY_MULTIPLY:
@@ -347,7 +347,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
     std::set<int> entryStarts;
     auto entryStartOf = [&](int g) {
         int j = g - 1, first = -1;
-        while (j >= 0 && isExprOp(ins[j].op)) {
+        int tg;
+        while (j >= 0 && (isExprOp(ins[j].op) || jump(ins[j], tg) == COND)) {
             first = j;
             j--;
         }
@@ -392,21 +393,67 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         /* top-tested: look for the guard at the header */
         int guard = -1;
         bool clean = true;
-        for (int j = idxAt[t]; j < bi && ins[j].pos < ins[bi].pos; j++) {
+        std::vector<int> cj;   /* conditional jumps of the header condition */
+        int bodyIdx = idxAt[t];
+        for (; bodyIdx < bi; bodyIdx++) {
             int tt;
-            Kind k = jump(ins[j], tt);
+            Kind k = jump(ins[bodyIdx], tt);
             if (k == NONE) {
-                if (!isExprOp(ins[j].op)) { clean = false; break; }
+                if (!isExprOp(ins[bodyIdx].op)) break;
                 continue;
             }
-            if (k == COND && tt >= ins[bi].real) { guard = ins[j].pos; }
-            else clean = false;
-            break;
+            if (k != COND) break;
+            cj.push_back(bodyIdx);
         }
+        /* The guard is the last conditional jump of the header condition: it
+           leaves the loop, and every earlier jump either also leaves it (`and`)
+           or enters the body right after the guard (`or`). Later conditional
+           jumps belong to statements of the body. */
+        for (int gi = (int)cj.size() - 1; gi >= 0 && guard < 0; gi--) {
+            int gtgt = 0;
+            jump(ins[cj[gi]], gtgt);
+            if (gtgt < ins[bi].real)
+                continue;
+            int bodyStart = ins[cj[gi]].real;
+            {
+                int nx = cj[gi] + 1;
+                while (nx < (int)ins.size() && (ins[nx].op == Pyc::CACHE
+                                                || ins[nx].op == Pyc::NOT_TAKEN))
+                    nx++;
+                if (nx < (int)ins.size())
+                    bodyStart = ins[nx].pos;
+            }
+            bool ok = true;
+            for (int c = 0; ok && c < gi; c++) {
+                int ct = 0;
+                jump(ins[cj[c]], ct);
+                if (ct < ins[bi].real && ct != bodyStart)
+                    ok = false;
+            }
+            if (ok) {
+                guard = ins[cj[gi]].pos;
+                cj.resize(gi + 1);
+            }
+        }
+        if (guard < 0)
+            clean = false;
         Loop l{t, ins[bi].pos, ins[bi].real, -1, guard, false};
         if (guard >= 0 && clean) {
             out.guardEnd[guard] = l.end;
-        } else if (guard < 0 && !clean) {
+            if (cj.size() > 1) {
+                std::vector<ChainJump> chain;
+                for (size_t c = 0; c + 1 < cj.size(); c++) {
+                    int ct = 0;
+                    jump(ins[cj[c]], ct);
+                    chain.push_back(ChainJump{ins[cj[c]].pos,
+                                              ins[cj[c]].op == Pyc::POP_JUMP_IF_TRUE_A
+                                              || ins[cj[c]].op == Pyc::POP_JUMP_FORWARD_IF_TRUE_A,
+                                              ct < ins[bi].real});
+                    out.guardChainMember.insert(ins[cj[c]].pos);
+                }
+                out.guardChain[guard] = chain;
+            }
+        } else if (guard < 0) {
             /* `while True` -- the body starts at T and is not a bare expression */
             out.trueOpen[t] = l.end;
         } else {
@@ -420,32 +467,64 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         out.loopEnds.insert(l.end);
         /* start of the duplicated condition (bottom-tested loops) */
         int csPos = l.T;
+        int gcStart = -1;   /* start of the entry guard's condition (target of a threaded `continue`) */
         if (l.typeII) {
+            auto isChainJump = [&](int j, int& tgt) {
+                if (jump(ins[j], tgt) != COND)
+                    return false;
+                /* exit, body start, or a later part of the same condition */
+                return tgt == l.end || tgt == l.T
+                       || (tgt > ins[j].pos && tgt < l.end && tgt <= ins[idxAt[l.B]].real);
+            };
+            /* walk back over a (possibly `and`/`or` compound) condition expression */
+            auto walkCond = [&](int from, int stopPos, std::vector<ChainJump>& chain) {
+                int first = from + 1;
+                for (int j = from; j >= 0 && ins[j].pos >= stopPos; j--) {
+                    int tt;
+                    if (isChainJump(j, tt)) {
+                        chain.insert(chain.begin(), ChainJump{ins[j].pos,
+                                     ins[j].op == Pyc::POP_JUMP_IF_TRUE_A
+                                     || ins[j].op == Pyc::POP_JUMP_FORWARD_IF_TRUE_A
+                                     || ins[j].op == Pyc::POP_JUMP_BACKWARD_IF_TRUE_A,
+                                     tt == l.T});
+                        first = j;
+                        continue;
+                    }
+                    if (jump(ins[j], tt) == UNCOND && tt == l.T && ins[j].pos != l.B) {
+                        /* 3.12+ `or` tails loop back after each part */
+                        out.skipJumps.insert(ins[j].pos);
+                        first = j;
+                        continue;
+                    }
+                    if (jump(ins[j], tt) != NONE || !isExprOp(ins[j].op))
+                        break;
+                    first = j;
+                }
+                return first;
+            };
             int bi = idxAt[l.B];
-            int j = bi;
-            /* walk back over the condition expression */
-            int firstCond = bi;
-            for (j = bi - 1; j >= 0; j--) {
-                if (ins[j].pos < l.T) break;
-                int tt;
-                if (jump(ins[j], tt) != NONE && ins[j].pos != l.B) break;
-                if (!isExprOp(ins[j].op)) break;
-                firstCond = j;
-            }
-            csPos = ins[firstCond].pos;
+            int closing = bi;   /* the conditional back-edge */
+            int ctgt;
+            if (jump(ins[bi], ctgt) != COND)
+                closing = prevReal(bi);
+            std::vector<ChainJump> tail;
+            int firstCond = walkCond(closing - 1, l.T, tail);
+            for (const auto& cj : tail)
+                out.tailChain.insert(cj.pos);
+            csPos = ins[std::min(firstCond, bi)].pos;
             l.csStart = csPos;
-        }
-        /* start of the entry guard's condition (target of a threaded `continue`) */
-        int gcStart = -1;
-        if (l.typeII && idxAt.count(l.firstBack)) {
-            int j = idxAt[l.firstBack] - 1;
-            int first = -1;
-            while (j >= 0 && isExprOp(ins[j].op)) {
-                first = j;
-                j--;
+            if (idxAt.count(l.firstBack)) {
+                int g = idxAt[l.firstBack];
+                std::vector<ChainJump> chain;
+                int first = walkCond(g - 1, 0, chain);
+                if (first < g)
+                    gcStart = ins[first].pos;
+                if (!chain.empty()) {
+                    for (const auto& cj : chain)
+                        out.guardChainMember.insert(cj.pos);
+                    out.guardChain[ins[g].pos] = chain;
+                }
             }
-            if (first >= 0)
-                gcStart = ins[first].pos;
         }
         int exitX = -1;
         bool consistent = true;

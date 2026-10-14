@@ -14,6 +14,8 @@
      bottom-tested (>=3.10):                guard -> end; T: body; cond; JUMP_IF T
                                             (3.12+: cond; JUMP_IF_FALSE end; JUMP_BACKWARD T)
    Besides the loop frame we record which jumps are `break` / `continue`. */
+struct ChainJump { int pos; bool ifTrue; bool toBody; };
+
 struct WhileLoops {
     std::map<int, int> guardEnd;       /* guard position -> loop end */
     std::map<int, int> trueOpen;       /* header position -> loop end (`while True`) */
@@ -26,6 +28,10 @@ struct WhileLoops {
     std::map<int, bool> breakIf;
     std::map<int, int> elseEnd;        /* loop end -> end of its `else` body */
     std::set<int> loopEnds;
+    /* compound loop conditions (`while a and b`) of bottom-tested loops */
+    std::map<int, std::vector<ChainJump> > guardChain;   /* last guard jump -> earlier jumps */
+    std::set<int> guardChainMember;                        /* those earlier guard jumps */
+    std::set<int> tailChain;                               /* jumps of the duplicated condition */
 };
 
 
