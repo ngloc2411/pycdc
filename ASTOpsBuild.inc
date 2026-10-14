@@ -36,9 +36,13 @@
                     /* [a, b, *CONST_TUPLE]: splice the constant elements in directly. */
                     for (const auto& it : rhs.cast<ASTObject>()->object().cast<PycTuple>()->values())
                         result.push_back(new ASTObject(it));
-                } else if (rhs.type() == ASTNode::NODE_LIST || rhs.type() == ASTNode::NODE_TUPLE) {
-                    /* [a, b, *[c, d]] / [a, b, *(c, d)]: splice the literal's elements. */
+                } else if (rhs.type() == ASTNode::NODE_LIST) {
+                    /* [a, b, *[c, d]]: splice the literal's elements. */
                     for (const auto& it : rhs.cast<ASTList>()->values())
+                        result.push_back(it);
+                } else if (rhs.type() == ASTNode::NODE_TUPLE) {
+                    /* [a, b, *(c, d)] */
+                    for (const auto& it : rhs.cast<ASTTuple>()->values())
                         result.push_back(it);
                 } else {
                     /* [a, b, *some_expr()]: can't know the elements at decompile
@@ -674,5 +678,72 @@
                         stack.push(res);
                     }
                 }
+            }
+            break;
+        case Pyc::BUILD_LIST_UNPACK_A:
+        case Pyc::BUILD_TUPLE_UNPACK_A:
+        case Pyc::BUILD_TUPLE_UNPACK_WITH_CALL_A:
+        case Pyc::BUILD_SET_UNPACK_A:
+            {
+                /* Python 3.5-3.8: `[*a, 1, *b]` is BUILD_LIST_UNPACK over the
+                   starred iterables and the plain elements grouped into a
+                   literal; splice literal groups, mark the rest as starred. */
+                int count = operand & 0xff;
+                std::vector<PycRef<ASTNode> > items(count);
+                for (int i = count - 1; i >= 0; i--) {
+                    items[i] = stack.top();
+                    stack.pop();
+                }
+                std::vector<PycRef<ASTNode> > out;
+                for (const auto& item : items) {
+                    if (item != NULL && item.type() == ASTNode::NODE_OBJECT
+                            && (item.cast<ASTObject>()->object()->type() == PycObject::TYPE_TUPLE
+                                || item.cast<ASTObject>()->object()->type() == PycObject::TYPE_SMALL_TUPLE)) {
+                        for (const auto& v : item.cast<ASTObject>()->object().cast<PycTuple>()->values())
+                            out.push_back(new ASTObject(v));
+                    } else if (item != NULL && item.type() == ASTNode::NODE_TUPLE) {
+                        for (const auto& v : item.cast<ASTTuple>()->values())
+                            out.push_back(v);
+                    } else if (item != NULL && item.type() == ASTNode::NODE_LIST
+                               && opcode == Pyc::BUILD_LIST_UNPACK_A) {
+                        for (const auto& v : item.cast<ASTList>()->values())
+                            out.push_back(v);
+                    } else if (item != NULL && item.type() == ASTNode::NODE_SET
+                               && opcode == Pyc::BUILD_SET_UNPACK_A) {
+                        for (const auto& v : item.cast<ASTSet>()->values())
+                            out.push_back(v);
+                    } else {
+                        out.push_back(new ASTUnary(item, ASTUnary::UN_UNPACK));
+                    }
+                }
+                if (opcode == Pyc::BUILD_LIST_UNPACK_A) {
+                    stack.push(new ASTList(ASTList::value_t(out.begin(), out.end())));
+                } else if (opcode == Pyc::BUILD_SET_UNPACK_A) {
+                    stack.push(new ASTSet(ASTSet::value_t(out.begin(), out.end())));
+                } else {
+                    stack.push(new ASTTuple(ASTTuple::value_t(out.begin(), out.end())));
+                }
+            }
+            break;
+        case Pyc::BUILD_MAP_UNPACK_A:
+        case Pyc::BUILD_MAP_UNPACK_WITH_CALL_A:
+            {
+                /* `{**a, 'k': 1}` / `f(**a, k=1)` before 3.9 */
+                int count = operand & 0xff;
+                std::vector<PycRef<ASTNode> > items(count);
+                for (int i = count - 1; i >= 0; i--) {
+                    items[i] = stack.top();
+                    stack.pop();
+                }
+                PycRef<ASTMap> result = new ASTMap();
+                for (const auto& item : items) {
+                    if (item != NULL && item.type() == ASTNode::NODE_MAP) {
+                        for (const auto& kv : item.cast<ASTMap>()->values())
+                            result->add(kv.first, kv.second);
+                    } else {
+                        result->add(nullptr, item);
+                    }
+                }
+                stack.push(result.cast<ASTNode>());
             }
             break;

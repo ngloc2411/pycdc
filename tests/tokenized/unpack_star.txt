@@ -1,4 +1,147 @@
-d = { 'a' : 1 , ** other } <EOL>
-l = [ 1 , * range ( 3 ) ] <EOL>
-t = ( 1 , * l ) <EOL>
-s = { 1 , 2 , * l } <EOL>
+def use ( * a ) : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+def un_basic ( a ) : <EOL>
+<INDENT>
+x , y = a <EOL>
+p , q , r = a <EOL>
+return use ( x , y , p , q , r ) <EOL>
+<OUTDENT>
+def un_nested ( a ) : <EOL>
+<INDENT>
+( r , s ) , t = a <EOL>
+u , v = a <EOL>
+( m , n ) , ( o , p ) = a <EOL>
+return use ( r , s , t , u , v , m , n , o , p ) <EOL>
+<OUTDENT>
+def un_star_tail ( a ) : <EOL>
+<INDENT>
+first , * rest = a <EOL>
+return use ( first , rest ) <EOL>
+<OUTDENT>
+def un_star_head ( a ) : <EOL>
+<INDENT>
+* init , last = a <EOL>
+return use ( init , last ) <EOL>
+<OUTDENT>
+def un_star_mid ( a ) : <EOL>
+<INDENT>
+first , * mid , last = a <EOL>
+return use ( first , mid , last ) <EOL>
+<OUTDENT>
+def un_star_only ( a ) : <EOL>
+<INDENT>
+x , y , * z = a <EOL>
+return use ( x , y , z ) <EOL>
+<OUTDENT>
+def un_star_nested ( a ) : <EOL>
+<INDENT>
+( p , * q ) , r = a <EOL>
+return use ( p , q , r ) <EOL>
+<OUTDENT>
+def un_attr ( o , a ) : <EOL>
+<INDENT>
+o . x , o . y = a <EOL>
+return o <EOL>
+<OUTDENT>
+def un_sub ( d , a ) : <EOL>
+<INDENT>
+d [ 0 ] , d [ 1 ] = a <EOL>
+return d <EOL>
+<OUTDENT>
+def un_mixed ( o , d , a ) : <EOL>
+<INDENT>
+o . x , d [ 0 ] , z = a <EOL>
+return use ( o , d , z ) <EOL>
+<OUTDENT>
+def un_swap ( a , b ) : <EOL>
+<INDENT>
+a , b = b , a <EOL>
+return use ( a , b ) <EOL>
+<OUTDENT>
+def un_swap3 ( a , b , c ) : <EOL>
+<INDENT>
+a , b , c = c , a , b <EOL>
+return use ( a , b , c ) <EOL>
+<OUTDENT>
+def un_literal ( ) : <EOL>
+<INDENT>
+x , y = 1 , 2 <EOL>
+return use ( x , y ) <EOL>
+<OUTDENT>
+def un_for ( items ) : <EOL>
+<INDENT>
+for k , v in items : <EOL>
+<INDENT>
+use ( k , v ) <EOL>
+<OUTDENT>
+for a , ( b , c ) in items : <EOL>
+<INDENT>
+use ( a , b , c ) <EOL>
+<OUTDENT>
+for first , * rest in items : <EOL>
+<INDENT>
+use ( first , rest ) <EOL>
+<OUTDENT>
+<OUTDENT>
+def un_comp ( items ) : <EOL>
+<INDENT>
+return [ k + v for k , v in items ] <EOL>
+<OUTDENT>
+def un_chain ( a ) : <EOL>
+<INDENT>
+x = y = a <EOL>
+p = q = r = use ( a ) <EOL>
+return use ( x , y , p , q , r ) <EOL>
+<OUTDENT>
+def un_chain_unpack ( a ) : <EOL>
+<INDENT>
+x , y = z = a <EOL>
+return use ( x , y , z ) <EOL>
+<OUTDENT>
+def un_with_assign ( a ) : <EOL>
+<INDENT>
+x = ( a , 1 ) <EOL>
+y = ( ( a , 2 ) , 3 ) <EOL>
+return use ( x , y ) <EOL>
+<OUTDENT>
+def un_star_call ( a , b ) : <EOL>
+<INDENT>
+return use ( * a , * b ) <EOL>
+<OUTDENT>
+def un_star_list ( a , b ) : <EOL>
+<INDENT>
+x = [ * a , * b ] <EOL>
+y = [ * a , 1 , 2 ] <EOL>
+z = [ 0 , * a ] <EOL>
+return use ( x , y , z ) <EOL>
+<OUTDENT>
+def un_star_tuple ( a , b ) : <EOL>
+<INDENT>
+x = ( * a , * b ) <EOL>
+y = ( * a , 1 ) <EOL>
+z = ( 0 , * a , 2 ) <EOL>
+return use ( x , y , z ) <EOL>
+<OUTDENT>
+def un_star_set ( a , b ) : <EOL>
+<INDENT>
+x = { * a , * b } <EOL>
+y = { * a , 1 } <EOL>
+return use ( x , y ) <EOL>
+<OUTDENT>
+def un_dict_star ( a , b ) : <EOL>
+<INDENT>
+x = { ** a , ** b } <EOL>
+y = { ** a , 'k' : 1 } <EOL>
+z = { 'k' : 1 , ** a } <EOL>
+return use ( x , y , z ) <EOL>
+<OUTDENT>
+def un_call_kw ( f , a , b ) : <EOL>
+<INDENT>
+f ( ** a ) <EOL>
+f ( 1 , ** a ) <EOL>
+f ( * a , ** b ) <EOL>
+f ( a , * b , c = 1 , ** b ) <EOL>
+f ( k = 1 , ** a ) <EOL>
+return f ( ) <EOL>

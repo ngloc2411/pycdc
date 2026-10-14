@@ -1260,7 +1260,21 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             } else {
                 print_src(dest, mod, pyc_output);
                 pyc_output << " = ";
-                print_src(src, mod, pyc_output);
+                if (dest != NULL && dest.type() == ASTNode::NODE_TUPLE && src != NULL
+                        && src.type() == ASTNode::NODE_OBJECT
+                        && (src.cast<ASTObject>()->object()->type() == PycObject::TYPE_TUPLE
+                            || src.cast<ASTObject>()->object()->type() == PycObject::TYPE_SMALL_TUPLE)
+                        && !src.cast<ASTObject>()->object().cast<PycTuple>()->values().empty()) {
+                    /* x, y = 1, 2 */
+                    std::ostringstream tmp;
+                    print_src(src, mod, tmp);
+                    std::string t = tmp.str();
+                    if (t.size() > 2 && t.front() == '(' && t.back() == ')')
+                        t = t.substr(1, t.size() - 2);
+                    pyc_output << t;
+                } else {
+                    print_src(src, mod, pyc_output);
+                }
             }
         }
         break;

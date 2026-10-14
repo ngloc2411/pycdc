@@ -334,8 +334,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     tuple->setRequireParens(false);
                 curblock.cast<ASTIterBlock>()->setIndex(tup);
             } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
+                tup.cast<ASTTuple>()->setRequireParens(false);
                 append_to_chain_store(seq, tup, stack, curblock);
             } else {
+                tup.cast<ASTTuple>()->setRequireParens(false);
                 curblock->append(new ASTStore(seq, tup));
             }
             return;
@@ -1419,9 +1421,8 @@ exprflow_skip:;
                     names.push_back(t1);
                     auto vt = new ASTTuple(vals);
                     auto nt = new ASTTuple(names);
-                    bool constPair = x.type() == ASTNode::NODE_OBJECT && y.type() == ASTNode::NODE_OBJECT;
-                    vt->setRequireParens(constPair);
-                    nt->setRequireParens(constPair);
+                    vt->setRequireParens(false);
+                    nt->setRequireParens(false);
                     curblock->append(new ASTStore(vt, nt));
                     prevOp1 = prevOp2 = -1;
                     continue;
@@ -1449,9 +1450,8 @@ exprflow_skip:;
                 names.push_back(t1);
                 auto vt = new ASTTuple(vals);
                 auto nt = new ASTTuple(names);
-                bool constPair = x.type() == ASTNode::NODE_OBJECT && y.type() == ASTNode::NODE_OBJECT;
-                vt->setRequireParens(constPair);
-                nt->setRequireParens(constPair);
+                vt->setRequireParens(false);
+                nt->setRequireParens(false);
                 curblock->append(new ASTStore(vt, nt));
                 prevOp1 = prevOp2 = -1;
                 continue;

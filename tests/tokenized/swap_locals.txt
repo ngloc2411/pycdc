@@ -1,6 +1,6 @@
 def main ( ) : <EOL>
 <INDENT>
-( a , b ) = ( 1 , 2 ) <EOL>
+a , b = 1 , 2 <EOL>
 a , b = b , a <EOL>
 print ( a , b ) <EOL>
 <OUTDENT>

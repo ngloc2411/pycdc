@@ -30,6 +30,13 @@
                     for (const auto& v : var.cast<ASTTuple>()->values())
                         exPos.push_back(v);
                     var = NULL;
+                } else if (var != NULL && var.type() == ASTNode::NODE_OBJECT
+                           && (var.cast<ASTObject>()->object()->type() == PycObject::TYPE_TUPLE
+                               || var.cast<ASTObject>()->object()->type() == PycObject::TYPE_SMALL_TUPLE)) {
+                    /* f(1, **kw): the positionals were folded into a constant tuple */
+                    for (const auto& v : var.cast<ASTObject>()->object().cast<PycTuple>()->values())
+                        exPos.push_back(new ASTObject(v));
+                    var = NULL;
                 }
                 if (kw != NULL && kw.type() == ASTNode::NODE_MAP) {
                     PycRef<ASTNode> unpackedKw;
