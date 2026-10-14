@@ -1,0 +1,151 @@
+def plain ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+<OUTDENT>
+return j <EOL>
+<OUTDENT>
+def with_break ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j > 5 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+<OUTDENT>
+print ( j ) <EOL>
+return j <EOL>
+<OUTDENT>
+def with_continue ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j % 2 : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+print ( j ) <EOL>
+<OUTDENT>
+return j <EOL>
+<OUTDENT>
+def forever ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while True : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j > n : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+print ( j ) <EOL>
+<OUTDENT>
+print ( 'end' ) <EOL>
+<OUTDENT>
+def while_else ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j == 7 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+print ( 'no break' ) <EOL>
+<OUTDENT>
+print ( 'after' ) <EOL>
+<OUTDENT>
+def nested ( n ) : <EOL>
+<INDENT>
+total = 0 <EOL>
+i = 0 <EOL>
+while i < n : <EOL>
+<INDENT>
+k = 0 <EOL>
+while k < i : <EOL>
+<INDENT>
+k += 1 <EOL>
+if k == 3 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+total += k <EOL>
+<OUTDENT>
+i += 1 <EOL>
+<OUTDENT>
+print ( total ) <EOL>
+<OUTDENT>
+def if_else_in_loop ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+if j % 2 : <EOL>
+<INDENT>
+print ( 'odd' ) <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+print ( 'even' ) <EOL>
+<OUTDENT>
+j += 1 <EOL>
+<OUTDENT>
+print ( 'done' ) <EOL>
+<OUTDENT>
+def for_in_while ( items ) : <EOL>
+<INDENT>
+n = 0 <EOL>
+while n < 3 : <EOL>
+<INDENT>
+for x in items : <EOL>
+<INDENT>
+print ( x ) <EOL>
+<OUTDENT>
+n += 1 <EOL>
+<OUTDENT>
+print ( n ) <EOL>
+<OUTDENT>
+def while_not ( flag ) : <EOL>
+<INDENT>
+while not flag : <EOL>
+<INDENT>
+flag = step ( flag ) <EOL>
+<OUTDENT>
+print ( flag ) <EOL>
+<OUTDENT>
+def while_call ( q ) : <EOL>
+<INDENT>
+while q . pending ( ) : <EOL>
+<INDENT>
+q . pop ( ) <EOL>
+<OUTDENT>
+print ( 'empty' ) <EOL>
+<OUTDENT>
+def break_continue_mix ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j < 3 : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+if j > 8 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+print ( j ) <EOL>
+<OUTDENT>
+print ( 'x' ) <EOL>

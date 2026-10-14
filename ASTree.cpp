@@ -472,6 +472,9 @@ struct WhileLoops {
     std::set<int> uncondBack;          /* unconditional closing back-edges */
     std::set<int> skipJumps;           /* instructions that belong to a back-edge */
     std::set<int> breaks, continues;   /* jump positions */
+    /* `if c: break` at the tail of a loop whose break jump was elided (3.14):
+       conditional jump position -> true when the jump is taken on a true test */
+    std::map<int, bool> breakIf;
     std::map<int, int> elseEnd;        /* loop end -> end of its `else` body */
     std::set<int> loopEnds;
 };
@@ -734,6 +737,34 @@ static void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             }
         }
         (void)consistent;
+        if (!l.typeII) {
+            auto ei = idxAt.find(l.end);
+            int bIdx = idxAt[l.B];
+            int fwd = -1;
+            if (ei != idxAt.end() && ins[ei->second].op == Pyc::JUMP_FORWARD_A) {
+                /* `while ...: ... else:` -- the elided break became a jump
+                   over the else body */
+                jump(ins[ei->second], fwd);
+            }
+            if (ei != idxAt.end() && (ins[ei->second].op == Pyc::NOP || fwd > l.end)) {
+                if (fwd > l.end) {
+                    out.elseEnd[l.end] = fwd;
+                    out.skipJumps.insert(ins[ei->second].pos);
+                }
+                for (int i = idxAt[l.T]; i < bIdx; i++) {
+                    int t;
+                    if (jump(ins[i], t) != COND || t != l.end || ins[i].pos == l.firstBack)
+                        continue;
+                    int n = i + 1;
+                    while (n < (int)ins.size() && (ins[n].op == Pyc::CACHE
+                                                   || ins[n].op == Pyc::NOT_TAKEN))
+                        n++;
+                    if (n == bIdx)
+                        out.breakIf[ins[i].pos] =
+                                (ins[i].op == Pyc::POP_JUMP_IF_TRUE_A);
+                }
+            }
+        }
         for (int b : brk) out.breaks.insert(b);
         for (int c : cont) out.continues.insert(c);
         if (exitX > l.end)
@@ -1955,6 +1986,17 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 continue;
             }
             if (loops.uncondBack.count(curpos) && closeWhile(false)) {
+                refreshElsePop();
+                continue;
+            }
+            if (loops.breakIf.count(curpos) && !stack.empty()) {
+                PycRef<ASTNode> bcond = stack.top();
+                stack.pop();
+                PycRef<ASTCondBlock> bb = new ASTCondBlock(
+                        ASTBlock::BLK_IF, pos, bcond, !loops.breakIf[curpos]);
+                bb->init(ASTCondBlock::PRE_POPPED);
+                bb->append(new ASTKeyword(ASTKeyword::KW_BREAK));
+                curblock->append(bb.cast<ASTNode>());
                 refreshElsePop();
                 continue;
             }
@@ -4782,7 +4824,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     /* The loop being closed here was already finished by its
                        closing JUMP_BACKWARD; this END_FOR belongs to it. */
                 }
-                else if (curblock->blktype() != ASTBlock::BLK_MAIN) {
+                else if (curblock->blktype() != ASTBlock::BLK_MAIN
+                         && curblock->blktype() != ASTBlock::BLK_WHILE
+                         && curblock->blktype() != ASTBlock::BLK_IF
+                         && curblock->blktype() != ASTBlock::BLK_ELIF
+                         && curblock->blktype() != ASTBlock::BLK_ELSE) {
                     /* (A BLK_MAIN here means the closing JUMP_BACKWARD already
                        ended the for block, which is the normal 3.12 shape.) */
                     fprintf(stderr, "Wrong block type %i for END_FOR\n", curblock->blktype());
@@ -7411,7 +7457,10 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
     bool part1clean = cleanBuild;
 
     if (printDocstringAndGlobals) {
-        if (code->consts()->size())
+        /* 3.14 marks a real docstring with CO_HAS_DOCSTRING; otherwise
+           co_consts[0] is just the first constant used by the body. */
+        if (code->consts()->size()
+                && (mod->verCompare(3, 14) < 0 || (code->flags() & 0x4000000)))
             print_docstring(code->getConst(0), cur_indent + 1, mod, pyc_output);
 
         PycCode::globals_t globs = code->getGlobals();
