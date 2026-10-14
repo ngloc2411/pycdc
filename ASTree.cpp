@@ -1348,6 +1348,25 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 refreshElsePop();
                 continue;
             }
+            if (loops.forElse.count(curpos)) {
+                /* `for ... else:` -- the else body is reached only when the
+                   loop was not left by `break` */
+                PycRef<ASTBlock> eb = new ASTBlock(ASTBlock::BLK_ELSE, loops.forElse[curpos]);
+                eb->init(ASTCondBlock::PRE_POPPED);
+                stack_hist.push(stack);
+                blocks.push(eb);
+                curblock = blocks.top();
+            }
+            if (loops.forBreakPops.count(curpos)) {
+                /* the iterator popped by a `break` out of a for loop */
+                refreshElsePop();
+                continue;
+            }
+            if (loops.forBreaks.count(curpos)) {
+                curblock->append(new ASTKeyword(ASTKeyword::KW_BREAK));
+                refreshElsePop();
+                continue;
+            }
             if (loops.breakIf.count(curpos) && !stack.empty()) {
                 PycRef<ASTNode> bcond = stack.top();
                 stack.pop();

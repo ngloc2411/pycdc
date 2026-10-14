@@ -26,6 +26,9 @@ struct WhileLoops {
     /* `if c: break` at the tail of a loop whose break jump was elided (3.14):
        conditional jump position -> true when the jump is taken on a true test */
     std::map<int, bool> breakIf;
+    /* `for` loops: POP_TOP of the iterator + the exit jump that form a break */
+    std::set<int> forBreakPops, forBreaks;
+    std::map<int, int> forElse;        /* start of a for/else `else` body -> its end */
     std::map<int, int> elseEnd;        /* loop end -> end of its `else` body */
     std::set<int> loopEnds;
     /* compound loop conditions (`while a and b`) of bottom-tested loops */

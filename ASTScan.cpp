@@ -477,6 +477,55 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         loops.push_back(l);
     }
 
+    /* `break` inside a `for` loop: the iterator is popped, then the loop is
+       left by an unconditional forward jump past the loop's exit. (A plain
+       expression statement also ends in POP_TOP, but its join jump never
+       leaves the loop.) */
+    for (int f = 0; f < (int)ins.size(); f++) {
+        if (ins[f].op != Pyc::FOR_ITER_A)
+            continue;
+        int e = ins[f].real + ins[f].arg * unit;
+        int lastBack = -1;
+        for (int i = f + 1; i < (int)ins.size() && ins[i].pos < e; i++) {
+            int t;
+            if (jump(ins[i], t) == UNCOND && t == ins[f].pos && t < ins[i].pos)
+                lastBack = i;
+        }
+        if (lastBack < 0)
+            continue;
+        int exitX = -1;
+        for (int i = f + 1; i + 1 <= lastBack; i++) {
+            if (ins[i].op != Pyc::POP_TOP && ins[i].op != Pyc::POP_ITER)
+                continue;
+            int n = i + 1;
+            while (n < (int)ins.size() && ins[n].op == Pyc::CACHE)
+                n++;
+            int t;
+            if (n >= (int)ins.size() || jump(ins[n], t) != UNCOND || t < e
+                    || t <= ins[n].pos || out.skipJumps.count(ins[n].pos))
+                continue;
+            out.forBreakPops.insert(ins[i].pos);
+            out.forBreaks.insert(ins[n].pos);
+            if (exitX < 0 || t > exitX) exitX = t;
+        }
+        if (exitX > e) {
+            /* the `else` body starts after the loop exit sequence */
+            int n = idxAt.count(e) ? idxAt[e] : -1;
+            if (n >= 0) {
+                if (ins[n].op == Pyc::END_FOR) {
+                    n++;
+                    while (n < (int)ins.size() && ins[n].op == Pyc::CACHE)
+                        n++;
+                    if (n < (int)ins.size()
+                            && (ins[n].op == Pyc::POP_TOP || ins[n].op == Pyc::POP_ITER))
+                        n++;
+                }
+                if (n < (int)ins.size() && ins[n].pos < exitX)
+                    out.forElse[ins[n].pos] = exitX;
+            }
+        }
+    }
+
     for (auto& l : loops) {
         out.loopEnds.insert(l.end);
         /* start of the duplicated condition (bottom-tested loops) */
