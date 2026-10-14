@@ -334,7 +334,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     tuple->setRequireParens(false);
                 curblock.cast<ASTIterBlock>()->setIndex(tup);
             } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                tup.cast<ASTTuple>()->setRequireParens(false);
                 append_to_chain_store(seq, tup, stack, curblock);
             } else {
                 tup.cast<ASTTuple>()->setRequireParens(false);

@@ -97,7 +97,7 @@ return use ( x , y , p , q , r ) <EOL>
 <OUTDENT>
 def un_chain_unpack ( a ) : <EOL>
 <INDENT>
-x , y = z = a <EOL>
+( x , y ) = z = a <EOL>
 return use ( x , y , z ) <EOL>
 <OUTDENT>
 def un_with_assign ( a ) : <EOL>

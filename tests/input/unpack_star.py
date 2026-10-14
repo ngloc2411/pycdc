@@ -90,7 +90,7 @@ def un_chain(a):
 
 
 def un_chain_unpack(a):
-    x, y = z = a
+    (x, y) = z = a
     return use(x, y, z)
 
 
