@@ -1,0 +1,10 @@
+def main ( ) : <EOL>
+<INDENT>
+( a , b ) = ( 1 , 2 ) <EOL>
+a , b = b , a <EOL>
+print ( a , b ) <EOL>
+<OUTDENT>
+def g ( a , b ) : <EOL>
+<INDENT>
+a , b = b , a <EOL>
+return a <EOL>

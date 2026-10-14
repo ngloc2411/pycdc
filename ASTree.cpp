@@ -671,6 +671,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     /* Python 3.12+ inlined comprehensions: number of loop variables saved by
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
     std::vector<int> inlineComps;
+    int prevOp1 = -1, prevOp2 = -1;   /* previous two opcodes (swap-store detection) */
     bool commonGuard = false;   /* 3.14 `f is any` guard of an inlined builtin call */
     const bool isCompCode = [&]() {
         const char* nm = code->name() != NULL ? code->name()->value() : NULL;
@@ -1447,6 +1448,76 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         ? Pyc::POP_JUMP_BACKWARD_IF_TRUE_A
                         : Pyc::POP_JUMP_BACKWARD_IF_FALSE_A;
             }
+        }
+
+        {
+            auto isSimpleLoad = [](int op) {
+                return op == Pyc::LOAD_FAST_A || op == Pyc::LOAD_CONST_A
+                    || op == Pyc::LOAD_NAME_A || op == Pyc::LOAD_GLOBAL_A
+                    || op == Pyc::LOAD_DEREF_A || op == Pyc::LOAD_FAST_BORROW_A
+                    || op == Pyc::LOAD_SMALL_INT_A;
+            };
+            auto isSimpleStore = [](int op) {
+                return op == Pyc::STORE_FAST_A || op == Pyc::STORE_NAME_A
+                    || op == Pyc::STORE_GLOBAL_A || op == Pyc::STORE_DEREF_A;
+            };
+            if (!unpack && mod->verCompare(3, 8) >= 0 && isSimpleStore(opcode)
+                    && ((isSimpleLoad(prevOp1) && isSimpleLoad(prevOp2))
+                        || prevOp1 == Pyc::LOAD_FAST_LOAD_FAST_A
+                        || prevOp1 == Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A)
+                    && stack.size() >= 2 && (!source.atEof() || !pendingOps.empty())
+                    && stack.top() != NULL && stack.top(1) != NULL
+                    && stack.top().type() != ASTNode::NODE_CHAINSTORE
+                    && stack.top(1).type() != ASTNode::NODE_CHAINSTORE) {
+                int sSrc = source.pos(), sPos = pos;
+                int o2 = 0, a2 = 0;
+                const bool fromPending = !pendingOps.empty();
+                if (fromPending) {
+                    o2 = pendingOps.front().first;
+                    a2 = pendingOps.front().second;
+                } else {
+                    bc_next(source, mod, o2, a2, pos);
+                    source.setPos(sSrc);
+                    pos = sPos;
+                }
+                if (isSimpleStore(o2)) {
+                    /* LOAD x; LOAD y; STORE a; STORE b  ==  b, a = x, y
+                       (the compiler dropped the SWAP). Consume both stores. */
+                    auto storeName = [&](int op, int arg) -> PycRef<ASTNode> {
+                        if (op == Pyc::STORE_FAST_A)
+                            return new ASTName(code->getLocal(arg));
+                        if (op == Pyc::STORE_DEREF_A)
+                            return new ASTName(code->getCellVar(mod, arg));
+                        return new ASTName(code->getName(arg));
+                    };
+                    PycRef<ASTNode> t1 = storeName(opcode, operand);
+                    if (fromPending)
+                        pendingOps.pop_front();
+                    else
+                        bc_next(source, mod, o2, a2, pos);
+                    PycRef<ASTNode> t2 = storeName(o2, a2);
+                    PycRef<ASTNode> y = stack.top();
+                    stack.pop();
+                    PycRef<ASTNode> x = stack.top();
+                    stack.pop();
+                    ASTTuple::value_t vals, names;
+                    vals.push_back(x);
+                    vals.push_back(y);
+                    names.push_back(t2);
+                    names.push_back(t1);
+                    auto vt = new ASTTuple(vals);
+                    vt->setRequireParens(false);
+                    auto nt = new ASTTuple(names);
+                    nt->setRequireParens(false);
+                    curblock->append(new ASTStore(vt, nt));
+                    prevOp1 = prevOp2 = -1;
+                    continue;
+                }
+                source.setPos(sSrc);
+                pos = sPos;
+            }
+            prevOp2 = prevOp1;
+            prevOp1 = opcode;
         }
 
         if (commonGuard && opcode == Pyc::POP_JUMP_IF_FALSE_A) {
@@ -4578,6 +4649,26 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::ROT_TWO:
             {
+                {
+                    int sSrc = source.pos(), sPos = pos;
+                    int o2 = 0, a2 = 0;
+                    bool storeNext = false;
+                    if (!source.atEof()) {
+                        bc_next(source, mod, o2, a2, pos);
+                        storeNext = (o2 == Pyc::STORE_FAST_A || o2 == Pyc::STORE_NAME_A
+                                  || o2 == Pyc::STORE_GLOBAL_A || o2 == Pyc::STORE_DEREF_A);
+                    }
+                    source.setPos(sSrc);
+                    pos = sPos;
+                    if (storeNext && stack.size() >= 2 && stack.top(1) != NULL
+                            && stack.top(1).type() != ASTNode::NODE_CHAINSTORE
+                            && stack.top() != NULL
+                            && stack.top().type() != ASTNode::NODE_CHAINSTORE) {
+                        /* `a, b = b, a`: parallel assignment */
+                        pendingOps.push_back(std::make_pair((int)Pyc::SWAP_A, 2));
+                        break;
+                    }
+                }
                 PycRef<ASTNode> one = stack.top();
                 stack.pop();
                 if (stack.top().type() == ASTNode::NODE_CHAINSTORE) {
