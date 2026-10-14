@@ -1924,6 +1924,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     auto ee = loops.elseEnd.find(wh->end());
                     if (ee != loops.elseEnd.end()) {
                         PycRef<ASTBlock> eb = new ASTBlock(ASTBlock::BLK_ELSE, ee->second);
+                        eb->init(ASTCondBlock::PRE_POPPED);
+                        stack_hist.push(stack);
                         blocks.push(eb);
                         curblock = blocks.top();
                     }
@@ -1948,10 +1950,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 blocks.push(wh.cast<ASTBlock>());
                 curblock = blocks.top();
             }
-            if (loops.backedges.count(curpos)
-                    && opcode != Pyc::POP_JUMP_BACKWARD_IF_TRUE_A
-                    && opcode != Pyc::POP_JUMP_BACKWARD_IF_FALSE_A
-                    && closeWhile(true)) {
+            if (loops.backedges.count(curpos) && closeWhile(true)) {
                 refreshElsePop();
                 continue;
             }
