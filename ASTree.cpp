@@ -4276,6 +4276,19 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 PycRef<ASTNode> value = stack.top();
                 stack.pop();
 
+                if (mod->verCompare(3, 12) >= 0 && value != NULL) {
+                    /* `break`/`return` inside a for loop pops the iterator,
+                       which 3.12+ keeps on the stack below the loop body. */
+                    std::stack<PycRef<ASTBlock> > tmpb = blocks;
+                    while (!tmpb.empty() && tmpb.top()->blktype() != ASTBlock::BLK_FOR)
+                        tmpb.pop();
+                    if (!tmpb.empty()) {
+                        PycRef<ASTIterBlock> fb = tmpb.top().cast<ASTIterBlock>();
+                        if (!fb->isComprehension() && fb->iter() == value)
+                            break;
+                    }
+                }
+
                 /* The live exception from PUSH_EXC_INFO is discarded here when
                    the handler has no `as` binding; never emit the sentinel. */
                 if (isExcSentinel(value)) {
@@ -4436,10 +4449,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         int savedPos = pos;
                         int pkOp = 0, pkOperand = 0;
                         bc_next(source, mod, pkOp, pkOperand, pos);
+                        /* a backward jump here is the loop's own back-edge
+                           (`for x in y: if c: return x`), not an else-skip */
+                        int jt = pkOperand * (mod->verCompare(3, 10) >= 0 ? 2 : 1);
                         bool keepNext = !(pkOp == Pyc::JUMP_FORWARD_A
-                                       || pkOp == Pyc::JUMP_ABSOLUTE_A
-                                       || pkOp == Pyc::JUMP_BACKWARD_A
-                                       || pkOp == Pyc::JUMP_BACKWARD_NO_INTERRUPT_A);
+                                       || (pkOp == Pyc::JUMP_ABSOLUTE_A && jt > savedPos));
                         if (keepNext) {
                             source.setPos(savedSrc);
                             pos = savedPos;
@@ -4460,6 +4474,34 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::ROT_TWO:
             {
+                {
+                    /* `return x` inside a for loop (before 3.12): ROT_TWO;
+                       POP_TOP discards the iterator that is not on our stack. */
+                    int sSrc = source.pos(), sPos = pos;
+                    int o2 = 0, a2 = 0, o3 = 0, a3 = 0;
+                    if (!source.atEof()) {
+                        bc_next(source, mod, o2, a2, pos);
+                        if (!source.atEof())
+                            bc_next(source, mod, o3, a3, pos);
+                    }
+                    bool inFor = false;
+                    {
+                        std::stack<PycRef<ASTBlock> > tmpb = blocks;
+                        while (!tmpb.empty() && tmpb.top()->blktype() != ASTBlock::BLK_FOR)
+                            tmpb.pop();
+                        inFor = !tmpb.empty()
+                                && !tmpb.top().cast<ASTIterBlock>()->isComprehension();
+                    }
+                    if (inFor && o2 == Pyc::POP_TOP && o3 == Pyc::RETURN_VALUE) {
+                        /* keep POP_TOP consumed, leave RETURN_VALUE for the next step */
+                        source.setPos(sSrc);
+                        pos = sPos;
+                        bc_next(source, mod, o2, a2, pos);
+                        break;
+                    }
+                    source.setPos(sSrc);
+                    pos = sPos;
+                }
                 {
                     int sSrc = source.pos(), sPos = pos;
                     int o2 = 0, a2 = 0;
@@ -5214,9 +5256,26 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 int savedPos = pos;
                 if (!source.atEof())
                     bc_next(source, mod, pkOp, pkOperand, pos);
+                if (mod->verCompare(3, 12) < 0 && operand == 2 && pkOp == Pyc::POP_TOP
+                        && !source.atEof()) {
+                    /* `return x` inside a for loop (3.11): the iterator that
+                       SWAP;POP_TOP discards is not on our stack. */
+                    int rOp = 0, rArg = 0, rPos = pos;
+                    int midSrc = source.pos();
+                    bc_next(source, mod, rOp, rArg, rPos);
+                    source.setPos(midSrc);
+                    bool inFor = false;
+                    std::stack<PycRef<ASTBlock> > tmpb = blocks;
+                    while (!tmpb.empty() && tmpb.top()->blktype() != ASTBlock::BLK_FOR)
+                        tmpb.pop();
+                    inFor = !tmpb.empty()
+                            && !tmpb.top().cast<ASTIterBlock>()->isComprehension();
+                    if (inFor && rOp == Pyc::RETURN_VALUE)
+                        break;   /* POP_TOP stays consumed */
+                }
                 source.setPos(savedSrc);
                 pos = savedPos;
-                if (pkOp == Pyc::COPY_A || operand < 2
+                if (pkOp == Pyc::COPY_A || pkOp == Pyc::POP_TOP || operand < 2
                         || (int)stack.size() < operand) {
                     stack.swap(operand);
                     break;

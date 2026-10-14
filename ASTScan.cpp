@@ -494,7 +494,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         if (lastBack < 0)
             continue;
         int exitX = -1;
-        for (int i = f + 1; i + 1 <= lastBack; i++) {
+        for (int i = f + 1; i < (int)ins.size() && ins[i].pos < e; i++) {
             if (ins[i].op != Pyc::POP_TOP && ins[i].op != Pyc::POP_ITER)
                 continue;
             int n = i + 1;
@@ -506,6 +506,28 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 continue;
             out.forBreakPops.insert(ins[i].pos);
             out.forBreaks.insert(ins[n].pos);
+            /* 3.12+ tail form: `cond-jump X; JUMP_BACKWARD hdr; X: <break>` is
+               `if c: break` (the compiler inverted the test). */
+            {
+                int jb = i - 1;
+                while (jb >= 0 && ins[jb].op == Pyc::CACHE) jb--;
+                int tb = 0;
+                if (jb >= 0 && jump(ins[jb], tb) == UNCOND && tb == ins[f].pos
+                        && ins[jb].pos > ins[f].pos) {
+                    int cj = jb - 1;
+                    while (cj >= 0 && (ins[cj].op == Pyc::CACHE || ins[cj].op == Pyc::NOT_TAKEN))
+                        cj--;
+                    int ct = 0;
+                    if (cj >= 0 && jump(ins[cj], ct) == COND && ct == ins[i].pos
+                            && (ins[cj].op == Pyc::POP_JUMP_IF_TRUE_A
+                                || ins[cj].op == Pyc::POP_JUMP_IF_FALSE_A)) {
+                        out.breakIf[ins[cj].pos] = (ins[cj].op == Pyc::POP_JUMP_IF_TRUE_A);
+                        out.skipJumps.insert(ins[jb].pos);
+                        out.forBreaks.erase(ins[n].pos);
+                        out.skipJumps.insert(ins[n].pos);
+                    }
+                }
+            }
             if (exitX < 0 || t > exitX) exitX = t;
         }
         if (exitX > e) {
