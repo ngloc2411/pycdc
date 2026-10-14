@@ -568,6 +568,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     int curpos = 0;
     int pos = 0;
     int unpack = 0;
+    /* Python 3.13 fused instructions (STORE_FAST_STORE_FAST, ...) are split
+       into the simple instructions they stand for; they are executed from this
+       queue before the next real instruction is decoded. */
+    std::deque<std::pair<int, int> > pendingOps;
     /* Node pushed by the most recent LOAD_ASSERTION_ERROR (3.9+). */
     PycRef<ASTNode> assertErrNode;
     bool else_pop = false;
@@ -1008,7 +1012,13 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         }
 
         curpos = pos;
-        bc_next(source, mod, opcode, operand, pos);
+        if (!pendingOps.empty()) {
+            opcode = pendingOps.front().first;
+            operand = pendingOps.front().second;
+            pendingOps.pop_front();
+        } else {
+            bc_next(source, mod, opcode, operand, pos);
+        }
 
         bool hadGetIter = sawGetIter;
         if (opcode != Pyc::GET_ITER && opcode != Pyc::GET_YIELD_FROM_ITER
@@ -2122,6 +2132,71 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::GET_ANEXT:
             break;
+        case Pyc::TO_BOOL:
+            /* 3.13: implicit bool() conversion before a conditional jump. */
+            break;
+        case Pyc::STORE_FAST_STORE_FAST_A:
+            pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand >> 4));
+            pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand & 0xF));
+            break;
+        case Pyc::STORE_FAST_LOAD_FAST_A:
+            pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand >> 4));
+            pendingOps.push_back(std::make_pair((int)Pyc::LOAD_FAST_A, operand & 0xF));
+            break;
+        case Pyc::CONVERT_VALUE_A:
+            {
+                /* 3.13 f-string: 1 = !s, 2 = !r, 3 = !a (formatting follows). */
+                PycRef<ASTNode> val = stack.top();
+                stack.pop();
+                stack.push(new ASTFormattedValue(val,
+                        static_cast<ASTFormattedValue::ConversionFlag>(operand), nullptr));
+            }
+            break;
+        case Pyc::FORMAT_SIMPLE:
+            {
+                PycRef<ASTNode> val = stack.top();
+                if (val == NULL || val.type() != ASTNode::NODE_FORMATTEDVALUE) {
+                    stack.pop();
+                    stack.push(new ASTFormattedValue(val, ASTFormattedValue::NONE, nullptr));
+                }
+            }
+            break;
+        case Pyc::FORMAT_WITH_SPEC:
+            {
+                PycRef<ASTNode> spec = stack.top();
+                stack.pop();
+                PycRef<ASTNode> val = stack.top();
+                stack.pop();
+                int conv = ASTFormattedValue::NONE;
+                if (val != NULL && val.type() == ASTNode::NODE_FORMATTEDVALUE) {
+                    PycRef<ASTFormattedValue> fv = val.cast<ASTFormattedValue>();
+                    conv = fv->conversion() & ASTFormattedValue::CONVERSION_MASK;
+                    val = fv->val();
+                }
+                stack.push(new ASTFormattedValue(val,
+                        static_cast<ASTFormattedValue::ConversionFlag>(
+                            conv | ASTFormattedValue::HAVE_FMT_SPEC), spec));
+            }
+            break;
+        case Pyc::CALL_KW_A:
+            {
+                /* 3.13: like KW_NAMES + CALL; the names tuple is on top. */
+                PycRef<ASTNode> names = stack.top();
+                stack.pop();
+                ASTKwNamesMap kwparamList;
+                if (names != NULL && names.type() == ASTNode::NODE_OBJECT) {
+                    std::vector<PycRef<PycObject> > keys =
+                        names.cast<ASTObject>()->object().cast<PycSimpleSequence>()->values();
+                    int n = (int)keys.size();
+                    for (int i = 0; i < n; i++) {
+                        kwparamList.add(new ASTObject(keys[n - i - 1]), stack.top());
+                        stack.pop();
+                    }
+                }
+                stack.push(new ASTKwNamesMap(kwparamList));
+                pendingOps.push_back(std::make_pair((int)Pyc::CALL_A, operand));
+            }
+            break;
         case Pyc::FORMAT_VALUE_A:
             {
                 auto conversion_flag = static_cast<ASTFormattedValue::ConversionFlag>(operand);
@@ -3114,6 +3189,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             stack.push(new ASTName(code->getCellVar(mod, operand)));
             break;
         case Pyc::LOAD_FAST_A:
+        case Pyc::LOAD_FAST_CHECK_A:
             if (mod->verCompare(1, 3) < 0)
                 stack.push(new ASTName(code->getName(operand)));
             else
@@ -4289,6 +4365,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             }
             break;
         case Pyc::YIELD_VALUE:
+        case Pyc::YIELD_VALUE_A:
         case Pyc::INSTRUMENTED_YIELD_VALUE_A:
             {
                 PycRef<ASTNode> value = stack.top();
