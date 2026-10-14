@@ -68,7 +68,17 @@ struct ExprFlow {
     std::map<int, int> ternaryThenJump;     /* JUMP_FORWARD ending the "then" value -> test jump */
     std::map<int, Keep> keepSeq;            /* 3.12+: COPY 1 starting `and`/`or` -> shape */
     std::map<int, std::pair<int, bool> > boolJump;   /* plain POP_JUMP of a mixed and/or: target, isOr */
+    /* statement conditions made of several jumps (`if a and b or c:`) */
+    struct CondTree { int op; int leaf; int l, r; };   /* op 0: leaf (jump position), 1: and, 2: or */
+    struct CondChain {
+        std::vector<int> members;            /* jump positions, in order */
+        std::vector<CondTree> trees;
+        int root = 0;
+        bool negate = false;                  /* the combined test is the *negation* of the tree */
+    };
+    std::map<int, CondChain> condChains;    /* last jump position -> chain */
+    std::set<int> condMember;                /* every non-last jump of a chain */
 };
-void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out);
+void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const WhileLoops& loops);
 
 #endif

@@ -857,7 +857,7 @@ static bool xIsStatementEnd(int op)
     }
 }
 
-void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out)
+void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const WhileLoops& loops)
 {
     PycBuffer src(code->code()->value(), code->code()->length());
     std::vector<XIns> ins;
@@ -1013,5 +1013,181 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out)
         tn.cond = c;
         out.ternary[ins[i].pos] = tn;
         out.ternaryThenJump[ins[before].pos] = ins[i].pos;
+    }
+
+    /* ---- statement-level compound conditions ---------------------------------
+       A run of conditional jumps with only expression code in between forms one
+       boolean test (`if a and b or c:`). Model each jump as a decision node whose
+       true/false edges lead to a later node or to the BODY / END terminals, then
+       repeatedly fold adjacent nodes that share an exit (a and b: same "false"
+       exit; a or b: same "true" exit) until one node remains. */
+    {
+        std::set<int> claimed;
+        for (const auto& kv : out.ternary) claimed.insert(kv.first);
+        for (const auto& kv : out.boolJump) claimed.insert(kv.first);
+        for (const auto& kv : loops.guardEnd) claimed.insert(kv.first);
+        for (const auto& kv : loops.guardChain) claimed.insert(kv.first);
+        for (int q : loops.guardChainMember) claimed.insert(q);
+        for (int q : loops.tailChain) claimed.insert(q);
+        for (int q : loops.backedges) claimed.insert(q);
+        for (const auto& kv : loops.breakIf) claimed.insert(kv.first);
+        for (const auto& kv : out.keepSeq) {
+            /* the POP_JUMP inside a keep sequence */
+            int ci = idxAt[kv.first];
+            for (int d = 1; d <= 3 && ci + d < n; d++)
+                claimed.insert(ins[ci + d].pos);
+        }
+        auto isPlainCond = [&](int i, int& t, bool& jumpOnTrue) {
+            if (claimed.count(ins[i].pos))
+                return false;
+            Cond c = condJump(ins[i], t);
+            if (c != IF_FALSE && c != IF_TRUE)
+                return false;
+            jumpOnTrue = (c == IF_TRUE);
+            return t > ins[i].pos;
+        };
+        /* position right after the jump (and its caches / NOT_TAKEN) */
+        auto fallPos = [&](int i) {
+            int k = i + 1;
+            while (k < n && (ins[k].op == Pyc::CACHE || ins[k].op == Pyc::NOT_TAKEN))
+                k++;
+            return k < n ? ins[k].pos : ins[n - 1].next;
+        };
+        auto fallIdx = [&](int i) {
+            int k = i + 1;
+            while (k < n && (ins[k].op == Pyc::CACHE || ins[k].op == Pyc::NOT_TAKEN))
+                k++;
+            return k;
+        };
+        std::set<int> used;
+        for (int i = 0; i < n; i++) {
+            int t = 0;
+            bool onTrue = false;
+            if (used.count(i) || !isPlainCond(i, t, onTrue))
+                continue;
+            /* collect the run */
+            std::vector<int> run;
+            run.push_back(i);
+            int cur = i;
+            for (;;) {
+                int k = fallIdx(cur);
+                int jj = -1;
+                for (; k < n; k++) {
+                    int t2; bool o2;
+                    if (isPlainCond(k, t2, o2)) { jj = k; break; }
+                    if (xIsStatementEnd(ins[k].op) || condJump(ins[k], t2) != NOTCOND
+                            || ins[k].op == Pyc::FOR_ITER_A || ins[k].op == Pyc::SETUP_FINALLY_A
+                            || ins[k].op == Pyc::SETUP_WITH_A || ins[k].op == Pyc::BEFORE_WITH)
+                        break;
+                }
+                if (jj < 0)
+                    break;
+                run.push_back(jj);
+                cur = jj;
+            }
+            for (int r : run) used.insert(r);
+            if (run.size() < 2)
+                continue;
+            for (int m = (int)run.size(); m >= 2; m--) {
+                struct Nd { int id; int e[2]; int tree; };   /* e[1]=true edge, e[0]=false edge */
+                const int TERM_T = -1, TERM_F = -2;
+                int body = fallPos(run[m - 1]);
+                int endT = 0; bool lastOn = false;
+                isPlainCond(run[m - 1], endT, lastOn);
+                if (endT <= body)
+                    continue;
+                std::vector<int> startPos(m + 1);
+                for (int k = 1; k < m; k++)
+                    startPos[k + 1] = fallPos(run[k - 1]);   /* start of node k+1 (1-based) */
+                bool ok = true;
+                std::vector<Nd> nodes;
+                std::vector<ExprFlow::CondTree> trees;
+                for (int k = 1; k <= m && ok; k++) {
+                    int tk = 0; bool on = false;
+                    isPlainCond(run[k - 1], tk, on);
+                    auto dest = [&](int target) -> int {
+                        if (target == body) return TERM_T;
+                        if (target == endT) return TERM_F;
+                        for (int q = k + 1; q <= m; q++)
+                            if (startPos[q] == target) return q;
+                        ok = false;
+                        return 0;
+                    };
+                    int jumpDest = dest(tk);
+                    int fallDest = (k < m) ? k + 1 : TERM_T;
+                    Nd nd;
+                    nd.id = k;
+                    nd.e[on ? 1 : 0] = jumpDest;      /* jump taken on `on` outcome */
+                    nd.e[on ? 0 : 1] = fallDest;
+                    nd.tree = (int)trees.size();
+                    ExprFlow::CondTree leaf; leaf.op = 0; leaf.leaf = ins[run[k - 1]].pos; leaf.l = leaf.r = -1;
+                    trees.push_back(leaf);
+                    nodes.push_back(nd);
+                }
+                if (!ok)
+                    continue;
+                /* fold */
+                bool progress = true;
+                while (nodes.size() > 1 && progress) {
+                    progress = false;
+                    for (size_t a = 0; a + 1 < nodes.size(); a++) {
+                        Nd& A = nodes[a];
+                        Nd& B = nodes[a + 1];
+                        for (int lbl = 0; lbl < 2 && !progress; lbl++) {
+                            int other = 1 - lbl;
+                            /* A: edge `other` falls into B, edge `lbl` jumps to X */
+                            if (A.e[other] != B.id || A.e[lbl] == B.id)
+                                continue;
+                            int X = A.e[lbl];
+                            if (B.e[lbl] != X || B.e[other] == B.id)
+                                continue;
+                            /* B must only be reachable from A */
+                            int refs = 0;
+                            for (const auto& N : nodes)
+                                for (int e = 0; e < 2; e++)
+                                    if (N.e[e] == B.id) refs++;
+                            if (refs != 1)
+                                continue;
+                            ExprFlow::CondTree comb;
+                            comb.op = (lbl == 0) ? 1 : 2;   /* shared false exit: and; shared true exit: or */
+                            comb.leaf = 0;
+                            comb.l = A.tree; comb.r = B.tree;
+                            trees.push_back(comb);
+                            int newTree = (int)trees.size() - 1;
+                            Nd merged;
+                            merged.id = A.id;
+                            merged.e[lbl] = X;
+                            merged.e[other] = B.e[other];
+                            merged.tree = newTree;
+                            int bid = B.id;
+                            nodes.erase(nodes.begin() + a + 1);
+                            nodes[a] = merged;
+                            /* edges that pointed at the absorbed node now never occur */
+                            (void)bid;
+                            progress = true;
+                        }
+                        if (progress)
+                            break;
+                    }
+                }
+                if (nodes.size() != 1)
+                    continue;
+                const Nd& R = nodes[0];
+                bool negate;
+                if (R.e[1] == TERM_T && R.e[0] == TERM_F) negate = false;
+                else if (R.e[1] == TERM_F && R.e[0] == TERM_T) negate = true;
+                else continue;
+                ExprFlow::CondChain cc;
+                for (int k = 0; k < m; k++)
+                    cc.members.push_back(ins[run[k]].pos);
+                cc.trees = trees;
+                cc.root = R.tree;
+                cc.negate = negate;
+                out.condChains[ins[run[m - 1]].pos] = cc;
+                for (int k = 0; k + 1 < m; k++)
+                    out.condMember.insert(ins[run[k]].pos);
+                break;
+            }
+        }
     }
 }

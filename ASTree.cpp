@@ -1,4 +1,5 @@
 #include <climits>
+#include <functional>
 #include <cstring>
 #include <cstdint>
 #include <memory>
@@ -335,6 +336,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         int elseStart = 0, thenJump = 0;
     };
     std::vector<PendingBoolOp> pendingBool;
+    std::map<int, PycRef<ASTNode> > chainVals;   /* tests of an open compound condition */
     std::vector<PycExceptionTableEntry> exception_entries;
     std::vector<std::pair<int, int> > cleanupSkip;   /* handler ranges to ignore */
     size_t next_exception_entry = 0;
@@ -370,7 +372,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         ScanLoops(code, mod, loops);
         whileGuardEnd = loops.guardEnd;
         whileBackedges = loops.backedges;
-        ScanExprFlow(code, mod, xflow);
+        ScanExprFlow(code, mod, xflow, loops);
     }
 
     if (mod->verCompare(3, 11) >= 0) {
@@ -1157,6 +1159,50 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 exprflow_done:
             continue;
 exprflow_skip:;
+        }
+
+        /* Compound statement condition: remember each test, and at the last
+           jump replace them by the combined expression (see ScanExprFlow). */
+        if (mod->verCompare(3, 8) >= 0 && inlineComps.empty() && !isCompCode) {
+            if (xflow.condMember.count(curpos) && !stack.empty()) {
+                chainVals[curpos] = stack.top();
+                stack.pop();
+                else_pop = false;
+                continue;
+            }
+            auto ccit = xflow.condChains.find(curpos);
+            if (ccit != xflow.condChains.end() && !stack.empty()) {
+                const ExprFlow::CondChain& cc = ccit->second;
+                bool have = true;
+                for (size_t k = 0; k + 1 < cc.members.size(); k++)
+                    if (!chainVals.count(cc.members[k])) have = false;
+                if (have) {
+                    chainVals[curpos] = stack.top();
+                    stack.pop();
+                    std::function<PycRef<ASTNode>(int)> build = [&](int ti) -> PycRef<ASTNode> {
+                        const ExprFlow::CondTree& tr = cc.trees[ti];
+                        if (tr.op == 0)
+                            return chainVals[tr.leaf];
+                        return mkBoolOp(build(tr.l), build(tr.r),
+                                        tr.op == 1 ? ASTBinary::BIN_LOG_AND : ASTBinary::BIN_LOG_OR);
+                    };
+                    PycRef<ASTNode> whole = build(cc.root);
+                    for (int mpos : cc.members)
+                        chainVals.erase(mpos);
+                    stack.push(whole);
+                    /* the combined test jumps to the exit when false (or, for a
+                       negated tree, when true) */
+                    const bool wantOnTrue = cc.negate;
+                    const bool isTrueOp = opcode == Pyc::POP_JUMP_IF_TRUE_A
+                            || opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
+                    if (isTrueOp != wantOnTrue) {
+                        if (opcode == Pyc::POP_JUMP_IF_TRUE_A) opcode = Pyc::POP_JUMP_IF_FALSE_A;
+                        else if (opcode == Pyc::POP_JUMP_IF_FALSE_A) opcode = Pyc::POP_JUMP_IF_TRUE_A;
+                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_FALSE_A;
+                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_FALSE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
+                    }
+                }
+            }
         }
 
         if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0
