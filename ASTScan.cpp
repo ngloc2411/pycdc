@@ -954,6 +954,7 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out)
             kp.isOr = (c == IF_TRUE);
             kp.target = t;
             kp.endPos = ins[k].real;
+            kp.popPos = ins[k].pos;
             out.keepSeq[ins[i].pos] = kp;
             keepEnd.insert(k);
         }

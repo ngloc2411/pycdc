@@ -1110,6 +1110,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             {
                 auto ks = xflow.keepSeq.find(curpos);
                 if (ks != xflow.keepSeq.end() && !stack.empty()) {
+                    mergeAt(ks->second.popPos);
                     mergeAt(ks->second.endPos);
                     PendingBoolOp pb;
                     pb.target = ks->second.target;
