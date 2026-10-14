@@ -338,6 +338,19 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         if (i + 1 < (int)ins.size() && ins[i + 1].op == Pyc::CACHE && ins[i].op != Pyc::CACHE)
             ins[i].real = ins[i + 1].real;
     }
+    /* chained-comparison trailers/cleanups do not take part in loop shapes */
+    if (!out.chainSkip.empty()) {
+        std::vector<Ins> kept;
+        for (const auto& in : ins) {
+            bool skipIt = false;
+            for (const auto& r : out.chainSkip)
+                if (in.pos >= r.first && in.pos < r.second)
+                    skipIt = true;
+            if (!skipIt)
+                kept.push_back(in);
+        }
+        ins.swap(kept);
+    }
     std::map<int, int> idxAt;
     for (int i = 0; i < (int)ins.size(); i++)
         idxAt[ins[i].pos] = i;
@@ -412,6 +425,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         case Pyc::UNARY_NOT: case Pyc::UNARY_NEGATIVE: case Pyc::CALL_A:
         case Pyc::CALL_FUNCTION_A: case Pyc::CALL_METHOD_A: case Pyc::PRECALL_A:
         case Pyc::PUSH_NULL: case Pyc::KW_NAMES_A: case Pyc::TO_BOOL: case Pyc::NOT_TAKEN:
+        case Pyc::DUP_TOP: case Pyc::ROT_THREE: case Pyc::SWAP_A: case Pyc::COPY_A:
         case Pyc::CACHE: case Pyc::LOAD_FAST_LOAD_FAST_A: case Pyc::LOAD_FAST_BORROW_A:
         case Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A: case Pyc::LOAD_SMALL_INT_A:
         case Pyc::BINARY_ADD: case Pyc::BINARY_SUBTRACT: case Pyc::BINARY_MULTIPLY:
