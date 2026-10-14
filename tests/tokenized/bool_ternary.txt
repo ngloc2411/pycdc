@@ -1,0 +1,140 @@
+def or_and ( a , b , c ) : <EOL>
+<INDENT>
+r = a or b and c <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def paren_groups ( a , b , c , d ) : <EOL>
+<INDENT>
+r = ( a or b ) and ( c or d ) <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def and_chain_or ( a , b , c , d , e ) : <EOL>
+<INDENT>
+r = a and b and c or d and e <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def not_group ( a , b ) : <EOL>
+<INDENT>
+r = not ( a and b ) <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def not_or ( a , b ) : <EOL>
+<INDENT>
+r = not a or b <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_and_cond ( a , b , x , y ) : <EOL>
+<INDENT>
+r = x if a and b else y <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_or_cond ( a , b , x , y ) : <EOL>
+<INDENT>
+r = x if a or b else y <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_in_arith ( a , x , y ) : <EOL>
+<INDENT>
+r = ( x if a else y ) + 1 <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_in_call ( f , c , a , b , d , e ) : <EOL>
+<INDENT>
+r = f ( a if c else b , d or e ) <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_then_nested ( a , b , c , d , e ) : <EOL>
+<INDENT>
+r = ( b if c else d ) if a else e <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_chain ( a , b , c , x , y , z ) : <EOL>
+<INDENT>
+r = x if a else y if b else z if c else 0 <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def calls_bool ( f , g ) : <EOL>
+<INDENT>
+r = f ( ) or g ( ) <EOL>
+s = f ( ) and g ( ) <EOL>
+return use ( r ) + use ( s ) <EOL>
+<OUTDENT>
+def compare_and ( a , b , c ) : <EOL>
+<INDENT>
+r = a < b and b < c <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def is_none_or ( a , b ) : <EOL>
+<INDENT>
+r = a is None or b <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def default_arg ( x , default ) : <EOL>
+<INDENT>
+x = x or default <EOL>
+return use ( x ) + use ( x ) <EOL>
+<OUTDENT>
+def tern_in_lambda ( a ) : <EOL>
+<INDENT>
+return lambda x : 1 if x else a <EOL>
+<OUTDENT>
+def tern_in_comp ( items ) : <EOL>
+<INDENT>
+r = [ x if x else - 1 for x in items ] <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_none_test ( a , b ) : <EOL>
+<INDENT>
+r = 1 if a is None else b <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_not_none_test ( a , b ) : <EOL>
+<INDENT>
+r = 1 if a is not None else b <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def bool_in_cond ( a , b , c ) : <EOL>
+<INDENT>
+if a and b or c : <EOL>
+<INDENT>
+use ( a ) <EOL>
+<OUTDENT>
+if not ( a or b ) : <EOL>
+<INDENT>
+use ( b ) <EOL>
+<OUTDENT>
+use ( c ) <EOL>
+<OUTDENT>
+def bool_in_while ( a , b ) : <EOL>
+<INDENT>
+while a and not b : <EOL>
+<INDENT>
+a = use ( a ) <EOL>
+<OUTDENT>
+use ( b ) <EOL>
+<OUTDENT>
+def bool_assign_tern_str ( a ) : <EOL>
+<INDENT>
+s = 'yes' if a else 'no' <EOL>
+t = 'yes' if not a else 'no' <EOL>
+return use ( s ) + use ( t ) <EOL>
+<OUTDENT>
+def tern_arg_default_mix ( a , b , c ) : <EOL>
+<INDENT>
+r = [ a or b , c and a , b if c else a ] <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_nested_cond ( a , b , x , y , z ) : <EOL>
+<INDENT>
+r = ( x if a else y ) if b else z <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_nested_both ( a , b , c , x , y , z , w ) : <EOL>
+<INDENT>
+r = ( x if a else y ) if b else ( z if c else w ) <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def tern_in_args ( a , x , y ) : <EOL>
+<INDENT>
+r = use ( x if a else y , y if a else x ) <EOL>
+return use ( r ) + use ( r ) <EOL>
