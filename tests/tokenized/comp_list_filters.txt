@@ -4,4 +4,4 @@ a = [ x * 2 for x in xs ] <EOL>
 b = [ x for x in xs if x % 2 if x > 1 ] <EOL>
 c = [ ( x , y ) for x in xs for y in xs ] <EOL>
 d = [ x if x else - x for x in xs ] <EOL>
-return ( a , b , c , d ) <EOL>
+return a , b , c , d <EOL>

@@ -1,0 +1,52 @@
+def use ( * a ) : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+def aug_idx ( a , b ) : <EOL>
+<INDENT>
+a [ 0 ] -= b <EOL>
+<OUTDENT>
+def aug_idx_expr ( a , b , i ) : <EOL>
+<INDENT>
+a [ i + 1 ] *= b <EOL>
+<OUTDENT>
+def aug_slice ( a , b ) : <EOL>
+<INDENT>
+a [ 1 : 3 ] += b <EOL>
+<OUTDENT>
+def aug_slice_open ( a , b ) : <EOL>
+<INDENT>
+a [ : 2 ] += b <EOL>
+a [ 2 : ] += b <EOL>
+a [ : ] += b <EOL>
+<OUTDENT>
+def aug_slice_step ( a , b ) : <EOL>
+<INDENT>
+a [ : : 2 ] += b <EOL>
+<OUTDENT>
+def aug_attr ( o , b ) : <EOL>
+<INDENT>
+o . x += b <EOL>
+o . y . z -= b <EOL>
+<OUTDENT>
+def aug_attr_call ( o , b ) : <EOL>
+<INDENT>
+use ( o ) . x += b <EOL>
+<OUTDENT>
+def aug_sub_call ( a , b ) : <EOL>
+<INDENT>
+a [ use ( 1 ) ] += b <EOL>
+<OUTDENT>
+def aug_nested ( a , b , i , j ) : <EOL>
+<INDENT>
+a [ i ] [ j ] += b <EOL>
+<OUTDENT>
+def aug_global_like ( a , b ) : <EOL>
+<INDENT>
+a [ b ] //= 2 <EOL>
+a [ b ] <<= 1 <EOL>
+a [ b ] |= 3 <EOL>
+<OUTDENT>
+def aug_tuple_idx ( a , b ) : <EOL>
+<INDENT>
+a [ 1 , 2 ] += b <EOL>

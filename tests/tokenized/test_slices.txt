@@ -12,15 +12,15 @@ testme [ : : ] <EOL>
 testme [ 2 : 1024 : 10 ] <EOL>
 testme [ 2 : 1024 : 10 ] = 'A lot' <EOL>
 del testme [ 2 : 1024 : 10 ] <EOL>
-testme [ ( : 42 , ... , : 24 : , 24 , 100 ) ] <EOL>
-testme [ ( : 42 , ... , : 24 : , 24 , 100 ) ] = 'Strange' <EOL>
-del testme [ ( : 42 , ... , : 24 : , 24 , 100 ) ] <EOL>
+testme [ : 42 , ... , : 24 : , 24 , 100 ] <EOL>
+testme [ : 42 , ... , : 24 : , 24 , 100 ] = 'Strange' <EOL>
+del testme [ : 42 , ... , : 24 : , 24 , 100 ] <EOL>
 testme [ : ] <EOL>
 testme [ : ] = 'Take all' <EOL>
 del testme [ : ] <EOL>
 testme [ 40 : 42 ] <EOL>
 testme [ 40 : 42 ] = 'Three' <EOL>
 del testme [ 40 : 42 ] <EOL>
-testme [ ( 40 , 41 , 42 ) ] <EOL>
-testme [ ( 40 , 41 , 42 ) ] = 'Another Three' <EOL>
-del testme [ ( 40 , 41 , 42 ) ] <EOL>
+testme [ 40 , 41 , 42 ] <EOL>
+testme [ 40 , 41 , 42 ] = 'Another Three' <EOL>
+del testme [ 40 , 41 , 42 ] <EOL>

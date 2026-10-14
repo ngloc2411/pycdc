@@ -1,3 +1,4 @@
+#include <sstream>
 #include <unordered_set>
 #include <vector>
 #include <cstring>
@@ -944,7 +945,17 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             }
             lambdaBare = (!inLambda && ret->rettype() == ASTReturn::RETURN
                     && value != NULL && value.type() == ASTNode::NODE_FUNCTION);
-            print_src(value, mod, pyc_output);
+            if (!inLambda && ret->rettype() == ASTReturn::RETURN && value != NULL
+                    && value.type() == ASTNode::NODE_TUPLE
+                    && !value.cast<ASTTuple>()->values().empty()) {
+                /* `return a, b` -- the tuple needs no parentheses */
+                bool saved = value.cast<ASTTuple>()->requireParens();
+                value.cast<ASTTuple>()->setRequireParens(false);
+                print_src(value, mod, pyc_output);
+                value.cast<ASTTuple>()->setRequireParens(saved);
+            } else {
+                print_src(value, mod, pyc_output);
+            }
             lambdaBare = false;
         }
         break;
@@ -1266,7 +1277,35 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
         {
             print_src(node.cast<ASTSubscr>()->name(), mod, pyc_output);
             pyc_output << "[";
-            print_src(node.cast<ASTSubscr>()->key(), mod, pyc_output);
+            PycRef<ASTNode> key = node.cast<ASTSubscr>()->key();
+            if (key != NULL && key.type() == ASTNode::NODE_TUPLE
+                    && !key.cast<ASTTuple>()->values().empty()) {
+                /* a[1:2, ::3] / a[i, j]: the index tuple needs no parentheses
+                   (and a slice cannot sit inside them) */
+                const ASTTuple::value_t& vals = key.cast<ASTTuple>()->values();
+                bool first = true;
+                for (const auto& v : vals) {
+                    if (!first)
+                        pyc_output << ", ";
+                    print_src(v, mod, pyc_output);
+                    first = false;
+                }
+                if (vals.size() == 1)
+                    pyc_output << ",";
+            } else if (key != NULL && key.type() == ASTNode::NODE_OBJECT
+                       && (key.cast<ASTObject>()->object()->type() == PycObject::TYPE_TUPLE
+                           || key.cast<ASTObject>()->object()->type() == PycObject::TYPE_SMALL_TUPLE)
+                       && !key.cast<ASTObject>()->object().cast<PycTuple>()->values().empty()) {
+                /* constant index tuple: a[1, 2] */
+                std::ostringstream tmp;
+                print_src(key, mod, tmp);
+                std::string t = tmp.str();
+                if (t.size() > 2 && t.front() == '(' && t.back() == ')')
+                    t = t.substr(1, t.size() - 2);
+                pyc_output << t;
+            } else {
+                print_src(key, mod, pyc_output);
+            }
             pyc_output << "]";
         }
         break;

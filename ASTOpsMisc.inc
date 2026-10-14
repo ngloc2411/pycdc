@@ -123,7 +123,12 @@
                 }
                 source.setPos(savedSrc);
                 pos = savedPos;
+                /* augmented assignment to a subscript/attribute/slice
+                   (`a[i] += x`): SWAP n ... SWAP 2 reorders [obj, key, value]
+                   into the store's operand order */
                 if (pkOp == Pyc::COPY_A || pkOp == Pyc::POP_TOP || operand < 2
+                        || pkOp == Pyc::SWAP_A || pkOp == Pyc::STORE_SUBSCR
+                        || pkOp == Pyc::STORE_ATTR_A || pkOp == Pyc::STORE_SLICE
                         || (int)stack.size() < operand) {
                     stack.swap(operand);
                     break;

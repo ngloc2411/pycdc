@@ -1,0 +1,77 @@
+def use ( * a ) : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+def sl_basic ( a ) : <EOL>
+<INDENT>
+return use ( a [ 1 : 2 ] , a [ : 2 ] , a [ 1 : ] , a [ : ] , a [ : : 2 ] , a [ 1 : 2 : 3 ] , a [ : : - 1 ] ) <EOL>
+<OUTDENT>
+def sl_neg ( a , n ) : <EOL>
+<INDENT>
+return use ( a [ - 1 ] , a [ : - 1 ] , a [ - 2 : ] , a [ n : ] , a [ : n ] , a [ n : n + 1 ] ) <EOL>
+<OUTDENT>
+def sl_tuple ( a ) : <EOL>
+<INDENT>
+return use ( a [ : , 1 ] , a [ 1 : 2 , : : 3 ] , a [ 1 , 2 ] , a [ ... , 0 ] ) <EOL>
+<OUTDENT>
+def sl_store ( a , b ) : <EOL>
+<INDENT>
+a [ 1 : 2 ] = b <EOL>
+a [ : : 2 ] = b <EOL>
+a [ 0 ] = b <EOL>
+<OUTDENT>
+def sl_del ( a ) : <EOL>
+<INDENT>
+del a [ 1 : 2 ] <EOL>
+del a [ : : 2 ] <EOL>
+del a [ 0 ] <EOL>
+<OUTDENT>
+def sl_aug ( a , b ) : <EOL>
+<INDENT>
+a [ 1 : 3 ] += b <EOL>
+a [ 0 ] -= b <EOL>
+<OUTDENT>
+def sl_nested ( a , i , j ) : <EOL>
+<INDENT>
+return a [ i ] [ j : i ] [ : : 2 ] <EOL>
+<OUTDENT>
+def sl_expr ( a , i ) : <EOL>
+<INDENT>
+return a [ i + 1 : i * 2 ] <EOL>
+<OUTDENT>
+def sl_call ( a ) : <EOL>
+<INDENT>
+return use ( a ) [ 1 : 2 ] <EOL>
+<OUTDENT>
+def sl_attr ( o ) : <EOL>
+<INDENT>
+return o . items [ 1 : ] , o . items [ : - 1 ] <EOL>
+<OUTDENT>
+def sl_str ( s ) : <EOL>
+<INDENT>
+return s [ 1 : 3 ] + s [ : : - 1 ] <EOL>
+<OUTDENT>
+def sl_cond ( a , c ) : <EOL>
+<INDENT>
+if a [ 1 : 2 ] : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+r = a [ : c ] if c else a [ c : ] <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def sl_loop ( a ) : <EOL>
+<INDENT>
+for x in a [ 1 : ] : <EOL>
+<INDENT>
+use ( x ) <EOL>
+<OUTDENT>
+return [ y for y in a [ : : 2 ] ] <EOL>
+<OUTDENT>
+def sl_ellipsis ( a ) : <EOL>
+<INDENT>
+return a [ ... , 1 : 2 ] <EOL>
+<OUTDENT>
+def sl_single ( a ) : <EOL>
+<INDENT>
+return a [ 1 , ] <EOL>
