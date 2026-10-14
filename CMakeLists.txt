@@ -71,7 +71,7 @@ target_link_libraries(pycdas pycxx)
 install(TARGETS pycdas
     RUNTIME DESTINATION bin)
 
-add_executable(pycdc pycdc.cpp ASTree.cpp ASTScan.cpp ASTNode.cpp ASTMatch.cpp)
+add_executable(pycdc pycdc.cpp ASTree.cpp ASTPrint.cpp ASTScan.cpp ASTNode.cpp ASTMatch.cpp)
 target_link_libraries(pycdc pycxx)
 
 install(TARGETS pycdc
