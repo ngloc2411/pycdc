@@ -564,6 +564,30 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 break;   /* a real continue or other jump comes first */
         }
     }
+    /* 3.11+: the same for `for` loops: the body/handler ends jump back to the
+       FOR_ITER although the whole try closes the loop body (the exception
+       cleanup `COPY 3; POP_EXCEPT; RERAISE 1` is followed by the loop exit). */
+    for (int i = 1; i + 1 < (int)ins.size(); i++) {
+        int t;
+        if (ins[i].op != Pyc::JUMP_BACKWARD_A || jump(ins[i], t) != UNCOND || t >= ins[i].pos)
+            continue;
+        if (ins[i - 1].op != Pyc::POP_EXCEPT && ins[i + 1].op != Pyc::PUSH_EXC_INFO)
+            continue;
+        auto hi = idxAt.find(t);
+        if (hi == idxAt.end() || ins[hi->second].op != Pyc::FOR_ITER_A)
+            continue;
+        int ft = ins[hi->second].real + ins[hi->second].arg * unit;
+        for (int k = i + 1; k + 2 < (int)ins.size(); k++) {
+            if (ins[k].op == Pyc::COPY_A && ins[k].arg == 3 && ins[k + 1].op == Pyc::POP_EXCEPT
+                    && ins[k + 2].op == Pyc::RERAISE_A && ins[k + 2].arg == 1) {
+                if (k + 3 < (int)ins.size() && ins[k + 3].pos == ft) {
+                    out.tryEndJump[ins[i].pos] = ft;
+                    out.forTryEnd.insert(ft);
+                }
+                break;
+            }
+        }
+    }
     auto prevReal = [&](int i) {
         i--;
         while (i >= 0 && ins[i].op == Pyc::CACHE)
@@ -582,6 +606,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         if (ti == idxAt.end())
             continue;
         int g = prevReal(ti->second);
+        while (g >= 0 && ins[g].op == Pyc::NOP)   /* the NOP a `try:` line leaves */
+            g = prevReal(g);
         int gt;
         if (g < 0 || jump(ins[g], gt) != COND || gt <= ins[g].pos)
             continue;
@@ -883,7 +909,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 int ti = idxAt.count(t) ? idxAt[t] : -1;
                 bool tryEnd = i > 0 && ti > 0
                         && (ins[ti - 1].op == Pyc::RERAISE || ins[ti - 1].op == Pyc::RERAISE_A || ins[ti - 1].op == Pyc::END_FINALLY)
-                        && (ins[i - 1].op == Pyc::POP_BLOCK || ins[i - 1].op == Pyc::POP_EXCEPT);
+                        && (ins[i - 1].op == Pyc::POP_BLOCK || ins[i - 1].op == Pyc::POP_EXCEPT
+                            || (i + 1 < (int)ins.size() && ins[i + 1].op == Pyc::PUSH_EXC_INFO));
                 if (!tryEnd)
                     cont.push_back(ins[i].pos);
             }

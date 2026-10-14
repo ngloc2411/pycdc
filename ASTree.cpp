@@ -406,6 +406,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     };
     /* Python 3.12+ inlined comprehensions: number of loop variables saved by
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
+    std::set<int> trueOpened;   /* `while True` headers already opened */
     std::vector<int> inlineComps;
     int prevOp1 = -1, prevOp2 = -1;   /* previous two opcodes (swap-store detection) */
     bool commonGuard = false;   /* 3.14 `f is any` guard of an inlined builtin call */
@@ -881,6 +882,18 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 endCase(mc);
                 continue;
             }
+        }
+
+        /* `while True:` whose body starts with a `try`: the loop opens before
+           the try block that starts at the same offset */
+        if (loops.trueOpen.count(pos) && !trueOpened.count(pos)) {
+            trueOpened.insert(pos);
+            PycRef<ASTCondBlock> wh = new ASTCondBlock(
+                    ASTBlock::BLK_WHILE, loops.trueOpen[pos],
+                    new ASTObject(Pyc_True), false);
+            wh->init(ASTCondBlock::PRE_POPPED);
+            blocks.push(wh.cast<ASTBlock>());
+            curblock = blocks.top();
         }
 
         while (next_exception_entry < exception_entries.size()
@@ -1712,7 +1725,8 @@ exprflow_skip:;
                 refreshElsePop();
                 continue;
             }
-            if (loops.trueOpen.count(curpos)) {
+            if (loops.trueOpen.count(curpos) && !trueOpened.count(curpos)) {
+                trueOpened.insert(curpos);
                 PycRef<ASTCondBlock> wh = new ASTCondBlock(
                         ASTBlock::BLK_WHILE, loops.trueOpen[curpos],
                         new ASTObject(Pyc_True), false);

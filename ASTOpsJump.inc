@@ -12,7 +12,8 @@
                     /* end of a try body / except handler that closes the loop
                        body: a jump over the remaining handlers, not a `continue` */
                     auto tej = loops.tryEndJump.find(curpos);
-                    if (tej != loops.tryEndJump.end() && opcode == Pyc::JUMP_ABSOLUTE_A) {
+                    if (tej != loops.tryEndJump.end()
+                            && (opcode == Pyc::JUMP_ABSOLUTE_A || opcode == Pyc::JUMP_BACKWARD_A)) {
                         int rel = tej->second - pos;
                         operand = mod->verCompare(3, 10) >= 0 ? rel / 2 : rel;
                         opcode = Pyc::JUMP_FORWARD_A;
