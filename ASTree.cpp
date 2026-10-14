@@ -4388,7 +4388,16 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                as no-ops. */
             break;
         case Pyc::PUSH_NULL:
-            stack.push(nullptr);
+            if (mod->verCompare(3, 13) >= 0 && !stack.empty()) {
+                /* 3.13 pushes the NULL *above* the callable; keep the
+                   internal [NULL, callable] order used for 3.11/3.12. */
+                PycRef<ASTNode> callable = stack.top();
+                stack.pop();
+                stack.push(nullptr);
+                stack.push(callable);
+            } else {
+                stack.push(nullptr);
+            }
             break;
         case Pyc::GEN_START_A:
             stack.pop();
