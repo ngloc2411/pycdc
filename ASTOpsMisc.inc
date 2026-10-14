@@ -222,6 +222,42 @@
             break;
         case Pyc::COPY_A:
             {
+                /* `x = y = v`: COPY 1 followed by a store keeps the value for the
+                   next target, exactly like the old DUP_TOP form. */
+                if (operand == 1 && !source.atEof() && stack.top() != NULL
+                        && !stack.empty()) {
+                    int sSrc = source.pos(), sPos = pos;
+                    int o2 = 0, a2 = 0;
+                    bc_next(source, mod, o2, a2, pos);
+                    source.setPos(sSrc);
+                    pos = sPos;
+                    if (o2 == Pyc::STORE_FAST_A || o2 == Pyc::STORE_NAME_A
+                            || o2 == Pyc::STORE_GLOBAL_A || o2 == Pyc::STORE_DEREF_A
+                            || o2 == Pyc::UNPACK_SEQUENCE_A || o2 == Pyc::UNPACK_EX_A
+                            || o2 == Pyc::LOAD_FAST_A || o2 == Pyc::LOAD_NAME_A
+                            || o2 == Pyc::LOAD_GLOBAL_A || o2 == Pyc::LOAD_DEREF_A) {
+                        /* (a LOAD first is `a.x = b[0] = v` / subscript targets) */
+                        bool targetFollows = o2 != Pyc::LOAD_FAST_A && o2 != Pyc::LOAD_NAME_A
+                                && o2 != Pyc::LOAD_GLOBAL_A && o2 != Pyc::LOAD_DEREF_A;
+                        if (targetFollows && o2 == Pyc::STORE_NAME_A
+                                && !strcmp(code->getName(a2)->value(), "__classcell__"))
+                            targetFollows = false;
+                        if (targetFollows && stack.top().type() == ASTNode::NODE_CHAINSTORE) {
+                            /* third and later targets: the marker sits on top */
+                            auto chainstore = stack.top();
+                            stack.pop();
+                            stack.push(stack.top());
+                            stack.push(chainstore);
+                            break;
+                        }
+                        if (targetFollows) {
+                            stack.push(stack.top());
+                            ASTNodeList::list_t targets;
+                            stack.push(new ASTChainStore(targets, stack.top()));
+                            break;
+                        }
+                    }
+                }
                 PycRef<ASTNode> value = stack.top(operand);
                 stack.push(value);
             }
