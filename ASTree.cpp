@@ -459,54 +459,285 @@ static void ScanTryFinally(PycRef<PycCode> code, PycModule* mod,
    skips to the instruction right after the back-edge. Record the guard position
    (the BLK_WHILE opens there) and the back-edge position (the loop closes
    there). */
-static void ScanWhileLoops(PycRef<PycCode> code, PycModule* mod,
-                           std::map<int,int>& whileGuardEnd,
-                           std::set<int>& whileBackedges)
+/* Loop structure recovered from the control-flow graph, for `while` loops of
+   Python 3.8 - 3.14 (a `while` has no dedicated opcode):
+     top-tested (<=3.9, and `while True`):  T: cond; guard -> end; body; JUMP T
+     bottom-tested (>=3.10):                guard -> end; T: body; cond; JUMP_IF T
+                                            (3.12+: cond; JUMP_IF_FALSE end; JUMP_BACKWARD T)
+   Besides the loop frame we record which jumps are `break` / `continue`. */
+struct WhileLoops {
+    std::map<int, int> guardEnd;       /* guard position -> loop end */
+    std::map<int, int> trueOpen;       /* header position -> loop end (`while True`) */
+    std::set<int> backedges;           /* conditional back-edges (pop the condition) */
+    std::set<int> uncondBack;          /* unconditional closing back-edges */
+    std::set<int> skipJumps;           /* instructions that belong to a back-edge */
+    std::set<int> breaks, continues;   /* jump positions */
+    std::map<int, int> elseEnd;        /* loop end -> end of its `else` body */
+    std::set<int> loopEnds;
+};
+
+static void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
 {
+    struct Ins { int pos, op, arg, next, real; };
     PycBuffer src(code->code()->value(), code->code()->length());
+    std::vector<Ins> ins;
     int opcode, operand, pos = 0;
-    std::vector<int> order;
-    std::map<int,int> opAt, operAt, nextAt;
     while (!src.atEof()) {
         int p = pos;
         bc_next(src, mod, opcode, operand, pos);
-        order.push_back(p);
-        opAt[p] = opcode; operAt[p] = operand; nextAt[p] = pos;
+        ins.push_back({p, opcode, operand, pos, pos});
     }
-    std::map<int,int> instrEndingAt;   /* nextpos -> pos */
-    for (int p : order)
-        instrEndingAt[nextAt[p]] = p;
+    /* `real`: position after trailing inline CACHE entries */
+    for (int i = (int)ins.size() - 1; i >= 0; i--) {
+        if (i + 1 < (int)ins.size() && ins[i + 1].op == Pyc::CACHE && ins[i].op != Pyc::CACHE)
+            ins[i].real = ins[i + 1].real;
+    }
+    std::map<int, int> idxAt;
+    for (int i = 0; i < (int)ins.size(); i++)
+        idxAt[ins[i].pos] = i;
 
-    auto isCondBack = [](int op){
-        return op == Pyc::POP_JUMP_BACKWARD_IF_TRUE_A
-            || op == Pyc::POP_JUMP_BACKWARD_IF_FALSE_A
-            || op == Pyc::POP_JUMP_BACKWARD_IF_NONE_A
-            || op == Pyc::POP_JUMP_BACKWARD_IF_NOT_NONE_A;
+    const int unit = mod->verCompare(3, 10) >= 0 ? 2 : 1;   /* jump operand unit */
+    enum Kind { NONE, UNCOND, COND };
+    /* Returns jump kind; sets target. */
+    auto jump = [&](const Ins& in, int& target) -> Kind {
+        switch (in.op) {
+        case Pyc::JUMP_ABSOLUTE_A:
+            target = in.arg * unit;
+            return UNCOND;
+        case Pyc::JUMP_FORWARD_A:
+            target = in.real + in.arg * unit;
+            return UNCOND;
+        case Pyc::JUMP_BACKWARD_A:
+        case Pyc::JUMP_BACKWARD_NO_INTERRUPT_A:
+            target = in.real - in.arg * 2;
+            return UNCOND;
+        case Pyc::POP_JUMP_IF_FALSE_A:
+        case Pyc::POP_JUMP_IF_TRUE_A:
+            if (mod->verCompare(3, 12) >= 0)
+                target = in.real + in.arg * 2;
+            else
+                target = in.arg * unit;
+            return COND;
+        case Pyc::POP_JUMP_IF_NONE_A:
+        case Pyc::POP_JUMP_IF_NOT_NONE_A:
+            target = in.real + in.arg * 2;
+            return COND;
+        case Pyc::POP_JUMP_FORWARD_IF_FALSE_A:
+        case Pyc::POP_JUMP_FORWARD_IF_TRUE_A:
+        case Pyc::POP_JUMP_FORWARD_IF_NONE_A:
+        case Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A:
+            target = in.real + in.arg * 2;
+            return COND;
+        case Pyc::POP_JUMP_BACKWARD_IF_FALSE_A:
+        case Pyc::POP_JUMP_BACKWARD_IF_TRUE_A:
+        case Pyc::POP_JUMP_BACKWARD_IF_NONE_A:
+        case Pyc::POP_JUMP_BACKWARD_IF_NOT_NONE_A:
+            target = in.real - in.arg * 2;
+            return COND;
+        default:
+            return NONE;
+        }
     };
-    auto isFwdGuard = [](int op){
-        return op == Pyc::POP_JUMP_FORWARD_IF_FALSE_A
-            || op == Pyc::POP_JUMP_FORWARD_IF_TRUE_A
-            || op == Pyc::POP_JUMP_FORWARD_IF_NONE_A
-            || op == Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A;
+    auto isExprOp = [](int op) {
+        switch (op) {
+        case Pyc::LOAD_FAST_A: case Pyc::LOAD_CONST_A: case Pyc::LOAD_NAME_A:
+        case Pyc::LOAD_GLOBAL_A: case Pyc::LOAD_DEREF_A: case Pyc::LOAD_ATTR_A:
+        case Pyc::LOAD_METHOD_A: case Pyc::COMPARE_OP_A: case Pyc::IS_OP_A:
+        case Pyc::CONTAINS_OP_A: case Pyc::BINARY_OP_A: case Pyc::BINARY_SUBSCR:
+        case Pyc::UNARY_NOT: case Pyc::UNARY_NEGATIVE: case Pyc::CALL_A:
+        case Pyc::CALL_FUNCTION_A: case Pyc::CALL_METHOD_A: case Pyc::PRECALL_A:
+        case Pyc::PUSH_NULL: case Pyc::KW_NAMES_A: case Pyc::TO_BOOL:
+        case Pyc::CACHE: case Pyc::LOAD_FAST_LOAD_FAST_A: case Pyc::LOAD_FAST_BORROW_A:
+        case Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A: case Pyc::LOAD_SMALL_INT_A:
+        case Pyc::BINARY_ADD: case Pyc::BINARY_SUBTRACT: case Pyc::BINARY_MULTIPLY:
+        case Pyc::BINARY_MODULO: case Pyc::BINARY_TRUE_DIVIDE: case Pyc::BINARY_FLOOR_DIVIDE:
+            return true;
+        default:
+            return false;
+        }
     };
-    for (int b : order) {
-        if (!isCondBack(opAt[b]))
+
+    struct Loop { int T, B, end, csStart, firstBack; bool typeII; };
+    std::vector<Loop> loops;
+
+    /* back-edge candidates grouped by header */
+    std::map<int, int> lastUncond;   /* T -> last unconditional back-jump index */
+    for (int i = 0; i < (int)ins.size(); i++) {
+        int t;
+        if (jump(ins[i], t) == UNCOND && t < ins[i].pos
+                && ins[i].op != Pyc::JUMP_FORWARD_A) {
+            auto ti = idxAt.find(t);
+            if (ti == idxAt.end() || ins[ti->second].op == Pyc::FOR_ITER_A)
+                continue;
+            lastUncond[t] = i;
+        }
+    }
+    auto prevReal = [&](int i) {
+        i--;
+        while (i >= 0 && ins[i].op == Pyc::CACHE)
+            i--;
+        return i;
+    };
+    std::set<int> usedBack;
+
+    /* bottom-tested loops with a conditional back-edge (3.10, 3.11) */
+    for (int i = 0; i < (int)ins.size(); i++) {
+        int t;
+        Kind k = jump(ins[i], t);
+        if (k != COND || t >= ins[i].pos)
             continue;
-        int end = nextAt[b];
-        int loop_start = end - operAt[b] * 2;   /* backward target */
-        if (loop_start < 0 || loop_start >= b)
+        auto ti = idxAt.find(t);
+        if (ti == idxAt.end())
             continue;
-        auto git = instrEndingAt.find(loop_start);
-        if (git == instrEndingAt.end())
+        int g = prevReal(ti->second);
+        int gt;
+        if (g < 0 || jump(ins[g], gt) != COND || gt <= ins[g].pos)
             continue;
-        int guard = git->second;
-        if (!isFwdGuard(opAt[guard]))
+        if (gt != ins[i].real)
             continue;
-        int guard_target = nextAt[guard] + operAt[guard] * 2;
-        if (guard_target != end)            /* guard must skip to loop end */
+        Loop l{t, ins[i].pos, ins[i].real, -1, ins[g].pos, true};
+        out.guardEnd[ins[g].pos] = l.end;
+        out.backedges.insert(ins[i].pos);
+        loops.push_back(l);
+        usedBack.insert(i);
+    }
+    /* start of the condition that precedes index `g` (the entry guard); jumps
+       that target it are threaded `continue`s of a bottom-tested loop */
+    std::set<int> entryStarts;
+    auto entryStartOf = [&](int g) {
+        int j = g - 1, first = -1;
+        while (j >= 0 && isExprOp(ins[j].op)) {
+            first = j;
+            j--;
+        }
+        return first >= 0 ? ins[first].pos : -1;
+    };
+    for (const auto& l : loops) {
+        if (idxAt.count(l.firstBack))
+            entryStarts.insert(entryStartOf(idxAt[l.firstBack]));
+    }
+    if (mod->verCompare(3, 12) >= 0) {
+        for (const auto& lu : lastUncond) {
+            int t = lu.first, bi = lu.second;
+            int p = prevReal(bi), pt, gt;
+            int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
+            if (p >= 0 && jump(ins[p], pt) == COND && pt == ins[bi].real
+                    && g >= 0 && jump(ins[g], gt) == COND && gt == ins[bi].real)
+                entryStarts.insert(entryStartOf(g));
+        }
+    }
+    /* unconditional back-edges */
+    for (const auto& lu : lastUncond) {
+        int t = lu.first, bi = lu.second;
+        if (usedBack.count(bi))
             continue;
-        whileGuardEnd[guard] = end;
-        whileBackedges.insert(b);
+        int p = prevReal(bi);
+        int pt;
+        int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
+        int gt;
+        if (mod->verCompare(3, 12) >= 0 && p >= 0 && jump(ins[p], pt) == COND
+                && pt == ins[bi].real && g >= 0 && jump(ins[g], gt) == COND
+                && gt == ins[bi].real) {
+            /* 3.12+: cond; POP_JUMP_IF_FALSE end; JUMP_BACKWARD T */
+            Loop l{t, ins[bi].pos, ins[bi].real, -1, ins[g].pos, true};
+            out.guardEnd[ins[g].pos] = l.end;
+            out.backedges.insert(ins[p].pos);
+            out.skipJumps.insert(ins[bi].pos);
+            loops.push_back(l);
+            continue;
+        }
+        if (entryStarts.count(t))
+            continue;   /* a `continue` jumping to a bottom-tested loop's entry test */
+        /* top-tested: look for the guard at the header */
+        int guard = -1;
+        bool clean = true;
+        for (int j = idxAt[t]; j < bi && ins[j].pos < ins[bi].pos; j++) {
+            int tt;
+            Kind k = jump(ins[j], tt);
+            if (k == NONE) {
+                if (!isExprOp(ins[j].op)) { clean = false; break; }
+                continue;
+            }
+            if (k == COND && tt >= ins[bi].real) { guard = ins[j].pos; }
+            else clean = false;
+            break;
+        }
+        Loop l{t, ins[bi].pos, ins[bi].real, -1, guard, false};
+        if (guard >= 0 && clean) {
+            out.guardEnd[guard] = l.end;
+        } else if (guard < 0 && !clean) {
+            /* `while True` -- the body starts at T and is not a bare expression */
+            out.trueOpen[t] = l.end;
+        } else {
+            continue;   /* unrecognized shape: leave it alone */
+        }
+        out.uncondBack.insert(ins[bi].pos);
+        loops.push_back(l);
+    }
+
+    for (auto& l : loops) {
+        out.loopEnds.insert(l.end);
+        /* start of the duplicated condition (bottom-tested loops) */
+        int csPos = l.T;
+        if (l.typeII) {
+            int bi = idxAt[l.B];
+            int j = bi;
+            /* walk back over the condition expression */
+            int firstCond = bi;
+            for (j = bi - 1; j >= 0; j--) {
+                if (ins[j].pos < l.T) break;
+                int tt;
+                if (jump(ins[j], tt) != NONE && ins[j].pos != l.B) break;
+                if (!isExprOp(ins[j].op)) break;
+                firstCond = j;
+            }
+            csPos = ins[firstCond].pos;
+            l.csStart = csPos;
+        }
+        /* start of the entry guard's condition (target of a threaded `continue`) */
+        int gcStart = -1;
+        if (l.typeII && idxAt.count(l.firstBack)) {
+            int j = idxAt[l.firstBack] - 1;
+            int first = -1;
+            while (j >= 0 && isExprOp(ins[j].op)) {
+                first = j;
+                j--;
+            }
+            if (first >= 0)
+                gcStart = ins[first].pos;
+        }
+        int exitX = -1;
+        bool consistent = true;
+        std::vector<int> brk, cont;
+        for (int i = idxAt[l.T]; i < (int)ins.size() && ins[i].pos < l.B; i++) {
+            int t;
+            Kind k = jump(ins[i], t);
+            if (k != UNCOND || out.skipJumps.count(ins[i].pos))
+                continue;
+            /* innermost loop owns the jump */
+            bool innerOwns = false;
+            for (const auto& o : loops) {
+                if (&o != &l && o.T > l.T && o.T <= ins[i].pos && ins[i].pos <= o.B
+                        && (o.B < l.B)) { innerOwns = true; break; }
+            }
+            if (innerOwns)
+                continue;
+            if (t >= l.end) {
+                brk.push_back(ins[i].pos);
+                if (exitX < 0) exitX = t;
+                else if (exitX != t) consistent = false;
+            } else if (!l.typeII && t == l.T) {
+                cont.push_back(ins[i].pos);
+            } else if (l.typeII && (t == l.csStart || t == gcStart)
+                       && ins[i].pos < l.csStart) {
+                cont.push_back(ins[i].pos);
+            }
+        }
+        (void)consistent;
+        for (int b : brk) out.breaks.insert(b);
+        for (int c : cont) out.continues.insert(c);
+        if (exitX > l.end)
+            out.elseEnd[l.end] = exitX;
     }
 }
 
@@ -744,6 +975,13 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     std::map<int, int> chainSkipJumps;         /* trailer JUMP_FORWARD -> body */
     std::map<int, int> trampolineExit;         /* trampoline POP_TOP -> exit */
 
+    WhileLoops loops;
+    if (mod->verCompare(3, 8) >= 0) {
+        ScanLoops(code, mod, loops);
+        whileGuardEnd = loops.guardEnd;
+        whileBackedges = loops.backedges;
+    }
+
     if (mod->verCompare(3, 11) >= 0) {
         exception_entries = code->exceptionTableEntries();
         if (mod->verCompare(3, 12) >= 0)
@@ -753,7 +991,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         ScanTryFinally(code, mod, exception_entries,
                        finallyTryEndByStart, finallyEndByStart, finallyResumeByEnd,
                        finallyReturnStarts, finallySuppressReturns);
-        ScanWhileLoops(code, mod, whileGuardEnd, whileBackedges);
         ScanChainedCompare(code, mod, chainSkipJumps, trampolineExit);
         ScanTryElse(code, mod, exception_entries, elseRegionByStart);
     }
@@ -1646,6 +1883,91 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     beginCase(matches.back(), first, false);
                     continue;
                 }
+            }
+        }
+
+        if (mod->verCompare(3, 8) >= 0 && !inlineComps.size()) {
+            auto closeWhile = [&](bool popCond) -> bool {
+                bool hasWhile = false;
+                {
+                    std::stack<PycRef<ASTBlock> > tmp = blocks;
+                    while (!tmp.empty()) {
+                        if (tmp.top()->blktype() == ASTBlock::BLK_WHILE) {
+                            hasWhile = true;
+                            break;
+                        }
+                        tmp.pop();
+                    }
+                }
+                if (!hasWhile)
+                    return false;
+                if (popCond && !stack.empty())
+                    stack.pop();
+                while (blocks.size() > 1 && curblock->blktype() != ASTBlock::BLK_WHILE) {
+                    PycRef<ASTBlock> inner = curblock;
+                    if (!stack_hist.empty()
+                            && (inner->blktype() == ASTBlock::BLK_IF
+                                || inner->blktype() == ASTBlock::BLK_ELIF
+                                || inner->blktype() == ASTBlock::BLK_ELSE)) {
+                        stack = stack_hist.top();
+                        stack_hist.pop();
+                    }
+                    blocks.pop();
+                    curblock = blocks.top();
+                    curblock->append(inner.cast<ASTNode>());
+                }
+                if (curblock->blktype() == ASTBlock::BLK_WHILE && blocks.size() > 1) {
+                    PycRef<ASTBlock> wh = curblock;
+                    blocks.pop();
+                    curblock = blocks.top();
+                    curblock->append(wh.cast<ASTNode>());
+                    auto ee = loops.elseEnd.find(wh->end());
+                    if (ee != loops.elseEnd.end()) {
+                        PycRef<ASTBlock> eb = new ASTBlock(ASTBlock::BLK_ELSE, ee->second);
+                        blocks.push(eb);
+                        curblock = blocks.top();
+                    }
+                }
+                return true;
+            };
+            auto refreshElsePop = [&]() {
+                else_pop = (curblock->blktype() == ASTBlock::BLK_ELSE
+                            || curblock->blktype() == ASTBlock::BLK_IF
+                            || curblock->blktype() == ASTBlock::BLK_ELIF)
+                        && curblock->end() == pos;
+            };
+            if (loops.skipJumps.count(curpos)) {
+                refreshElsePop();
+                continue;
+            }
+            if (loops.trueOpen.count(curpos)) {
+                PycRef<ASTCondBlock> wh = new ASTCondBlock(
+                        ASTBlock::BLK_WHILE, loops.trueOpen[curpos],
+                        new ASTObject(Pyc_True), false);
+                wh->init(ASTCondBlock::PRE_POPPED);
+                blocks.push(wh.cast<ASTBlock>());
+                curblock = blocks.top();
+            }
+            if (loops.backedges.count(curpos)
+                    && opcode != Pyc::POP_JUMP_BACKWARD_IF_TRUE_A
+                    && opcode != Pyc::POP_JUMP_BACKWARD_IF_FALSE_A
+                    && closeWhile(true)) {
+                refreshElsePop();
+                continue;
+            }
+            if (loops.uncondBack.count(curpos) && closeWhile(false)) {
+                refreshElsePop();
+                continue;
+            }
+            if (loops.breaks.count(curpos)) {
+                curblock->append(new ASTKeyword(ASTKeyword::KW_BREAK));
+                refreshElsePop();
+                continue;
+            }
+            if (loops.continues.count(curpos)) {
+                curblock->append(new ASTKeyword(ASTKeyword::KW_CONTINUE));
+                refreshElsePop();
+                continue;
             }
         }
 
@@ -2908,7 +3230,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     } else if (opcode == Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A) {
                         wcond = new ASTCompare(wcond, new ASTObject(Pyc_None),
                                                ASTCompare::CMP_IS);
-                    } else if (opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A) {
+                    } else if (opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A
+                               || opcode == Pyc::POP_JUMP_IF_TRUE_A) {
                         wneg = true;
                     }
                     PycRef<ASTCondBlock> wh = new ASTCondBlock(
@@ -3023,8 +3346,22 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         || opcode == Pyc::POP_JUMP_FORWARD_IF_FALSE_A
                         || opcode == Pyc::POP_JUMP_FORWARD_IF_NONE_A
                         || opcode == Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A) {
-                    /* Offset is relative in these cases */
-                    offs += pos;
+                    /* Offset is relative to the end of the instruction's
+                       inline CACHE entries (3.13+ conditional jumps have one) */
+                    int base = pos;
+                    if (mod->verCompare(3, 13) >= 0) {
+                        int sp = source.pos(), pp = pos;
+                        while (!source.atEof()) {
+                            int o3 = 0, a3 = 0, p3 = pp;
+                            bc_next(source, mod, o3, a3, p3);
+                            if (o3 != Pyc::CACHE)
+                                break;
+                            pp = p3;
+                        }
+                        source.setPos(sp);
+                        base = pp;
+                    }
+                    offs += base;
                 }
 
                 /* Chained comparison: if this conditional jump lands on a
