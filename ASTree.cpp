@@ -3226,6 +3226,59 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 stack.push(new ASTFunction(fun_code, defArgs, kwDefArgs));
             }
             break;
+        case Pyc::MAKE_FUNCTION:
+            {
+                /* Python 3.13+: MAKE_FUNCTION only takes the code object; the
+                   defaults/closure/etc. are attached afterwards by
+                   SET_FUNCTION_ATTRIBUTE. */
+                PycRef<ASTNode> fun_code = stack.top();
+                stack.pop();
+                stack.push(new ASTFunction(fun_code, ASTFunction::defarg_t(),
+                                           ASTFunction::defarg_t()));
+            }
+            break;
+        case Pyc::SET_FUNCTION_ATTRIBUTE_A:
+            {
+                /* STACK[-1] is the function, STACK[-2] the attribute value.
+                   Flags: 0x01 defaults, 0x02 kw-only defaults, 0x04
+                   annotations, 0x08 closure, 0x10 annotate function. */
+                PycRef<ASTNode> func = stack.top();
+                stack.pop();
+                PycRef<ASTNode> attr = stack.top();
+                stack.pop();
+                if (func == NULL || func.type() != ASTNode::NODE_FUNCTION) {
+                    stack.push(func);
+                    break;
+                }
+                PycRef<ASTFunction> fn = func.cast<ASTFunction>();
+                ASTFunction::defarg_t defArgs = fn->defargs();
+                ASTFunction::defarg_t kwDefArgs = fn->kwdefargs();
+                if (operand == 0x01) {
+                    defArgs.clear();
+                    if (attr != NULL && attr.type() == ASTNode::NODE_TUPLE) {
+                        for (const auto& v : attr.cast<ASTTuple>()->values())
+                            defArgs.push_back(v);
+                    } else if (attr != NULL && attr.type() == ASTNode::NODE_OBJECT) {
+                        PycRef<PycObject> o = attr.cast<ASTObject>()->object();
+                        if (o->type() == PycObject::TYPE_TUPLE
+                                || o->type() == PycObject::TYPE_SMALL_TUPLE) {
+                            for (const auto& it : o.cast<PycTuple>()->values())
+                                defArgs.push_back(new ASTObject(it));
+                        }
+                    }
+                } else if (operand == 0x02) {
+                    kwDefArgs.clear();
+                    if (attr != NULL && attr.type() == ASTNode::NODE_MAP) {
+                        for (const auto& it : attr.cast<ASTMap>()->values())
+                            kwDefArgs.push_back(it.second);
+                    } else if (attr != NULL && attr.type() == ASTNode::NODE_CONST_MAP) {
+                        for (const auto& v : attr.cast<ASTConstMap>()->values())
+                            kwDefArgs.push_back(v);
+                    }
+                }
+                stack.push(new ASTFunction(fn->code(), defArgs, kwDefArgs));
+            }
+            break;
         case Pyc::NOP:
             break;
         case Pyc::POP_BLOCK:
