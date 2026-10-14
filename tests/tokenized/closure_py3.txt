@@ -1,0 +1,8 @@
+def outer ( x ) : <EOL>
+<INDENT>
+y = 2 <EOL>
+def inner ( a ) : <EOL>
+<INDENT>
+return x + y + a <EOL>
+<OUTDENT>
+return inner <EOL>
