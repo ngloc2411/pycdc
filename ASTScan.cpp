@@ -523,6 +523,47 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             lastUncond[t] = i;
         }
     }
+    /* The end of a try body / except handler that threads straight back to the
+       loop head, when the whole `try` closes the loop body (the closing
+       back-edge follows its END_FINALLY/RERAISE), is a jump over the remaining
+       handlers and not a `continue`. */
+    for (int i = 1; i < (int)ins.size(); i++) {
+        int t;
+        if (ins[i].op != Pyc::JUMP_ABSOLUTE_A || jump(ins[i], t) != UNCOND || t >= ins[i].pos)
+            continue;
+        if (ins[i - 1].op != Pyc::POP_BLOCK && ins[i - 1].op != Pyc::POP_EXCEPT)
+            continue;
+        {
+            /* 3.10 `for` loop closed by its try: the RERAISE is followed by the
+               loop exit itself (the FOR_ITER target) */
+            auto hi = idxAt.find(t);
+            int ft = 0;
+            if (hi != idxAt.end() && ins[hi->second].op == Pyc::FOR_ITER_A) {
+                ft = ins[hi->second].real + ins[hi->second].arg * unit;
+                auto ei = idxAt.find(ft);
+                if (ei != idxAt.end() && ei->second > 0
+                        && (ins[ei->second - 1].op == Pyc::RERAISE_A
+                            || ins[ei->second - 1].op == Pyc::RERAISE
+                            || ins[ei->second - 1].op == Pyc::END_FINALLY)) {
+                    out.tryEndJump[ins[i].pos] = ft;
+                    out.forTryEnd.insert(ft);
+                    continue;
+                }
+            }
+        }
+        for (int k = i + 1; k < (int)ins.size(); k++) {
+            int t2;
+            if (ins[k].op != Pyc::JUMP_ABSOLUTE_A || jump(ins[k], t2) != UNCOND || t2 != t)
+                continue;
+            if (ins[k - 1].op == Pyc::END_FINALLY || ins[k - 1].op == Pyc::RERAISE
+                    || ins[k - 1].op == Pyc::RERAISE_A) {
+                out.tryEndJump[ins[i].pos] = ins[k].pos;
+                break;
+            }
+            if (ins[k - 1].op != Pyc::POP_BLOCK && ins[k - 1].op != Pyc::POP_EXCEPT)
+                break;   /* a real continue or other jump comes first */
+        }
+    }
     auto prevReal = [&](int i) {
         i--;
         while (i >= 0 && ins[i].op == Pyc::CACHE)
@@ -833,15 +874,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 if (exitX < 0) exitX = t;
                 else if (exitX != t) consistent = false;
             } else if (!l.typeII && t == l.T) {
-                /* the end of a try body / except handler that threads straight to
-                   the loop head when the whole `try` closes the loop body (the
-                   closing back-edge follows its END_FINALLY) is not a `continue` */
-                int bIdx0 = idxAt[l.B];
-                bool tryEnd = i > 0 && bIdx0 > 0 && (ins[bIdx0 - 1].op == Pyc::END_FINALLY || ins[bIdx0 - 1].op == Pyc::RERAISE || ins[bIdx0 - 1].op == Pyc::RERAISE_A)
-                        && (ins[i - 1].op == Pyc::POP_BLOCK || ins[i - 1].op == Pyc::POP_EXCEPT);
-                if (tryEnd)
-                    out.tryEndJump[ins[i].pos] = l.B;   /* acts like a jump over the handlers */
-                else
+                if (!out.tryEndJump.count(ins[i].pos))
                     cont.push_back(ins[i].pos);
             } else if (l.typeII && (t == l.csStart || t == gcStart)
                        && ins[i].pos < l.csStart) {

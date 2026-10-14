@@ -33,6 +33,7 @@ struct WhileLoops {
     std::map<int, int> forElse;        /* start of a for/else `else` body -> its end */
     std::map<int, int> elseEnd;        /* loop end -> end of its `else` body */
     std::set<int> loopEnds;
+    std::set<int> forTryEnd;           /* 3.10: `for` loop exits right after its closing try */
     std::map<int, int> tryEndJump;     /* try/handler-end jump to the loop head -> closing back-edge */
     /* compound loop conditions (`while a and b`) of bottom-tested loops */
     std::map<int, std::vector<ChainJump> > guardChain;   /* last guard jump -> earlier jumps */

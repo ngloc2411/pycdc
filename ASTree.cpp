@@ -1724,6 +1724,24 @@ exprflow_skip:;
                 refreshElsePop();
                 continue;
             }
+            if (loops.forTryEnd.count(curpos)) {
+                /* a `for` body ending with try/except has no back-edge of its own */
+                while (blocks.size() > 1 && curblock->blktype() != ASTBlock::BLK_FOR
+                        && curblock->end() <= curpos && curblock->blktype() != ASTBlock::BLK_MAIN) {
+                    PycRef<ASTBlock> inner = curblock;
+                    blocks.pop();
+                    curblock = blocks.top();
+                    curblock->append(inner.cast<ASTNode>());
+                }
+                if (curblock->blktype() == ASTBlock::BLK_FOR && curblock->end() == curpos
+                        && blocks.size() > 1
+                        && !curblock.cast<ASTIterBlock>()->isComprehension()) {
+                    PycRef<ASTBlock> fb = curblock;
+                    blocks.pop();
+                    curblock = blocks.top();
+                    curblock->append(fb.cast<ASTNode>());
+                }
+            }
             if (loops.uncondBack.count(curpos) && closeWhile(false)) {
                 refreshElsePop();
                 continue;
