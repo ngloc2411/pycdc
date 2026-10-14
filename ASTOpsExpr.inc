@@ -566,6 +566,31 @@
             }
             break;
         case Pyc::CALL_FUNCTION_KW_A:
+            if (mod->verCompare(3, 6) >= 0) {
+                /* 3.6-3.10: A = total argument count, TOS = tuple of the
+                   keyword names (the last len(names) arguments). */
+                PycRef<ASTNode> names = stack.top();
+                stack.pop();
+                std::vector<PycRef<PycObject> > keys;
+                if (names != NULL && names.type() == ASTNode::NODE_OBJECT)
+                    keys = names.cast<ASTObject>()->object().cast<PycSimpleSequence>()->values();
+                int n = (int)keys.size();
+                ASTCall::kwparam_t kwparamList;
+                ASTCall::pparam_t pparamList;
+                for (int i = 0; i < n; i++) {
+                    kwparamList.push_front(std::make_pair(
+                            PycRef<ASTNode>(new ASTObject(keys[n - i - 1])), stack.top()));
+                    stack.pop();
+                }
+                for (int i = 0; i < operand - n; i++) {
+                    pparamList.push_front(stack.top());
+                    stack.pop();
+                }
+                PycRef<ASTNode> func = stack.top();
+                stack.pop();
+                stack.push(new ASTCall(func, pparamList, kwparamList));
+                break;
+            }
             {
                 PycRef<ASTNode> kw = stack.top();
                 stack.pop();

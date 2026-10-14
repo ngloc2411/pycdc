@@ -1,0 +1,15 @@
+def f ( fn , a , b , obj ) : <EOL>
+<INDENT>
+fn ( a , b ) <EOL>
+fn ( a , b = 1 ) <EOL>
+fn ( x = a , y = b , z = 3 ) <EOL>
+fn ( * a , ** b ) <EOL>
+fn ( a , * b , c = 1 , ** b ) <EOL>
+fn ( a , b , * a ) <EOL>
+fn ( ** a ) <EOL>
+fn ( * a ) <EOL>
+obj . m ( a , k = b ) <EOL>
+obj . m ( * a , k = b ) <EOL>
+obj . attr . m ( a ) ( b , c = a ) <EOL>
+print ( fn ( a , key = lambda q : q + 1 ) , sep = '' ) <EOL>
+return fn ( ) <EOL>

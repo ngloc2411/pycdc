@@ -515,6 +515,16 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 lambdaBare = false;
                 first = false;
             }
+            /* 3.5+: `*args` conventionally precedes the keyword arguments;
+               older code writes `f(x=1, *args)` */
+            const bool starFirst = mod->verCompare(3, 5) >= 0;
+            if (call->hasVar() && starFirst) {
+                if (!first)
+                    pyc_output << ", ";
+                pyc_output << "*";
+                print_unpack_operand(call->var(), mod, pyc_output);
+                first = false;
+            }
             for (const auto& param : call->kwparams()) {
                 if (!first)
                     pyc_output << ", ";
@@ -529,7 +539,7 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 lambdaBare = false;
                 first = false;
             }
-            if (call->hasVar()) {
+            if (call->hasVar() && !starFirst) {
                 if (!first)
                     pyc_output << ", ";
                 pyc_output << "*";
