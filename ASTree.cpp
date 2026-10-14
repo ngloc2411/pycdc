@@ -554,6 +554,68 @@ static void ScanChainedCompare(PycRef<PycCode> code, PycModule* mod,
 /* Python 3.11 try/except/else: the else body is the code between the end of
    the protected range and the JUMP_FORWARD (just before the handler) that skips
    the handlers. Map: protected-range end -> (jump position, handler offset). */
+/* Python 3.12+ inlined comprehensions are wrapped in an exception-table
+   entry whose handler only restores the saved loop variable and re-raises:
+       SWAP n; POP_TOP; SWAP n; STORE_FAST v ...; RERAISE 0
+   Locate those handlers so they can be dropped from the table (they are not
+   a user-level try) and skipped when decompiling. */
+static void ScanComprehensionCleanup(PycRef<PycCode> code, PycModule* mod,
+                                     std::vector<PycExceptionTableEntry>& entries,
+                                     std::vector<std::pair<int, int> >& skip)
+{
+    PycBuffer src(code->code()->value(), code->code()->length());
+    int opcode, operand, pos = 0;
+    std::map<int, int> opAt, operAt, nextAt;
+    while (!src.atEof()) {
+        int p = pos;
+        bc_next(src, mod, opcode, operand, pos);
+        opAt[p] = opcode; operAt[p] = operand; nextAt[p] = pos;
+    }
+    auto skipCache = [&](int p) {
+        while (opAt.count(p) && opAt[p] == Pyc::CACHE)
+            p = nextAt[p];
+        return p;
+    };
+    std::set<int> targets;
+    for (const auto& e : entries) {
+        int p = e.target;
+        if (!opAt.count(p) || opAt[p] != Pyc::SWAP_A)
+            continue;
+        p = nextAt[p];
+        if (!opAt.count(p) || opAt[p] != Pyc::POP_TOP)
+            continue;
+        p = nextAt[p];
+        if (!opAt.count(p) || opAt[p] != Pyc::SWAP_A)
+            continue;
+        p = nextAt[p];
+        int stores = 0;
+        while (opAt.count(p) && opAt[p] == Pyc::STORE_FAST_A) {
+            stores++;
+            p = nextAt[p];
+        }
+        if (!stores || !opAt.count(p) || opAt[p] != Pyc::RERAISE_A)
+            continue;
+        p = nextAt[p];
+        if (targets.insert(e.target).second)
+            skip.push_back(std::make_pair(e.target, p));
+    }
+    if (targets.empty())
+        return;
+    std::vector<PycExceptionTableEntry> kept;
+    for (const auto& e : entries) {
+        if (targets.count(e.target))
+            continue;
+        bool inSkip = false;
+        for (const auto& r : skip)
+            if (e.start_offset >= r.first && e.start_offset < r.second)
+                inSkip = true;
+        if (!inSkip)
+            kept.push_back(e);
+    }
+    entries.swap(kept);
+    (void)skipCache;
+}
+
 static void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
                         const std::vector<PycExceptionTableEntry>& entries,
                         std::map<int, std::pair<int, int> >& elseRegionByStart)
@@ -602,6 +664,14 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     int curpos = 0;
     int pos = 0;
     int unpack = 0;
+    /* Python 3.12+ inlined comprehensions: number of loop variables saved by
+       each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
+    std::vector<int> inlineComps;
+    bool inlineFinish = false;
+    int inlineFinishBase = 0;
+    std::vector<int> inlineBase;   /* stack size below the container */
+    std::vector<int> inlineKind;   /* ASTComprehension::Kind per open comp */
+    int inlineFinishKind = 0;
     /* Python 3.13 fused instructions (STORE_FAST_STORE_FAST, ...) are split
        into the simple instructions they stand for; they are executed from this
        queue before the next real instruction is decoded. */
@@ -635,6 +705,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     };
     std::vector<PendingBoolOp> pendingBool;
     std::vector<PycExceptionTableEntry> exception_entries;
+    std::vector<std::pair<int, int> > cleanupSkip;   /* handler ranges to ignore */
     size_t next_exception_entry = 0;
 
     /* Python 3.11 with-statement reconstruction state. */
@@ -663,6 +734,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 
     if (mod->verCompare(3, 11) >= 0) {
         exception_entries = code->exceptionTableEntries();
+        if (mod->verCompare(3, 12) >= 0)
+            ScanComprehensionCleanup(code, mod, exception_entries, cleanupSkip);
         ScanWithBlocks(code, mod, exception_entries,
                        withBodyEndByBefore, withResumeByBodyEnd);
         ScanTryFinally(code, mod, exception_entries,
@@ -1095,6 +1168,15 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             bc_next(source, mod, opcode, operand, pos);
         }
 
+        if (!cleanupSkip.empty()) {
+            bool skipIt = false;
+            for (const auto& r : cleanupSkip)
+                if (curpos >= r.first && curpos < r.second)
+                    skipIt = true;
+            if (skipIt)
+                continue;
+        }
+
         bool hadGetIter = sawGetIter;
         if (opcode != Pyc::GET_ITER && opcode != Pyc::GET_YIELD_FROM_ITER
                 && opcode != Pyc::PRECALL_A && opcode != Pyc::CACHE
@@ -1179,6 +1261,31 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         || (curblock->blktype() == ASTBlock::BLK_ELIF))
                     && (curblock->end() == pos);
             continue;
+        }
+
+        if (!inlineComps.empty() && mod->verCompare(3, 12) >= 0
+                && (opcode == Pyc::POP_JUMP_IF_TRUE_A
+                    || opcode == Pyc::POP_JUMP_IF_FALSE_A)
+                && !source.atEof()) {
+            /* Inlined comprehension filter: `if c` compiles to
+                   POP_JUMP_IF_TRUE over; JUMP_BACKWARD loop; over: ...
+               which is the 3.11 POP_JUMP_BACKWARD_IF_FALSE shape. */
+            int sSrc = source.pos(), sPos = pos;
+            int o2 = 0, a2 = 0;
+            bc_next(source, mod, o2, a2, pos);
+            if (o2 == Pyc::NOT_TAKEN && !source.atEof())
+                bc_next(source, mod, o2, a2, pos);
+            int afterJump = pos;
+            int target = sPos + operand * (int)sizeof(uint16_t);
+            if ((o2 == Pyc::JUMP_BACKWARD_A || o2 == Pyc::JUMP_BACKWARD_NO_INTERRUPT_A)
+                    && target == afterJump) {
+                opcode = (opcode == Pyc::POP_JUMP_IF_TRUE_A)
+                        ? Pyc::POP_JUMP_BACKWARD_IF_FALSE_A
+                        : Pyc::POP_JUMP_BACKWARD_IF_TRUE_A;
+            } else {
+                source.setPos(sSrc);
+                pos = sPos;
+            }
         }
 
         switch (opcode) {
@@ -1627,6 +1734,13 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                             if (comp == NULL)
                                 comp = SynthGenexpr(compAst);   /* generator expr */
                             if (comp != NULL && !comp->generators().empty()) {
+                                const char* cnm = ccode->name()->value();
+                                if (cnm && !strcmp(cnm, "<setcomp>"))
+                                    comp->setKind(ASTComprehension::KIND_SET);
+                                else if (cnm && !strcmp(cnm, "<dictcomp>"))
+                                    comp->setKind(ASTComprehension::KIND_DICT);
+                                else if (cnm && !strcmp(cnm, "<genexpr>"))
+                                    comp->setKind(ASTComprehension::KIND_GENERATOR);
                                 comp->generators().front()->setIter(func);
                                 stack.pop();   /* remove the comprehension callable */
                                 stack.push(comp.cast<ASTNode>());
@@ -2164,6 +2278,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         comprehension = cn && (!strcmp(cn, "<listcomp>")
                                 || !strcmp(cn, "<setcomp>")
                                 || !strcmp(cn, "<dictcomp>"));
+                        if (!inlineComps.empty())
+                            comprehension = true;
                     }
                 } else {
                     PycRef<ASTBlock> top = blocks.top();
@@ -2648,6 +2764,15 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 if (mod->verCompare(3, 10) >= 0)
                     offs *= sizeof(uint16_t); // // BPO-27129
 
+                if (!inlineComps.empty() && offs < pos
+                        && (curblock->blktype() == ASTBlock::BLK_IF
+                            || curblock->blktype() == ASTBlock::BLK_ELIF)
+                        && InsideComprehensionAdd(blocks)) {
+                    /* Filter/loop back-edge inside an inlined comprehension:
+                       blocks are closed at the matching END_FOR. */
+                    break;
+                }
+
                 if (offs < pos) {
                     /* Python 3.11 filtered comprehension ("if cond") tail:
                        MAP_ADD/SET_ADD/LIST_APPEND already turned the add into
@@ -3110,10 +3235,12 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 if (curblock->blktype() == ASTBlock::BLK_FOR
                         && curblock.cast<ASTIterBlock>()->isComprehension()) {
                     stack.pop();
-                    stack.push(new ASTComprehension(value));
+                    PycRef<ASTComprehension> sc = new ASTComprehension(value);
+                    sc->setKind(ASTComprehension::KIND_SET);
+                    stack.push(sc.cast<ASTNode>());
                 } else {
                     const char* cn = code->name() != NULL ? code->name()->value() : NULL;
-                    if (cn && !strcmp(cn, "<setcomp>")) {
+                    if ((cn && !strcmp(cn, "<setcomp>")) || !inlineComps.empty()) {
                         curblock->append(new ASTReturn(value, ASTReturn::YIELD));
                     } else {
                         stack.push(new ASTSubscr(set, value)); /* Total hack */
@@ -3136,7 +3263,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     stack.push(new ASTComprehension(value));
                 } else {
                     const char* cn = code->name() != NULL ? code->name()->value() : NULL;
-                    if (cn && !strcmp(cn, "<listcomp>")) {
+                    if ((cn && !strcmp(cn, "<listcomp>")) || !inlineComps.empty()) {
                         /* Filtered list comprehension: the append is inside the
                            filter block, so record the value as a yield-style
                            marker and let SynthGenexpr rebuild the comprehension
@@ -3307,6 +3434,52 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         case Pyc::LOAD_DEREF_A:
         case Pyc::LOAD_CLASSDEREF_A:
             stack.push(new ASTName(code->getCellVar(mod, operand)));
+            break;
+        case Pyc::LOAD_FAST_AND_CLEAR_A:
+            {
+                /* Python 3.12+ inlined comprehension prologue:
+                     GET_ITER; (LOAD_FAST_AND_CLEAR v)+; SWAP k+1;
+                     BUILD_{LIST,SET,MAP} 0; SWAP 2; FOR_ITER ...
+                   Model it as the pre-3.12 function form [container, iter]. */
+                int k = 1;
+                int op2 = 0, arg2 = 0;
+                int savedSrc = source.pos();
+                int savedPos = pos;
+                bool ok = false;
+                int container = 0;
+                while (!source.atEof()) {
+                    bc_next(source, mod, op2, arg2, pos);
+                    if (op2 == Pyc::LOAD_FAST_AND_CLEAR_A) { k++; continue; }
+                    if (op2 != Pyc::SWAP_A || arg2 != k + 1) break;
+                    bc_next(source, mod, op2, arg2, pos);
+                    if ((op2 != Pyc::BUILD_LIST_A && op2 != Pyc::BUILD_SET_A
+                            && op2 != Pyc::BUILD_MAP_A) || arg2 != 0) break;
+                    container = op2;
+                    bc_next(source, mod, op2, arg2, pos);
+                    ok = (op2 == Pyc::SWAP_A && arg2 == 2);
+                    break;
+                }
+                if (!ok) {
+                    source.setPos(savedSrc);
+                    pos = savedPos;
+                    stack.push(nullptr);
+                    break;
+                }
+                PycRef<ASTNode> iter = stack.top();
+                stack.pop();
+                inlineBase.push_back((int)stack.size());
+                if (container == Pyc::BUILD_LIST_A)
+                    stack.push(new ASTList(ASTList::value_t()));
+                else if (container == Pyc::BUILD_SET_A)
+                    stack.push(new ASTSet(ASTSet::value_t()));
+                else
+                    stack.push(new ASTMap);
+                stack.push(iter);
+                inlineComps.push_back(k);
+                inlineKind.push_back(container == Pyc::BUILD_SET_A ? ASTComprehension::KIND_SET
+                        : container == Pyc::BUILD_MAP_A ? ASTComprehension::KIND_DICT
+                        : ASTComprehension::KIND_LIST);
+            }
             break;
         case Pyc::LOAD_SMALL_INT_A:
             stack.push(new ASTObject(new PycInt(operand)));
@@ -3609,9 +3782,94 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::END_FOR:
             {
-                stack.pop();
+                bool inlineCompLoop = !inlineComps.empty();
+                if (inlineCompLoop
+                        && (curblock->blktype() == ASTBlock::BLK_IF
+                            || curblock->blktype() == ASTBlock::BLK_ELIF)
+                        && InsideComprehensionAdd(blocks)) {
+                    /* close the filter block(s) and the comprehension's FOR */
+                    while (blocks.size() > 1
+                           && !(curblock->blktype() == ASTBlock::BLK_FOR
+                                && curblock.cast<ASTIterBlock>()->isComprehension())) {
+                        PycRef<ASTBlock> inner = curblock;
+                        blocks.pop();
+                        curblock = blocks.top();
+                        curblock->append(inner.cast<ASTNode>());
+                    }
+                    if (curblock->blktype() == ASTBlock::BLK_FOR && blocks.size() > 1) {
+                        PycRef<ASTBlock> fb = curblock;
+                        blocks.pop();
+                        curblock = blocks.top();
+                        curblock->append(fb.cast<ASTNode>());
+                    }
+                }
+                if (inlineCompLoop) {
+                    /* Is this the last loop of the comprehension? Then what
+                       follows is the restore of the saved loop variables:
+                         [POP_ITER] SWAP k+1; STORE_FAST v (x k)
+                       or, when the result is stored right away,
+                         [POP_ITER] STORE_FAST target...; STORE_FAST v (x k) */
+                    int k = inlineComps.back();
+                    int sSrc = source.pos(), sPos = pos;
+                    int o2 = 0, a2 = 0;
+                    std::vector<std::pair<int, int> > seq;   /* (start,end) of ops */
+                    int p0 = pos;
+                    bool sawSwap = false;
+                    bool finishing = false;
+                    {
+                        int lastP = p0;
+                        bc_next(source, mod, o2, a2, pos);
+                        if (o2 == Pyc::POP_ITER) {
+                            seq.push_back(std::make_pair(lastP, pos));
+                            lastP = pos;
+                            bc_next(source, mod, o2, a2, pos);
+                        }
+                        if (o2 == Pyc::SWAP_A && a2 == k + 1) {
+                            sawSwap = true;
+                            seq.push_back(std::make_pair(lastP, pos));
+                            int cnt = 0;
+                            while (!source.atEof() && cnt < k) {
+                                int st = pos;
+                                bc_next(source, mod, o2, a2, pos);
+                                if (o2 != Pyc::STORE_FAST_A) break;
+                                seq.push_back(std::make_pair(st, pos));
+                                cnt++;
+                            }
+                            finishing = (cnt == k);
+                        } else if (o2 == Pyc::STORE_FAST_A) {
+                            std::vector<std::pair<int, int> > stores;
+                            stores.push_back(std::make_pair(lastP, pos));
+                            while (!source.atEof()) {
+                                int st = pos;
+                                bc_next(source, mod, o2, a2, pos);
+                                if (o2 != Pyc::STORE_FAST_A) break;
+                                stores.push_back(std::make_pair(st, pos));
+                            }
+                            if ((int)stores.size() >= k) {
+                                finishing = true;
+                                for (size_t i = stores.size() - k; i < stores.size(); i++)
+                                    seq.push_back(stores[i]);
+                            }
+                        }
+                    }
+                    (void)sawSwap;
+                    source.setPos(sSrc);
+                    pos = sPos;
+                    if (finishing) {
+                        for (const auto& r : seq)
+                            cleanupSkip.push_back(r);
+                        inlineComps.pop_back();
+                        inlineFinish = true;
+                        inlineFinishBase = inlineBase.back();
+                        inlineBase.pop_back();
+                        inlineFinishKind = inlineKind.back();
+                        inlineKind.pop_back();
+                    }
+                }
+                if (!inlineCompLoop)
+                    stack.pop();
 
-                if ((opcode == Pyc::END_FOR) && (mod->majorVer() == 3) && (mod->minorVer() == 12)) {
+                if (!inlineCompLoop && (opcode == Pyc::END_FOR) && (mod->majorVer() == 3) && (mod->minorVer() == 12)) {
                     // one additional pop for python 3.12
                     stack.pop();
                 }
@@ -3621,7 +3879,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                    Due to CACHE instructions at play, the end indicated in
                    the for loop by pycdas is not correct, it is off by
                    some small amount. */
-                if (curblock->blktype() == ASTBlock::BLK_FOR
+                if (inlineCompLoop) {
+                    /* inlined comprehension: loops are closed by their
+                       back-edges, nothing to do here */
+                }
+                else if (curblock->blktype() == ASTBlock::BLK_FOR
                         && (curblock->end() == curpos || curblock->end() == 0
                             || curblock->end() < curpos)) {
                     PycRef<ASTBlock> prev = blocks.top();
@@ -3638,6 +3900,33 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     /* (A BLK_MAIN here means the closing JUMP_BACKWARD already
                        ended the for block, which is the normal 3.12 shape.) */
                     fprintf(stderr, "Wrong block type %i for END_FOR\n", curblock->blktype());
+                }
+
+                if (inlineFinish) {
+                    inlineFinish = false;
+                    /* A filtered comprehension leaves its pieces as a yield
+                       marker inside the FOR block; rebuild it from there. */
+                    PycRef<ASTNode> res;
+                    if (!stack.empty() && stack.top() != NULL
+                            && stack.top().type() == ASTNode::NODE_COMPREHENSION) {
+                        res = stack.top();
+                    } else if (curblock->size() > 0) {
+                        PycRef<ASTComprehension> synth =
+                                SynthGenexpr(curblock->nodes().back());
+                        if (synth != NULL) {
+                            curblock->removeLast();
+                            res = synth.cast<ASTNode>();
+                        }
+                    }
+                    /* replace [container, loop-leftovers] by the result */
+                    if (res != NULL && res.type() == ASTNode::NODE_COMPREHENSION)
+                        res.cast<ASTComprehension>()->setKind(
+                                (ASTComprehension::Kind)inlineFinishKind);
+                    if (res != NULL && (int)stack.size() > inlineFinishBase) {
+                        while ((int)stack.size() > inlineFinishBase)
+                            stack.pop();
+                        stack.push(res);
+                    }
                 }
             }
             break;
@@ -5122,10 +5411,15 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_COMPREHENSION:
         {
             PycRef<ASTComprehension> comp = node.cast<ASTComprehension>();
-            bool is_dict = comp->result() != NULL
-                    && comp->result().type() == ASTNode::NODE_MAP;
+            bool is_dict = (comp->result() != NULL
+                    && comp->result().type() == ASTNode::NODE_MAP)
+                    || comp->kind() == ASTComprehension::KIND_DICT;
+            bool is_set = comp->kind() == ASTComprehension::KIND_SET;
+            bool is_gen = comp->kind() == ASTComprehension::KIND_GENERATOR;
+            const char* open = (is_dict || is_set) ? "{ " : is_gen ? "( " : "[ ";
+            const char* close = (is_dict || is_set) ? " }" : is_gen ? " )" : " ]";
 
-            pyc_output << (is_dict ? "{ " : "[ ");
+            pyc_output << open;
             if (is_dict) {
                 const auto& entries = comp->result().cast<ASTMap>()->values();
                 if (!entries.empty()) {
@@ -5147,7 +5441,7 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                     print_src(gen->condition(), mod, pyc_output);
                 }
             }
-            pyc_output << (is_dict ? " }" : " ]");
+            pyc_output << close;
         }
         break;
     case ASTNode::NODE_MAP:

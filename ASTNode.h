@@ -667,8 +667,13 @@ class ASTComprehension : public ASTNode {
 public:
     typedef std::list<PycRef<ASTIterBlock>> generator_t;
 
+    enum Kind { KIND_LIST, KIND_SET, KIND_DICT, KIND_GENERATOR };
+
     ASTComprehension(PycRef<ASTNode> result)
-        : ASTNode(NODE_COMPREHENSION), m_result(std::move(result)) { }
+        : ASTNode(NODE_COMPREHENSION), m_result(std::move(result)), m_kind(KIND_LIST) { }
+
+    Kind kind() const { return m_kind; }
+    void setKind(Kind k) { m_kind = k; }
 
     PycRef<ASTNode> result() const { return m_result; }
     generator_t generators() const { return m_generators; }
@@ -680,6 +685,7 @@ public:
 private:
     PycRef<ASTNode> m_result;
     generator_t m_generators;
+    Kind m_kind;
 
 };
 
