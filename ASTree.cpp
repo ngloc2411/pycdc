@@ -1506,15 +1506,43 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     names.push_back(t2);
                     names.push_back(t1);
                     auto vt = new ASTTuple(vals);
-                    vt->setRequireParens(false);
                     auto nt = new ASTTuple(names);
-                    nt->setRequireParens(false);
+                    bool constPair = x.type() == ASTNode::NODE_OBJECT && y.type() == ASTNode::NODE_OBJECT;
+                    vt->setRequireParens(constPair);
+                    nt->setRequireParens(constPair);
                     curblock->append(new ASTStore(vt, nt));
                     prevOp1 = prevOp2 = -1;
                     continue;
                 }
                 source.setPos(sSrc);
                 pos = sPos;
+            }
+            if (!unpack && opcode == Pyc::STORE_FAST_STORE_FAST_A
+                    && ((isSimpleLoad(prevOp1) && isSimpleLoad(prevOp2))
+                        || prevOp1 == Pyc::LOAD_FAST_LOAD_FAST_A
+                        || prevOp1 == Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A)
+                    && stack.size() >= 2 && stack.top() != NULL && stack.top(1) != NULL
+                    && stack.top().type() != ASTNode::NODE_CHAINSTORE
+                    && stack.top(1).type() != ASTNode::NODE_CHAINSTORE) {
+                PycRef<ASTNode> t1 = new ASTName(code->getLocal(operand >> 4));
+                PycRef<ASTNode> t2 = new ASTName(code->getLocal(operand & 0xF));
+                PycRef<ASTNode> y = stack.top();
+                stack.pop();
+                PycRef<ASTNode> x = stack.top();
+                stack.pop();
+                ASTTuple::value_t vals, names;
+                vals.push_back(x);
+                vals.push_back(y);
+                names.push_back(t2);
+                names.push_back(t1);
+                auto vt = new ASTTuple(vals);
+                auto nt = new ASTTuple(names);
+                bool constPair = x.type() == ASTNode::NODE_OBJECT && y.type() == ASTNode::NODE_OBJECT;
+                vt->setRequireParens(constPair);
+                nt->setRequireParens(constPair);
+                curblock->append(new ASTStore(vt, nt));
+                prevOp1 = prevOp2 = -1;
+                continue;
             }
             prevOp2 = prevOp1;
             prevOp1 = opcode;
