@@ -1320,6 +1320,59 @@ exprflow_skip:;
                 return op == Pyc::STORE_FAST_A || op == Pyc::STORE_NAME_A
                     || op == Pyc::STORE_GLOBAL_A || op == Pyc::STORE_DEREF_A;
             };
+            /* `a, b, c = x, y, z` (3 or more targets): the compiler emits all the
+               loads, then the stores in reverse order, with no SWAP/ROT. */
+            if (!unpack && mod->verCompare(3, 8) >= 0 && isSimpleStore(opcode)
+                    && pendingOps.empty() && !source.atEof()
+                    && (isSimpleLoad(prevOp1)
+                        || prevOp1 == Pyc::LOAD_FAST_LOAD_FAST_A
+                        || prevOp1 == Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A)
+                    && stack.size() >= 3) {
+                int sSrc = source.pos(), sPos = pos;
+                std::vector<std::pair<int, int> > stores;
+                stores.push_back(std::make_pair(opcode, operand));
+                int o2 = 0, a2 = 0;
+                while (!source.atEof()) {
+                    bc_next(source, mod, o2, a2, pos);
+                    if (!isSimpleStore(o2))
+                        break;
+                    stores.push_back(std::make_pair(o2, a2));
+                }
+                bool ok = stores.size() >= 3 && (int)stores.size() <= stack.size();
+                for (size_t k = 0; ok && k < stores.size(); k++)
+                    ok = stack.top((int)k + 1) != NULL
+                         && stack.top((int)k + 1).type() != ASTNode::NODE_CHAINSTORE;
+                if (ok) {
+                    /* leave the first non-store op to be read again */
+                    source.setPos(sSrc);
+                    pos = sPos;
+                    for (size_t k = 1; k < stores.size(); k++)
+                        bc_next(source, mod, o2, a2, pos);
+                    auto storeName = [&](int op, int arg) -> PycRef<ASTNode> {
+                        if (op == Pyc::STORE_FAST_A)
+                            return new ASTName(code->getLocal(arg));
+                        if (op == Pyc::STORE_DEREF_A)
+                            return new ASTName(code->getCellVar(mod, arg));
+                        return new ASTName(code->getName(arg));
+                    };
+                    ASTTuple::value_t vals(stores.size()), names;
+                    for (size_t k = stores.size(); k > 0; k--)
+                        names.push_back(storeName(stores[k - 1].first, stores[k - 1].second));
+                    for (size_t k = 0; k < stores.size(); k++)
+                        vals[stores.size() - 1 - k] = stack.top((int)k + 1);
+                    for (size_t k = 0; k < stores.size(); k++)
+                        stack.pop();
+                    auto vt = new ASTTuple(vals);
+                    auto nt = new ASTTuple(names);
+                    vt->setRequireParens(false);
+                    nt->setRequireParens(false);
+                    curblock->append(new ASTStore(vt, nt));
+                    prevOp1 = prevOp2 = -1;
+                    continue;
+                }
+                source.setPos(sSrc);
+                pos = sPos;
+            }
             if (!unpack && mod->verCompare(3, 8) >= 0 && isSimpleStore(opcode)
                     && ((isSimpleLoad(prevOp1) && isSimpleLoad(prevOp2))
                         || prevOp1 == Pyc::LOAD_FAST_LOAD_FAST_A

@@ -272,6 +272,44 @@
             break;
         case Pyc::ROT_THREE:
             {
+                /* `a, b, c = x, y, z` (<= 3.10): ROT_THREE; ROT_TWO reverses the
+                   three values before the stores. Model it as the unpack of a
+                   3-tuple, like the 3.11+ SWAP form. */
+                if (!unpack && stack.size() >= 3 && !source.atEof()) {
+                    int sSrc = source.pos(), sPos = pos;
+                    int o2 = 0, a2 = 0, o3 = 0, a3 = 0;
+                    bc_next(source, mod, o2, a2, pos);
+                    if (o2 == Pyc::ROT_TWO && !source.atEof())
+                        bc_next(source, mod, o3, a3, pos);
+                    bool parallel = (o2 == Pyc::ROT_TWO)
+                            && (o3 == Pyc::STORE_FAST_A || o3 == Pyc::STORE_NAME_A
+                                || o3 == Pyc::STORE_GLOBAL_A || o3 == Pyc::STORE_DEREF_A
+                                || o3 == Pyc::STORE_ATTR_A || o3 == Pyc::STORE_SUBSCR);
+                    for (int k = 1; parallel && k <= 3; k++)
+                        parallel = stack.top(k) != NULL
+                                   && stack.top(k).type() != ASTNode::NODE_CHAINSTORE;
+                    if (parallel) {
+                        source.setPos(sSrc);
+                        pos = sPos;
+                        bc_next(source, mod, o2, a2, pos);   /* consume the ROT_TWO */
+                        unpack = 3;
+                        ASTTuple::value_t values(3);
+                        for (int i = 0; i < 3; i++) {
+                            values[2 - i] = stack.top();
+                            stack.pop();
+                        }
+                        auto tup = new ASTTuple(values);
+                        tup->setRequireParens(false);
+                        ASTTuple::value_t targets;
+                        auto next_tup = new ASTTuple(targets);
+                        next_tup->setRequireParens(false);
+                        stack.push(tup);
+                        stack.push(next_tup);
+                        break;
+                    }
+                    source.setPos(sSrc);
+                    pos = sPos;
+                }
                 PycRef<ASTNode> one = stack.top();
                 stack.pop();
                 PycRef<ASTNode> two = stack.top();
