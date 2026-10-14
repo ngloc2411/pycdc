@@ -1153,7 +1153,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             continue;
         }
 
-        if (getenv("DBGW")) { fprintf(stderr,"at %d:", pos); std::stack<PycRef<ASTBlock> > t=blocks; while(!t.empty()){fprintf(stderr," %d(end%d)",(int)t.top()->blktype(),t.top()->end()); t.pop();} fprintf(stderr,"\n"); }
         curpos = pos;
         if (!pendingOps.empty()) {
             opcode = pendingOps.front().first;

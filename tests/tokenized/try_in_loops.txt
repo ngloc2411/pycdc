@@ -1,0 +1,112 @@
+def w1 ( q ) : <EOL>
+<INDENT>
+while q . alive ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+print ( 'bad' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+print ( 'over' ) <EOL>
+<OUTDENT>
+def w2 ( q ) : <EOL>
+<INDENT>
+while q . alive ( ) : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+print ( 'bad' ) <EOL>
+<OUTDENT>
+except KeyError : <EOL>
+<INDENT>
+print ( 'key' ) <EOL>
+<OUTDENT>
+print ( 'tick' ) <EOL>
+<OUTDENT>
+print ( 'over' ) <EOL>
+<OUTDENT>
+def w3 ( q ) : <EOL>
+<INDENT>
+for i in q : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( i ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+print ( i ) <EOL>
+<OUTDENT>
+print ( 'done' ) <EOL>
+<OUTDENT>
+def w4 ( q ) : <EOL>
+<INDENT>
+for i in q : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( i ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+print ( 'ok' ) <EOL>
+<OUTDENT>
+print ( 'done' ) <EOL>
+<OUTDENT>
+def w5 ( q ) : <EOL>
+<INDENT>
+while True : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+return 1 <EOL>
+<OUTDENT>
+print ( 'f' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+def w6 ( q ) : <EOL>
+<INDENT>
+for i in q : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( i ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+print ( 'bad' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def w7 ( q ) : <EOL>
+<INDENT>
+for i in q : <EOL>
+<INDENT>
+for j in i : <EOL>
+<INDENT>
+try : <EOL>
+<INDENT>
+q . step ( j ) <EOL>
+<OUTDENT>
+except ValueError : <EOL>
+<INDENT>
+print ( 'bad' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+print ( i ) <EOL>

@@ -383,6 +383,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
 {
     ScanChainCleanups(code, mod, out.cleanupDest, out.chainSkip);
     struct Ins { int pos, op, arg, next, real; int fall; };
+    std::vector<std::pair<int, int> > hoistedRegions;   /* 3.12 hoisted handler [start, end) */
+    std::set<int> ignoreBack;
     PycBuffer src(code->code()->value(), code->code()->length());
     std::vector<Ins> ins;
     int opcode, operand, pos = 0;
@@ -401,6 +403,13 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
            its try is no loop edge */
         std::map<int, std::pair<int, int> > hoisted;
         ScanHoistedHandlers(code, mod, code->exceptionTableEntries(), hoisted);
+        for (const auto& h : hoisted) {
+            hoistedRegions.push_back(h.second);
+            for (const auto& in : ins)
+                if (in.op == Pyc::JUMP_BACKWARD_A && in.pos >= h.second.first
+                        && in.pos < h.second.second && in.real - in.arg * 2 > h.first)
+                    ignoreBack.insert(in.pos);   /* a break out of the loop, not a loop edge */
+        }
         if (!hoisted.empty()) {
             std::vector<Ins> kept;
             for (const auto& in : ins) {
@@ -537,7 +546,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
     for (int i = 0; i < (int)ins.size(); i++) {
         int t;
         if (jump(ins[i], t) == UNCOND && t < ins[i].pos
-                && ins[i].op != Pyc::JUMP_FORWARD_A) {
+                && ins[i].op != Pyc::JUMP_FORWARD_A && !ignoreBack.count(ins[i].pos)) {
             auto ti = idxAt.find(t);
             if (ti == idxAt.end() || ins[ti->second].op == Pyc::FOR_ITER_A)
                 continue;
@@ -661,6 +670,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             int t = lu.first, bi = lu.second;
             int p = prevReal(bi), pt, gt;
             int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
+            while (g >= 0 && ins[g].op == Pyc::NOP)   /* line marker of a `try:` */
+                g = prevReal(g);
             if (p >= 0 && jump(ins[p], pt) == COND && pt == ins[bi].fall
                     && g >= 0 && jump(ins[g], gt) == COND && gt == ins[bi].fall)
                 entryStarts.insert(entryStartOf(g));
@@ -674,6 +685,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         int p = prevReal(bi);
         int pt;
         int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
+            while (g >= 0 && ins[g].op == Pyc::NOP)   /* line marker of a `try:` */
+                g = prevReal(g);
         int gt;
         if (mod->verCompare(3, 12) >= 0 && p >= 0 && jump(ins[p], pt) == COND
                 && pt == ins[bi].fall && g >= 0 && jump(ins[g], gt) == COND
@@ -783,7 +796,13 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         if (lastBack < 0)
             continue;
         int exitX = -1;
-        for (int i = f + 1; i < (int)ins.size() && ins[i].pos < e; i++) {
+        for (int i = f + 1; i < (int)ins.size(); i++) {
+            bool inHoisted = false;
+            for (const auto& r : hoistedRegions)
+                if (ins[i].pos >= r.first && ins[i].pos < r.second)
+                    inHoisted = true;
+            if (ins[i].pos >= e && !inHoisted)
+                continue;
             if (ins[i].op != Pyc::POP_TOP && ins[i].op != Pyc::POP_ITER)
                 continue;
             int n = i + 1;
@@ -791,7 +810,10 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                 n++;
             int t;
             if (n >= (int)ins.size() || jump(ins[n], t) != UNCOND || t < e
-                    || t <= ins[n].pos || out.skipJumps.count(ins[n].pos))
+                    || out.skipJumps.count(ins[n].pos))
+                continue;
+            /* (a handler hoisted behind the loop breaks with a backward jump) */
+            if (t <= ins[n].pos && !(inHoisted && ins[n].op == Pyc::JUMP_BACKWARD_A))
                 continue;
             out.forBreakPops.insert(ins[i].pos);
             out.forBreaks.insert(ins[n].pos);
