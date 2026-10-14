@@ -217,8 +217,113 @@ void ScanTryFinally(PycRef<PycCode> code, PycModule* mod,
    skips to the instruction right after the back-edge. Record the guard position
    (the BLK_WHILE opens there) and the back-edge position (the loop closes
    there). */
+/* Chained comparison in a jump context (`if a < b < c:`, `not`, `or`, `while`,
+   ternary tests). The first half's false jump lands on a lone `POP_TOP`
+   (discarding the shared middle operand), which then either jumps on to the
+   real false exit or falls into it. Record dest[POP_TOP] = real exit so every
+   jump to the cleanup is read as a jump to the exit, and list the cleanup (plus
+   the trailer jump that hops over it) in `skip`. */
+void ScanChainCleanups(PycRef<PycCode> code, PycModule* mod,
+                       std::map<int, int>& dest, std::vector<std::pair<int, int> >& skip)
+{
+    struct Ins { int pos, op, arg, next, real; };
+    PycBuffer src(code->code()->value(), code->code()->length());
+    std::vector<Ins> ins;
+    int opcode, operand, pos = 0;
+    while (!src.atEof()) {
+        int p = pos;
+        bc_next(src, mod, opcode, operand, pos);
+        ins.push_back({p, opcode, operand, pos, pos});
+    }
+    const int n = (int)ins.size();
+    for (int i = n - 1; i >= 0; i--)
+        if (i + 1 < n && ins[i + 1].op == Pyc::CACHE && ins[i].op != Pyc::CACHE)
+            ins[i].real = ins[i + 1].real;
+    std::map<int, int> idxAt;
+    for (int i = 0; i < n; i++)
+        idxAt[ins[i].pos] = i;
+    const int unit = mod->verCompare(3, 10) >= 0 ? 2 : 1;
+    auto prevReal = [&](int i) {
+        i--;
+        while (i >= 0 && (ins[i].op == Pyc::CACHE || ins[i].op == Pyc::NOT_TAKEN))
+            i--;
+        return i;
+    };
+    auto nextReal = [&](int i) {
+        i++;
+        while (i < n && (ins[i].op == Pyc::CACHE || ins[i].op == Pyc::NOT_TAKEN))
+            i++;
+        return i;
+    };
+    /* target of a POP_JUMP_IF_FALSE, or -1 */
+    auto falseJump = [&](const Ins& in) -> int {
+        switch (in.op) {
+        case Pyc::POP_JUMP_IF_FALSE_A:
+            return mod->verCompare(3, 12) >= 0 ? in.real + in.arg * 2 : in.arg * unit;
+        case Pyc::POP_JUMP_FORWARD_IF_FALSE_A:
+            return in.real + in.arg * 2;
+        default:
+            return -1;
+        }
+    };
+    auto fwdJump = [&](const Ins& in) -> int {
+        if (in.op == Pyc::JUMP_FORWARD_A)
+            return in.real + in.arg * unit;
+        if (in.op == Pyc::JUMP_ABSOLUTE_A && mod->verCompare(3, 11) < 0) {
+            int t = in.arg * unit;
+            return t > in.pos ? t : -1;
+        }
+        return -1;
+    };
+    auto isCmp = [&](int op) {
+        return op == Pyc::COMPARE_OP_A || op == Pyc::IS_OP_A || op == Pyc::CONTAINS_OP_A;
+    };
+    for (int i = 0; i < n; i++) {
+        int t = falseJump(ins[i]);
+        if (t <= ins[i].pos)
+            continue;
+        int cmp = prevReal(i);
+        if (cmp < 0 || !isCmp(ins[cmp].op))
+            continue;
+        int h1 = prevReal(cmp), h2 = h1 >= 0 ? prevReal(h1) : -1;
+        bool head = false;
+        if (h1 >= 0 && h2 >= 0) {
+            if (mod->verCompare(3, 11) >= 0)
+                head = ins[h1].op == Pyc::COPY_A && ins[h1].arg == 2
+                        && ins[h2].op == Pyc::SWAP_A && ins[h2].arg == 2;
+            else
+                head = ins[h1].op == Pyc::ROT_THREE && ins[h2].op == Pyc::DUP_TOP;
+        }
+        if (!head)
+            continue;
+        auto ti = idxAt.find(t);
+        if (ti == idxAt.end() || ins[ti->second].op != Pyc::POP_TOP || dest.count(t))
+            continue;
+        int s = ti->second;
+        int after = nextReal(s);
+        if (after >= n)
+            continue;
+        int target = ins[after].pos, endIdx = after;
+        int J = fwdJump(ins[after]);
+        if (J > 0) {
+            target = J;
+            endIdx = nextReal(after);
+        }
+        int endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
+        int skipFrom = t;
+        int before = prevReal(s);
+        if (before >= 0 && fwdJump(ins[before]) == endPos) {
+            skipFrom = ins[before].pos;
+            dest[skipFrom] = endPos;    /* jumps to the trailer reach the same place */
+        }
+        dest[t] = target;
+        skip.push_back(std::make_pair(skipFrom, endPos));
+    }
+}
+
 void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
 {
+    ScanChainCleanups(code, mod, out.cleanupDest, out.chainSkip);
     struct Ins { int pos, op, arg, next, real; };
     PycBuffer src(code->code()->value(), code->code()->length());
     std::vector<Ins> ins;
@@ -283,6 +388,11 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
        loop header (`while True:` and `continue`); treat both as one target. */
     auto jump = [&](const Ins& in, int& target) -> Kind {
         Kind k = jumpRaw(in, target);
+        if (k == COND && target > in.pos) {
+            auto cd = out.cleanupDest.find(target);
+            if (cd != out.cleanupDest.end())
+                target = cd->second;
+        }
         if (k != NONE && target < in.pos) {
             auto it = idxAt.find(target);
             while (it != idxAt.end() && ins[it->second].op == Pyc::NOP
@@ -878,58 +988,9 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
         return -1;
     };
 
-    /* Chained comparison in a jump context (`if a < b < c:`, `not`, `or`, `while`,
-       ternary tests). The first half's false jump lands on a lone `POP_TOP`
-       (discarding the shared middle operand), then either jumps on to the real
-       false exit or falls into it. Record cleanupDest[POP_TOP] = real exit so
-       every jump to the cleanup is read as a jump to the exit, and skip the
-       cleanup plus the trailer jump that hops over it. */
-    {
-        auto isCmp = [&](int op) {
-            return op == Pyc::COMPARE_OP_A || op == Pyc::IS_OP_A || op == Pyc::CONTAINS_OP_A;
-        };
-        for (int i = 0; i < n; i++) {
-            int t = 0;
-            Cond c = condJumpRaw(ins[i], t);
-            if (c != IF_FALSE || t <= ins[i].pos)
-                continue;
-            int cmp = prevReal(i);
-            if (cmp < 0 || !isCmp(ins[cmp].op))
-                continue;
-            int h1 = prevReal(cmp), h2 = h1 >= 0 ? prevReal(h1) : -1;
-            bool head = false;
-            if (h1 >= 0 && h2 >= 0) {
-                if (mod->verCompare(3, 11) >= 0)
-                    head = ins[h1].op == Pyc::COPY_A && ins[h1].arg == 2
-                            && ins[h2].op == Pyc::SWAP_A && ins[h2].arg == 2;
-                else
-                    head = ins[h1].op == Pyc::ROT_THREE && ins[h2].op == Pyc::DUP_TOP;
-            }
-            if (!head)
-                continue;
-            auto ti = idxAt.find(t);
-            if (ti == idxAt.end() || ins[ti->second].op != Pyc::POP_TOP
-                    || out.cleanupDest.count(t))
-                continue;
-            int s = ti->second;
-            int after = nextReal(s);
-            if (after >= n)
-                continue;
-            int dest = ins[after].pos, endIdx = after;
-            int J = fwdJump(ins[after]);
-            if (J > 0) {
-                dest = J;
-                endIdx = nextReal(after);
-            }
-            int endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
-            int skipFrom = t;
-            int before = prevReal(s);
-            if (before >= 0 && fwdJump(ins[before]) == endPos)
-                skipFrom = ins[before].pos;
-            out.cleanupDest[t] = dest;
-            out.chainSkip.push_back(std::make_pair(skipFrom, endPos));
-        }
-    }
+    /* chained-comparison cleanups were located by ScanLoops (ScanChainCleanups) */
+    out.cleanupDest = loops.cleanupDest;
+    out.chainSkip = loops.chainSkip;
     auto condJump = [&](const XIns& in, int& target) -> Cond {
         Cond c = condJumpRaw(in, target);
         if (c != NOTCOND) {

@@ -17,6 +17,8 @@
 struct ChainJump { int pos; bool ifTrue; bool toBody; };
 
 struct WhileLoops {
+    std::map<int, int> cleanupDest;    /* chained-comparison cleanup POP_TOP -> real exit */
+    std::vector<std::pair<int, int> > chainSkip;   /* cleanup/trailer ranges to ignore */
     std::map<int, int> guardEnd;       /* guard position -> loop end */
     std::map<int, int> trueOpen;       /* header position -> loop end (`while True`) */
     std::set<int> backedges;           /* conditional back-edges (pop the condition) */

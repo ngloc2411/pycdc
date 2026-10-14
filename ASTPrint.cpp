@@ -144,11 +144,11 @@ static void printAndChains(const std::vector<PycRef<ASTNode> >& parts,
         if (i)
             pyc_output << " and ";
         PycRef<ASTNode> cur = parts[i];
-        PycRef<ASTBinary> first = cur.cast<ASTBinary>();
         if (cur.type() != ASTNode::NODE_COMPARE) {
             print_ordered(new ASTBinary(NULL, NULL, ASTBinary::BIN_LOG_AND), cur, mod, pyc_output);
             continue;
         }
+        PycRef<ASTBinary> first = cur.cast<ASTBinary>();
         print_ordered(cur, first->left(), mod, pyc_output);
         pyc_output << first->op_str();
         print_ordered(cur, first->right(), mod, pyc_output);
