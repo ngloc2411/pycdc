@@ -373,6 +373,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         whileGuardEnd = loops.guardEnd;
         whileBackedges = loops.backedges;
         ScanExprFlow(code, mod, xflow, loops);
+        for (const auto& r : xflow.chainSkip)
+            cleanupSkip.push_back(r);
     }
 
     if (mod->verCompare(3, 11) >= 0) {
@@ -1179,6 +1181,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 int tgt = operand * (mod->verCompare(3, 10) >= 0 ? 2 : 1);
                 if (mod->verCompare(3, 11) >= 0)
                     tgt += pos;
+                {
+                    auto cj = xflow.chainJoin.find(curpos);
+                    if (cj != xflow.chainJoin.end())
+                        tgt = cj->second;
+                }
                 mergeAt(pos);
                 pb.target = tgt;
                 pb.left = stack.top();

@@ -67,7 +67,13 @@ struct ExprFlow {
     std::map<int, Tern> ternary;            /* test jump position -> shape */
     std::map<int, int> ternaryThenJump;     /* JUMP_FORWARD ending the "then" value -> test jump */
     std::map<int, Keep> keepSeq;            /* 3.12+: COPY 1 starting `and`/`or` -> shape */
-    std::map<int, std::pair<int, bool> > boolJump;   /* plain POP_JUMP of a mixed and/or: target, isOr */
+    /* value-context chained comparison (`return a < b < c`): the keep jump's false
+       target is a `SWAP 2; POP_TOP` cleanup. chainJoin maps the keep jump (or the
+       COPY 1 of a 3.12 keep sequence) to the real merge point; chainSkip lists the
+       trailer/cleanup ranges the decompiler must ignore. */
+    std::map<int, int> chainJoin;
+    std::vector<std::pair<int, int> > chainSkip;
+    std::map<int, std::pair<int, bool> > boolJump;  /* plain POP_JUMP of a mixed and/or: target, isOr */
     /* statement conditions made of several jumps (`if a and b or c:`) */
     struct CondTree { int op; int leaf; int l, r; };   /* op 0: leaf (jump position), 1: and, 2: or */
     struct CondChain {

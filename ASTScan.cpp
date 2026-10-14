@@ -923,12 +923,60 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
         return -1;
     };
 
+    /* A chained comparison's false path: `SWAP 2; POP_TOP` (3.11+) or
+       `ROT_TWO; POP_TOP` before. Returns the real merge point of the value
+       context and records what to skip. */
+    auto chainCleanup = [&](int t, int& join) -> bool {
+        auto ti = idxAt.find(t);
+        if (ti == idxAt.end())
+            return false;
+        int s = ti->second;
+        bool isSwap = (mod->verCompare(3, 11) >= 0)
+                ? (ins[s].op == Pyc::SWAP_A && ins[s].arg == 2)
+                : (ins[s].op == Pyc::ROT_TWO);
+        if (!isSwap)
+            return false;
+        int a = nextReal(s);
+        if (a >= n || ins[a].op != Pyc::POP_TOP)
+            return false;
+        int before = prevReal(s);
+        if (before < 0)
+            return false;
+        int endIdx = nextReal(a);
+        int skipFrom = t;
+        if (ins[before].op == Pyc::RETURN_VALUE) {
+            /* the cleanup repeats the return: merge at the main path's return */
+            if (endIdx >= n || ins[endIdx].op != Pyc::RETURN_VALUE)
+                return false;
+            join = ins[before].pos;
+            endIdx = nextReal(endIdx);
+        } else {
+            int J = fwdJump(ins[before]);
+            if (J <= t)
+                return false;
+            join = J;
+            skipFrom = ins[before].pos;
+            endIdx = nextReal(a);
+        }
+        int skipTo = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
+        out.chainSkip.push_back(std::make_pair(skipFrom, skipTo));
+        return true;
+    };
+
     /* keep-style jumps (value-context `and`/`or`) */
     std::set<int> keepEnd;   /* instruction index where a keep-jump sequence ends */
     for (int i = 0; i < n; i++) {
         if (mod->verCompare(3, 12) < 0) {
-            if (ins[i].op == Pyc::JUMP_IF_TRUE_OR_POP_A || ins[i].op == Pyc::JUMP_IF_FALSE_OR_POP_A)
+            if (ins[i].op == Pyc::JUMP_IF_TRUE_OR_POP_A || ins[i].op == Pyc::JUMP_IF_FALSE_OR_POP_A) {
                 keepEnd.insert(i);
+                if (ins[i].op == Pyc::JUMP_IF_FALSE_OR_POP_A) {
+                    int jt = mod->verCompare(3, 11) >= 0 ? ins[i].real + ins[i].arg * 2
+                                                        : ins[i].arg * unit;
+                    int join;
+                    if (chainCleanup(jt, join))
+                        out.chainJoin[ins[i].pos] = join;
+                }
+            }
         } else if (ins[i].op == Pyc::COPY_A && ins[i].arg == 1) {
             int j = nextReal(i);
             if (j < n && ins[j].op == Pyc::TO_BOOL)
@@ -944,15 +992,24 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
                 continue;
             /* `COPY 1; POP_JUMP; POP_TOP` is also the head of a chained
                comparison; there the false path ends in `SWAP 2; POP_TOP`. */
-            auto ti = idxAt.find(t);
-            if (ti != idxAt.end() && ins[ti->second].op == Pyc::SWAP_A && ins[ti->second].arg == 2) {
-                int a = nextReal(ti->second);
-                if (a < n && ins[a].op == Pyc::POP_TOP)
-                    continue;
+            int chainTarget = t;
+            {
+                int join;
+                if (c == IF_FALSE && chainCleanup(t, join))
+                    chainTarget = join;
+                else {
+                    auto ti = idxAt.find(t);
+                    if (ti != idxAt.end() && ins[ti->second].op == Pyc::SWAP_A
+                            && ins[ti->second].arg == 2) {
+                        int a = nextReal(ti->second);
+                        if (a < n && ins[a].op == Pyc::POP_TOP)
+                            continue;
+                    }
+                }
             }
             ExprFlow::Keep kp;
             kp.isOr = (c == IF_TRUE);
-            kp.target = t;
+            kp.target = chainTarget;
             kp.endPos = ins[k].real;
             kp.popPos = ins[k].pos;
             out.keepSeq[ins[i].pos] = kp;

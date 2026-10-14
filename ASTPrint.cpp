@@ -104,6 +104,63 @@ static void print_ordered(PycRef<ASTNode> parent, PycRef<ASTNode> child,
     }
 }
 
+/* Chained comparisons. `a < b < c` compiles to two comparisons that share the
+   middle operand (the very same stack value, duplicated by DUP_TOP/COPY), joined
+   by an implicit `and`. The decompiler therefore sees `a < b and b < c` with the
+   middle operand node shared between both compares; print such runs chained. A
+   hand-written `a < b and b < c` loads the operand twice (distinct nodes) and
+   keeps its `and` form. */
+static void flattenAnd(const PycRef<ASTNode>& node, std::vector<PycRef<ASTNode> >& out)
+{
+    if (node != NULL && node.type() == ASTNode::NODE_BINARY
+            && node.cast<ASTBinary>()->op() == ASTBinary::BIN_LOG_AND) {
+        flattenAnd(node.cast<ASTBinary>()->left(), out);
+        out.push_back(node.cast<ASTBinary>()->right());
+    } else {
+        out.push_back(node);
+    }
+}
+
+static bool chainLinks(const PycRef<ASTNode>& a, const PycRef<ASTNode>& b)
+{
+    return a != NULL && b != NULL
+            && a.type() == ASTNode::NODE_COMPARE && b.type() == ASTNode::NODE_COMPARE
+            && a.cast<ASTBinary>()->right() != NULL
+            && a.cast<ASTBinary>()->right() == b.cast<ASTBinary>()->left();
+}
+
+static bool hasChain(const std::vector<PycRef<ASTNode> >& parts)
+{
+    for (size_t i = 0; i + 1 < parts.size(); i++)
+        if (chainLinks(parts[i], parts[i + 1]))
+            return true;
+    return false;
+}
+
+static void printAndChains(const std::vector<PycRef<ASTNode> >& parts,
+                           PycModule* mod, std::ostream& pyc_output)
+{
+    for (size_t i = 0; i < parts.size(); i++) {
+        if (i)
+            pyc_output << " and ";
+        PycRef<ASTNode> cur = parts[i];
+        PycRef<ASTBinary> first = cur.cast<ASTBinary>();
+        if (cur.type() != ASTNode::NODE_COMPARE) {
+            print_ordered(new ASTBinary(NULL, NULL, ASTBinary::BIN_LOG_AND), cur, mod, pyc_output);
+            continue;
+        }
+        print_ordered(cur, first->left(), mod, pyc_output);
+        pyc_output << first->op_str();
+        print_ordered(cur, first->right(), mod, pyc_output);
+        while (i + 1 < parts.size() && chainLinks(parts[i], parts[i + 1])) {
+            i++;
+            PycRef<ASTBinary> nx = parts[i].cast<ASTBinary>();
+            pyc_output << nx->op_str();
+            print_ordered(parts[i], nx->right(), mod, pyc_output);
+        }
+    }
+}
+
 /* Print a test that follows `if `, `while `, `not ` or sits inside a conditional
    expression: low-precedence forms need parentheses in some of those places. */
 static void print_test(PycRef<ASTNode> node, bool negated, bool inTernary,
@@ -114,6 +171,14 @@ static void print_test(PycRef<ASTNode> node, bool negated, bool inTernary,
         if (node.type() == ASTNode::NODE_BINARY) {
             int op = node.cast<ASTBinary>()->op();
             paren = negated && (op == ASTBinary::BIN_LOG_AND || op == ASTBinary::BIN_LOG_OR);
+            if (paren && op == ASTBinary::BIN_LOG_AND) {
+                std::vector<PycRef<ASTNode> > parts;
+                flattenAnd(node, parts);
+                bool one = true;
+                for (size_t i = 0; i + 1 < parts.size(); i++)
+                    if (!chainLinks(parts[i], parts[i + 1])) one = false;
+                if (one && hasChain(parts)) paren = false;
+            }
         } else if (node.type() == ASTNode::NODE_TERNARY) {
             paren = negated || inTernary;
         } else if (node.type() == ASTNode::NODE_FUNCTION) {
@@ -396,6 +461,14 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_COMPARE:
         {
             PycRef<ASTBinary> bin = node.cast<ASTBinary>();
+            if (node.type() == ASTNode::NODE_BINARY && bin->op() == ASTBinary::BIN_LOG_AND) {
+                std::vector<PycRef<ASTNode> > parts;
+                flattenAnd(node, parts);
+                if (hasChain(parts)) {
+                    printAndChains(parts, mod, pyc_output);
+                    break;
+                }
+            }
             print_ordered(node, bin->left(), mod, pyc_output);
             pyc_output << bin->op_str();
             print_ordered(node, bin->right(), mod, pyc_output);
