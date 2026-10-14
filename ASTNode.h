@@ -636,9 +636,15 @@ public:
 
     void setExcept(int except) { m_except = except; }
 
+    /* try/except/else: the else body, kept apart because in the bytecode it
+       sits before the handlers it must be printed after. */
+    PycRef<ASTBlock> elseBlock() const { return m_else; }
+    void setElseBlock(PycRef<ASTBlock> b) { m_else = std::move(b); }
+
 private:
     int m_finally;
     int m_except;
+    PycRef<ASTBlock> m_else;
 };
 
 class ASTWithBlock : public ASTBlock {

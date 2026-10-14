@@ -551,6 +551,40 @@ static void ScanChainedCompare(PycRef<PycCode> code, PycModule* mod,
     }
 }
 
+/* Python 3.11 try/except/else: the else body is the code between the end of
+   the protected range and the JUMP_FORWARD (just before the handler) that skips
+   the handlers. Map: protected-range end -> (jump position, handler offset). */
+static void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
+                        const std::vector<PycExceptionTableEntry>& entries,
+                        std::map<int, std::pair<int, int> >& elseRegionByStart)
+{
+    PycBuffer src(code->code()->value(), code->code()->length());
+    int opcode, operand, pos = 0;
+    std::map<int, int> opAt, operAt, nextAt;
+    while (!src.atEof()) {
+        int p = pos;
+        bc_next(src, mod, opcode, operand, pos);
+        opAt[p] = opcode; operAt[p] = operand; nextAt[p] = pos;
+    }
+    for (const auto& e : entries) {
+        int handler = e.target;
+        int jp = handler - 2;
+        auto it = opAt.find(jp);
+        if (it == opAt.end() || it->second != Pyc::JUMP_FORWARD_A)
+            continue;
+        int dest = nextAt[jp] + operAt[jp] * 2;
+        if (dest <= handler || e.end_offset >= jp || e.start_offset >= e.end_offset)
+            continue;
+        /* the handler must be a plain except handler */
+        auto h = opAt.find(handler);
+        if (h == opAt.end() || h->second != Pyc::PUSH_EXC_INFO)
+            continue;
+        /* the first entry ending here that targets this handler */
+        if (!elseRegionByStart.count(e.end_offset))
+            elseRegionByStart[e.end_offset] = std::make_pair(jp, handler);
+    }
+}
+
 PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 {
     PycBuffer source(code->code()->value(), code->code()->length());
@@ -619,6 +653,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     std::map<int, int> whileGuardEnd;          /* guard pos -> loop end */
     std::set<int> whileBackedges;              /* back-edge positions */
 
+    /* Python 3.11 try/except/else state (see ScanTryElse). */
+    std::map<int, std::pair<int, int> > elseRegionByStart;
+    std::vector<std::pair<int, PycRef<ASTBlock> > > openElse;   /* jump pos, block */
+
     /* Python 3.11 chained-comparison reconstruction state. */
     std::map<int, int> chainSkipJumps;         /* trailer JUMP_FORWARD -> body */
     std::map<int, int> trampolineExit;         /* trampoline POP_TOP -> exit */
@@ -632,6 +670,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                        finallyReturnStarts, finallySuppressReturns);
         ScanWhileLoops(code, mod, whileGuardEnd, whileBackedges);
         ScanChainedCompare(code, mod, chainSkipJumps, trampolineExit);
+        ScanTryElse(code, mod, exception_entries, elseRegionByStart);
     }
 
     /* Python 3.11 nested-try prescan. The exception table only records the
@@ -1008,6 +1047,42 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 blocks.pop();
                 curblock = blocks.top();
                 curblock->append(cont.cast<ASTNode>());
+            }
+        }
+
+        /* try/except/else (3.11): the code right after the protected range
+           and before the handler-skipping jump is the else body. */
+        {
+            auto er = elseRegionByStart.find(pos);
+            if (er != elseRegionByStart.end() && curblock->blktype() == ASTBlock::BLK_TRY
+                    && curblock->end() == er->second.second && blocks.size() > 1) {
+                PycRef<ASTBlock> tryb = blocks.top();
+                blocks.pop();
+                bool isContainer = blocks.top()->blktype() == ASTBlock::BLK_CONTAINER
+                        && blocks.top().cast<ASTContainerBlock>()->hasExcept();
+                blocks.push(tryb);
+                if (isContainer) {
+                    PycRef<ASTBlock> eb = new ASTBlock(ASTBlock::BLK_ELSE, 0, true);
+                    blocks.push(eb);
+                    curblock = eb;
+                    openElse.push_back(std::make_pair(er->second.first, eb));
+                }
+            }
+            if (!openElse.empty() && pos == openElse.back().first
+                    && curblock == openElse.back().second) {
+                PycRef<ASTBlock> eb = curblock;
+                blocks.pop();
+                PycRef<ASTBlock> tryb = blocks.top();
+                blocks.pop();
+                PycRef<ASTBlock> cont = blocks.top();
+                if (eb->size() != 0)
+                    cont.cast<ASTContainerBlock>()->setElseBlock(eb);
+                blocks.push(tryb);
+                curblock = tryb;
+                openElse.pop_back();
+                curpos = pos;
+                bc_next(source, mod, opcode, operand, pos);   /* the JUMP_FORWARD */
+                continue;
             }
         }
 
@@ -5106,7 +5181,25 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
 
             if (blk->blktype() == ASTBlock::BLK_CONTAINER) {
                 end_line(pyc_output);
-                print_block(blk, mod, pyc_output);
+                PycRef<ASTBlock> elseBlk = blk.cast<ASTContainerBlock>()->elseBlock();
+                if (elseBlk == NULL) {
+                    print_block(blk, mod, pyc_output);
+                } else {
+                    /* print: try, excepts, else, finally */
+                    PycRef<ASTBlock> tmpBlk = new ASTBlock(ASTBlock::BLK_CONTAINER, 0);
+                    ASTBlock::list_t before, after;
+                    bool seenFinally = false;
+                    for (const auto& c : blk->nodes()) {
+                        if (c.type() == ASTNode::NODE_BLOCK
+                                && c.cast<ASTBlock>()->blktype() == ASTBlock::BLK_FINALLY)
+                            seenFinally = true;
+                        (seenFinally ? after : before).push_back(c);
+                    }
+                    for (const auto& c : before) tmpBlk->append(c);
+                    tmpBlk->append(elseBlk.cast<ASTNode>());
+                    for (const auto& c : after) tmpBlk->append(c);
+                    print_block(tmpBlk, mod, pyc_output);
+                }
                 end_line(pyc_output);
                 break;
             }
