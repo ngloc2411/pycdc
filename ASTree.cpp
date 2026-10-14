@@ -5736,6 +5736,44 @@ static void StripModuleTrailingReturn(PycRef<ASTNode> node)
     }
 }
 
+/* A lambda body is a single expression, but `lambda x: a if x else b` compiles
+   to the same jump-threaded code as `if x: return a; return b`. Fold such a
+   statement list back into one expression (null when it has another shape). */
+static PycRef<ASTNode> LambdaExpr(const std::vector<PycRef<ASTNode> >& stmts, size_t from)
+{
+    if (from >= stmts.size())
+        return NULL;
+    PycRef<ASTNode> first = stmts[from];
+    if (first.type() == ASTNode::NODE_RETURN) {
+        if (from + 1 != stmts.size())
+            return NULL;
+        PycRef<ASTReturn> r = first.cast<ASTReturn>();
+        return r->rettype() == ASTReturn::RETURN ? r->value() : PycRef<ASTNode>();
+    }
+    if (first.type() != ASTNode::NODE_BLOCK)
+        return NULL;
+    PycRef<ASTBlock> blk = first.cast<ASTBlock>();
+    if (blk->blktype() != ASTBlock::BLK_IF && blk->blktype() != ASTBlock::BLK_ELIF)
+        return NULL;
+    std::vector<PycRef<ASTNode> > body(blk->nodes().begin(), blk->nodes().end());
+    PycRef<ASTNode> thenExpr = LambdaExpr(body, 0);
+    PycRef<ASTNode> elseExpr;
+    if (from + 1 < stmts.size() && stmts[from + 1].type() == ASTNode::NODE_BLOCK
+            && stmts[from + 1].cast<ASTBlock>()->blktype() == ASTBlock::BLK_ELSE
+            && from + 2 == stmts.size()) {
+        PycRef<ASTBlock> eb = stmts[from + 1].cast<ASTBlock>();
+        std::vector<PycRef<ASTNode> > eb_nodes(eb->nodes().begin(), eb->nodes().end());
+        elseExpr = LambdaExpr(eb_nodes, 0);
+    } else {
+        elseExpr = LambdaExpr(stmts, from + 1);
+    }
+    if (thenExpr == NULL || elseExpr == NULL)
+        return NULL;
+    PycRef<ASTCondBlock> cb = blk.cast<ASTCondBlock>();
+    PycRef<ASTCondBlock> tb = new ASTCondBlock(ASTBlock::BLK_IF, 0, cb->cond(), cb->negative());
+    return new ASTTernary(tb.cast<ASTNode>(), thenExpr, elseExpr);
+}
+
 void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
 {
     if (code_seen.find((PycCode *)code) != code_seen.end()) {
@@ -5807,6 +5845,15 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
                 PycRef<ASTObject> ro = r->value().try_cast<ASTObject>();
                 if (r->value() == NULL || (ro && ro->object().type() == PycObject::TYPE_NONE))
                     cb->removeLast();
+            }
+        }
+        if (code->name()->isEqual("<lambda>") && clean->nodes().size() > 1) {
+            std::vector<PycRef<ASTNode> > stmts(clean->nodes().begin(), clean->nodes().end());
+            PycRef<ASTNode> e = LambdaExpr(stmts, 0);
+            if (e != NULL) {
+                while (clean->nodes().size() > 0)
+                    clean->removeLast();
+                clean->append(new ASTReturn(e));
             }
         }
         if (clean->nodes().back().type() == ASTNode::NODE_RETURN) {
