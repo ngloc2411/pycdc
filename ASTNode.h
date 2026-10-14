@@ -18,7 +18,7 @@ public:
         NODE_COMPREHENSION, NODE_LOADBUILDCLASS, NODE_AWAITABLE,
         NODE_FORMATTEDVALUE, NODE_JOINEDSTR, NODE_CONST_MAP,
         NODE_ANNOTATED_VAR, NODE_CHAINSTORE, NODE_TERNARY,
-        NODE_KW_NAMES_MAP,
+        NODE_KW_NAMES_MAP, NODE_MATCH_PATTERN,
 
         // Empty node types
         NODE_LOCALS,
@@ -545,7 +545,8 @@ public:
     enum BlkType {
         BLK_MAIN, BLK_IF, BLK_ELSE, BLK_ELIF, BLK_TRY,
         BLK_CONTAINER, BLK_EXCEPT, BLK_FINALLY,
-        BLK_WHILE, BLK_FOR, BLK_WITH, BLK_ASYNCFOR
+        BLK_WHILE, BLK_FOR, BLK_WITH, BLK_ASYNCFOR,
+        BLK_MATCH, BLK_CASE
     };
 
     ASTBlock(BlkType blktype, int end = 0, int inited = 0)
@@ -784,6 +785,74 @@ private:
     PycRef<ASTNode> m_if_block; // contains "condition" and "negative"
     PycRef<ASTNode> m_if_expr;
     PycRef<ASTNode> m_else_expr;
+};
+
+/* A structural pattern, as used by `match` statements (Python 3.10+) */
+class ASTMatchPattern : public ASTNode {
+public:
+    enum Kind {
+        PAT_WILDCARD,   // _
+        PAT_CAPTURE,    // name
+        PAT_VALUE,      // literal or dotted name (expression)
+        PAT_SEQUENCE,   // [p1, *rest, p2]
+        PAT_STAR,       // *name / *_ (only inside a sequence)
+        PAT_MAPPING,    // {key: p, **rest}
+        PAT_CLASS,      // Cls(p, attr=p)
+        PAT_OR,         // p1 | p2
+        PAT_AS          // p as name
+    };
+    typedef std::vector<PycRef<ASTMatchPattern>> pats_t;
+
+    ASTMatchPattern(Kind kind) : ASTNode(NODE_MATCH_PATTERN), m_kind(kind) { }
+
+    Kind kind() const { return m_kind; }
+    const PycRef<ASTNode>& expr() const { return m_expr; }
+    const PycRef<PycString>& name() const { return m_name; }
+    const pats_t& subs() const { return m_subs; }
+    const std::vector<PycRef<ASTNode>>& keys() const { return m_keys; }
+    const std::vector<PycRef<PycString>>& kwNames() const { return m_kwNames; }
+    int numPositional() const { return m_nPositional; }
+
+    void setExpr(PycRef<ASTNode> expr) { m_expr = std::move(expr); }
+    void setName(PycRef<PycString> name) { m_name = std::move(name); }
+    void add(PycRef<ASTMatchPattern> pat) { m_subs.emplace_back(std::move(pat)); }
+    void addKey(PycRef<ASTNode> key) { m_keys.emplace_back(std::move(key)); }
+    void addKwName(PycRef<PycString> name) { m_kwNames.emplace_back(std::move(name)); }
+    void setNumPositional(int n) { m_nPositional = n; }
+
+private:
+    Kind m_kind;
+    PycRef<ASTNode> m_expr;     // VALUE: the expression, CLASS: the class
+    PycRef<PycString> m_name;   // CAPTURE/AS/STAR name, MAPPING **rest (may be null)
+    pats_t m_subs;              // SEQUENCE items, MAPPING values, CLASS args, OR alternatives, AS inner
+    std::vector<PycRef<ASTNode>> m_keys;            // MAPPING keys
+    std::vector<PycRef<PycString>> m_kwNames;       // CLASS keyword attribute names
+    int m_nPositional = 0;      // CLASS: number of positional sub-patterns
+};
+
+class ASTMatchBlock : public ASTBlock {
+public:
+    ASTMatchBlock(PycRef<ASTNode> subject)
+        : ASTBlock(ASTBlock::BLK_MATCH, 0, 1), m_subject(std::move(subject)) { }
+
+    PycRef<ASTNode> subject() const { return m_subject; }
+
+private:
+    PycRef<ASTNode> m_subject;
+};
+
+class ASTCaseBlock : public ASTBlock {
+public:
+    ASTCaseBlock(PycRef<ASTMatchPattern> pattern, int end)
+        : ASTBlock(ASTBlock::BLK_CASE, end, 1), m_pattern(std::move(pattern)) { }
+
+    PycRef<ASTMatchPattern> pattern() const { return m_pattern; }
+    PycRef<ASTNode> guard() const { return m_guard; }
+    void setGuard(PycRef<ASTNode> guard) { m_guard = std::move(guard); }
+
+private:
+    PycRef<ASTMatchPattern> m_pattern;
+    PycRef<ASTNode> m_guard;
 };
 
 #endif

@@ -1,0 +1,134 @@
+def literals ( x ) : <EOL>
+<INDENT>
+match x : <EOL>
+<INDENT>
+case 1 : <EOL>
+<INDENT>
+return 'one' <EOL>
+<OUTDENT>
+case None : <EOL>
+<INDENT>
+return 'none' <EOL>
+<OUTDENT>
+case - 5 : <EOL>
+<INDENT>
+return 'neg' <EOL>
+<OUTDENT>
+case 'a' | 'b' : <EOL>
+<INDENT>
+return 'ab' <EOL>
+<OUTDENT>
+case Color . RED : <EOL>
+<INDENT>
+return 'red' <EOL>
+<OUTDENT>
+case _ : <EOL>
+<INDENT>
+return 'other' <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def sequences ( x ) : <EOL>
+<INDENT>
+match x : <EOL>
+<INDENT>
+case [ ] : <EOL>
+<INDENT>
+return 0 <EOL>
+<OUTDENT>
+case [ a ] : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+case [ a , b ] : <EOL>
+<INDENT>
+return b <EOL>
+<OUTDENT>
+case [ first , * rest ] : <EOL>
+<INDENT>
+return rest <EOL>
+<OUTDENT>
+case [ [ a , b ] , c ] : <EOL>
+<INDENT>
+return c <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def mappings ( x ) : <EOL>
+<INDENT>
+match x : <EOL>
+<INDENT>
+case { } : <EOL>
+<INDENT>
+return 0 <EOL>
+<OUTDENT>
+case { 'k' : v } : <EOL>
+<INDENT>
+return v <EOL>
+<OUTDENT>
+case { 'k' : 1 , 'j' : w , ** rest } : <EOL>
+<INDENT>
+return rest <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def classes ( x ) : <EOL>
+<INDENT>
+match x : <EOL>
+<INDENT>
+case Point ( x = 0 , y = 0 ) : <EOL>
+<INDENT>
+return 'origin' <EOL>
+<OUTDENT>
+case Point ( a , b ) as p : <EOL>
+<INDENT>
+return p <EOL>
+<OUTDENT>
+case str ( ) | bytes ( ) : <EOL>
+<INDENT>
+return 'text' <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def guards ( x , y ) : <EOL>
+<INDENT>
+match x : <EOL>
+<INDENT>
+case [ a , b ] if a > b : <EOL>
+<INDENT>
+return a <EOL>
+<OUTDENT>
+case n if n > y : <EOL>
+<INDENT>
+return n <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def bodies ( x ) : <EOL>
+<INDENT>
+out = [ ] <EOL>
+match x : <EOL>
+<INDENT>
+case 1 : <EOL>
+<INDENT>
+out . append ( 1 ) <EOL>
+out . append ( 2 ) <EOL>
+<OUTDENT>
+case [ a , b ] : <EOL>
+<INDENT>
+if a : <EOL>
+<INDENT>
+out . append ( a ) <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+out . append ( b ) <EOL>
+<OUTDENT>
+<OUTDENT>
+case _ : <EOL>
+<INDENT>
+out . append ( 0 ) <EOL>
+<OUTDENT>
+<OUTDENT>
+print ( out ) <EOL>
+return out <EOL>

@@ -1,5 +1,7 @@
+#include <climits>
 #include <cstring>
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 #include <unordered_set>
 #include <map>
@@ -7,6 +9,7 @@
 #include <set>
 #include <algorithm>
 #include "ASTree.h"
+#include "ASTMatch.h"
 #include "FastStack.h"
 #include "pyc_numeric.h"
 #include "bytecode.h"
@@ -819,6 +822,123 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             shadowedTryStarts[f.first].push_back(f.second);
     }
 
+    /* Structural pattern matching (Python 3.10+): the patterns of the cases are
+     * decoded statically (see ASTMatch.cpp), the case bodies are decompiled
+     * by the regular machinery inside ASTCaseBlock blocks. */
+    struct MatchCtx {
+        MatchCtx(PycRef<ASTMatchBlock> m, const FastStack& s)
+            : mblock(std::move(m)), baseStack(s) { }
+
+        PycRef<ASTMatchBlock> mblock;
+        FastStack baseStack;            // the stack without the subject
+        PycRef<ASTCaseBlock> cblock;    // the case being decompiled
+        size_t cdepth = 0;              // blocks.size() while cblock is the innermost block
+        MatchCase cur;
+        bool isDefault = false;         // the trailing `case _:`
+        bool skipPop = false;           // the next POP_TOP discards the subject
+        bool guardOpen = false;         // still before the body: jumps belong to the guard
+        int guardTarget = -1;
+        int endJumpPos = -1;            // jump closing the case body
+        int endPos = -1;                // end of the match statement (if known)
+    };
+    std::vector<MatchCtx> matches;
+    std::unique_ptr<MatchAnalyzer> matcher;
+
+    auto closeNested = [&](MatchCtx& mc, int limit) {
+        while (blocks.size() > mc.cdepth) {
+            PycRef<ASTBlock> top = blocks.top();
+            if ((top->blktype() != ASTBlock::BLK_IF
+                    && top->blktype() != ASTBlock::BLK_ELIF
+                    && top->blktype() != ASTBlock::BLK_ELSE)
+                    || top->end() > limit)
+                break;
+            if (!stack_hist.empty())
+                stack_hist.pop();
+            blocks.pop();
+            blocks.top()->append(top.cast<ASTNode>());
+            curblock = blocks.top();
+        }
+    };
+
+    auto beginCase = [&](MatchCtx& mc, const MatchCase& nc, bool isDefault) {
+        mc.cur = nc;
+        mc.isDefault = isDefault;
+        PycRef<ASTCaseBlock> cb = new ASTCaseBlock(nc.pattern, nc.bodyEnd > 0 ? nc.bodyEnd : 0);
+        blocks.push(cb.cast<ASTBlock>());
+        curblock = blocks.top();
+        mc.cblock = cb;
+        mc.cdepth = blocks.size();
+        stack = mc.baseStack;
+        mc.skipPop = nc.nonLast;
+        mc.guardOpen = true;
+        mc.guardTarget = -1;
+        mc.endJumpPos = (nc.bodyEnd >= 2) ? nc.bodyEnd - 2 : -1;
+        pos = nc.bodyStart;
+        source.setPos(pos);
+        else_pop = false;
+    };
+
+    auto finishMatch = [&](int next) {
+        MatchCtx& mc = matches.back();
+        while (blocks.size() > 1 && blocks.top() != mc.mblock.cast<ASTBlock>()) {
+            PycRef<ASTBlock> top = blocks.top();
+            blocks.pop();
+            blocks.top()->append(top.cast<ASTNode>());
+        }
+        PycRef<ASTBlock> mb = blocks.top();
+        blocks.pop();
+        curblock = blocks.top();
+        curblock->append(mb.cast<ASTNode>());
+        stack = mc.baseStack;
+        matches.pop_back();
+        pos = next;
+        source.setPos(pos);
+        else_pop = (curblock->blktype() == ASTBlock::BLK_ELSE
+                    || curblock->blktype() == ASTBlock::BLK_IF
+                    || curblock->blktype() == ASTBlock::BLK_ELIF)
+                   && curblock->end() == pos;
+    };
+
+    auto endCase = [&](MatchCtx& mc) {
+        closeNested(mc, pos);
+        while (blocks.size() > mc.cdepth) {
+            PycRef<ASTBlock> top = blocks.top();
+            blocks.pop();
+            blocks.top()->append(top.cast<ASTNode>());
+        }
+        PycRef<ASTCaseBlock> cb = mc.cblock;
+        blocks.pop();
+        curblock = blocks.top();
+        curblock->append(cb.cast<ASTNode>());
+        mc.cblock = nullptr;
+        stack = mc.baseStack;
+
+        const bool wasNonLast = mc.cur.nonLast;
+        const bool wasDefault = mc.isDefault;
+        int next = (mc.cur.bodyEnd >= 0 && mc.cur.nextPos >= 0) ? mc.cur.nextPos : pos;
+        if (wasNonLast) {
+            MatchCase nc;
+            if (matcher->parseCase(next, nc)) {
+                beginCase(mc, nc, false);
+            } else {
+                fprintf(stderr, "Warning: unable to decode a case of a match statement at %d\n", next);
+                finishMatch(next);
+            }
+        } else if (!wasDefault) {
+            int ni = matcher->indexOf(next);
+            if (ni >= 0 && matcher->instrs()[ni].op == Pyc::NOP) {
+                MatchCase dc;
+                dc.pattern = new ASTMatchPattern(ASTMatchPattern::PAT_WILDCARD);
+                dc.bodyStart = matcher->instrs()[ni].end;
+                beginCase(mc, dc, true);
+            } else {
+                finishMatch(next);
+            }
+        } else {
+            finishMatch(next);
+        }
+    };
+
     while (!source.atEof()) {
 #if defined(BLOCK_DEBUG) || defined(STACK_DEBUG)
         fprintf(stderr, "%-7d", pos);
@@ -978,6 +1098,36 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     curblock = blocks.top();
                     curblock->append(inner.cast<ASTNode>());
                 }
+            }
+        }
+
+        if (!matches.empty() && matches.back().cblock
+                && blocks.size() >= matches.back().cdepth) {
+            MatchCtx& mc = matches.back();
+            if (mc.endJumpPos >= 0 && pos == mc.endJumpPos) {
+                int ji = matcher->indexOf(pos);
+                /* The jump ends the case body: conditionals still open in it
+                 * (whose own jump was folded into this one) end here */
+                bool endsCase = ji >= 0 && matcher->instrs()[ji].op == Pyc::JUMP_FORWARD_A
+                        && matcher->jumpTarget(matcher->instrs()[ji]) >= mc.cur.bodyEnd;
+                closeNested(mc, endsCase ? INT_MAX : pos);
+                if (blocks.size() == mc.cdepth && ji >= 0
+                        && matcher->instrs()[ji].op == Pyc::JUMP_FORWARD_A) {
+                    int target = matcher->jumpTarget(matcher->instrs()[ji]);
+                    if (target >= mc.cur.bodyEnd) {
+                        /* The jump over the remaining cases belongs to the match */
+                        if (mc.endPos < 0)
+                            mc.endPos = target;
+                        pos = matcher->instrs()[ji].end;
+                        source.setPos(pos);
+                        continue;
+                    }
+                }
+            }
+            if ((mc.cur.bodyEnd >= 0 && pos >= mc.cur.bodyEnd)
+                    || (mc.cur.bodyEnd < 0 && mc.endPos >= 0 && pos >= mc.endPos)) {
+                endCase(mc);
+                continue;
             }
         }
 
@@ -1369,6 +1519,34 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             } else {
                 source.setPos(sSrc);
                 pos = sPos;
+            }
+        }
+
+        if (mod->verCompare(3, 10) >= 0 && !stack.empty()
+                && ((opcode == Pyc::COPY_A && operand == 1)
+                    || opcode == Pyc::DUP_TOP
+                    || opcode == Pyc::MATCH_SEQUENCE
+                    || opcode == Pyc::MATCH_MAPPING
+                    || opcode == Pyc::LOAD_GLOBAL_A
+                    || opcode == Pyc::LOAD_NAME_A
+                    || opcode == Pyc::LOAD_FAST_A
+                    || opcode == Pyc::LOAD_DEREF_A)) {
+            if (!matcher)
+                matcher.reset(new MatchAnalyzer(code, mod));
+            MatchCase first;
+            if (matcher->isMatchStart(curpos) && matcher->parseCase(curpos, first)
+                    && first.bodyEnd >= 0) {
+                MatchCase second;
+                if (!first.nonLast || matcher->parseCase(first.nextPos, second)) {
+                    PycRef<ASTNode> subject = stack.top();
+                    stack.pop();
+                    PycRef<ASTMatchBlock> mb = new ASTMatchBlock(subject);
+                    blocks.push(mb.cast<ASTBlock>());
+                    curblock = blocks.top();
+                    matches.emplace_back(mb, stack);
+                    beginCase(matches.back(), first, false);
+                    continue;
+                }
             }
         }
 
@@ -2658,6 +2836,54 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         : ASTCompare::CMP_IS;
                     cond = new ASTCompare(cond, new ASTObject(Pyc_None), cmpop);
                     popped = ASTCondBlock::PRE_POPPED;
+                }
+
+                if (!matches.empty() && matches.back().cblock == curblock
+                        && matches.back().guardOpen && curblock->size() == 0
+                        && opcode != Pyc::JUMP_IF_FALSE_A
+                        && opcode != Pyc::JUMP_IF_TRUE_A
+                        && opcode != Pyc::JUMP_IF_FALSE_OR_POP_A
+                        && opcode != Pyc::JUMP_IF_TRUE_OR_POP_A) {
+                    /* The guard of a case: `case pattern if cond:` */
+                    MatchCtx& mc = matches.back();
+                    int gt = operand;
+                    if (mod->verCompare(3, 10) >= 0)
+                        gt *= sizeof(uint16_t);
+                    if (mod->verCompare(3, 12) >= 0
+                            || opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A
+                            || opcode == Pyc::POP_JUMP_FORWARD_IF_FALSE_A)
+                        gt += pos;
+                    int ni = matcher->indexOf(gt);
+                    bool isGuard;
+                    if (mc.guardTarget >= 0)
+                        isGuard = (gt == mc.guardTarget);
+                    else if (mc.cur.bodyEnd >= 0)
+                        isGuard = (gt == mc.cur.nextPos);
+                    else
+                        isGuard = mc.cur.nonLast || gt == mc.endPos
+                                || (ni >= 0 && matcher->instrs()[ni].op == Pyc::NOP)
+                                || (!mc.isDefault && mc.cblock->size() == 0 && gt > pos);
+                    if (isGuard) {
+                        stack.pop();
+                        if (opcode == Pyc::POP_JUMP_IF_TRUE_A
+                                || opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A
+                                || opcode == Pyc::INSTRUMENTED_POP_JUMP_IF_TRUE_A)
+                            cond = new ASTUnary(cond, ASTUnary::UN_NOT);
+                        PycRef<ASTNode> prevGuard = mc.cblock->guard();
+                        mc.cblock->setGuard(prevGuard == nullptr ? cond
+                                : new ASTBinary(prevGuard, cond, ASTBinary::BIN_LOG_AND));
+                        if (mc.guardTarget < 0) {
+                            mc.guardTarget = gt;
+                            if (mc.cur.bodyEnd < 0) {
+                                mc.cur.bodyEnd = gt;
+                                mc.cur.nextPos = gt;
+                                mc.endJumpPos = gt - 2;
+                                mc.cblock->setEnd(gt);
+                            }
+                        }
+                        break;
+                    }
+                    mc.guardOpen = false;
                 }
 
                 if (opcode == Pyc::POP_JUMP_IF_FALSE_A
@@ -4157,6 +4383,14 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::POP_TOP:
             {
+                if (!matches.empty() && matches.back().cblock == curblock
+                        && matches.back().skipPop) {
+                    /* Discards the subject of the match statement */
+                    matches.back().skipPop = false;
+                    matches.back().guardOpen = false;
+                    break;
+                }
+
                 PycRef<ASTNode> value = stack.top();
                 stack.pop();
 
@@ -5187,6 +5421,22 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                  && (curblock->end() == pos);
     }
 
+    while (!matches.empty()) {
+        /* The code ended inside of a match statement (e.g. in its last case) */
+        MatchCtx& mc = matches.back();
+        while (blocks.size() > 1 && blocks.top() != mc.mblock.cast<ASTBlock>()) {
+            PycRef<ASTBlock> top = blocks.top();
+            blocks.pop();
+            blocks.top()->append(top.cast<ASTNode>());
+        }
+        if (blocks.size() > 1) {
+            PycRef<ASTBlock> mb = blocks.top();
+            blocks.pop();
+            blocks.top()->append(mb.cast<ASTNode>());
+        }
+        matches.pop_back();
+    }
+
     if (stack_hist.size()) {
         fputs("Warning: Stack history is not empty!\n", stderr);
 
@@ -5441,6 +5691,101 @@ void print_formatted_value(PycRef<ASTFormattedValue> formatted_value, PycModule*
         pyc_output << ":" << formatted_value->format_spec().cast<ASTObject>()->object().cast<PycString>()->value();
     }
     pyc_output << "}";
+}
+
+static void print_pattern(PycRef<ASTMatchPattern> pat, PycModule* mod, std::ostream& pyc_output)
+{
+    switch (pat->kind()) {
+    case ASTMatchPattern::PAT_WILDCARD:
+        pyc_output << "_";
+        break;
+    case ASTMatchPattern::PAT_CAPTURE:
+        pyc_output << pat->name()->value();
+        break;
+    case ASTMatchPattern::PAT_VALUE:
+        print_src(pat->expr(), mod, pyc_output);
+        break;
+    case ASTMatchPattern::PAT_STAR:
+        pyc_output << "*" << (pat->name() != nullptr ? pat->name()->value() : "_");
+        break;
+    case ASTMatchPattern::PAT_SEQUENCE:
+        {
+            pyc_output << "[";
+            bool first = true;
+            for (const auto& sub : pat->subs()) {
+                if (!first)
+                    pyc_output << ", ";
+                print_pattern(sub, mod, pyc_output);
+                first = false;
+            }
+            pyc_output << "]";
+        }
+        break;
+    case ASTMatchPattern::PAT_MAPPING:
+        {
+            pyc_output << "{";
+            bool first = true;
+            for (size_t i = 0; i < pat->keys().size(); i++) {
+                if (!first)
+                    pyc_output << ", ";
+                print_src(pat->keys()[i], mod, pyc_output);
+                pyc_output << ": ";
+                print_pattern(pat->subs()[i], mod, pyc_output);
+                first = false;
+            }
+            if (pat->name() != nullptr) {
+                if (!first)
+                    pyc_output << ", ";
+                pyc_output << "**" << pat->name()->value();
+            }
+            pyc_output << "}";
+        }
+        break;
+    case ASTMatchPattern::PAT_CLASS:
+        {
+            print_src(pat->expr(), mod, pyc_output);
+            pyc_output << "(";
+            bool first = true;
+            for (size_t i = 0; i < pat->subs().size(); i++) {
+                if (!first)
+                    pyc_output << ", ";
+                if ((int)i >= pat->numPositional())
+                    pyc_output << pat->kwNames()[i - pat->numPositional()]->value() << "=";
+                print_pattern(pat->subs()[i], mod, pyc_output);
+                first = false;
+            }
+            pyc_output << ")";
+        }
+        break;
+    case ASTMatchPattern::PAT_OR:
+        {
+            bool first = true;
+            for (const auto& sub : pat->subs()) {
+                if (!first)
+                    pyc_output << " | ";
+                if (sub->kind() == ASTMatchPattern::PAT_AS) {
+                    pyc_output << "(";
+                    print_pattern(sub, mod, pyc_output);
+                    pyc_output << ")";
+                } else {
+                    print_pattern(sub, mod, pyc_output);
+                }
+                first = false;
+            }
+        }
+        break;
+    case ASTMatchPattern::PAT_AS:
+        if (pat->subs()[0]->kind() == ASTMatchPattern::PAT_OR
+                || pat->subs()[0]->kind() == ASTMatchPattern::PAT_AS) {
+            pyc_output << "(";
+            print_pattern(pat->subs()[0], mod, pyc_output);
+            pyc_output << ")";
+        } else {
+            print_pattern(pat->subs()[0], mod, pyc_output);
+        }
+        pyc_output << " as " << pat->name()->value();
+        break;
+    }
 }
 
 static std::unordered_set<ASTNode *> node_seen;
@@ -5729,6 +6074,9 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_NAME:
         pyc_output << node.cast<ASTName>()->name()->value();
         break;
+    case ASTNode::NODE_MATCH_PATTERN:
+        print_pattern(node.cast<ASTMatchPattern>(), mod, pyc_output);
+        break;
     case ASTNode::NODE_NODELIST:
         {
             cur_indent++;
@@ -5839,6 +6187,16 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 if (excVar != NULL) {
                     pyc_output << " as ";
                     print_src(excVar, mod, pyc_output);
+                }
+            } else if (blk->blktype() == ASTBlock::BLK_MATCH) {
+                pyc_output << " ";
+                print_src(blk.cast<ASTMatchBlock>()->subject(), mod, pyc_output);
+            } else if (blk->blktype() == ASTBlock::BLK_CASE) {
+                pyc_output << " ";
+                print_src(blk.cast<ASTCaseBlock>()->pattern().cast<ASTNode>(), mod, pyc_output);
+                if (blk.cast<ASTCaseBlock>()->guard() != nullptr) {
+                    pyc_output << " if ";
+                    print_src(blk.cast<ASTCaseBlock>()->guard(), mod, pyc_output);
                 }
             } else if (blk->blktype() == ASTBlock::BLK_WITH) {
                 pyc_output << " ";
@@ -6530,6 +6888,23 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
                 if (print_docstring(store->src().cast<ASTObject>()->object(),
                         cur_indent + (code->name()->isEqual("<module>") ? 0 : 1), mod, pyc_output))
                     clean->removeFirst();
+            }
+        }
+        if (clean->nodes().back().type() == ASTNode::NODE_BLOCK
+                && clean->nodes().back().cast<ASTBlock>()->blktype() == ASTBlock::BLK_MATCH) {
+            /* A match that ends the code: its cases return None instead of
+             * jumping to the end */
+            for (const auto& cn : clean->nodes().back().cast<ASTBlock>()->nodes()) {
+                if (cn.type() != ASTNode::NODE_BLOCK)
+                    continue;
+                PycRef<ASTBlock> cb = cn.cast<ASTBlock>();
+                if (cb->blktype() != ASTBlock::BLK_CASE || cb->nodes().empty()
+                        || cb->nodes().back().type() != ASTNode::NODE_RETURN)
+                    continue;
+                PycRef<ASTReturn> r = cb->nodes().back().cast<ASTReturn>();
+                PycRef<ASTObject> ro = r->value().try_cast<ASTObject>();
+                if (r->value() == NULL || (ro && ro->object().type() == PycObject::TYPE_NONE))
+                    cb->removeLast();
             }
         }
         if (clean->nodes().back().type() == ASTNode::NODE_RETURN) {
