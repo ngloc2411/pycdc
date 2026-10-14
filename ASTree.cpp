@@ -1039,8 +1039,54 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             }
         }
 
+        int chainPolarity = -1;   /* set when a compound test was just combined */
+        /* Compound statement condition: remember each test, and at the last
+           jump replace them by the combined expression (see ScanExprFlow). */
+        if (mod->verCompare(3, 8) >= 0 && inlineComps.empty() && !isCompCode) {
+            if (xflow.condMember.count(curpos) && !stack.empty()) {
+                chainVals[curpos] = stack.top();
+                stack.pop();
+                else_pop = false;
+                continue;
+            }
+            auto ccit = xflow.condChains.find(curpos);
+            if (ccit != xflow.condChains.end() && !stack.empty()) {
+                const ExprFlow::CondChain& cc = ccit->second;
+                bool have = true;
+                for (size_t k = 0; k + 1 < cc.members.size(); k++)
+                    if (!chainVals.count(cc.members[k])) have = false;
+                if (have) {
+                    chainVals[curpos] = stack.top();
+                    stack.pop();
+                    std::function<PycRef<ASTNode>(int)> build = [&](int ti) -> PycRef<ASTNode> {
+                        const ExprFlow::CondTree& tr = cc.trees[ti];
+                        if (tr.op == 0)
+                            return chainVals[tr.leaf];
+                        return mkBoolOp(build(tr.l), build(tr.r),
+                                        tr.op == 1 ? ASTBinary::BIN_LOG_AND : ASTBinary::BIN_LOG_OR);
+                    };
+                    PycRef<ASTNode> whole = build(cc.root);
+                    for (int mpos : cc.members)
+                        chainVals.erase(mpos);
+                    stack.push(whole);
+                    chainPolarity = cc.negate ? 1 : 0;
+                    /* the combined test jumps to the exit when false (or, for a
+                       negated tree, when true) */
+                    const bool wantOnTrue = cc.negate;
+                    const bool isTrueOp = opcode == Pyc::POP_JUMP_IF_TRUE_A
+                            || opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
+                    if (isTrueOp != wantOnTrue) {
+                        if (opcode == Pyc::POP_JUMP_IF_TRUE_A) opcode = Pyc::POP_JUMP_IF_FALSE_A;
+                        else if (opcode == Pyc::POP_JUMP_IF_FALSE_A) opcode = Pyc::POP_JUMP_IF_TRUE_A;
+                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_FALSE_A;
+                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_FALSE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
+                    }
+                }
+            }
+        }
+
         /* Expression-level control flow (see ScanExprFlow) */
-        if (mod->verCompare(3, 8) >= 0 && !isCompCode) {
+        if (mod->verCompare(3, 8) >= 0) {
             auto skipOp = [&]() {
                 else_pop = false;
             };
@@ -1076,7 +1122,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     PycRef<ASTNode> c = stack.top();
                     stack.pop();
                     bool neg = false;
-                    if (tn.cond == 2) neg = true;
+                    if (chainPolarity >= 0) neg = chainPolarity == 1;
+                    else if (tn.cond == 2) neg = true;
                     else if (tn.cond == 3)
                         c = new ASTCompare(c, new ASTObject(Pyc_None), ASTCompare::CMP_IS_NOT);
                     else if (tn.cond == 4)
@@ -1159,50 +1206,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 exprflow_done:
             continue;
 exprflow_skip:;
-        }
-
-        /* Compound statement condition: remember each test, and at the last
-           jump replace them by the combined expression (see ScanExprFlow). */
-        if (mod->verCompare(3, 8) >= 0 && inlineComps.empty() && !isCompCode) {
-            if (xflow.condMember.count(curpos) && !stack.empty()) {
-                chainVals[curpos] = stack.top();
-                stack.pop();
-                else_pop = false;
-                continue;
-            }
-            auto ccit = xflow.condChains.find(curpos);
-            if (ccit != xflow.condChains.end() && !stack.empty()) {
-                const ExprFlow::CondChain& cc = ccit->second;
-                bool have = true;
-                for (size_t k = 0; k + 1 < cc.members.size(); k++)
-                    if (!chainVals.count(cc.members[k])) have = false;
-                if (have) {
-                    chainVals[curpos] = stack.top();
-                    stack.pop();
-                    std::function<PycRef<ASTNode>(int)> build = [&](int ti) -> PycRef<ASTNode> {
-                        const ExprFlow::CondTree& tr = cc.trees[ti];
-                        if (tr.op == 0)
-                            return chainVals[tr.leaf];
-                        return mkBoolOp(build(tr.l), build(tr.r),
-                                        tr.op == 1 ? ASTBinary::BIN_LOG_AND : ASTBinary::BIN_LOG_OR);
-                    };
-                    PycRef<ASTNode> whole = build(cc.root);
-                    for (int mpos : cc.members)
-                        chainVals.erase(mpos);
-                    stack.push(whole);
-                    /* the combined test jumps to the exit when false (or, for a
-                       negated tree, when true) */
-                    const bool wantOnTrue = cc.negate;
-                    const bool isTrueOp = opcode == Pyc::POP_JUMP_IF_TRUE_A
-                            || opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
-                    if (isTrueOp != wantOnTrue) {
-                        if (opcode == Pyc::POP_JUMP_IF_TRUE_A) opcode = Pyc::POP_JUMP_IF_FALSE_A;
-                        else if (opcode == Pyc::POP_JUMP_IF_FALSE_A) opcode = Pyc::POP_JUMP_IF_TRUE_A;
-                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_TRUE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_FALSE_A;
-                        else if (opcode == Pyc::POP_JUMP_FORWARD_IF_FALSE_A) opcode = Pyc::POP_JUMP_FORWARD_IF_TRUE_A;
-                    }
-                }
-            }
         }
 
         if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0

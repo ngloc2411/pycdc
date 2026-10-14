@@ -997,6 +997,25 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
         int U = fwdJump(ins[before]);
         if (U <= t)
             continue;
+        /* jump threading: when this ternary is nested in the "then" branch of
+           another, our exit jump goes straight to the outer exit, while the
+           outer then-jump (to the same place) sits right after our else value. */
+        for (int q = ti->second; q < n && ins[q].pos < U; q++) {
+            if (fwdJump(ins[q]) == U && q + 1 < n) {
+                /* it is the outer ternary's then-jump only if an earlier test
+                   jumps to the instruction right behind it */
+                bool outer = false;
+                for (int o = 0; o < i && !outer; o++) {
+                    int ot = 0;
+                    if (condJump(ins[o], ot) != NOTCOND && ot == ins[q + 1].pos)
+                        outer = true;
+                }
+                if (outer) {
+                    U = ins[q].pos;
+                    break;
+                }
+            }
+        }
         int thenLast = prevReal(before);
         if (thenLast <= i || xIsStatementEnd(ins[thenLast].op))
             continue;
@@ -1023,7 +1042,6 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
        exit; a or b: same "true" exit) until one node remains. */
     {
         std::set<int> claimed;
-        for (const auto& kv : out.ternary) claimed.insert(kv.first);
         for (const auto& kv : out.boolJump) claimed.insert(kv.first);
         for (const auto& kv : loops.guardEnd) claimed.insert(kv.first);
         for (const auto& kv : loops.guardChain) claimed.insert(kv.first);
