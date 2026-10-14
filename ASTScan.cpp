@@ -344,12 +344,35 @@ void ScanChainCleanups(PycRef<PycCode> code, PycModule* mod,
                 }
             }
         }
+        /* the exit may be a jump-threaded `continue`: the second half's false
+           jump goes straight to the loop header while the cleanup goes through
+           the loop's back-edge */
+        {
+            auto di = idxAt.find(target);
+            if (di != idxAt.end() && target > ins[s].pos) {
+                const Ins& d = ins[di->second];
+                if (d.op == Pyc::JUMP_ABSOLUTE_A && mod->verCompare(3, 11) < 0
+                        && d.arg * unit < d.pos)
+                    target = d.arg * unit;
+                else if (d.op == Pyc::JUMP_BACKWARD_A)
+                    target = d.real - d.arg * 2;
+            }
+        }
         int endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
         int skipFrom = t;
         int before = prevReal(s);
         if (before >= 0 && fwdJump(ins[before]) == endPos) {
             skipFrom = ins[before].pos;
             dest[skipFrom] = endPos;    /* jumps to the trailer reach the same place */
+        }
+        /* `continue` as the if-body: the compiler follows the cleanup's jump with a
+           dead copy of the body's own back-jump */
+        if (before >= 0 && endIdx < n && endIdx != after
+                && (ins[before].op == Pyc::JUMP_ABSOLUTE_A || ins[before].op == Pyc::JUMP_BACKWARD_A)
+                && ins[endIdx].op == ins[before].op && ins[endIdx].arg == ins[before].arg
+                && skipFrom == t) {
+            endIdx = nextReal(endIdx);
+            endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
         }
         dest[t] = target;
         skip.push_back(std::make_pair(skipFrom, endPos));

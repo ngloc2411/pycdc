@@ -74,12 +74,15 @@ static int cmp_prec(PycRef<ASTNode> parent, PycRef<ASTNode> child)
     return -1;
 }
 
+static bool isPureChain(const PycRef<ASTNode>& node);
+
 static void print_ordered(PycRef<ASTNode> parent, PycRef<ASTNode> child,
                           PycModule* mod, std::ostream& pyc_output)
 {
     if (child.type() == ASTNode::NODE_BINARY ||
         child.type() == ASTNode::NODE_COMPARE) {
-        if (cmp_prec(parent, child) > 0) {
+        if (cmp_prec(parent, child) > 0 && !(parent.type() == ASTNode::NODE_UNARY
+                                             && isPureChain(child))) {
             pyc_output << "(";
             print_src(child, mod, pyc_output);
             pyc_output << ")";
@@ -137,6 +140,20 @@ static bool hasChain(const std::vector<PycRef<ASTNode> >& parts)
     return false;
 }
 
+/* an `and` made only of one run of chained comparisons: `a < b < c` */
+static bool isPureChain(const PycRef<ASTNode>& node)
+{
+    if (node == NULL || node.type() != ASTNode::NODE_BINARY
+            || node.cast<ASTBinary>()->op() != ASTBinary::BIN_LOG_AND)
+        return false;
+    std::vector<PycRef<ASTNode> > parts;
+    flattenAnd(node, parts);
+    for (size_t i = 0; i + 1 < parts.size(); i++)
+        if (!chainLinks(parts[i], parts[i + 1]))
+            return false;
+    return hasChain(parts);
+}
+
 static void printAndChains(const std::vector<PycRef<ASTNode> >& parts,
                            PycModule* mod, std::ostream& pyc_output)
 {
@@ -171,14 +188,8 @@ static void print_test(PycRef<ASTNode> node, bool negated, bool inTernary,
         if (node.type() == ASTNode::NODE_BINARY) {
             int op = node.cast<ASTBinary>()->op();
             paren = negated && (op == ASTBinary::BIN_LOG_AND || op == ASTBinary::BIN_LOG_OR);
-            if (paren && op == ASTBinary::BIN_LOG_AND) {
-                std::vector<PycRef<ASTNode> > parts;
-                flattenAnd(node, parts);
-                bool one = true;
-                for (size_t i = 0; i + 1 < parts.size(); i++)
-                    if (!chainLinks(parts[i], parts[i + 1])) one = false;
-                if (one && hasChain(parts)) paren = false;
-            }
+            if (paren && isPureChain(node))
+                paren = false;
         } else if (node.type() == ASTNode::NODE_TERNARY) {
             paren = negated || inTernary;
         } else if (node.type() == ASTNode::NODE_FUNCTION) {

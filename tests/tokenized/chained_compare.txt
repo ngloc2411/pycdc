@@ -1,7 +1,244 @@
-def f ( x ) : <EOL>
+def use ( * a ) : <EOL>
 <INDENT>
-if 0 < x < 10 : <EOL>
+return a <EOL>
+<OUTDENT>
+def chain2 ( a , b , c ) : <EOL>
+<INDENT>
+return a < b < c <EOL>
+<OUTDENT>
+def chain_eq ( a , b , c ) : <EOL>
+<INDENT>
+return a == b == c <EOL>
+<OUTDENT>
+def chain_mixed ( a , b , c ) : <EOL>
+<INDENT>
+return a <= b < c <EOL>
+<OUTDENT>
+def chain3 ( a , b , c , d ) : <EOL>
+<INDENT>
+return a < b < c < d <EOL>
+<OUTDENT>
+def chain_in ( a , b , c ) : <EOL>
+<INDENT>
+return a in b in c <EOL>
+<OUTDENT>
+def chain_is ( a , b , c ) : <EOL>
+<INDENT>
+return a is b is c <EOL>
+<OUTDENT>
+def chain_consts ( x ) : <EOL>
+<INDENT>
+return 0 < x < 10 <EOL>
+<OUTDENT>
+def chain_expr ( a , b , c ) : <EOL>
+<INDENT>
+return a + 1 < b * 2 < c - 3 <EOL>
+<OUTDENT>
+def chain_call ( a , b , c ) : <EOL>
+<INDENT>
+return use ( a ) < use ( b ) < use ( c ) <EOL>
+<OUTDENT>
+def chain_if ( a , b , c ) : <EOL>
+<INDENT>
+if a < b < c : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_if_else ( a , b , c ) : <EOL>
+<INDENT>
+if a < b < c : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+use ( 3 ) <EOL>
+<OUTDENT>
+def chain_not ( a , b , c ) : <EOL>
+<INDENT>
+if not a < b < c : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_and ( a , b , c , d ) : <EOL>
+<INDENT>
+if a < b < c and d : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_or ( a , b , c , d ) : <EOL>
+<INDENT>
+if a < b < c or d : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_assign ( a , b , c ) : <EOL>
+<INDENT>
+r = a < b < c <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_while ( a , b , c ) : <EOL>
+<INDENT>
+while a < b < c : <EOL>
+<INDENT>
+a = a + 1 <EOL>
+<OUTDENT>
+use ( a ) <EOL>
+<OUTDENT>
+def chain_in_ternary ( a , b , c , x , y ) : <EOL>
+<INDENT>
+r = x if a < b < c else y <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_attr ( o , lo , hi ) : <EOL>
+<INDENT>
+return lo <= o . v <= hi <EOL>
+<OUTDENT>
+def chain_neq ( a , b , c ) : <EOL>
+<INDENT>
+return a != b != c <EOL>
+<OUTDENT>
+def chain_notin ( a , b , c ) : <EOL>
+<INDENT>
+return a not in b not in c <EOL>
+<OUTDENT>
+def chain_elif ( a , b , c , d ) : <EOL>
+<INDENT>
+if a < b < c : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+elif b < c < d : <EOL>
+<INDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+use ( 3 ) <EOL>
+<OUTDENT>
+use ( 4 ) <EOL>
+<OUTDENT>
+def chain4_if ( a , b , c , d ) : <EOL>
+<INDENT>
+if a < b < c < d : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_arg ( a , b , c ) : <EOL>
+<INDENT>
+r = use ( a < b < c , b ) <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_value_in_loop ( items , lo , hi ) : <EOL>
+<INDENT>
+out = [ ] <EOL>
+for x in items : <EOL>
+<INDENT>
+out . append ( lo < x < hi ) <EOL>
+<OUTDENT>
+return out <EOL>
+<OUTDENT>
+def chain_break ( items , lo , hi ) : <EOL>
+<INDENT>
+for x in items : <EOL>
+<INDENT>
+if x < lo < hi : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+use ( x ) <EOL>
+<OUTDENT>
+use ( 0 ) <EOL>
+<OUTDENT>
+def chain_continue ( items , lo , hi ) : <EOL>
+<INDENT>
+for x in items : <EOL>
+<INDENT>
+if lo < x < hi : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+use ( x ) <EOL>
+<OUTDENT>
+use ( 0 ) <EOL>
+<OUTDENT>
+def chain_and_chain ( a , b , c , d , e ) : <EOL>
+<INDENT>
+if a < b < c and c < d < e : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_or_chain ( a , b , c , d , e ) : <EOL>
+<INDENT>
+if a < b < c or c < d < e : <EOL>
+<INDENT>
+use ( 1 ) <EOL>
+<OUTDENT>
+use ( 2 ) <EOL>
+<OUTDENT>
+def chain_while_and ( a , b , c , d ) : <EOL>
+<INDENT>
+while a < b < c and d : <EOL>
+<INDENT>
+a = a + 1 <EOL>
+<OUTDENT>
+use ( a ) <EOL>
+<OUTDENT>
+def chain_while_break ( a , b , c ) : <EOL>
+<INDENT>
+while a < b < c : <EOL>
+<INDENT>
+if a == 3 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+a = a + 1 <EOL>
+<OUTDENT>
+use ( a ) <EOL>
+<OUTDENT>
+def chain_neg_value ( a , b , c ) : <EOL>
+<INDENT>
+r = not a < b < c <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_ret_if ( a , b , c ) : <EOL>
+<INDENT>
+if a < b < c : <EOL>
 <INDENT>
 return 1 <EOL>
 <OUTDENT>
-return 1 <= x <= 2 != 3 <EOL>
+return 2 <EOL>
+<OUTDENT>
+def chain_ternary_value ( a , b , c , x , y ) : <EOL>
+<INDENT>
+r = x if a < b < c else y <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_mixed_ops ( a , b , c ) : <EOL>
+<INDENT>
+r = a is not b == c <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_value_or ( a , b , c , d ) : <EOL>
+<INDENT>
+r = a < b < c or d <EOL>
+return use ( r ) + use ( r ) <EOL>
+<OUTDENT>
+def chain_value_and ( a , b , c , d ) : <EOL>
+<INDENT>
+r = d and a < b < c <EOL>
+return use ( r ) + use ( r ) <EOL>
