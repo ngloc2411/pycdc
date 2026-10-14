@@ -1294,6 +1294,13 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     mergeAt(ks->second.endPos);
                     PendingBoolOp pb;
                     pb.target = ks->second.target;
+                    for (int k = (int)pendingBool.size() - 1; k >= 0; k--)
+                        if (pendingBool[k].kind == 1 && pendingBool[k].thenVal == NULL
+                                && pendingBool[k].target == pb.target
+                                && pendingBool[k].thenJump > curpos) {
+                            pb.target = pendingBool[k].thenJump;
+                            break;
+                        }
                     pb.left = stack.top();
                     pb.op = ks->second.isOr ? ASTBinary::BIN_LOG_OR : ASTBinary::BIN_LOG_AND;
                     stack.pop();
@@ -1316,6 +1323,15 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         tgt = cj->second;
                 }
                 mergeAt(pos);
+                /* `(a or b) if c else d` (<= 3.9): the `or` jumps to the end of
+                   the ternary, past the JUMP_FORWARD closing the "then" value;
+                   it has to merge there (as 3.10+ jump threading does). */
+                for (int k = (int)pendingBool.size() - 1; k >= 0; k--)
+                    if (pendingBool[k].kind == 1 && pendingBool[k].thenVal == NULL
+                            && pendingBool[k].target == tgt && pendingBool[k].thenJump > curpos) {
+                        tgt = pendingBool[k].thenJump;
+                        break;
+                    }
                 pb.target = tgt;
                 pb.left = stack.top();
                 pb.op = (opcode == Pyc::JUMP_IF_TRUE_OR_POP_A)

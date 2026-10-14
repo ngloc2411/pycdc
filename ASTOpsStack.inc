@@ -245,7 +245,8 @@
                     if (!source.atEof()) {
                         bc_next(source, mod, o2, a2, pos);
                         storeNext = (o2 == Pyc::STORE_FAST_A || o2 == Pyc::STORE_NAME_A
-                                  || o2 == Pyc::STORE_GLOBAL_A || o2 == Pyc::STORE_DEREF_A);
+                                  || o2 == Pyc::STORE_GLOBAL_A || o2 == Pyc::STORE_DEREF_A
+                                  || o2 == Pyc::UNPACK_SEQUENCE_A || o2 == Pyc::UNPACK_EX_A);
                     }
                     source.setPos(sSrc);
                     pos = sPos;

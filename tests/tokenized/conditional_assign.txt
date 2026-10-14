@@ -1,0 +1,11 @@
+def f ( a , b ) : <EOL>
+<INDENT>
+x = a if a else None <EOL>
+print ( x ) <EOL>
+y = a if a > 1 else b if b else 0 <EOL>
+z = a and b or 3 <EOL>
+w = a and b if b else a <EOL>
+v = a or b if b else a <EOL>
+u = a if b else b and a <EOL>
+print ( y , z , w , v , u ) <EOL>
+return a <EOL>

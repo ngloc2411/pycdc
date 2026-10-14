@@ -1,0 +1,11 @@
+def f ( a , b ) : <EOL>
+<INDENT>
+x = y = a <EOL>
+p , q = a <EOL>
+( r , s ) , t = a , 1 <EOL>
+first , * rest = a <EOL>
+m , ( n , o ) = a , b <EOL>
+( c , d ) , ( e , g ) = a , b <EOL>
+k = l = m = a + b <EOL>
+print ( x , y , p , q , r , s , t , first , rest , m , n , o , c , d , e , g , k , l ) <EOL>
+return a <EOL>
