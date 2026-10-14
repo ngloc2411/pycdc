@@ -337,6 +337,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     /* Python 3.11 while-loop reconstruction state. */
     std::map<int, int> whileGuardEnd;          /* guard pos -> loop end */
     std::set<int> whileBackedges;              /* back-edge positions */
+    std::vector<PycRef<ASTNode> > guardChainConds;   /* earlier parts of `while a and b` */
 
     /* Python 3.11 try/except/else state (see ScanTryElse). */
     std::map<int, std::pair<int, int> > elseRegionByStart;
@@ -1156,6 +1157,14 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             prevOp1 = opcode;
         }
 
+        if (mod->verCompare(3, 12) >= 0) {
+            /* 3.12+ spell the (forward, relative) None tests without FORWARD */
+            if (opcode == Pyc::POP_JUMP_IF_NONE_A)
+                opcode = Pyc::POP_JUMP_FORWARD_IF_NONE_A;
+            else if (opcode == Pyc::POP_JUMP_IF_NOT_NONE_A)
+                opcode = Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A;
+        }
+
         if (commonGuard && opcode == Pyc::POP_JUMP_IF_FALSE_A) {
             /* 3.14 compiles any(genexpr)/all(...)/tuple(...) as
                    COPY 1; LOAD_COMMON_CONSTANT f; IS_OP; POP_JUMP_IF_FALSE slow
@@ -1310,6 +1319,16 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                         && curblock->end() == pos;
             };
             if (loops.skipJumps.count(curpos)) {
+                refreshElsePop();
+                continue;
+            }
+            if ((loops.guardChainMember.count(curpos) || loops.tailChain.count(curpos))
+                    && !stack.empty()) {
+                /* part of a compound loop condition: remember (guard side) or
+                   drop (duplicated tail side) its test */
+                if (loops.guardChainMember.count(curpos))
+                    guardChainConds.push_back(stack.top());
+                stack.pop();
                 refreshElsePop();
                 continue;
             }
@@ -2615,6 +2634,29 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                                || opcode == Pyc::POP_JUMP_IF_TRUE_A) {
                         wneg = true;
                     }
+                    auto chainIt = loops.guardChain.find(curpos);
+                    if (chainIt != loops.guardChain.end()
+                            && chainIt->second.size() == guardChainConds.size()) {
+                        /* `while a and b` / `while a or b`: fold the earlier
+                           short-circuit jumps into one condition, from the last
+                           one backwards. */
+                        PycRef<ASTNode> res = wcond;
+                        if (wneg)
+                            res = new ASTUnary(res, ASTUnary::UN_NOT);
+                        wneg = false;
+                        for (int ci = (int)guardChainConds.size() - 1; ci >= 0; ci--) {
+                            const ChainJump& cj = chainIt->second[ci];
+                            PycRef<ASTNode> c = guardChainConds[ci];
+                            /* jump-if-true to the exit / jump-if-false to the body
+                               means the stored test is the negation */
+                            if (cj.ifTrue != cj.toBody)
+                                c = new ASTUnary(c, ASTUnary::UN_NOT);
+                            res = new ASTBinary(c, res, cj.toBody ? ASTBinary::BIN_LOG_OR
+                                                                 : ASTBinary::BIN_LOG_AND);
+                        }
+                        wcond = res;
+                    }
+                    guardChainConds.clear();
                     PycRef<ASTCondBlock> wh = new ASTCondBlock(
                             ASTBlock::BLK_WHILE, wit->second, wcond, wneg);
                     wh->init(ASTCondBlock::PRE_POPPED);

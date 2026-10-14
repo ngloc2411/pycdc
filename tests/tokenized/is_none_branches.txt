@@ -1,0 +1,11 @@
+def n1 ( x ) : <EOL>
+<INDENT>
+if x is None : <EOL>
+<INDENT>
+print ( 'a' ) <EOL>
+<OUTDENT>
+if x is not None : <EOL>
+<INDENT>
+print ( 'b' ) <EOL>
+<OUTDENT>
+return x <EOL>
