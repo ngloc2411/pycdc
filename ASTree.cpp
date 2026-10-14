@@ -668,6 +668,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
     std::vector<int> inlineComps;
     bool inlineFinish = false;
+    std::set<int> fusedKeepFirst;   /* STORE_FAST_STORE_FAST whose 2nd store is a restore */
     int inlineFinishBase = 0;
     std::vector<int> inlineBase;   /* stack size below the container */
     std::vector<int> inlineKind;   /* ASTComprehension::Kind per open comp */
@@ -1272,11 +1273,32 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                which is the 3.11 POP_JUMP_BACKWARD_IF_FALSE shape. */
             int sSrc = source.pos(), sPos = pos;
             int o2 = 0, a2 = 0;
+            int jumpBase = pos;   /* jump offsets are relative to after caches */
             bc_next(source, mod, o2, a2, pos);
+            while (o2 == Pyc::CACHE && !source.atEof()) {
+                jumpBase = pos;
+                bc_next(source, mod, o2, a2, pos);
+            }
             if (o2 == Pyc::NOT_TAKEN && !source.atEof())
                 bc_next(source, mod, o2, a2, pos);
             int afterJump = pos;
-            int target = sPos + operand * (int)sizeof(uint16_t);
+            if (o2 == Pyc::JUMP_BACKWARD_A || o2 == Pyc::JUMP_BACKWARD_NO_INTERRUPT_A) {
+                /* the jump itself may carry inline cache entries */
+                for (;;) {
+                    if (source.atEof()) break;
+                    int keepSrc = source.pos(), keepPos = pos;
+                    int o3 = 0, a3 = 0;
+                    bc_next(source, mod, o3, a3, pos);
+                    if (o3 == Pyc::CACHE) {
+                        afterJump = pos;
+                    } else {
+                        source.setPos(keepSrc);
+                        pos = keepPos;
+                        break;
+                    }
+                }
+            }
+            int target = jumpBase + operand * (int)sizeof(uint16_t);
             if ((o2 == Pyc::JUMP_BACKWARD_A || o2 == Pyc::JUMP_BACKWARD_NO_INTERRUPT_A)
                     && target == afterJump) {
                 opcode = (opcode == Pyc::POP_JUMP_IF_TRUE_A)
@@ -2351,7 +2373,8 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::STORE_FAST_STORE_FAST_A:
             pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand >> 4));
-            pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand & 0xF));
+            if (!fusedKeepFirst.count(curpos))
+                pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand & 0xF));
             break;
         case Pyc::STORE_FAST_LOAD_FAST_A:
             pendingOps.push_back(std::make_pair((int)Pyc::STORE_FAST_A, operand >> 4));
@@ -3457,6 +3480,10 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     container = op2;
                     bc_next(source, mod, op2, arg2, pos);
                     ok = (op2 == Pyc::SWAP_A && arg2 == 2);
+                    if (ok) {
+                        /* 3.13+: GET_ITER of the iterable comes after the setup;
+                           it acts on the same stack slot, leave it to the loop. */
+                    }
                     break;
                 }
                 if (!ok) {
@@ -3812,52 +3839,70 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     int k = inlineComps.back();
                     int sSrc = source.pos(), sPos = pos;
                     int o2 = 0, a2 = 0;
-                    std::vector<std::pair<int, int> > seq;   /* (start,end) of ops */
-                    int p0 = pos;
-                    bool sawSwap = false;
+                    struct Op { int start, end, weight; };
+                    std::vector<Op> seq;
                     bool finishing = false;
-                    {
-                        int lastP = p0;
+                    int lastP = pos;
+                    if (!source.atEof()) {
                         bc_next(source, mod, o2, a2, pos);
-                        if (o2 == Pyc::POP_ITER) {
-                            seq.push_back(std::make_pair(lastP, pos));
+                        if (o2 == Pyc::POP_ITER
+                                || (o2 == Pyc::POP_TOP && mod->verCompare(3, 13) == 0)) {
+                            /* the loop's own iterator pop is never real code */
+                            cleanupSkip.push_back(std::make_pair(lastP, pos));
                             lastP = pos;
-                            bc_next(source, mod, o2, a2, pos);
+                            if (!source.atEof())
+                                bc_next(source, mod, o2, a2, pos);
                         }
-                        if (o2 == Pyc::SWAP_A && a2 == k + 1) {
-                            sawSwap = true;
-                            seq.push_back(std::make_pair(lastP, pos));
-                            int cnt = 0;
-                            while (!source.atEof() && cnt < k) {
-                                int st = pos;
-                                bc_next(source, mod, o2, a2, pos);
-                                if (o2 != Pyc::STORE_FAST_A) break;
-                                seq.push_back(std::make_pair(st, pos));
-                                cnt++;
-                            }
-                            finishing = (cnt == k);
-                        } else if (o2 == Pyc::STORE_FAST_A) {
-                            std::vector<std::pair<int, int> > stores;
-                            stores.push_back(std::make_pair(lastP, pos));
-                            while (!source.atEof()) {
-                                int st = pos;
-                                bc_next(source, mod, o2, a2, pos);
-                                if (o2 != Pyc::STORE_FAST_A) break;
-                                stores.push_back(std::make_pair(st, pos));
-                            }
-                            if ((int)stores.size() >= k) {
-                                finishing = true;
-                                for (size_t i = stores.size() - k; i < stores.size(); i++)
-                                    seq.push_back(stores[i]);
+                    }
+                    auto storeWeight = [](int op) {
+                        return op == Pyc::STORE_FAST_A ? 1
+                             : op == Pyc::STORE_FAST_STORE_FAST_A ? 2 : 0;
+                    };
+                    if (o2 == Pyc::SWAP_A && a2 == k + 1) {
+                        seq.push_back({lastP, pos, 0});
+                        int cnt = 0;
+                        while (!source.atEof() && cnt < k) {
+                            int st = pos;
+                            bc_next(source, mod, o2, a2, pos);
+                            int w = storeWeight(o2);
+                            if (!w) break;
+                            seq.push_back({st, pos, w});
+                            cnt += w;
+                        }
+                        finishing = (cnt == k);
+                    } else if (storeWeight(o2)) {
+                        std::vector<Op> stores;
+                        stores.push_back({lastP, pos, storeWeight(o2)});
+                        while (!source.atEof()) {
+                            int st = pos;
+                            bc_next(source, mod, o2, a2, pos);
+                            int w = storeWeight(o2);
+                            if (!w) break;
+                            stores.push_back({st, pos, w});
+                        }
+                        int total = 0;
+                        for (const auto& st : stores) total += st.weight;
+                        if (total >= k) {
+                            finishing = true;
+                            int need = k;
+                            for (size_t i = stores.size(); i > 0 && need > 0; i--) {
+                                const Op& st = stores[i - 1];
+                                if (st.weight <= need) {
+                                    seq.push_back(st);
+                                    need -= st.weight;
+                                } else {
+                                    /* fused STORE_FAST_STORE_FAST (target, saved) */
+                                    fusedKeepFirst.insert(st.start);
+                                    need = 0;
+                                }
                             }
                         }
                     }
-                    (void)sawSwap;
                     source.setPos(sSrc);
                     pos = sPos;
                     if (finishing) {
                         for (const auto& r : seq)
-                            cleanupSkip.push_back(r);
+                            cleanupSkip.push_back(std::make_pair(r.start, r.end));
                         inlineComps.pop_back();
                         inlineFinish = true;
                         inlineFinishBase = inlineBase.back();

@@ -4,4 +4,4 @@ def f(xs, ys):
     c = [(x, y) for x in xs for y in ys]
     d = {x for x in xs}
     e = {x: x for x in xs}
-    return a, b, c, d, e
+    return [a, b, c, d, e]

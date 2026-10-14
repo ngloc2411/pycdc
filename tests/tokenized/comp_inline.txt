@@ -5,4 +5,4 @@ b = [ x for x in xs if x ] <EOL>
 c = [ ( x , y ) for x in xs for y in ys ] <EOL>
 d = { x for x in xs } <EOL>
 e = { x : x for x in xs } <EOL>
-return a , b , c , d , e <EOL>
+return [ a , b , c , d , e ] <EOL>
