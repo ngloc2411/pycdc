@@ -50,9 +50,6 @@ void ScanTryFinally(PycRef<PycCode> code, PycModule* mod,
                     std::set<int>& returnStyleStarts,
                     std::set<int>& suppressReturns);
 void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out);
-void ScanChainedCompare(PycRef<PycCode> code, PycModule* mod,
-                        std::map<int,int>& chainSkipJumps,
-                        std::map<int,int>& trampolineExit);
 void ScanComprehensionCleanup(PycRef<PycCode> code, PycModule* mod,
                               std::vector<PycExceptionTableEntry>& entries,
                               std::vector<std::pair<int, int> >& skip);
@@ -72,6 +69,7 @@ struct ExprFlow {
        COPY 1 of a 3.12 keep sequence) to the real merge point; chainSkip lists the
        trailer/cleanup ranges the decompiler must ignore. */
     std::map<int, int> chainJoin;
+    std::map<int, int> cleanupDest;   /* lone POP_TOP cleanup -> the exit it leads to */
     std::vector<std::pair<int, int> > chainSkip;
     std::map<int, std::pair<int, bool> > boolJump;  /* plain POP_JUMP of a mixed and/or: target, isOr */
     /* statement conditions made of several jumps (`if a and b or c:`) */

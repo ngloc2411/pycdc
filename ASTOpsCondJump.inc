@@ -188,8 +188,8 @@
                    real exit so both halves of `a == b == c` share a target and
                    merge with `and` rather than `or`. */
                 {
-                    auto tit = trampolineExit.find(offs);
-                    if (tit != trampolineExit.end())
+                    auto tit = xflow.cleanupDest.find(offs);
+                    if (tit != xflow.cleanupDest.end())
                         offs = tit->second;
                 }
 

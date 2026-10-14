@@ -306,18 +306,6 @@
         case Pyc::JUMP_FORWARD_A:
         case Pyc::INSTRUMENTED_JUMP_FORWARD_A:
             {
-                /* Chained-comparison trailer: the JUMP_FORWARD that jumps over
-                   the trampoline straight to the body. Skip it (and the
-                   trampoline) without treating it as an if/else boundary. */
-                if (chainSkipJumps.count(curpos)) {
-                    int tgt = chainSkipJumps[curpos];
-                    while (pos < tgt && !source.atEof()) {
-                        curpos = pos;
-                        bc_next(source, mod, opcode, operand, pos);
-                    }
-                    continue;
-                }
-
                 /* An if/elif with no else has no trailer jump of its own: its
                    merge point just sits wherever control naturally arrives.
                    When that merge point happens to be this exact instruction's

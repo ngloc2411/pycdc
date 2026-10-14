@@ -363,8 +363,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     std::vector<std::pair<int, PycRef<ASTBlock> > > openElse;   /* jump pos, block */
 
     /* Python 3.11 chained-comparison reconstruction state. */
-    std::map<int, int> chainSkipJumps;         /* trailer JUMP_FORWARD -> body */
-    std::map<int, int> trampolineExit;         /* trampoline POP_TOP -> exit */
 
     WhileLoops loops;
     ExprFlow xflow;
@@ -386,7 +384,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         ScanTryFinally(code, mod, exception_entries,
                        finallyTryEndByStart, finallyEndByStart, finallyResumeByEnd,
                        finallyReturnStarts, finallySuppressReturns);
-        ScanChainedCompare(code, mod, chainSkipJumps, trampolineExit);
         ScanTryElse(code, mod, exception_entries, elseRegionByStart);
     }
 

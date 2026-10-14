@@ -674,51 +674,6 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
     }
 }
 
-/* Python 3.11 chained-comparison pre-pass. `a == b == c` compiles to two
-   COMPARE_OP/POP_JUMP_FORWARD_IF_FALSE halves sharing the middle operand
-   (duplicated via SWAP/COPY), followed by a trailer:
-        JUMP_FORWARD body      (both comparisons true -> run the body)
-   tramp:
-        POP_TOP                (false path: discard the leftover middle operand)
-        JUMP_FORWARD exit
-   body:
-   The first half's POP_JUMP targets `tramp`, the second's targets `exit`; the
-   default merge logic sees different targets and joins them with `or` instead of
-   `and`, leaving the body outside the if. Record: the trailer's leading
-   JUMP_FORWARD (to skip over the trampoline) and the trampoline POP_TOP position
-   mapped to its real exit, so a POP_JUMP landing on the trampoline can be
-   resolved to the exit and the two halves merge with `and`. */
-void ScanChainedCompare(PycRef<PycCode> code, PycModule* mod,
-                               std::map<int,int>& chainSkipJumps,
-                               std::map<int,int>& trampolineExit)
-{
-    PycBuffer src(code->code()->value(), code->code()->length());
-    int opcode, operand, pos = 0;
-    std::vector<int> order;
-    std::map<int,int> opAt, operAt, nextAt;
-    while (!src.atEof()) {
-        int p = pos;
-        bc_next(src, mod, opcode, operand, pos);
-        order.push_back(p);
-        opAt[p] = opcode; operAt[p] = operand; nextAt[p] = pos;
-    }
-    for (size_t i = 0; i + 2 < order.size(); i++) {
-        int j = order[i], p = order[i + 1], q = order[i + 2];
-        if (opAt[j] == Pyc::JUMP_FORWARD_A
-                && opAt[p] == Pyc::POP_TOP
-                && opAt[q] == Pyc::JUMP_FORWARD_A) {
-            int bodyTarget = nextAt[j] + operAt[j] * 2;
-            int exitTarget = nextAt[q] + operAt[q] * 2;
-            /* the trailer's leading JUMP_FORWARD must jump just past the
-               trampoline (to the body that begins after q) */
-            if (bodyTarget == nextAt[q]) {
-                chainSkipJumps[j] = bodyTarget;
-                trampolineExit[p] = exitTarget;
-            }
-        }
-    }
-}
-
 /* Python 3.11 try/except/else: the else body is the code between the end of
    the protected range and the JUMP_FORWARD (just before the handler) that skips
    the handlers. Map: protected-range end -> (jump position, handler offset). */
@@ -890,7 +845,7 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
     };
     enum Cond { NOTCOND, IF_FALSE, IF_TRUE, IF_NONE, IF_NOT_NONE };
     /* conditional pop-jump: returns its kind and sets `target` */
-    auto condJump = [&](const XIns& in, int& target) -> Cond {
+    auto condJumpRaw = [&](const XIns& in, int& target) -> Cond {
         switch (in.op) {
         case Pyc::POP_JUMP_IF_FALSE_A:
         case Pyc::POP_JUMP_IF_TRUE_A:
@@ -921,6 +876,68 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
             return t > in.pos ? t : -1;
         }
         return -1;
+    };
+
+    /* Chained comparison in a jump context (`if a < b < c:`, `not`, `or`, `while`,
+       ternary tests). The first half's false jump lands on a lone `POP_TOP`
+       (discarding the shared middle operand), then either jumps on to the real
+       false exit or falls into it. Record cleanupDest[POP_TOP] = real exit so
+       every jump to the cleanup is read as a jump to the exit, and skip the
+       cleanup plus the trailer jump that hops over it. */
+    {
+        auto isCmp = [&](int op) {
+            return op == Pyc::COMPARE_OP_A || op == Pyc::IS_OP_A || op == Pyc::CONTAINS_OP_A;
+        };
+        for (int i = 0; i < n; i++) {
+            int t = 0;
+            Cond c = condJumpRaw(ins[i], t);
+            if (c != IF_FALSE || t <= ins[i].pos)
+                continue;
+            int cmp = prevReal(i);
+            if (cmp < 0 || !isCmp(ins[cmp].op))
+                continue;
+            int h1 = prevReal(cmp), h2 = h1 >= 0 ? prevReal(h1) : -1;
+            bool head = false;
+            if (h1 >= 0 && h2 >= 0) {
+                if (mod->verCompare(3, 11) >= 0)
+                    head = ins[h1].op == Pyc::COPY_A && ins[h1].arg == 2
+                            && ins[h2].op == Pyc::SWAP_A && ins[h2].arg == 2;
+                else
+                    head = ins[h1].op == Pyc::ROT_THREE && ins[h2].op == Pyc::DUP_TOP;
+            }
+            if (!head)
+                continue;
+            auto ti = idxAt.find(t);
+            if (ti == idxAt.end() || ins[ti->second].op != Pyc::POP_TOP
+                    || out.cleanupDest.count(t))
+                continue;
+            int s = ti->second;
+            int after = nextReal(s);
+            if (after >= n)
+                continue;
+            int dest = ins[after].pos, endIdx = after;
+            int J = fwdJump(ins[after]);
+            if (J > 0) {
+                dest = J;
+                endIdx = nextReal(after);
+            }
+            int endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
+            int skipFrom = t;
+            int before = prevReal(s);
+            if (before >= 0 && fwdJump(ins[before]) == endPos)
+                skipFrom = ins[before].pos;
+            out.cleanupDest[t] = dest;
+            out.chainSkip.push_back(std::make_pair(skipFrom, endPos));
+        }
+    }
+    auto condJump = [&](const XIns& in, int& target) -> Cond {
+        Cond c = condJumpRaw(in, target);
+        if (c != NOTCOND) {
+            auto it = out.cleanupDest.find(target);
+            if (it != out.cleanupDest.end())
+                target = it->second;
+        }
+        return c;
     };
 
     /* A chained comparison's false path: `SWAP 2; POP_TOP` (3.11+) or

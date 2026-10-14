@@ -228,6 +228,33 @@
             break;
         case Pyc::DUP_TOP:
             {
+                /* chained comparison head (<= 3.10): DUP_TOP; ROT_THREE; COMPARE
+                   turns [A, B] into [B, A, B] sharing the node of B. */
+                if (mod->verCompare(3, 11) < 0 && stack.size() >= 2) {
+                    int sp = source.pos();
+                    int o2, a2, p2 = pos, o3, a3, p3;
+                    bc_next(source, mod, o2, a2, p2);
+                    bool isChain = false;
+                    if (o2 == Pyc::ROT_THREE) {
+                        p3 = p2;
+                        bc_next(source, mod, o3, a3, p3);
+                        isChain = (o3 == Pyc::COMPARE_OP_A || o3 == Pyc::IS_OP_A
+                                   || o3 == Pyc::CONTAINS_OP_A);
+                    }
+                    if (isChain) {
+                        PycRef<ASTNode> b = stack.top();
+                        stack.pop();
+                        PycRef<ASTNode> a = stack.top();
+                        stack.pop();
+                        stack.push(b);
+                        stack.push(a);
+                        stack.push(b);
+                        source.setPos(p2);
+                        pos = p2;
+                        break;
+                    }
+                    source.setPos(sp);
+                }
                 if (stack.top().type() == PycObject::TYPE_NULL) {
                     stack.push(stack.top());
                 } else if (stack.top().type() == ASTNode::NODE_CHAINSTORE) {
