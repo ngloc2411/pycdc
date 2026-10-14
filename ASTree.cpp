@@ -1776,6 +1776,18 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         case Pyc::CONTINUE_LOOP_A:
             curblock->append(new ASTKeyword(ASTKeyword::KW_CONTINUE));
             break;
+        case Pyc::JUMP_IF_NOT_EXC_MATCH_A:
+            {
+                /* 3.9/3.10: COMPARE_OP(exception match) + POP_JUMP_IF_FALSE
+                   fused into one instruction. */
+                PycRef<ASTNode> right = stack.top();
+                stack.pop();
+                PycRef<ASTNode> left = stack.top();
+                stack.pop();
+                stack.push(new ASTCompare(left, right, ASTCompare::CMP_EXCEPTION));
+                pendingOps.push_back(std::make_pair((int)Pyc::POP_JUMP_IF_FALSE_A, operand));
+            }
+            break;
         case Pyc::COMPARE_OP_A:
             {
                 PycRef<ASTNode> right = stack.top();
@@ -3832,6 +3844,23 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::SETUP_FINALLY_A:
             {
+                if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0) {
+                    /* 3.8-3.10 use SETUP_FINALLY for both try/finally and
+                       try/except. An except handler starts by testing the
+                       exception (DUP_TOP) or discarding it (POP_TOP). */
+                    int off = (mod->verCompare(3, 10) >= 0) ? operand * 2 : operand;
+                    PycBuffer look(code->code()->value(), code->code()->length());
+                    int target = pos + off;
+                    if (target < (int)code->code()->length()) {
+                        look.setPos(target);
+                        int lop = 0, lopnd = 0, lp = target;
+                        bc_next(look, mod, lop, lopnd, lp);
+                        if (lop == Pyc::DUP_TOP || lop == Pyc::POP_TOP) {
+                            pendingOps.push_back(std::make_pair((int)Pyc::SETUP_EXCEPT_A, off));
+                            break;
+                        }
+                    }
+                }
                 PycRef<ASTBlock> next = new ASTContainerBlock(pos+operand);
                 blocks.push(next.cast<ASTBlock>());
                 curblock = blocks.top();
