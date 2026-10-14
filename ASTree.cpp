@@ -961,8 +961,18 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             for (const auto& r : cleanupSkip)
                 if (curpos >= r.first && curpos < r.second)
                     skipIt = true;
-            if (skipIt)
+            if (skipIt) {
+                /* a chained-comparison cleanup sits between an if-body and the
+                   code after it: the block still ends where the skipped range
+                   ends */
+                for (const auto& r : xflow.chainSkip)
+                    if (curpos >= r.first && curpos < r.second
+                            && (curblock->blktype() == ASTBlock::BLK_ELSE
+                                || curblock->blktype() == ASTBlock::BLK_IF
+                                || curblock->blktype() == ASTBlock::BLK_ELIF))
+                        else_pop = (curblock->end() == pos);
                 continue;
+            }
         }
 
         bool hadGetIter = sawGetIter;

@@ -115,7 +115,7 @@ static void flattenAnd(const PycRef<ASTNode>& node, std::vector<PycRef<ASTNode> 
     if (node != NULL && node.type() == ASTNode::NODE_BINARY
             && node.cast<ASTBinary>()->op() == ASTBinary::BIN_LOG_AND) {
         flattenAnd(node.cast<ASTBinary>()->left(), out);
-        out.push_back(node.cast<ASTBinary>()->right());
+        flattenAnd(node.cast<ASTBinary>()->right(), out);
     } else {
         out.push_back(node);
     }

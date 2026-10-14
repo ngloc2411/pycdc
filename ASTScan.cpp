@@ -308,6 +308,41 @@ void ScanChainCleanups(PycRef<PycCode> code, PycModule* mod,
         if (J > 0) {
             target = J;
             endIdx = nextReal(after);
+        } else {
+            /* the cleanup may end in a copy of the exit's `return` (the compiler
+               duplicates small exit blocks): `POP_TOP; [LOAD_CONST]; RETURN`
+               equals the block the second half's false jump lands on */
+            int u = -1;
+            for (int k = i + 1; k < s && u < 0; k++) {
+                int ft = falseJump(ins[k]);
+                if (ft > ins[s].pos)
+                    u = ft;
+            }
+            auto ui = u >= 0 ? idxAt.find(u) : idxAt.end();
+            if (ui != idxAt.end()) {
+                int a = after, b = ui->second;
+                bool same = false;
+                while (a < n && b < n && ins[a].op == ins[b].op && ins[a].arg == ins[b].arg) {
+                    if (ins[a].op == Pyc::RETURN_VALUE || ins[a].op == Pyc::RETURN_CONST_A) {
+                        same = true;
+                        break;
+                    }
+                    /* straight-line code only: any jump ends the comparison */
+                    if (fwdJump(ins[a]) > 0 || falseJump(ins[a]) > 0
+                            || ins[a].op == Pyc::POP_JUMP_IF_TRUE_A
+                            || ins[a].op == Pyc::JUMP_BACKWARD_A
+                            || ins[a].op == Pyc::FOR_ITER_A)
+                        break;
+                    a = nextReal(a);
+                    b = nextReal(b);
+                    if (a >= n || b >= n)
+                        break;
+                }
+                if (same) {
+                    target = u;
+                    endIdx = nextReal(a);
+                }
+            }
         }
         int endPos = endIdx < n ? ins[endIdx].pos : ins[n - 1].real;
         int skipFrom = t;
@@ -324,14 +359,14 @@ void ScanChainCleanups(PycRef<PycCode> code, PycModule* mod,
 void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
 {
     ScanChainCleanups(code, mod, out.cleanupDest, out.chainSkip);
-    struct Ins { int pos, op, arg, next, real; };
+    struct Ins { int pos, op, arg, next, real; int fall; };
     PycBuffer src(code->code()->value(), code->code()->length());
     std::vector<Ins> ins;
     int opcode, operand, pos = 0;
     while (!src.atEof()) {
         int p = pos;
         bc_next(src, mod, opcode, operand, pos);
-        ins.push_back({p, opcode, operand, pos, pos});
+        ins.push_back({p, opcode, operand, pos, pos, 0});
     }
     /* `real`: position after trailing inline CACHE entries */
     for (int i = (int)ins.size() - 1; i >= 0; i--) {
@@ -339,6 +374,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             ins[i].real = ins[i + 1].real;
     }
     /* chained-comparison trailers/cleanups do not take part in loop shapes */
+    for (auto& in : ins)
+        in.fall = in.real;
     if (!out.chainSkip.empty()) {
         std::vector<Ins> kept;
         for (const auto& in : ins) {
@@ -348,6 +385,18 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                     skipIt = true;
             if (!skipIt)
                 kept.push_back(in);
+        }
+        /* `fall`: where control continues, hopping over erased ranges */
+        for (auto& in : kept) {
+            bool moved = true;
+            while (moved) {
+                moved = false;
+                for (const auto& r : out.chainSkip)
+                    if (in.fall == r.first) {
+                        in.fall = r.second;
+                        moved = true;
+                    }
+            }
         }
         ins.swap(kept);
     }
@@ -472,9 +521,9 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         int gt;
         if (g < 0 || jump(ins[g], gt) != COND || gt <= ins[g].pos)
             continue;
-        if (gt != ins[i].real)
+        if (gt != ins[i].fall)
             continue;
-        Loop l{t, ins[i].pos, ins[i].real, -1, ins[g].pos, true};
+        Loop l{t, ins[i].pos, ins[i].fall, -1, ins[g].pos, true};
         out.guardEnd[ins[g].pos] = l.end;
         out.backedges.insert(ins[i].pos);
         loops.push_back(l);
@@ -501,8 +550,8 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             int t = lu.first, bi = lu.second;
             int p = prevReal(bi), pt, gt;
             int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
-            if (p >= 0 && jump(ins[p], pt) == COND && pt == ins[bi].real
-                    && g >= 0 && jump(ins[g], gt) == COND && gt == ins[bi].real)
+            if (p >= 0 && jump(ins[p], pt) == COND && pt == ins[bi].fall
+                    && g >= 0 && jump(ins[g], gt) == COND && gt == ins[bi].fall)
                 entryStarts.insert(entryStartOf(g));
         }
     }
@@ -516,10 +565,10 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         int g = idxAt.count(t) ? prevReal(idxAt[t]) : -1;
         int gt;
         if (mod->verCompare(3, 12) >= 0 && p >= 0 && jump(ins[p], pt) == COND
-                && pt == ins[bi].real && g >= 0 && jump(ins[g], gt) == COND
-                && gt == ins[bi].real) {
+                && pt == ins[bi].fall && g >= 0 && jump(ins[g], gt) == COND
+                && gt == ins[bi].fall) {
             /* 3.12+: cond; POP_JUMP_IF_FALSE end; JUMP_BACKWARD T */
-            Loop l{t, ins[bi].pos, ins[bi].real, -1, ins[g].pos, true};
+            Loop l{t, ins[bi].pos, ins[bi].fall, -1, ins[g].pos, true};
             out.guardEnd[ins[g].pos] = l.end;
             out.backedges.insert(ins[p].pos);
             out.skipJumps.insert(ins[bi].pos);
@@ -550,9 +599,9 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         for (int gi = (int)cj.size() - 1; gi >= 0 && guard < 0; gi--) {
             int gtgt = 0;
             jump(ins[cj[gi]], gtgt);
-            if (gtgt < ins[bi].real)
+            if (gtgt < ins[bi].fall)
                 continue;
-            int bodyStart = ins[cj[gi]].real;
+            int bodyStart = ins[cj[gi]].fall;
             {
                 int nx = cj[gi] + 1;
                 while (nx < (int)ins.size() && (ins[nx].op == Pyc::CACHE
@@ -565,7 +614,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             for (int c = 0; ok && c < gi; c++) {
                 int ct = 0;
                 jump(ins[cj[c]], ct);
-                if (ct < ins[bi].real && ct != bodyStart)
+                if (ct < ins[bi].fall && ct != bodyStart)
                     ok = false;
             }
             if (ok) {
@@ -575,7 +624,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         }
         if (guard < 0)
             clean = false;
-        Loop l{t, ins[bi].pos, ins[bi].real, -1, guard, false};
+        Loop l{t, ins[bi].pos, ins[bi].fall, -1, guard, false};
         if (guard >= 0 && clean) {
             out.guardEnd[guard] = l.end;
             if (cj.size() > 1) {
@@ -586,7 +635,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                     chain.push_back(ChainJump{ins[cj[c]].pos,
                                               ins[cj[c]].op == Pyc::POP_JUMP_IF_TRUE_A
                                               || ins[cj[c]].op == Pyc::POP_JUMP_FORWARD_IF_TRUE_A,
-                                              ct < ins[bi].real});
+                                              ct < ins[bi].fall});
                     out.guardChainMember.insert(ins[cj[c]].pos);
                 }
                 out.guardChain[guard] = chain;
@@ -683,7 +732,7 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
                     return false;
                 /* exit, body start, or a later part of the same condition */
                 return tgt == l.end || tgt == l.T
-                       || (tgt > ins[j].pos && tgt < l.end && tgt <= ins[idxAt[l.B]].real);
+                       || (tgt > ins[j].pos && tgt < l.end && tgt <= ins[idxAt[l.B]].fall);
             };
             /* walk back over a (possibly `and`/`or` compound) condition expression */
             auto walkCond = [&](int from, int stopPos, std::vector<ChainJump>& chain) {
