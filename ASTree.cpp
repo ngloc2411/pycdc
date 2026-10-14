@@ -282,6 +282,65 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     int curpos = 0;
     int pos = 0;
     int unpack = 0;
+    /* Nested/starred unpacking (`(a, b), *c = x`). `unpack` counts the targets
+       still expected by the innermost UNPACK_*; the enclosing frames wait in
+       unpackSaved while a nested sequence is being filled in. `unpackStar` is
+       the index of the starred target of the innermost frame (UNPACK_EX). */
+    struct UnpackFrame { int remaining; int starIdx; };
+    std::vector<UnpackFrame> unpackSaved;
+    int unpackStar = -1;
+    /* Open a new unpack level: a nested one when targets are still pending. */
+    auto unpackBegin = [&](int count, int starIdx) {
+        if (unpack > 0)
+            unpackSaved.push_back(UnpackFrame{unpack, unpackStar});
+        unpack = count;
+        unpackStar = starIdx;
+        ASTTuple::value_t vals;
+        PycRef<ASTTuple> tup = new ASTTuple(vals);
+        stack.push(tup.cast<ASTNode>());
+    };
+    /* Hand one assignment target to the innermost unpack tuple; closes finished
+       tuples (adding them to their parent) and emits the statement when the
+       outermost one is complete. */
+    auto unpackAdd = [&](PycRef<ASTNode> target) {
+        for (;;) {
+            PycRef<ASTNode> tup = stack.top();
+            if (tup.type() != ASTNode::NODE_TUPLE) {
+                fputs("Something TERRIBLE happened!\n", stderr);
+                return;
+            }
+            if ((int)tup.cast<ASTTuple>()->values().size() == unpackStar)
+                target = new ASTUnary(target, ASTUnary::UN_UNPACK);
+            tup.cast<ASTTuple>()->add(target);
+            if (--unpack > 0)
+                return;
+            stack.pop();
+            if (!unpackSaved.empty()) {
+                /* a nested tuple is complete: it is one target of its parent */
+                PycRef<ASTTuple> inner = tup.cast<ASTTuple>();
+                inner->setRequireParens(true);
+                target = tup;
+                unpack = unpackSaved.back().remaining;
+                unpackStar = unpackSaved.back().starIdx;
+                unpackSaved.pop_back();
+                continue;
+            }
+            PycRef<ASTNode> seq = stack.top();
+            stack.pop();
+            unpackStar = -1;
+            if (curblock->blktype() == ASTBlock::BLK_FOR && !curblock->inited()) {
+                PycRef<ASTTuple> tuple = tup.try_cast<ASTTuple>();
+                if (tuple != NULL)
+                    tuple->setRequireParens(false);
+                curblock.cast<ASTIterBlock>()->setIndex(tup);
+            } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
+                append_to_chain_store(seq, tup, stack, curblock);
+            } else {
+                curblock->append(new ASTStore(seq, tup));
+            }
+            return;
+        }
+    };
     /* Python 3.12+ inlined comprehensions: number of loop variables saved by
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
     std::vector<int> inlineComps;

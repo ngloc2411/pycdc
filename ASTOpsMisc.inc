@@ -1,12 +1,15 @@
 /* BuildFromCode: opcode cases, part 8/8. Included inside the switch in ASTree.cpp. */
+        case Pyc::UNPACK_EX_A:
+            /* `a, *b, c = x`: before + 1 + after targets, the starred one at
+               index `before` */
+            unpackBegin((operand & 0xff) + (operand >> 8) + 1, operand & 0xff);
+            break;
         case Pyc::UNPACK_LIST_A:
         case Pyc::UNPACK_TUPLE_A:
         case Pyc::UNPACK_SEQUENCE_A:
             {
-                unpack = operand;
-                if (unpack > 0) {
-                    ASTTuple::value_t vals;
-                    stack.push(new ASTTuple(vals));
+                if (operand > 0) {
+                    unpackBegin(operand, -1);
                 } else {
                     // Unpack zero values and assign it to top of stack or for loop variable.
                     // E.g. [] = TOS / for [] in X

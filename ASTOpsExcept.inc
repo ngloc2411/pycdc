@@ -82,23 +82,7 @@
                     PycRef<ASTNode> name = stack.top();
                     stack.pop();
                     PycRef<ASTNode> attr = new ASTBinary(name, new ASTName(code->getName(operand)), ASTBinary::BIN_ATTR);
-
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(attr);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-                        if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(attr);
                 } else {
                     PycRef<ASTNode> name = stack.top();
                     stack.pop();
@@ -117,24 +101,7 @@
             {
                 if (unpack) {
                     PycRef<ASTNode> name = new ASTName(code->getCellVar(mod, operand));
-
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(name);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-
-                        if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(name);
                 } else {
                     PycRef<ASTNode> value = stack.top();
                     stack.pop();
@@ -160,30 +127,7 @@
                         name = new ASTName(code->getName(operand));
                     else
                         name = new ASTName(code->getLocal(operand));
-
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(name);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-
-                        if (curblock->blktype() == ASTBlock::BLK_FOR
-                                && !curblock->inited()) {
-                            PycRef<ASTTuple> tuple = tup.try_cast<ASTTuple>();
-                            if (tuple != NULL)
-                                tuple->setRequireParens(false);
-                            curblock.cast<ASTIterBlock>()->setIndex(tup);
-                        } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(name);
                 } else {
                     PycRef<ASTNode> value = stack.top();
                     stack.pop();
@@ -236,29 +180,7 @@
                 PycRef<ASTNode> name = new ASTName(code->getName(operand));
 
                 if (unpack) {
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(name);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-
-                        if (curblock->blktype() == ASTBlock::BLK_FOR
-                                && !curblock->inited()) {
-                            PycRef<ASTTuple> tuple = tup.try_cast<ASTTuple>();
-                            if (tuple != NULL)
-                                tuple->setRequireParens(false);
-                            curblock.cast<ASTIterBlock>()->setIndex(tup);
-                        } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(name);
                 } else {
                     PycRef<ASTNode> value = stack.top();
                     stack.pop();
@@ -277,30 +199,7 @@
             {
                 if (unpack) {
                     PycRef<ASTNode> name = new ASTName(code->getName(operand));
-
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(name);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-
-                        if (curblock->blktype() == ASTBlock::BLK_FOR
-                                && !curblock->inited()) {
-                            PycRef<ASTTuple> tuple = tup.try_cast<ASTTuple>();
-                            if (tuple != NULL)
-                                tuple->setRequireParens(false);
-                            curblock.cast<ASTIterBlock>()->setIndex(tup);
-                        } else if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(name);
                 } else {
                     PycRef<ASTNode> value = stack.top();
                     stack.pop();
@@ -401,23 +300,7 @@
                     stack.pop();
 
                     PycRef<ASTNode> save = new ASTSubscr(dest, subscr);
-
-                    PycRef<ASTNode> tup = stack.top();
-                    if (tup.type() == ASTNode::NODE_TUPLE)
-                        tup.cast<ASTTuple>()->add(save);
-                    else
-                        fputs("Something TERRIBLE happened!\n", stderr);
-
-                    if (--unpack <= 0) {
-                        stack.pop();
-                        PycRef<ASTNode> seq = stack.top();
-                        stack.pop();
-                        if (seq.type() == ASTNode::NODE_CHAINSTORE) {
-                            append_to_chain_store(seq, tup, stack, curblock);
-                        } else {
-                            curblock->append(new ASTStore(seq, tup));
-                        }
-                    }
+                    unpackAdd(save);
                 } else {
                     PycRef<ASTNode> subscr = stack.top();
                     stack.pop();
