@@ -1,0 +1,132 @@
+def and_cond ( a , b ) : <EOL>
+<INDENT>
+while a and b : <EOL>
+<INDENT>
+a = a - 1 <EOL>
+b = b - 1 <EOL>
+<OUTDENT>
+return a <EOL>
+<OUTDENT>
+def or_cond ( a , b ) : <EOL>
+<INDENT>
+while a or b : <EOL>
+<INDENT>
+a = a - 1 <EOL>
+<OUTDENT>
+print ( a ) <EOL>
+<OUTDENT>
+def elif_chain ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+if j == 1 : <EOL>
+<INDENT>
+print ( 'one' ) <EOL>
+<OUTDENT>
+elif j == 2 : <EOL>
+<INDENT>
+print ( 'two' ) <EOL>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+print ( 'many' ) <EOL>
+<OUTDENT>
+j += 1 <EOL>
+<OUTDENT>
+print ( 'done' ) <EOL>
+<OUTDENT>
+def true_continue ( q ) : <EOL>
+<INDENT>
+while True : <EOL>
+<INDENT>
+item = q . get ( ) <EOL>
+if item is None : <EOL>
+<INDENT>
+continue <EOL>
+<OUTDENT>
+if item == 'stop' : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+print ( item ) <EOL>
+<OUTDENT>
+print ( 'stopped' ) <EOL>
+<OUTDENT>
+def loop_in_for ( rows ) : <EOL>
+<INDENT>
+for row in rows : <EOL>
+<INDENT>
+k = 0 <EOL>
+while k < len ( row ) : <EOL>
+<INDENT>
+if row [ k ] == 0 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+k += 1 <EOL>
+<OUTDENT>
+print ( k ) <EOL>
+<OUTDENT>
+<OUTDENT>
+def break_in_inner_for ( n ) : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+for x in range ( j ) : <EOL>
+<INDENT>
+if x == 2 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+print ( x ) <EOL>
+<OUTDENT>
+j += 1 <EOL>
+<OUTDENT>
+print ( 'end' ) <EOL>
+<OUTDENT>
+def three_levels ( n ) : <EOL>
+<INDENT>
+a = 0 <EOL>
+while a < n : <EOL>
+<INDENT>
+b = 0 <EOL>
+while b < n : <EOL>
+<INDENT>
+c = 0 <EOL>
+while c < n : <EOL>
+<INDENT>
+c += 1 <EOL>
+if c == 2 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+<OUTDENT>
+b += 1 <EOL>
+<OUTDENT>
+a += 1 <EOL>
+<OUTDENT>
+print ( a ) <EOL>
+<OUTDENT>
+def nested_else ( n ) : <EOL>
+<INDENT>
+i = 0 <EOL>
+while i < n : <EOL>
+<INDENT>
+j = 0 <EOL>
+while j < n : <EOL>
+<INDENT>
+j += 1 <EOL>
+if j == 4 : <EOL>
+<INDENT>
+break <EOL>
+<OUTDENT>
+<OUTDENT>
+else : <EOL>
+<INDENT>
+print ( 'inner done' ) <EOL>
+<OUTDENT>
+i += 1 <EOL>
+<OUTDENT>
+print ( 'x' ) <EOL>
