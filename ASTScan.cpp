@@ -1139,17 +1139,28 @@ void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out, const Whi
             return t > ins[i].pos;
         };
         /* position right after the jump (and its caches / NOT_TAKEN) */
-        auto fallPos = [&](int i) {
-            int k = i + 1;
-            while (k < n && (ins[k].op == Pyc::CACHE || ins[k].op == Pyc::NOT_TAKEN))
-                k++;
-            return k < n ? ins[k].pos : ins[n - 1].next;
-        };
+        /* chained-comparison trailers/cleanups are transparent to fallthrough */
         auto fallIdx = [&](int i) {
             int k = i + 1;
-            while (k < n && (ins[k].op == Pyc::CACHE || ins[k].op == Pyc::NOT_TAKEN))
-                k++;
+            for (;;) {
+                while (k < n && (ins[k].op == Pyc::CACHE || ins[k].op == Pyc::NOT_TAKEN))
+                    k++;
+                bool moved = false;
+                for (const auto& r : out.chainSkip)
+                    if (k < n && ins[k].pos == r.first) {
+                        while (k < n && ins[k].pos < r.second)
+                            k++;
+                        moved = true;
+                        break;
+                    }
+                if (!moved)
+                    break;
+            }
             return k;
+        };
+        auto fallPos = [&](int i) {
+            int k = fallIdx(i);
+            return k < n ? ins[k].pos : ins[n - 1].next;
         };
         std::set<int> used;
         for (int i = 0; i < n; i++) {
