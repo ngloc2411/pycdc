@@ -858,7 +858,10 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                     break;
                 }
             }
+            lambdaBare = (!inLambda && ret->rettype() == ASTReturn::RETURN
+                    && value != NULL && value.type() == ASTNode::NODE_FUNCTION);
             print_src(value, mod, pyc_output);
+            lambdaBare = false;
         }
         break;
     case ASTNode::NODE_SLICE:

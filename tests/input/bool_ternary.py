@@ -124,7 +124,7 @@ def tern_nested_cond(a, b, x, y, z):
 
 
 def tern_nested_both(a, b, c, x, y, z, w):
-    r = (x if a else y) if b else (z if c else w)
+    r = (x if a else y) if b else z if c else w
     return use(r) + use(r)
 
 

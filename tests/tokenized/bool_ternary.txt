@@ -131,7 +131,7 @@ return use ( r ) + use ( r ) <EOL>
 <OUTDENT>
 def tern_nested_both ( a , b , c , x , y , z , w ) : <EOL>
 <INDENT>
-r = ( x if a else y ) if b else ( z if c else w ) <EOL>
+r = ( x if a else y ) if b else z if c else w <EOL>
 return use ( r ) + use ( r ) <EOL>
 <OUTDENT>
 def tern_in_args ( a , x , y ) : <EOL>
