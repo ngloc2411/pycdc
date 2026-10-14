@@ -342,6 +342,68 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             return;
         }
     };
+    /* `(n := value)`: DUP_TOP/COPY 1 followed by a plain store whose value is
+       then *used* (rather than stored again, which is a chained assignment).
+       Called with the source positioned right after the DUP_TOP/COPY; on
+       success the store is consumed and the named expression is on the stack. */
+    auto tryWalrus = [&]() -> bool {
+        if (stack.empty() || stack.top() == NULL
+                || stack.top().type() == ASTNode::NODE_CHAINSTORE || source.atEof())
+            return false;
+        const int sSrc = source.pos(), sPos = pos;
+        int o = 0, a = 0;
+        bc_next(source, mod, o, a, pos);
+        if (o != Pyc::STORE_FAST_A && o != Pyc::STORE_NAME_A
+                && o != Pyc::STORE_GLOBAL_A && o != Pyc::STORE_DEREF_A) {
+            source.setPos(sSrc);
+            pos = sPos;
+            return false;
+        }
+        if (o == Pyc::STORE_NAME_A && !strcmp(code->getName(a)->value(), "__classcell__")) {
+            source.setPos(sSrc);
+            pos = sPos;
+            return false;
+        }
+        const int storeOp = o, storeArg = a;
+        const int aSrc = source.pos(), aPos = pos;
+        bool chain = false;
+        for (int n = 0; n < 12 && !source.atEof(); n++) {
+            int o2 = 0, a2 = 0, p2 = pos;
+            bc_next(source, mod, o2, a2, p2);
+            pos = p2;
+            if (o2 == Pyc::CACHE)
+                continue;
+            if (o2 == Pyc::STORE_FAST_A || o2 == Pyc::STORE_NAME_A || o2 == Pyc::STORE_GLOBAL_A
+                    || o2 == Pyc::STORE_DEREF_A || o2 == Pyc::STORE_ATTR_A || o2 == Pyc::STORE_SUBSCR
+                    || o2 == Pyc::UNPACK_SEQUENCE_A || o2 == Pyc::UNPACK_EX_A
+                    || o2 == Pyc::DUP_TOP || (o2 == Pyc::COPY_A && a2 == 1)) {
+                chain = true;
+                break;
+            }
+            if (o2 != Pyc::LOAD_FAST_A && o2 != Pyc::LOAD_NAME_A && o2 != Pyc::LOAD_GLOBAL_A
+                    && o2 != Pyc::LOAD_DEREF_A && o2 != Pyc::LOAD_CONST_A && o2 != Pyc::LOAD_ATTR_A
+                    && o2 != Pyc::BINARY_SUBSCR)
+                break;
+        }
+        source.setPos(aSrc);
+        pos = aPos;
+        if (chain) {
+            source.setPos(sSrc);
+            pos = sPos;
+            return false;
+        }
+        PycRef<ASTNode> name;
+        if (storeOp == Pyc::STORE_FAST_A)
+            name = new ASTName(code->getLocal(storeArg));
+        else if (storeOp == Pyc::STORE_DEREF_A)
+            name = new ASTName(code->getCellVar(mod, storeArg));
+        else
+            name = new ASTName(code->getName(storeArg));
+        PycRef<ASTNode> value = stack.top();
+        stack.pop();
+        stack.push(new ASTNamedExpr(name, value));
+        return true;
+    };
     /* Python 3.12+ inlined comprehensions: number of loop variables saved by
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
     std::vector<int> inlineComps;

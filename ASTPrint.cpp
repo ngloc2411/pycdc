@@ -1278,6 +1278,16 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             }
         }
         break;
+    case ASTNode::NODE_NAMEDEXPR:
+        {
+            PycRef<ASTNamedExpr> ne = node.cast<ASTNamedExpr>();
+            pyc_output << "(";
+            print_src(ne->name(), mod, pyc_output);
+            pyc_output << " := ";
+            print_src(ne->value(), mod, pyc_output);
+            pyc_output << ")";
+        }
+        break;
     case ASTNode::NODE_CHAINSTORE:
         {
             for (auto& dest : node.cast<ASTChainStore>()->nodes()) {

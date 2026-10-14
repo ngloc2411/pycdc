@@ -1,7 +1,23 @@
-def f ( data ) : <EOL>
+def f ( data , items ) : <EOL>
 <INDENT>
-if ( n := len ( data ) ) > 2 : <EOL>
+if ( n := len ( data ) ) > 3 : <EOL>
 <INDENT>
 print ( n ) <EOL>
 <OUTDENT>
-return [ y for x in data if ( y := x * 2 ) > 2 ] <EOL>
+while ( chunk := data . pop ( ) ) : <EOL>
+<INDENT>
+print ( chunk ) <EOL>
+<OUTDENT>
+total = [ y for x in items if ( y := x * 2 ) > 1 ] <EOL>
+print ( total ) <EOL>
+if ( a := items [ 0 ] ) and ( b := items [ 1 ] ) : <EOL>
+<INDENT>
+print ( a , b ) <EOL>
+<OUTDENT>
+return n <EOL>
+<OUTDENT>
+def g ( m ) : <EOL>
+<INDENT>
+print ( ( k := m + 1 ) , k ) <EOL>
+z = ( w := m ) + 1 <EOL>
+return z , w <EOL>

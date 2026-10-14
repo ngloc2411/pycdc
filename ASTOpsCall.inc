@@ -235,6 +235,8 @@
             break;
         case Pyc::DUP_TOP:
             {
+                if (tryWalrus())
+                    break;
                 /* chained comparison head (<= 3.10): DUP_TOP; ROT_THREE; COMPARE
                    turns [A, B] into [B, A, B] sharing the node of B. */
                 if (mod->verCompare(3, 11) < 0 && stack.size() >= 2) {

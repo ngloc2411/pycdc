@@ -224,6 +224,8 @@
             {
                 /* `x = y = v`: COPY 1 followed by a store keeps the value for the
                    next target, exactly like the old DUP_TOP form. */
+                if (operand == 1 && tryWalrus())
+                    break;
                 if (operand == 1 && !source.atEof() && stack.top() != NULL
                         && !stack.empty()) {
                     int sSrc = source.pos(), sPos = pos;

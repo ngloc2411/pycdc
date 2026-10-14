@@ -18,7 +18,7 @@ public:
         NODE_COMPREHENSION, NODE_LOADBUILDCLASS, NODE_AWAITABLE,
         NODE_FORMATTEDVALUE, NODE_JOINEDSTR, NODE_CONST_MAP,
         NODE_ANNOTATED_VAR, NODE_CHAINSTORE, NODE_TERNARY,
-        NODE_KW_NAMES_MAP, NODE_MATCH_PATTERN,
+        NODE_KW_NAMES_MAP, NODE_MATCH_PATTERN, NODE_NAMEDEXPR,
 
         // Empty node types
         NODE_LOCALS,
@@ -91,6 +91,20 @@ public:
 
 private:
     PycRef<ASTNode> m_src;
+};
+
+
+/* Assignment expression: (name := value) */
+class ASTNamedExpr : public ASTNode {
+public:
+    ASTNamedExpr(PycRef<ASTNode> name, PycRef<ASTNode> value)
+        : ASTNode(NODE_NAMEDEXPR), m_name(std::move(name)), m_value(std::move(value)) { }
+
+    PycRef<ASTNode> name() const { return m_name; }
+    PycRef<ASTNode> value() const { return m_value; }
+
+private:
+    PycRef<ASTNode> m_name, m_value;
 };
 
 

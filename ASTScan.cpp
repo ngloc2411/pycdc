@@ -609,7 +609,12 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
             int tt;
             Kind k = jump(ins[bodyIdx], tt);
             if (k == NONE) {
-                if (!isExprOp(ins[bodyIdx].op)) break;
+                int hop = ins[bodyIdx].op;
+                bool walrusStore = bodyIdx > 0
+                        && (ins[bodyIdx - 1].op == Pyc::DUP_TOP || ins[bodyIdx - 1].op == Pyc::COPY_A)
+                        && (hop == Pyc::STORE_FAST_A || hop == Pyc::STORE_NAME_A
+                            || hop == Pyc::STORE_GLOBAL_A || hop == Pyc::STORE_DEREF_A);
+                if (!isExprOp(hop) && !walrusStore) break;   /* `while (x := f()):` stores */
                 continue;
             }
             if (k != COND) break;
