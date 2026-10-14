@@ -4660,6 +4660,52 @@ static void end_line(std::ostream& pyc_output)
 }
 
 int cur_indent = -1;
+
+/* Decorators (`@d def f(): ...`) compile to `f = d(<function>)`; the function
+   is emitted as a plain def followed by `f = d(f)`. Recognize that pair so it
+   can be printed back as decorator lines. */
+static std::vector<PycRef<ASTNode> > pendingDecorators;
+
+static bool matchDecoratedDef(const PycRef<ASTNode>& def, const PycRef<ASTNode>& assign,
+                              std::vector<PycRef<ASTNode> >& decs)
+{
+    if (def == NULL || assign == NULL || def.type() != ASTNode::NODE_STORE
+            || assign.type() != ASTNode::NODE_STORE)
+        return false;
+    PycRef<ASTStore> d = def.cast<ASTStore>();
+    PycRef<ASTStore> a = assign.cast<ASTStore>();
+    if (d->dest().type() != ASTNode::NODE_NAME || a->dest().type() != ASTNode::NODE_NAME)
+        return false;
+    if (d->src().type() == ASTNode::NODE_FUNCTION) {
+        PycRef<PycCode> c = d->src().cast<ASTFunction>()->code()
+                .cast<ASTObject>()->object().cast<PycCode>();
+        if (c->name()->isEqual("<lambda>"))
+            return false;
+    } else if (d->src().type() != ASTNode::NODE_CLASS) {
+        return false;
+    }
+    if (!d->dest().cast<ASTName>()->name()->isEqual(
+            a->dest().cast<ASTName>()->name()->value()))
+        return false;
+    PycRef<ASTNode> node = a->src();
+    std::vector<PycRef<ASTNode> > found;
+    while (node != NULL && node.type() == ASTNode::NODE_CALL) {
+        PycRef<ASTCall> c = node.cast<ASTCall>();
+        if (c->pparams().size() != 1 || !c->kwparams().empty() || c->hasVar() || c->hasKW())
+            return false;
+        found.push_back(c->func());
+        node = c->pparams().front();
+    }
+    if (found.empty() || node == NULL || node.type() != ASTNode::NODE_NAME
+            || !node.cast<ASTName>()->name()->isEqual(
+                    d->dest().cast<ASTName>()->name()->value()))
+        return false;
+    decs = found;
+    return true;
+}
+
+static void print_pending_decorators(PycModule* mod, std::ostream& pyc_output);
+
 static void print_block(PycRef<ASTBlock> blk, PycModule* mod,
                         std::ostream& pyc_output)
 {
@@ -4672,13 +4718,39 @@ static void print_block(PycRef<ASTBlock> blk, PycModule* mod,
     }
 
     for (auto ln = lines.cbegin(); ln != lines.cend();) {
+        bool skipNext = false;
+        {
+            auto nx = std::next(ln);
+            std::vector<PycRef<ASTNode> > decs;
+            if (nx != lines.cend() && matchDecoratedDef(*ln, *nx, decs)) {
+                pendingDecorators = decs;
+                skipNext = true;
+            }
+        }
         if ((*ln).cast<ASTNode>().type() != ASTNode::NODE_NODELIST) {
             start_line(cur_indent, pyc_output);
         }
         print_src(*ln, mod, pyc_output);
-        if (++ln != lines.end()) {
+        ++ln;
+        if (skipNext)
+            ++ln;
+        if (ln != lines.end()) {
             end_line(pyc_output);
         }
+    }
+}
+
+static void print_pending_decorators(PycModule* mod, std::ostream& pyc_output)
+{
+    std::vector<PycRef<ASTNode> > decs;
+    decs.swap(pendingDecorators);
+    /* Applied inside-out in the bytecode; the outermost decorator comes
+       first in the source. */
+    for (const auto& d : decs) {
+        start_line(cur_indent, pyc_output);
+        pyc_output << "@";
+        print_src(d, mod, pyc_output);
+        pyc_output << "\n";
     }
 }
 
@@ -4978,12 +5050,21 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
     case ASTNode::NODE_NODELIST:
         {
             cur_indent++;
-            for (const auto& ln : node.cast<ASTNodeList>()->nodes()) {
+            const auto& nl = node.cast<ASTNodeList>()->nodes();
+            for (auto it = nl.cbegin(); it != nl.cend(); ++it) {
+                const auto& ln = *it;
+                auto nx = std::next(it);
+                std::vector<PycRef<ASTNode> > decs;
+                bool skipNext = nx != nl.cend() && matchDecoratedDef(ln, *nx, decs);
+                if (skipNext)
+                    pendingDecorators = decs;
                 if (ln.cast<ASTNode>().type() != ASTNode::NODE_NODELIST) {
                     start_line(cur_indent, pyc_output);
                 }
                 print_src(ln, mod, pyc_output);
                 end_line(pyc_output);
+                if (skipNext)
+                    ++it;
             }
             cur_indent--;
         }
@@ -5277,6 +5358,7 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                     isLambda = true;
                 } else {
                     pyc_output << "\n";
+                    print_pending_decorators(mod, pyc_output);
                     start_line(cur_indent, pyc_output);
                     if (code_src->flags() & PycCode::CO_COROUTINE)
                         pyc_output << "async ";
@@ -5350,6 +5432,7 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 inLambda = preLambda;
             } else if (src.type() == ASTNode::NODE_CLASS) {
                 pyc_output << "\n";
+                print_pending_decorators(mod, pyc_output);
                 start_line(cur_indent, pyc_output);
                 pyc_output << "class ";
                 print_src(dest, mod, pyc_output);
