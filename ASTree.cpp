@@ -32,6 +32,7 @@ static bool inLambda = false;
 /* Set just before printing a lambda that sits directly in a call argument
    list, where it needs no enclosing parentheses. */
 static bool lambdaBare = false;
+static bool genexprBare = false;   /* print a sole generator argument without parentheses */
 
 /* Use this to keep track of whether we need to print out any docstring and
  * the list of global variables that we are using (such as inside a function). */
@@ -667,6 +668,12 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     /* Python 3.12+ inlined comprehensions: number of loop variables saved by
        each open LOAD_FAST_AND_CLEAR prologue (innermost last). */
     std::vector<int> inlineComps;
+    bool commonGuard = false;   /* 3.14 `f is any` guard of an inlined builtin call */
+    const bool isCompCode = [&]() {
+        const char* nm = code->name() != NULL ? code->name()->value() : NULL;
+        return nm && (!strcmp(nm, "<listcomp>") || !strcmp(nm, "<setcomp>")
+                || !strcmp(nm, "<dictcomp>") || !strcmp(nm, "<genexpr>"));
+    }();
     bool inlineFinish = false;
     std::set<int> fusedKeepFirst;   /* STORE_FAST_STORE_FAST whose 2nd store is a restore */
     int inlineFinishBase = 0;
@@ -1264,7 +1271,62 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             continue;
         }
 
-        if (!inlineComps.empty() && mod->verCompare(3, 12) >= 0
+        if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0
+                && (opcode == Pyc::POP_JUMP_IF_FALSE_A || opcode == Pyc::POP_JUMP_IF_TRUE_A)) {
+            /* Before 3.11 the compiler threads `if c: body` at the tail of a loop
+               so the test jumps straight back to the loop header; that is the
+               3.11 POP_JUMP_BACKWARD_IF_* shape. */
+            int tgt = operand * (mod->verCompare(3, 10) >= 0 ? (int)sizeof(uint16_t) : 1);
+            bool tailOfLoop = false;
+            if (tgt < curpos) {
+                std::stack<PycRef<ASTBlock> > tmp = blocks;
+                while (!tmp.empty()) {
+                    ASTBlock::BlkType bt = tmp.top()->blktype();
+                    if (bt == ASTBlock::BLK_FOR) {
+                        tailOfLoop = !tmp.top().cast<ASTIterBlock>()->isComprehension()
+                                && tgt == tmp.top().cast<ASTIterBlock>()->start();
+                        break;
+                    }
+                    if (bt != ASTBlock::BLK_IF && bt != ASTBlock::BLK_ELIF)
+                        break;
+                    tmp.pop();
+                }
+            }
+            if (tailOfLoop) {
+                opcode = (opcode == Pyc::POP_JUMP_IF_TRUE_A)
+                        ? Pyc::POP_JUMP_BACKWARD_IF_TRUE_A
+                        : Pyc::POP_JUMP_BACKWARD_IF_FALSE_A;
+            }
+        }
+
+        if (commonGuard && opcode == Pyc::POP_JUMP_IF_FALSE_A) {
+            /* 3.14 compiles any(genexpr)/all(...)/tuple(...) as
+                   COPY 1; LOAD_COMMON_CONSTANT f; IS_OP; POP_JUMP_IF_FALSE slow
+                   <inlined fast path> ... slow: <ordinary call>
+               Decompile the ordinary call: pop the test and continue at `slow`. */
+            commonGuard = false;
+            int jumpBase = pos;
+            while (!source.atEof()) {
+                int keepSrc = source.pos(), keepPos = pos;
+                int o3 = 0, a3 = 0;
+                bc_next(source, mod, o3, a3, pos);
+                if (o3 == Pyc::CACHE) {
+                    jumpBase = pos;
+                } else {
+                    source.setPos(keepSrc);
+                    pos = keepPos;
+                    break;
+                }
+            }
+            int target = jumpBase + operand * (int)sizeof(uint16_t);
+            if (!stack.empty())
+                stack.pop();
+            source.setPos(target);
+            pos = target;
+            continue;
+        }
+
+        if ((!inlineComps.empty() || isCompCode) && mod->verCompare(3, 12) >= 0
                 && (opcode == Pyc::POP_JUMP_IF_TRUE_A
                     || opcode == Pyc::POP_JUMP_IF_FALSE_A)
                 && !source.atEof()) {
@@ -2817,6 +2879,45 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 if (mod->verCompare(3, 10) >= 0)
                     offs *= sizeof(uint16_t); // // BPO-27129
 
+                if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0
+                        && offs < pos
+                        && (curblock->blktype() == ASTBlock::BLK_IF
+                            || curblock->blktype() == ASTBlock::BLK_ELIF)
+                        && pos == curblock->end()) {
+                    /* `if c: body` at the tail of a loop: this jump is both the
+                       last instruction of the if-region and the natural loop
+                       back-edge. Close the if-block(s) and let the loop close
+                       below. */
+                    bool loopOwns = false;
+                    {
+                        std::stack<PycRef<ASTBlock> > tmp = blocks;
+                        while (!tmp.empty()) {
+                            ASTBlock::BlkType bt = tmp.top()->blktype();
+                            if (bt == ASTBlock::BLK_FOR) {
+                                loopOwns = tmp.top()->end() == pos
+                                        && !tmp.top().cast<ASTIterBlock>()->isComprehension()
+                                        && offs == tmp.top().cast<ASTIterBlock>()->start();
+                                break;
+                            }
+                            if (bt != ASTBlock::BLK_IF && bt != ASTBlock::BLK_ELIF)
+                                break;
+                            tmp.pop();
+                        }
+                    }
+                    while (loopOwns && (curblock->blktype() == ASTBlock::BLK_IF
+                                        || curblock->blktype() == ASTBlock::BLK_ELIF)
+                            && blocks.size() > 1) {
+                        if (!stack_hist.empty()) {
+                            stack = stack_hist.top();
+                            stack_hist.pop();
+                        }
+                        PycRef<ASTBlock> inner = curblock;
+                        blocks.pop();
+                        curblock = blocks.top();
+                        curblock->append(inner.cast<ASTNode>());
+                    }
+                }
+
                 if (!inlineComps.empty() && offs < pos
                         && (curblock->blktype() == ASTBlock::BLK_IF
                             || curblock->blktype() == ASTBlock::BLK_ELIF)
@@ -3230,6 +3331,29 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 }
             }
             break;
+        case Pyc::CALL_INTRINSIC_1_A:
+            switch (operand) {
+            case 2:   /* INTRINSIC_IMPORT_STAR */
+                pendingOps.push_back(std::make_pair((int)Pyc::IMPORT_STAR, 0));
+                break;
+            case 3:   /* INTRINSIC_STOPITERATION_ERROR (generator cleanup) */
+            case 4:   /* INTRINSIC_ASYNC_GEN_WRAP */
+                break;
+            case 5:   /* INTRINSIC_UNARY_POSITIVE */
+                {
+                    PycRef<ASTNode> arg = stack.top();
+                    stack.pop();
+                    stack.push(new ASTUnary(arg, ASTUnary::UN_POSITIVE));
+                }
+                break;
+            case 6:   /* INTRINSIC_LIST_TO_TUPLE */
+                pendingOps.push_back(std::make_pair((int)Pyc::LIST_TO_TUPLE, 0));
+                break;
+            default:
+                fprintf(stderr, "Unsupported CALL_INTRINSIC_1 operand %d\n", operand);
+                break;
+            }
+            break;
         case Pyc::LIST_TO_TUPLE:
             {
                 /* Python 3.9+: convert the list at TOS into a tuple
@@ -3258,7 +3382,13 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 PycRef<ASTNode> key = stack.top();
                 stack.pop();
 
-                if (InsideComprehensionAdd(blocks)) {
+                if (!inlineComps.empty() && curblock->blktype() != ASTBlock::BLK_FOR) {
+                    /* Filtered inlined dict comprehension: keep the pair as a
+                       yield marker; END_FOR rebuilds the comprehension. */
+                    auto m = new ASTMap();
+                    m->add(key, value);
+                    curblock->append(new ASTReturn(m, ASTReturn::YIELD));
+                } else if (InsideComprehensionAdd(blocks)) {
                     /* Dict comprehension (with or without an `if` filter --
                        when filtered, curblock is the filter's BLK_IF/BLK_ELIF
                        rather than the BLK_FOR itself; the backward-jump
@@ -3419,6 +3549,26 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     }
 
                     stack.push(new ASTBinary(name, new ASTName(code->getName(operand)), ASTBinary::BIN_ATTR));
+                }
+            }
+            break;
+        case Pyc::LOAD_COMMON_CONSTANT_A:
+            {
+                /* 3.14: 0 AssertionError, 1 NotImplementedError, 2 tuple,
+                   3 all, 4 any */
+                static const char* const names[] = {
+                    "AssertionError", "NotImplementedError", "tuple", "all", "any"
+                };
+                if (operand == 0) {
+                    pendingOps.push_back(std::make_pair((int)Pyc::LOAD_ASSERTION_ERROR, 0));
+                } else if (operand >= 1 && operand <= 4) {
+                    PycRef<PycString> nm = new PycString();
+                    nm->setValue(names[operand]);
+                    stack.push(new ASTName(nm));
+                    if (operand >= 2)
+                        commonGuard = true;
+                } else {
+                    fprintf(stderr, "Unsupported LOAD_COMMON_CONSTANT %d\n", operand);
                 }
             }
             break;
@@ -5356,7 +5506,15 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
                 if (!first)
                     pyc_output << ", ";
                 lambdaBare = (param.type() == ASTNode::NODE_FUNCTION);
+                /* f(x for x in y): the sole generator argument needs no
+                   extra parentheses. */
+                genexprBare = (call->pparams().size() == 1
+                        && call->kwparams().empty() && !call->hasVar() && !call->hasKW()
+                        && param != NULL && param.type() == ASTNode::NODE_COMPREHENSION
+                        && param.cast<ASTComprehension>()->kind()
+                                == ASTComprehension::KIND_GENERATOR);
                 print_src(param, mod, pyc_output);
+                genexprBare = false;
                 lambdaBare = false;
                 first = false;
             }
@@ -5493,6 +5651,11 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             bool is_gen = comp->kind() == ASTComprehension::KIND_GENERATOR;
             const char* open = (is_dict || is_set) ? "{ " : is_gen ? "( " : "[ ";
             const char* close = (is_dict || is_set) ? " }" : is_gen ? " )" : " ]";
+            if (is_gen && genexprBare) {
+                open = "";
+                close = "";
+                genexprBare = false;
+            }
 
             pyc_output << open;
             if (is_dict) {

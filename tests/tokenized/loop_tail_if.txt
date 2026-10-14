@@ -1,0 +1,44 @@
+def f ( xs ) : <EOL>
+<INDENT>
+for x in xs : <EOL>
+<INDENT>
+if x : <EOL>
+<INDENT>
+print ( x ) <EOL>
+<OUTDENT>
+<OUTDENT>
+return 1 <EOL>
+<OUTDENT>
+def g ( xs ) : <EOL>
+<INDENT>
+for x in xs : <EOL>
+<INDENT>
+print ( x ) <EOL>
+if x > 2 : <EOL>
+<INDENT>
+print ( 'big' ) <EOL>
+if x > 5 : <EOL>
+<INDENT>
+print ( 'huge' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+<OUTDENT>
+def h ( xs ) : <EOL>
+<INDENT>
+for x in xs : <EOL>
+<INDENT>
+if not x : <EOL>
+<INDENT>
+print ( 'zero' ) <EOL>
+<OUTDENT>
+<OUTDENT>
+print ( 'done' ) <EOL>
+<OUTDENT>
+def gen ( xs ) : <EOL>
+<INDENT>
+for x in xs : <EOL>
+<INDENT>
+if x : <EOL>
+<INDENT>
+yield x <EOL>
