@@ -253,6 +253,17 @@ static PycRef<ASTComprehension> SynthGenexpr(PycRef<ASTNode> node)
     return NULL;
 }
 
+/* Combine two operands with `and`/`or`, keeping chains flat and left-associative
+   (`a and b and c`, not `a and (b and c)`). */
+static PycRef<ASTNode> mkBoolOp(PycRef<ASTNode> left, PycRef<ASTNode> right, ASTBinary::BinOp op)
+{
+    if (right != NULL && right.type() == ASTNode::NODE_BINARY
+            && right.cast<ASTBinary>()->op() == op)
+        return mkBoolOp(mkBoolOp(left, right.cast<ASTBinary>()->left(), op),
+                        right.cast<ASTBinary>()->right(), op);
+    return new ASTBinary(left, right, op);
+}
+
 PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
 {
     PycBuffer source(code->code()->value(), code->code()->length());
@@ -316,6 +327,12 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         int target;
         PycRef<ASTNode> left;
         ASTBinary::BinOp op;
+        /* kind 1: an open `then if cond else else` -- `left` is the condition,
+           `thenVal` the "then" value once its jump has been seen */
+        int kind = 0;
+        bool neg = false;
+        PycRef<ASTNode> thenVal;
+        int elseStart = 0, thenJump = 0;
     };
     std::vector<PendingBoolOp> pendingBool;
     std::vector<PycExceptionTableEntry> exception_entries;
@@ -348,10 +365,12 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     std::map<int, int> trampolineExit;         /* trampoline POP_TOP -> exit */
 
     WhileLoops loops;
+    ExprFlow xflow;
     if (mod->verCompare(3, 8) >= 0) {
         ScanLoops(code, mod, loops);
         whileGuardEnd = loops.guardEnd;
         whileBackedges = loops.backedges;
+        ScanExprFlow(code, mod, xflow);
     }
 
     if (mod->verCompare(3, 11) >= 0) {
@@ -1010,25 +1029,133 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             pendingBool.pop_back();
             PycRef<ASTNode> right = stack.top();
             stack.pop();
-            stack.push(new ASTBinary(pb.left, right, pb.op));
+            if (pb.kind == 1) {
+                PycRef<ASTCondBlock> tb = new ASTCondBlock(ASTBlock::BLK_IF, 0, pb.left, pb.neg);
+                stack.push(new ASTTernary(tb.cast<ASTNode>(), pb.thenVal, right));
+            } else {
+                stack.push(mkBoolOp(pb.left, right, pb.op));
+            }
         }
 
-        if (mod->verCompare(3, 11) == 0
-                && (opcode == Pyc::JUMP_IF_TRUE_OR_POP_A
-                    || opcode == Pyc::JUMP_IF_FALSE_OR_POP_A)
-                && !stack.empty()) {
-            PendingBoolOp pb;
-            pb.target = pos + operand * (int)sizeof(uint16_t);
-            pb.left = stack.top();
-            pb.op = (opcode == Pyc::JUMP_IF_TRUE_OR_POP_A)
-                    ? ASTBinary::BIN_LOG_OR : ASTBinary::BIN_LOG_AND;
-            stack.pop();
-            pendingBool.push_back(pb);
-            else_pop = ((curblock->blktype() == ASTBlock::BLK_ELSE)
-                        || (curblock->blktype() == ASTBlock::BLK_IF)
-                        || (curblock->blktype() == ASTBlock::BLK_ELIF))
-                    && (curblock->end() == pos);
+        /* Expression-level control flow (see ScanExprFlow) */
+        if (mod->verCompare(3, 8) >= 0 && !isCompCode) {
+            auto skipOp = [&]() {
+                else_pop = false;
+            };
+            /* merge the pending operands that end right where a keep-style
+               jump falls through (`a and b or c`) */
+            auto mergeAt = [&](int at) {
+                while (!pendingBool.empty() && pendingBool.back().kind == 0
+                        && pendingBool.back().target == at && !stack.empty()) {
+                    PendingBoolOp pb = pendingBool.back();
+                    pendingBool.pop_back();
+                    PycRef<ASTNode> right = stack.top();
+                    stack.pop();
+                    stack.push(mkBoolOp(pb.left, right, pb.op));
+                }
+            };
+            /* "then" value of an open ternary is complete */
+            auto tj = xflow.ternaryThenJump.find(curpos);
+            if (tj != xflow.ternaryThenJump.end() && !stack.empty()) {
+                for (int k = (int)pendingBool.size() - 1; k >= 0; k--) {
+                    if (pendingBool[k].kind == 1 && pendingBool[k].thenJump == curpos
+                            && pendingBool[k].thenVal == NULL) {
+                        pendingBool[k].thenVal = stack.top();
+                        stack.pop();
+                        skipOp();
+                        goto exprflow_done;
+                    }
+                }
+            }
+            {
+                auto tern = xflow.ternary.find(curpos);
+                if (tern != xflow.ternary.end() && !stack.empty()) {
+                    const ExprFlow::Tern& tn = tern->second;
+                    PycRef<ASTNode> c = stack.top();
+                    stack.pop();
+                    bool neg = false;
+                    if (tn.cond == 2) neg = true;
+                    else if (tn.cond == 3)
+                        c = new ASTCompare(c, new ASTObject(Pyc_None), ASTCompare::CMP_IS_NOT);
+                    else if (tn.cond == 4)
+                        c = new ASTCompare(c, new ASTObject(Pyc_None), ASTCompare::CMP_IS);
+                    if (!pendingBool.empty() && pendingBool.back().kind == 1
+                            && pendingBool.back().elseStart == tn.elseStart
+                            && pendingBool.back().thenVal == NULL) {
+                        /* `a if x and y else b`: another test jumping to the same else */
+                        PendingBoolOp& fr = pendingBool.back();
+                        PycRef<ASTNode> prev = fr.left;
+                        if (fr.neg)
+                            prev = new ASTUnary(prev, ASTUnary::UN_NOT);
+                        PycRef<ASTNode> cur = c;
+                        if (neg)
+                            cur = new ASTUnary(cur, ASTUnary::UN_NOT);
+                        fr.left = mkBoolOp(prev, cur, ASTBinary::BIN_LOG_AND);
+                        fr.neg = false;
+                    } else {
+                        PendingBoolOp fr;
+                        fr.target = tn.end;
+                        fr.left = c;
+                        fr.op = ASTBinary::BIN_LOG_AND;
+                        fr.kind = 1;
+                        fr.neg = neg;
+                        fr.elseStart = tn.elseStart;
+                        fr.thenJump = tn.thenJump;
+                        pendingBool.push_back(fr);
+                    }
+                    skipOp();
+                    goto exprflow_done;
+                }
+            }
+            {
+                auto ks = xflow.keepSeq.find(curpos);
+                if (ks != xflow.keepSeq.end() && !stack.empty()) {
+                    mergeAt(ks->second.endPos);
+                    PendingBoolOp pb;
+                    pb.target = ks->second.target;
+                    pb.left = stack.top();
+                    pb.op = ks->second.isOr ? ASTBinary::BIN_LOG_OR : ASTBinary::BIN_LOG_AND;
+                    stack.pop();
+                    pendingBool.push_back(pb);
+                    source.setPos(ks->second.endPos);
+                    pos = ks->second.endPos;
+                    skipOp();
+                    goto exprflow_done;
+                }
+            }
+            if ((opcode == Pyc::JUMP_IF_TRUE_OR_POP_A || opcode == Pyc::JUMP_IF_FALSE_OR_POP_A)
+                    && !stack.empty()) {
+                PendingBoolOp pb;
+                int tgt = operand * (mod->verCompare(3, 10) >= 0 ? 2 : 1);
+                if (mod->verCompare(3, 11) >= 0)
+                    tgt += pos;
+                mergeAt(pos);
+                pb.target = tgt;
+                pb.left = stack.top();
+                pb.op = (opcode == Pyc::JUMP_IF_TRUE_OR_POP_A)
+                        ? ASTBinary::BIN_LOG_OR : ASTBinary::BIN_LOG_AND;
+                stack.pop();
+                pendingBool.push_back(pb);
+                skipOp();
+                goto exprflow_done;
+            }
+            {
+                auto bj = xflow.boolJump.find(curpos);
+                if (bj != xflow.boolJump.end() && !stack.empty()) {
+                    PendingBoolOp pb;
+                    pb.target = bj->second.first;
+                    pb.left = stack.top();
+                    pb.op = bj->second.second ? ASTBinary::BIN_LOG_OR : ASTBinary::BIN_LOG_AND;
+                    stack.pop();
+                    pendingBool.push_back(pb);
+                    skipOp();
+                    goto exprflow_done;
+                }
+            }
+            goto exprflow_skip;
+exprflow_done:
             continue;
+exprflow_skip:;
         }
 
         if (mod->verCompare(3, 8) >= 0 && mod->verCompare(3, 11) < 0

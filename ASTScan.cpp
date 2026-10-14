@@ -814,3 +814,203 @@ void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
             elseRegionByStart[e.end_offset] = std::make_pair(jp, handler);
     }
 }
+
+/* ---------------------------------------------------------------------------
+   Expression-level control flow (ternary `a if c else b`, value-context
+   `and`/`or`). The statement-level `if` machinery cannot tell these from
+   statements, so we classify the relevant jumps up front:
+
+   ternary:  C; POP_JUMP_IF_FALSE else; A; JUMP_FORWARD end; else: B; end:
+             -- told from an if/else *statement* by the last instruction of both
+             branches leaving a value on the stack (not a store/pop/return).
+   and/or:   A; JUMP_IF_FALSE_OR_POP end; B; end:            (<= 3.11)
+             A; COPY 1; [TO_BOOL;] POP_JUMP_IF_FALSE end; POP_TOP; B; end: (3.12+)
+             and the mixed form `a and b or c`, where the inner test is a plain
+             POP_JUMP whose target directly follows a keep-style jump. */
+namespace {
+struct XIns { int pos, op, arg, next, real; };
+}
+
+static bool xIsStatementEnd(int op)
+{
+    switch (op) {
+    case Pyc::STORE_FAST_A: case Pyc::STORE_NAME_A: case Pyc::STORE_GLOBAL_A:
+    case Pyc::STORE_DEREF_A: case Pyc::STORE_ATTR_A: case Pyc::STORE_SUBSCR:
+    case Pyc::STORE_FAST_STORE_FAST_A: case Pyc::STORE_FAST_LOAD_FAST_A:
+    case Pyc::DELETE_FAST_A: case Pyc::DELETE_NAME_A: case Pyc::DELETE_GLOBAL_A:
+    case Pyc::DELETE_ATTR_A: case Pyc::DELETE_SUBSCR: case Pyc::DELETE_DEREF_A:
+    case Pyc::POP_TOP: case Pyc::RETURN_VALUE: case Pyc::RETURN_CONST_A:
+    case Pyc::RAISE_VARARGS_A: case Pyc::RERAISE: case Pyc::RERAISE_A:
+    case Pyc::JUMP_FORWARD_A: case Pyc::JUMP_ABSOLUTE_A: case Pyc::JUMP_BACKWARD_A:
+    case Pyc::JUMP_BACKWARD_NO_INTERRUPT_A:
+    case Pyc::POP_JUMP_IF_FALSE_A: case Pyc::POP_JUMP_IF_TRUE_A:
+    case Pyc::POP_JUMP_FORWARD_IF_FALSE_A: case Pyc::POP_JUMP_FORWARD_IF_TRUE_A:
+    case Pyc::POP_JUMP_BACKWARD_IF_FALSE_A: case Pyc::POP_JUMP_BACKWARD_IF_TRUE_A:
+    case Pyc::POP_JUMP_IF_NONE_A: case Pyc::POP_JUMP_IF_NOT_NONE_A:
+    case Pyc::POP_BLOCK: case Pyc::POP_EXCEPT: case Pyc::END_FINALLY:
+    case Pyc::NOP: case Pyc::END_FOR: case Pyc::POP_ITER: case Pyc::IMPORT_STAR:
+    case Pyc::LIST_APPEND_A: case Pyc::SET_ADD_A: case Pyc::MAP_ADD_A:
+    case Pyc::PRINT_ITEM: case Pyc::PRINT_NEWLINE:
+        return true;
+    default:
+        return false;
+    }
+}
+
+void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out)
+{
+    PycBuffer src(code->code()->value(), code->code()->length());
+    std::vector<XIns> ins;
+    int opcode, operand, pos = 0;
+    while (!src.atEof()) {
+        int p = pos;
+        bc_next(src, mod, opcode, operand, pos);
+        ins.push_back({p, opcode, operand, pos, pos});
+    }
+    for (int i = (int)ins.size() - 1; i >= 0; i--)
+        if (i + 1 < (int)ins.size() && ins[i + 1].op == Pyc::CACHE && ins[i].op != Pyc::CACHE)
+            ins[i].real = ins[i + 1].real;
+    std::map<int, int> idxAt;
+    for (int i = 0; i < (int)ins.size(); i++)
+        idxAt[ins[i].pos] = i;
+    const int unit = mod->verCompare(3, 10) >= 0 ? 2 : 1;
+    const int n = (int)ins.size();
+
+    auto prevReal = [&](int i) {
+        i--;
+        while (i >= 0 && (ins[i].op == Pyc::CACHE || ins[i].op == Pyc::NOT_TAKEN))
+            i--;
+        return i;
+    };
+    auto nextReal = [&](int i) {
+        i++;
+        while (i < n && (ins[i].op == Pyc::CACHE || ins[i].op == Pyc::NOT_TAKEN))
+            i++;
+        return i;
+    };
+    enum Cond { NOTCOND, IF_FALSE, IF_TRUE, IF_NONE, IF_NOT_NONE };
+    /* conditional pop-jump: returns its kind and sets `target` */
+    auto condJump = [&](const XIns& in, int& target) -> Cond {
+        switch (in.op) {
+        case Pyc::POP_JUMP_IF_FALSE_A:
+        case Pyc::POP_JUMP_IF_TRUE_A:
+            target = mod->verCompare(3, 12) >= 0 ? in.real + in.arg * 2 : in.arg * unit;
+            return in.op == Pyc::POP_JUMP_IF_FALSE_A ? IF_FALSE : IF_TRUE;
+        case Pyc::POP_JUMP_FORWARD_IF_FALSE_A:
+        case Pyc::POP_JUMP_FORWARD_IF_TRUE_A:
+            target = in.real + in.arg * 2;
+            return in.op == Pyc::POP_JUMP_FORWARD_IF_FALSE_A ? IF_FALSE : IF_TRUE;
+        case Pyc::POP_JUMP_FORWARD_IF_NONE_A:
+        case Pyc::POP_JUMP_IF_NONE_A:
+            target = in.real + in.arg * 2;
+            return IF_NONE;
+        case Pyc::POP_JUMP_FORWARD_IF_NOT_NONE_A:
+        case Pyc::POP_JUMP_IF_NOT_NONE_A:
+            target = in.real + in.arg * 2;
+            return IF_NOT_NONE;
+        default:
+            return NOTCOND;
+        }
+    };
+    /* unconditional forward jump target, or -1 */
+    auto fwdJump = [&](const XIns& in) -> int {
+        if (in.op == Pyc::JUMP_FORWARD_A)
+            return in.real + in.arg * unit;
+        if (in.op == Pyc::JUMP_ABSOLUTE_A && mod->verCompare(3, 11) < 0) {
+            int t = in.arg * unit;
+            return t > in.pos ? t : -1;
+        }
+        return -1;
+    };
+
+    /* keep-style jumps (value-context `and`/`or`) */
+    std::set<int> keepEnd;   /* instruction index where a keep-jump sequence ends */
+    for (int i = 0; i < n; i++) {
+        if (mod->verCompare(3, 12) < 0) {
+            if (ins[i].op == Pyc::JUMP_IF_TRUE_OR_POP_A || ins[i].op == Pyc::JUMP_IF_FALSE_OR_POP_A)
+                keepEnd.insert(i);
+        } else if (ins[i].op == Pyc::COPY_A && ins[i].arg == 1) {
+            int j = nextReal(i);
+            if (j < n && ins[j].op == Pyc::TO_BOOL)
+                j = nextReal(j);
+            int t = 0;
+            if (j >= n)
+                continue;
+            Cond c = condJump(ins[j], t);
+            if (c != IF_FALSE && c != IF_TRUE)
+                continue;
+            int k = nextReal(j);
+            if (k >= n || ins[k].op != Pyc::POP_TOP)
+                continue;
+            /* `COPY 1; POP_JUMP; POP_TOP` is also the head of a chained
+               comparison; there the false path ends in `SWAP 2; POP_TOP`. */
+            auto ti = idxAt.find(t);
+            if (ti != idxAt.end() && ins[ti->second].op == Pyc::SWAP_A && ins[ti->second].arg == 2) {
+                int a = nextReal(ti->second);
+                if (a < n && ins[a].op == Pyc::POP_TOP)
+                    continue;
+            }
+            ExprFlow::Keep kp;
+            kp.isOr = (c == IF_TRUE);
+            kp.target = t;
+            kp.endPos = ins[k].real;
+            out.keepSeq[ins[i].pos] = kp;
+            keepEnd.insert(k);
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        int t = 0;
+        Cond c = condJump(ins[i], t);
+        if (c == NOTCOND || t <= ins[i].pos)
+            continue;
+        /* skip the jump that belongs to a keep sequence */
+        bool inKeep = false;
+        for (int back = 1; back <= 3 && i - back >= 0; back++) {
+            auto kit = out.keepSeq.find(ins[i - back].pos);
+            if (kit != out.keepSeq.end() && ins[i].real < kit->second.endPos + 1) { inKeep = true; break; }
+        }
+        if (inKeep)
+            continue;
+        auto ti = idxAt.find(t);
+        if (ti == idxAt.end())
+            continue;
+        int before = prevReal(ti->second);
+        if (before < 0)
+            continue;
+        {
+            /* 3.14 builtin-call inlining guard: COPY 1; LOAD_COMMON_CONSTANT; IS_OP; POP_JUMP */
+            int pj = prevReal(i);
+            if (pj >= 0 && ins[pj].op == Pyc::IS_OP_A) {
+                int lc = prevReal(pj);
+                if (lc >= 0 && ins[lc].op == Pyc::LOAD_COMMON_CONSTANT_A)
+                    continue;
+            }
+        }
+        /* mixed and/or: the target directly follows a keep-style jump */
+        if (keepEnd.count(before)) {
+            out.boolJump[ins[i].pos] = std::make_pair(t, c == IF_TRUE || c == IF_NOT_NONE ? true : false);
+            continue;
+        }
+        /* ternary */
+        int U = fwdJump(ins[before]);
+        if (U <= t)
+            continue;
+        int thenLast = prevReal(before);
+        if (thenLast <= i || xIsStatementEnd(ins[thenLast].op))
+            continue;
+        auto ui = idxAt.find(U);
+        if (ui == idxAt.end())
+            continue;
+        int elseLast = prevReal(ui->second);
+        if (elseLast < 0 || elseLast < ti->second || xIsStatementEnd(ins[elseLast].op))
+            continue;
+        ExprFlow::Tern tn;
+        tn.elseStart = t;
+        tn.end = U;
+        tn.thenJump = ins[before].pos;
+        tn.cond = c;
+        out.ternary[ins[i].pos] = tn;
+        out.ternaryThenJump[ins[before].pos] = ins[i].pos;
+    }
+}

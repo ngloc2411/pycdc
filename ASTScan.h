@@ -60,4 +60,15 @@ void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
                  const std::vector<PycExceptionTableEntry>& entries,
                  std::map<int, std::pair<int, int> >& elseRegionByStart);
 
+/* Expression-level control flow, see ScanExprFlow. */
+struct ExprFlow {
+    struct Tern { int elseStart, end, thenJump; int cond; };   /* cond: 1 jump-if-false, 2 jump-if-true, 3 if-none, 4 if-not-none */
+    struct Keep { bool isOr; int target; int endPos; };
+    std::map<int, Tern> ternary;            /* test jump position -> shape */
+    std::map<int, int> ternaryThenJump;     /* JUMP_FORWARD ending the "then" value -> test jump */
+    std::map<int, Keep> keepSeq;            /* 3.12+: COPY 1 starting `and`/`or` -> shape */
+    std::map<int, std::pair<int, bool> > boolJump;   /* plain POP_JUMP of a mixed and/or: target, isOr */
+};
+void ScanExprFlow(PycRef<PycCode> code, PycModule* mod, ExprFlow& out);
+
 #endif
