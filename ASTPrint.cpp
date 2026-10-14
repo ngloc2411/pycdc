@@ -94,9 +94,35 @@ static void print_ordered(PycRef<ASTNode> parent, PycRef<ASTNode> child,
         } else {
             print_src(child, mod, pyc_output);
         }
+    } else if (child.type() == ASTNode::NODE_TERNARY) {
+        /* a conditional expression has the lowest precedence of all operators */
+        pyc_output << "(";
+        print_src(child, mod, pyc_output);
+        pyc_output << ")";
     } else {
         print_src(child, mod, pyc_output);
     }
+}
+
+/* Print a test that follows `if `, `while `, `not ` or sits inside a conditional
+   expression: low-precedence forms need parentheses in some of those places. */
+static void print_test(PycRef<ASTNode> node, bool negated, bool inTernary,
+                       PycModule* mod, std::ostream& pyc_output)
+{
+    bool paren = false;
+    if (node != NULL) {
+        if (node.type() == ASTNode::NODE_BINARY) {
+            int op = node.cast<ASTBinary>()->op();
+            paren = negated && (op == ASTBinary::BIN_LOG_AND || op == ASTBinary::BIN_LOG_OR);
+        } else if (node.type() == ASTNode::NODE_TERNARY) {
+            paren = negated || inTernary;
+        } else if (node.type() == ASTNode::NODE_FUNCTION) {
+            paren = inTernary || negated;
+        }
+    }
+    if (paren) pyc_output << "(";
+    print_src(node, mod, pyc_output);
+    if (paren) pyc_output << ")";
 }
 
 void start_line(int indent, std::ostream& pyc_output)
@@ -709,12 +735,13 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
             if (blk->blktype() == ASTBlock::BLK_IF
                     || blk->blktype() == ASTBlock::BLK_ELIF
                     || blk->blktype() == ASTBlock::BLK_WHILE) {
-                if (blk.cast<ASTCondBlock>()->negative())
+                const bool negBlk = blk.cast<ASTCondBlock>()->negative();
+                if (negBlk)
                     pyc_output << " not ";
                 else
                     pyc_output << " ";
 
-                print_src(blk.cast<ASTCondBlock>()->cond(), mod, pyc_output);
+                print_test(blk.cast<ASTCondBlock>()->cond(), negBlk, false, mod, pyc_output);
             } else if (blk->blktype() == ASTBlock::BLK_FOR || blk->blktype() == ASTBlock::BLK_ASYNCFOR) {
                 pyc_output << " ";
                 print_src(blk.cast<ASTIterBlock>()->index(), mod, pyc_output);
@@ -1205,12 +1232,12 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, std::ostream& pyc_output)
              */
             PycRef<ASTTernary> ternary = node.cast<ASTTernary>();
             //pyc_output << "(";
-            print_src(ternary->if_expr(), mod, pyc_output);
+            print_test(ternary->if_expr(), false, true, mod, pyc_output);
             const auto if_block = ternary->if_block().cast<ASTCondBlock>();
             pyc_output << " if ";
             if (if_block->negative())
                 pyc_output << "not ";
-            print_src(if_block->cond(), mod, pyc_output);
+            print_test(if_block->cond(), if_block->negative(), true, mod, pyc_output);
             pyc_output << " else ";
             print_src(ternary->else_expr(), mod, pyc_output);
             //pyc_output << ")";
