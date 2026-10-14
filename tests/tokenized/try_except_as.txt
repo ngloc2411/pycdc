@@ -2,7 +2,7 @@ def f ( ) : <EOL>
 <INDENT>
 try : <EOL>
 <INDENT>
-pass <EOL>
+a = 1 <EOL>
 <OUTDENT>
 except ValueError as e : <EOL>
 <INDENT>

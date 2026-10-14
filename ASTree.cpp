@@ -5672,6 +5672,95 @@ static std::unordered_set<PycCode *> code_seen;
    the <module> code object, whose blocks are module-level control flow (nested
    function/class bodies are separate code objects, so this never touches a real
    `return`). */
+/* Python 3.x emits a `return None` at the end of every exit path of a
+   function (each except handler, if/else branch, ...). When that path is the
+   very last thing in the function the return is implicit, so drop it. Only
+   the trailing statement chain is touched: loops are left alone. */
+static bool isReturnNone(const PycRef<ASTNode>& n)
+{
+    if (n == NULL || n.type() != ASTNode::NODE_RETURN
+            || n.cast<ASTReturn>()->rettype() != ASTReturn::RETURN)
+        return false;
+    PycRef<ASTNode> v = n.cast<ASTReturn>()->value();
+    if (v == NULL)
+        return true;
+    if (v.type() == ASTNode::NODE_OBJECT)
+        return v.cast<ASTObject>()->object().type() == PycObject::TYPE_NONE;
+    return false;
+}
+
+static void StripTailReturnNone(PycRef<ASTNode> node)
+{
+    if (node == NULL)
+        return;
+    const ASTNodeList::list_t* nodes = NULL;
+    if (node.type() == ASTNode::NODE_NODELIST)
+        nodes = &node.cast<ASTNodeList>()->nodes();
+    else if (node.type() == ASTNode::NODE_BLOCK)
+        nodes = &node.cast<ASTBlock>()->nodes();
+    if (nodes == NULL || nodes->empty())
+        return;
+
+    PycRef<ASTNode> last = nodes->back();
+    if (isReturnNone(last)) {
+        if (node.type() == ASTNode::NODE_NODELIST)
+            node.cast<ASTNodeList>()->removeLast();
+        else
+            node.cast<ASTBlock>()->removeLast();
+        return;
+    }
+    if (last.type() != ASTNode::NODE_BLOCK)
+        return;
+
+    auto strippable = [](const PycRef<ASTBlock>& b) {
+        switch (b->blktype()) {
+        case ASTBlock::BLK_IF: case ASTBlock::BLK_ELIF: case ASTBlock::BLK_ELSE:
+        case ASTBlock::BLK_TRY: case ASTBlock::BLK_EXCEPT: case ASTBlock::BLK_FINALLY:
+        case ASTBlock::BLK_WITH: case ASTBlock::BLK_CONTAINER:
+            return true;
+        default:
+            return false;
+        }
+    };
+
+    /* Walk the trailing run of sibling blocks that form one statement
+       (if/elif/else chain, or try/except/else/finally). */
+    auto it = nodes->end();
+    while (it != nodes->begin()) {
+        --it;
+        if (it->type() != ASTNode::NODE_BLOCK)
+            break;
+        PycRef<ASTBlock> b = it->cast<ASTBlock>();
+        if (!strippable(b))
+            break;
+        bool hasElseOrFinally = false;
+        if (b->blktype() == ASTBlock::BLK_CONTAINER) {
+            for (const auto& c : b->nodes()) {
+                if (c.type() == ASTNode::NODE_BLOCK
+                        && (c.cast<ASTBlock>()->blktype() == ASTBlock::BLK_ELSE
+                            || c.cast<ASTBlock>()->blktype() == ASTBlock::BLK_FINALLY))
+                    hasElseOrFinally = true;
+            }
+            /* A container's children are try/except/else/finally blocks. */
+            if (!hasElseOrFinally) {
+                for (const auto& c : b->nodes())
+                    if (c.type() == ASTNode::NODE_BLOCK)
+                        StripTailReturnNone(c);
+            } else {
+                PycRef<ASTNode> lastChild = b->nodes().back();
+                if (lastChild.type() == ASTNode::NODE_BLOCK
+                        && lastChild.cast<ASTBlock>()->blktype() == ASTBlock::BLK_ELSE)
+                    StripTailReturnNone(lastChild);
+            }
+        } else {
+            StripTailReturnNone(*it);
+        }
+        if (b->blktype() == ASTBlock::BLK_IF || b->blktype() == ASTBlock::BLK_TRY
+                || b->blktype() == ASTBlock::BLK_WITH || b->blktype() == ASTBlock::BLK_CONTAINER)
+            break;
+    }
+}
+
 static void StripModuleTrailingReturn(PycRef<ASTNode> node)
 {
     if (node == NULL)
@@ -5792,6 +5881,8 @@ void decompyle(PycRef<PycCode> code, PycModule* mod, std::ostream& pyc_output)
            module scope), even when nested in a trailing block. */
         if (code->name()->isEqual("<module>"))
             StripModuleTrailingReturn(clean.cast<ASTNode>());
+        else if (!code->name()->isEqual("<lambda>"))
+            StripTailReturnNone(clean.cast<ASTNode>());
     }
     if (printClassDocstring)
         printClassDocstring = false;

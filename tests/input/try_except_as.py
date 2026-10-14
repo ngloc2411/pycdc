@@ -1,6 +1,6 @@
 def f():
     try:
-        pass
+        a = 1
     except ValueError as e:
         print(e)
     except (KeyError, IndexError) as e:
