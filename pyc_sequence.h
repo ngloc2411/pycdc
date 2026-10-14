@@ -53,6 +53,23 @@ public:
     PycSet(int type = TYPE_SET) : PycSimpleSequence(type) { }
 };
 
+/* Constant-folded slice object (marshal version 5, Python 3.14+) */
+class PycSlice : public PycObject {
+public:
+    PycSlice(int type = TYPE_SLICE) : PycObject(type) { }
+
+    bool isEqual(PycRef<PycObject> obj) const override;
+
+    void load(class PycData* stream, class PycModule* mod) override;
+
+    PycRef<PycObject> start() const { return m_start; }
+    PycRef<PycObject> stop() const { return m_stop; }
+    PycRef<PycObject> step() const { return m_step; }
+
+private:
+    PycRef<PycObject> m_start, m_stop, m_step;
+};
+
 class PycDict : public PycObject {
 public:
     typedef std::tuple<PycRef<PycObject>, PycRef<PycObject>> item_t;

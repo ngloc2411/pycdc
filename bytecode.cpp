@@ -218,6 +218,18 @@ void print_const(std::ostream& pyc_output, PycRef<PycObject> obj, PycModule* mod
             pyc_output << "})";
         }
         break;
+    case PycObject::TYPE_SLICE:
+        {
+            PycRef<PycSlice> sl = obj.cast<PycSlice>();
+            pyc_output << "slice(";
+            print_const(pyc_output, sl->start() == NULL ? Pyc_None : sl->start(), mod);
+            pyc_output << ", ";
+            print_const(pyc_output, sl->stop() == NULL ? Pyc_None : sl->stop(), mod);
+            pyc_output << ", ";
+            print_const(pyc_output, sl->step() == NULL ? Pyc_None : sl->step(), mod);
+            pyc_output << ")";
+        }
+        break;
     case PycObject::TYPE_NONE:
         pyc_output << "None";
         break;

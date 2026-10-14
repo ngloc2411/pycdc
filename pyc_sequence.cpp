@@ -45,6 +45,28 @@ void PycTuple::load(PycData* stream, PycModule* mod)
 }
 
 
+/* PycSlice */
+void PycSlice::load(PycData* stream, PycModule* mod)
+{
+    m_start = LoadObject(stream, mod);
+    m_stop = LoadObject(stream, mod);
+    m_step = LoadObject(stream, mod);
+}
+
+bool PycSlice::isEqual(PycRef<PycObject> obj) const
+{
+    if (type() != obj.type())
+        return false;
+    PycRef<PycSlice> o = obj.cast<PycSlice>();
+    auto eq = [](const PycRef<PycObject>& a, const PycRef<PycObject>& b) {
+        if (a == NULL || b == NULL)
+            return a == NULL && b == NULL;
+        return a->isEqual(b);
+    };
+    return eq(m_start, o->m_start) && eq(m_stop, o->m_stop) && eq(m_step, o->m_step);
+}
+
+
 /* PycDict */
 void PycDict::load(PycData* stream, PycModule* mod)
 {

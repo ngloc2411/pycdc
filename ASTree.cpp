@@ -1765,7 +1765,9 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 /* Call with iterable args and (optionally) a mapping of kwargs.
                    Low bit of the flag operand means a kwargs mapping is present. */
                 PycRef<ASTNode> kw;
-                if (operand & 0x01) {
+                /* 3.14 dropped the oparg: the kwargs slot is always present
+                   (a NULL when there are none). */
+                if ((operand & 0x01) || mod->verCompare(3, 14) >= 0) {
                     kw = stack.top();
                     stack.pop();
                 }
@@ -3259,7 +3261,29 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             {
                 PycRef<ASTObject> t_ob = new ASTObject(code->getConst(operand));
 
-                if ((t_ob->object().type() == PycObject::TYPE_TUPLE ||
+                if (t_ob->object().type() == PycObject::TYPE_SLICE) {
+                    /* Python 3.14 constant-folds x[a:b:c] with constant bounds */
+                    PycRef<PycSlice> sl = t_ob->object().cast<PycSlice>();
+                    auto bound = [](const PycRef<PycObject>& o) -> PycRef<ASTNode> {
+                        if (o == NULL || o.type() == PycObject::TYPE_NONE)
+                            return NULL;
+                        return new ASTObject(o);
+                    };
+                    PycRef<ASTNode> st = bound(sl->start()), en = bound(sl->stop()),
+                                    sp = bound(sl->step());
+                    PycRef<ASTNode> res;
+                    if (st == NULL && en == NULL)
+                        res = new ASTSlice(ASTSlice::SLICE0);
+                    else if (st == NULL)
+                        res = new ASTSlice(ASTSlice::SLICE2, st, en);
+                    else if (en == NULL)
+                        res = new ASTSlice(ASTSlice::SLICE1, st, en);
+                    else
+                        res = new ASTSlice(ASTSlice::SLICE3, st, en);
+                    if (sp != NULL)
+                        res = new ASTSlice(ASTSlice::SLICE3, res, sp);
+                    stack.push(res);
+                } else if ((t_ob->object().type() == PycObject::TYPE_TUPLE ||
                         t_ob->object().type() == PycObject::TYPE_SMALL_TUPLE) &&
                         !t_ob->object().cast<PycTuple>()->values().size()) {
                     ASTTuple::value_t values;
@@ -3275,7 +3299,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         case Pyc::LOAD_CLASSDEREF_A:
             stack.push(new ASTName(code->getCellVar(mod, operand)));
             break;
+        case Pyc::LOAD_SMALL_INT_A:
+            stack.push(new ASTObject(new PycInt(operand)));
+            break;
         case Pyc::LOAD_FAST_A:
+        case Pyc::LOAD_FAST_BORROW_A:
         case Pyc::LOAD_FAST_CHECK_A:
             if (mod->verCompare(1, 3) < 0)
                 stack.push(new ASTName(code->getName(operand)));
@@ -3283,6 +3311,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 stack.push(new ASTName(code->getLocal(operand)));
             break;
         case Pyc::LOAD_FAST_LOAD_FAST_A:
+        case Pyc::LOAD_FAST_BORROW_LOAD_FAST_BORROW_A:
             stack.push(new ASTName(code->getLocal(operand >> 4)));
             stack.push(new ASTName(code->getLocal(operand & 0xF)));
             break;
@@ -3442,6 +3471,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 stack.push(new ASTFunction(fn->code(), defArgs, kwDefArgs));
             }
             break;
+        case Pyc::NOT_TAKEN:
         case Pyc::NOP:
             break;
         case Pyc::POP_BLOCK:
