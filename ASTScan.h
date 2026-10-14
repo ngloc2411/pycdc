@@ -57,6 +57,9 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out);
 void ScanComprehensionCleanup(PycRef<PycCode> code, PycModule* mod,
                               std::vector<PycExceptionTableEntry>& entries,
                               std::vector<std::pair<int, int> >& skip);
+void ScanHoistedHandlers(PycRef<PycCode> code, PycModule* mod,
+                         const std::vector<PycExceptionTableEntry>& entries,
+                         std::map<int, std::pair<int, int> >& spliceByEnd);
 void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
                  const std::vector<PycExceptionTableEntry>& entries,
                  std::map<int, std::pair<int, int> >& elseRegionByStart);

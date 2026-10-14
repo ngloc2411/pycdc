@@ -468,6 +468,12 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
     std::map<int, int> withBodyEndByBefore;   /* BEFORE_WITH pos -> body end */
     std::map<int, int> withResumeByBodyEnd;   /* body end -> resume offset */
     int with_skip_until = 0;                   /* skip cleanup region < this */
+    /* 3.12+ hoisted exception handlers (see ScanHoistedHandlers): the handlers
+       are visited right after the try body, then decoding resumes behind it. */
+    struct SpliceCtx { int resume, handler, regionEnd, backDest; };
+    std::map<int, std::pair<int, int> > spliceByEnd;   /* try body end -> (handler, region end) */
+    std::vector<SpliceCtx> spliceStack;
+    std::map<int, int> spliceDone;                      /* handler -> region end */
 
     /* Python 3.11 try/finally reconstruction state. */
     std::map<int, int> finallyTryEndByStart;   /* entry start -> try body end */
@@ -508,6 +514,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                        finallyTryEndByStart, finallyEndByStart, finallyResumeByEnd,
                        finallyReturnStarts, finallySuppressReturns);
         ScanTryElse(code, mod, exception_entries, elseRegionByStart);
+        ScanHoistedHandlers(code, mod, exception_entries, spliceByEnd);
     }
 
     /* Python 3.11 nested-try prescan. The exception table only records the
@@ -692,7 +699,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
         }
     };
 
-    while (!source.atEof()) {
+    while (!source.atEof() || !spliceStack.empty()) {
 #if defined(BLOCK_DEBUG) || defined(STACK_DEBUG)
         fprintf(stderr, "%-7d", pos);
     #ifdef STACK_DEBUG
@@ -781,6 +788,59 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 continue;
             }
             with_skip_until = 0;
+        }
+
+        if (!spliceDone.empty()) {
+            auto sd = spliceDone.find(pos);
+            if (sd != spliceDone.end()) {
+                /* the handlers were already decompiled behind their try body */
+                pos = sd->second;
+                source.setPos(pos);
+                continue;
+            }
+        }
+        if (!spliceByEnd.empty()) {
+            auto sp = spliceByEnd.find(pos);
+            if (sp != spliceByEnd.end()) {
+                const int handlerPos = sp->second.first;
+                bool tryOpen = false;
+                {
+                    std::stack<PycRef<ASTBlock> > tmp = blocks;
+                    while (!tmp.empty()) {
+                        PycRef<ASTBlock> b = tmp.top();
+                        if (b->blktype() == ASTBlock::BLK_TRY) {
+                            tryOpen = (b->end() == handlerPos);
+                            break;
+                        }
+                        if (b->blktype() != ASTBlock::BLK_IF && b->blktype() != ASTBlock::BLK_ELIF
+                                && b->blktype() != ASTBlock::BLK_ELSE && b->blktype() != ASTBlock::BLK_FOR
+                                && b->blktype() != ASTBlock::BLK_WHILE && b->blktype() != ASTBlock::BLK_WITH)
+                            break;
+                        tmp.pop();
+                    }
+                }
+                if (tryOpen) {
+                    SpliceCtx ctx;
+                    ctx.resume = pos;
+                    ctx.handler = handlerPos;
+                    ctx.regionEnd = sp->second.second;
+                    ctx.backDest = -1;
+                    {
+                        const int sSrc = source.pos();
+                        int o = 0, a = 0, p2 = pos;
+                        bc_next(source, mod, o, a, p2);
+                        if (o == Pyc::JUMP_BACKWARD_A)
+                            ctx.backDest = p2 - a * 2;
+                        source.setPos(sSrc);
+                    }
+                    spliceByEnd.erase(sp);
+                    spliceStack.push_back(ctx);
+                    pos = handlerPos;
+                    source.setPos(pos);
+                    next_exception_entry = 0;
+                    continue;
+                }
+            }
         }
 
         /* Open outer trys whose real start is shadowed by a nested inner try
@@ -1082,6 +1142,18 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             }
         }
 
+        if (!spliceStack.empty() && pos == spliceStack.back().regionEnd) {
+            /* the hoisted handlers are done: resume behind the try body */
+            SpliceCtx ctx = spliceStack.back();
+            spliceStack.pop_back();
+            spliceDone[ctx.handler] = ctx.regionEnd;
+            pos = ctx.resume;
+            source.setPos(pos);
+            next_exception_entry = 0;
+            continue;
+        }
+
+        if (getenv("DBGW")) { fprintf(stderr,"at %d:", pos); std::stack<PycRef<ASTBlock> > t=blocks; while(!t.empty()){fprintf(stderr," %d(end%d)",(int)t.top()->blktype(),t.top()->end()); t.pop();} fprintf(stderr,"\n"); }
         curpos = pos;
         if (!pendingOps.empty()) {
             opcode = pendingOps.front().first;

@@ -8,6 +8,18 @@
                 if (mod->verCompare(3, 10) >= 0)
                     offs *= sizeof(uint16_t); // // BPO-27129
 
+                if (!spliceStack.empty() && opcode == Pyc::JUMP_BACKWARD_A
+                        && curpos >= spliceStack.back().handler && pos <= spliceStack.back().regionEnd) {
+                    /* end of a hoisted handler: it falls back to the code behind
+                       the try (or to the loop head that code jumps to) */
+                    const SpliceCtx& sc = spliceStack.back();
+                    int dest = pos - operand * 2;
+                    if (dest == sc.resume || (sc.backDest >= 0 && dest == sc.backDest)) {
+                        operand = (sc.regionEnd - pos) / 2;
+                        opcode = Pyc::JUMP_FORWARD_A;
+                        goto jump_forward_impl;
+                    }
+                }
                 {
                     /* end of a try body / except handler that closes the loop
                        body: a jump over the remaining handlers, not a `continue` */

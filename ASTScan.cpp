@@ -396,6 +396,27 @@ void ScanLoops(PycRef<PycCode> code, PycModule* mod, WhileLoops& out)
         if (i + 1 < (int)ins.size() && ins[i + 1].op == Pyc::CACHE && ins[i].op != Pyc::CACHE)
             ins[i].real = ins[i + 1].real;
     }
+    if (mod->verCompare(3, 12) >= 0) {
+        /* the end of a hoisted except handler that falls back to the code behind
+           its try is no loop edge */
+        std::map<int, std::pair<int, int> > hoisted;
+        ScanHoistedHandlers(code, mod, code->exceptionTableEntries(), hoisted);
+        if (!hoisted.empty()) {
+            std::vector<Ins> kept;
+            for (const auto& in : ins) {
+                bool drop = false;
+                if (in.op == Pyc::JUMP_BACKWARD_A) {
+                    int tgt = in.real - in.arg * 2;
+                    for (const auto& h : hoisted)
+                        if (in.pos >= h.second.first && in.pos < h.second.second && tgt == h.first)
+                            drop = true;
+                }
+                if (!drop)
+                    kept.push_back(in);
+            }
+            ins.swap(kept);
+        }
+    }
     /* chained-comparison trailers/cleanups do not take part in loop shapes */
     for (auto& in : ins)
         in.fall = in.real;
@@ -1044,6 +1065,68 @@ void ScanTryElse(PycRef<PycCode> code, PycModule* mod,
         /* the first entry ending here that targets this handler */
         if (!elseRegionByStart.count(e.end_offset))
             elseRegionByStart[e.end_offset] = std::make_pair(jp, handler);
+    }
+}
+
+/* Python 3.12+ moves the (cold) exception handlers of a try/except behind the
+   code that follows it, so the handlers are not adjacent to the try body:
+       body; continuation...; handlers; cleanup
+   Map the end of the protected range -> (handler start, end of the handler
+   region including its `COPY 3; POP_EXCEPT; RERAISE 1` cleanup) so the
+   decompiler can visit the handlers right after the body. */
+void ScanHoistedHandlers(PycRef<PycCode> code, PycModule* mod,
+                         const std::vector<PycExceptionTableEntry>& entries,
+                         std::map<int, std::pair<int, int> >& spliceByEnd)
+{
+    if (mod->verCompare(3, 12) < 0)
+        return;
+    PycBuffer src(code->code()->value(), code->code()->length());
+    int opcode, operand, pos = 0;
+    std::map<int, int> opAt, operAt, nextAt;
+    while (!src.atEof()) {
+        int p = pos;
+        bc_next(src, mod, opcode, operand, pos);
+        opAt[p] = opcode; operAt[p] = operand; nextAt[p] = pos;
+    }
+    std::map<int, int> endByHandler;   /* handler -> last end of its protected ranges */
+    for (const auto& e : entries) {
+        if (e.push_lasti || e.start_offset >= e.end_offset || e.target <= e.end_offset)
+            continue;
+        int& en = endByHandler[e.target];
+        en = std::max(en, e.end_offset);
+    }
+    for (const auto& kv : endByHandler) {
+        int H = kv.first, En = kv.second;
+        auto h = opAt.find(H);
+        if (h == opAt.end() || h->second != Pyc::PUSH_EXC_INFO)
+            continue;
+        auto nx = opAt.find(nextAt[H]);
+        if (nx != opAt.end() && nx->second == Pyc::WITH_EXCEPT_START)
+            continue;
+        auto at = opAt.find(En);
+        if (at == opAt.end() || at->second == Pyc::JUMP_FORWARD_A)
+            continue;
+        /* a tail `return` right before the handlers is the ordinary layout */
+        if ((at->second == Pyc::RETURN_CONST_A || at->second == Pyc::RETURN_VALUE)
+                && nextAt[En] == H)
+            continue;
+        /* try/else keeps the JUMP_FORWARD over the handlers just before them */
+        bool normal = false;
+        for (int p = En; p < H; p = nextAt[p]) {
+            if (opAt[p] == Pyc::JUMP_FORWARD_A && nextAt[p] + operAt[p] * 2 > H)
+                normal = true;
+            if (nextAt.find(p) == nextAt.end())
+                break;
+        }
+        if (normal)
+            continue;
+        int cleanup = -1;
+        for (const auto& e : entries)
+            if (e.push_lasti && e.start_offset == H)
+                cleanup = e.target;
+        if (cleanup < 0)
+            continue;
+        spliceByEnd[En] = std::make_pair(H, cleanup + 6);
     }
 }
 
