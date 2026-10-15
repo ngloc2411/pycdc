@@ -20,7 +20,7 @@ https://github.com/zrax/pycdc
 | --- | --- |
 | `pyc/` | .pyc/marshal reader: objects, code objects, module header |
 | `opcode/` | per-version opcode tables |
-| `decomp/` | decompiler: `build.go` (bytecode -> AST), `scan_*.go` (control-flow pre-scans), `match.go` (match statements), `printer.go` (AST -> source), `ast/` (node types) |
+| `decomp/` | decompiler: `builder*.go`, `pre_*.go`, `ops_*.go` (bytecode -> AST; a `builder` struct with per-opcode-group handlers), `scan_*.go` (control-flow pre-scans), `match.go` (match statements), `printer.go` (AST -> source), `ast/` (node types) |
 | `internal/cli` | shared command-line helpers |
 | `cmd/pycdas`, `cmd/pycdc` | the disassembler and decompiler executables |
 | `cpp/` | original C++ implementation (CMake) |
