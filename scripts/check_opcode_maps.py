@@ -10,7 +10,7 @@ Opcodes that take an argument are named NAME_A in pycdc.
 import argparse, json, os, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
-BYTES = os.path.join(HERE, '..', 'bytes')
+BYTES = os.path.join(HERE, '..', 'cpp', 'bytes')
 
 DUMP = r'''
 import opcode, json, sys
@@ -42,7 +42,7 @@ def pycdc_table(ver):
 
 def known_names():
     names = set()
-    inl = open(os.path.join(HERE, '..', 'bytecode_ops.inl')).read()
+    inl = open(os.path.join(HERE, '..', 'cpp', 'bytecode_ops.inl')).read()
     for m in re.finditer(r'OPCODE(_A_FIRST|_A)?\((\w+)\)', inl):
         names.add(m.group(2) + ('_A' if m.group(1) else ''))
     return names

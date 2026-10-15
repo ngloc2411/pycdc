@@ -80,7 +80,7 @@ install(TARGETS pycdc
 find_package(Python3 3.6 COMPONENTS Interpreter)
 if(Python3_FOUND)
     add_custom_target(check
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.py"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/run_tests.py"
         WORKING_DIRECTORY "$<TARGET_FILE_DIR:pycdc>")
     add_dependencies(check pycdc)
 endif()

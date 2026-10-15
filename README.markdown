@@ -9,12 +9,29 @@ support byte-code from any version of Python.
 Decompyle++ includes both a byte-code disassembler (pycdas) and a 
 decompiler (pycdc).
 
-As the name implies, Decompyle++ is written in C++.
+Decompyle++ now ships two implementations of the same tool: a Go port (the
+main one, at the repository root) that is byte-identical to the original C++
+version on all test fixtures, and the original C++ sources under `cpp/`.
 If you wish to contribute, please fork us on github at 
 https://github.com/zrax/pycdc
 
-## Building Decompyle++
-* Generate a project or makefile with [CMake](http://www.cmake.org) (See CMake's documentation for details)
+## Layout
+| Path | Contents |
+| --- | --- |
+| `pyc/` | .pyc/marshal reader: objects, code objects, module header |
+| `opcode/` | per-version opcode tables |
+| `decomp/` | decompiler: `build.go` (bytecode -> AST), `scan_*.go` (control-flow pre-scans), `match.go` (match statements), `printer.go` (AST -> source), `ast/` (node types) |
+| `internal/cli` | shared command-line helpers |
+| `cmd/pycdas`, `cmd/pycdc` | the disassembler and decompiler executables |
+| `cpp/` | original C++ implementation (CMake) |
+| `tests/` | compiled fixtures (`compiled`, `xfail`, `tokenized`) and Go golden outputs (`golden`) |
+
+## Building Decompyle++ (Go)
+* `go build ./cmd/pycdc ./cmd/pycdas`
+* Run tests: `go test ./...` (refresh golden files with `go test ./decomp -update`)
+
+## Building Decompyle++ (C++, in `cpp/`)
+* Generate a project or makefile with [CMake](http://www.cmake.org) from the `cpp/` directory (See CMake's documentation for details)
   * The following options can be passed to CMake to control debug features:
 
     | Option | Description |
