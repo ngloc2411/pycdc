@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/ngloc2411/pycdc/internal/cli"
-	"github.com/ngloc2411/pycdc/pyc"
+	"github.com/ngloc2411/pycdc/internal/pyc"
 )
 
 func main() {

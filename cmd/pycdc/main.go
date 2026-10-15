@@ -6,8 +6,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/ngloc2411/pycdc/decomp"
 	"github.com/ngloc2411/pycdc/internal/cli"
+	"github.com/ngloc2411/pycdc/internal/decomp"
 )
 
 func main() {
