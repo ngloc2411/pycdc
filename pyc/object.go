@@ -535,3 +535,9 @@ func LoadObject(b *Buffer, m *Module) Object {
 	}
 	return obj
 }
+
+// NewString makes a plain (byte) string object.
+func NewString(v string) *String { return &String{typ: TypeString, Value: v} }
+
+// NewInt makes an int object.
+func NewInt(v int) *Int { return &Int{typ: TypeInt, Value: v} }

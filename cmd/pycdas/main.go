@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"pycdc/internal/cli"
-	"pycdc/pyc"
+	"github.com/ngloc2411/pycdc/internal/cli"
+	"github.com/ngloc2411/pycdc/pyc"
 )
 
 func main() {

@@ -1,6 +1,6 @@
 // Package op holds the version independent opcode numbering and the per
 // version byte -> opcode maps.
-package op
+package opcode
 
 import "fmt"
 

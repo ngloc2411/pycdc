@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"pycdc/pyc"
+	"github.com/ngloc2411/pycdc/pyc"
 )
 
 // Args are the parsed common options.

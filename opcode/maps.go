@@ -1,6 +1,6 @@
 // Code generated from bytes/python_*.cpp; DO NOT EDIT.
 
-package op
+package opcode
 
 var maps = map[[2]int]*[256]int16{
 	{1, 0}: {

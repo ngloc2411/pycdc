@@ -1,5 +1,5 @@
 // Code generated from bytecode_ops.inl; DO NOT EDIT.
-package op
+package opcode
 
 // Opcode numbers (internal, version independent).
 const (

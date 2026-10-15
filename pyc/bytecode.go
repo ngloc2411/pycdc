@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"pycdc/op"
+	op "github.com/ngloc2411/pycdc/opcode"
 )
 
 // Disassembly flags.
