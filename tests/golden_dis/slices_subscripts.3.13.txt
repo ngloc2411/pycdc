@@ -1,0 +1,84 @@
+[Code]
+    File Name: slices_subscripts.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 8
+    Flags: 0x00000000
+    [Names]
+        'l'
+        'd'
+        'print'
+    [Locals+Names]
+    [Constants]
+        (
+            1
+            2
+            3
+        )
+        1
+        None
+        2
+        -1
+        'a'
+        9
+        0
+        3
+        'c'
+        5
+    [Disassembly]
+        0       RESUME                          0
+        2       BUILD_LIST                      0
+        4       LOAD_CONST                      0: (1, 2, 3)
+        6       LIST_EXTEND                     1
+        8       STORE_NAME                      0: l
+        10      BUILD_MAP                       0
+        12      STORE_NAME                      1: d
+        14      LOAD_NAME                       2: print
+        16      PUSH_NULL                       
+        18      LOAD_NAME                       0: l
+        20      LOAD_CONST                      1: 1
+        22      LOAD_CONST                      2: None
+        24      BINARY_SLICE                    
+        26      LOAD_NAME                       0: l
+        28      LOAD_CONST                      2: None
+        30      LOAD_CONST                      3: 2
+        32      BINARY_SLICE                    
+        34      LOAD_NAME                       0: l
+        36      LOAD_CONST                      2: None
+        38      LOAD_CONST                      2: None
+        40      LOAD_CONST                      3: 2
+        42      BUILD_SLICE                     3
+        44      BINARY_SUBSCR                   
+        48      LOAD_NAME                       0: l
+        50      LOAD_CONST                      4: -1
+        52      BINARY_SUBSCR                   
+        56      LOAD_NAME                       1: d
+        58      LOAD_CONST                      5: 'a'
+        60      BINARY_SUBSCR                   
+        64      CALL                            5
+        72      POP_TOP                         
+        74      LOAD_CONST                      6: 9
+        76      LOAD_NAME                       0: l
+        78      LOAD_CONST                      7: 0
+        80      STORE_SUBSCR                    
+        84      LOAD_NAME                       0: l
+        86      LOAD_CONST                      1: 1
+        88      DELETE_SUBSCR                   
+        90      LOAD_CONST                      8: 3
+        92      LOAD_NAME                       1: d
+        94      LOAD_CONST                      9: 'c'
+        96      STORE_SUBSCR                    
+        100     LOAD_NAME                       1: d
+        102     LOAD_CONST                      9: 'c'
+        104     DELETE_SUBSCR                   
+        106     LOAD_CONST                      10: 5
+        108     BUILD_LIST                      1
+        110     LOAD_NAME                       0: l
+        112     LOAD_CONST                      1: 1
+        114     LOAD_CONST                      3: 2
+        116     STORE_SLICE                     
+        118     RETURN_CONST                    2: None
+    [Exception Table]

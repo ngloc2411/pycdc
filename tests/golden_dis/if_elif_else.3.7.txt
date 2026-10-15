@@ -1,0 +1,65 @@
+[Code]
+    File Name: ../input/if_elif_else.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'test'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: ../input/if_elif_else.py
+            Object Name: test
+            Arg Count: 2
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'msgtype'
+                'flags'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+            [Disassembly]
+                0       LOAD_FAST                       1: flags
+                2       LOAD_CONST                      1: 1
+                4       COMPARE_OP                      2 (==)
+                6       POP_JUMP_IF_FALSE               14
+                8       LOAD_CONST                      1: 1
+                10      STORE_FAST                      0: msgtype
+                12      JUMP_FORWARD                    26 (to 40)
+                14      LOAD_FAST                       1: flags
+                16      LOAD_CONST                      2: 2
+                18      COMPARE_OP                      2 (==)
+                20      POP_JUMP_IF_FALSE               28
+                22      LOAD_CONST                      2: 2
+                24      STORE_FAST                      0: msgtype
+                26      JUMP_FORWARD                    12 (to 40)
+                28      LOAD_FAST                       1: flags
+                30      LOAD_CONST                      3: 3
+                32      COMPARE_OP                      2 (==)
+                34      POP_JUMP_IF_FALSE               40
+                36      LOAD_CONST                      3: 3
+                38      STORE_FAST                      0: msgtype
+                40      LOAD_FAST                       0: msgtype
+                42      RETURN_VALUE                    
+        'test'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> test
+        2       LOAD_CONST                      1: 'test'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: test
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

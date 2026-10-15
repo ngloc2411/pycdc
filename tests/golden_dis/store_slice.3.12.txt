@@ -1,0 +1,71 @@
+[Code]
+    File Name: ../tests/input/store_slice.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 4
+    Flags: 0x00000000
+    [Names]
+        'a'
+        'l'
+        'range'
+        'print'
+    [Locals+Names]
+    [Constants]
+        0
+        16
+        (
+            1
+            2
+            3
+        )
+        13
+        None
+        10
+        5
+        1
+        2
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: 0
+        4       BUILD_LIST                      1
+        6       LOAD_CONST                      1: 16
+        8       BINARY_OP                       5 (*)
+        12      STORE_NAME                      0: a
+        14      BUILD_LIST                      0
+        16      LOAD_CONST                      2: (1, 2, 3)
+        18      LIST_EXTEND                     1
+        20      STORE_NAME                      1: l
+        22      LOAD_NAME                       1: l
+        24      LOAD_NAME                       0: a
+        26      LOAD_CONST                      3: 13
+        28      LOAD_CONST                      4: None
+        30      STORE_SLICE                     
+        32      LOAD_CONST                      5: 10
+        34      LOAD_NAME                       0: a
+        36      LOAD_CONST                      6: 5
+        38      STORE_SUBSCR                    
+        42      LOAD_CONST                      7: 1
+        44      LOAD_CONST                      8: 2
+        46      BUILD_LIST                      2
+        48      LOAD_NAME                       0: a
+        50      LOAD_CONST                      4: None
+        52      LOAD_CONST                      8: 2
+        54      STORE_SLICE                     
+        56      PUSH_NULL                       
+        58      LOAD_NAME                       2: range
+        60      LOAD_CONST                      1: 16
+        62      CALL                            1
+        70      LOAD_NAME                       0: a
+        72      LOAD_CONST                      4: None
+        74      LOAD_CONST                      4: None
+        76      STORE_SLICE                     
+        78      PUSH_NULL                       
+        80      LOAD_NAME                       3: print
+        82      LOAD_NAME                       0: a
+        84      CALL                            1
+        92      POP_TOP                         
+        94      RETURN_CONST                    4: None
+    [Exception Table]

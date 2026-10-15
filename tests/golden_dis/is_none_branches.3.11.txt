@@ -1,0 +1,58 @@
+[Code]
+    File Name: is_none_branches.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'n1'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: is_none_branches.py
+            Object Name: n1
+            Qualified Name: n1
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'x'
+            [Constants]
+                None
+                'a'
+                'b'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       POP_JUMP_FORWARD_IF_NOT_NONE    15 (to 36)
+                6       LOAD_GLOBAL                     1: NULL + print
+                18      LOAD_CONST                      1: 'a'
+                20      PRECALL                         1
+                24      CALL                            1
+                34      POP_TOP                         
+                36      LOAD_FAST                       0: x
+                38      POP_JUMP_FORWARD_IF_NONE        15 (to 70)
+                40      LOAD_GLOBAL                     1: NULL + print
+                52      LOAD_CONST                      2: 'b'
+                54      PRECALL                         1
+                58      CALL                            1
+                68      POP_TOP                         
+                70      LOAD_FAST                       0: x
+                72      RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> n1
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: n1
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

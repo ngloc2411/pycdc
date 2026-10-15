@@ -1,0 +1,62 @@
+[Code]
+    File Name: try_reraise.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: try_reraise.py
+            Object Name: f
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 8
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'ZeroDivisionError'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                0
+            [Disassembly]
+                0       SETUP_FINALLY                   12 (to 14)
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 0
+                6       BINARY_TRUE_DIVIDE              
+                8       POP_TOP                         
+                10      POP_BLOCK                       
+                12      JUMP_FORWARD                    20 (to 34)
+                14      DUP_TOP                         
+                16      LOAD_GLOBAL                     0: ZeroDivisionError
+                18      JUMP_IF_NOT_EXC_MATCH           32
+                20      POP_TOP                         
+                22      POP_TOP                         
+                24      POP_TOP                         
+                26      RAISE_VARARGS                   0
+                28      POP_EXCEPT                      
+                30      JUMP_FORWARD                    2 (to 34)
+                32      RERAISE                         
+                34      LOAD_CONST                      0: None
+                36      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

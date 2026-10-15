@@ -1,0 +1,497 @@
+[Code]
+    File Name: aug_assign.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'use'
+        'aug_idx'
+        'aug_idx_expr'
+        'aug_slice'
+        'aug_slice_open'
+        'aug_slice_step'
+        'aug_attr'
+        'aug_attr_call'
+        'aug_sub_call'
+        'aug_nested'
+        'aug_global_like'
+        'aug_tuple_idx'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000047 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       RETURN_VALUE                    
+        'use'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_idx
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 0
+                4       DUP_TOP_TWO                     
+                6       BINARY_SUBSCR                   
+                8       LOAD_FAST                       1: b
+                10      INPLACE_SUBTRACT                
+                12      ROT_THREE                       
+                14      STORE_SUBSCR                    
+                16      LOAD_CONST                      0: None
+                18      RETURN_VALUE                    
+        'aug_idx'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_idx_expr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       2: i
+                4       LOAD_CONST                      1: 1
+                6       BINARY_ADD                      
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_MULTIPLY                
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_CONST                      0: None
+                22      RETURN_VALUE                    
+        'aug_idx_expr'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                3
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 3
+                6       BUILD_SLICE                     2
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_ADD                     
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_CONST                      0: None
+                22      RETURN_VALUE                    
+        'aug_slice'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice_open
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      0: None
+                4       LOAD_CONST                      1: 2
+                6       BUILD_SLICE                     2
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_ADD                     
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_FAST                       0: a
+                22      LOAD_CONST                      1: 2
+                24      LOAD_CONST                      0: None
+                26      BUILD_SLICE                     2
+                28      DUP_TOP_TWO                     
+                30      BINARY_SUBSCR                   
+                32      LOAD_FAST                       1: b
+                34      INPLACE_ADD                     
+                36      ROT_THREE                       
+                38      STORE_SUBSCR                    
+                40      LOAD_FAST                       0: a
+                42      LOAD_CONST                      0: None
+                44      LOAD_CONST                      0: None
+                46      BUILD_SLICE                     2
+                48      DUP_TOP_TWO                     
+                50      BINARY_SUBSCR                   
+                52      LOAD_FAST                       1: b
+                54      INPLACE_ADD                     
+                56      ROT_THREE                       
+                58      STORE_SUBSCR                    
+                60      LOAD_CONST                      0: None
+                62      RETURN_VALUE                    
+        'aug_slice_open'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice_step
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      0: None
+                4       LOAD_CONST                      0: None
+                6       LOAD_CONST                      1: 2
+                8       BUILD_SLICE                     3
+                10      DUP_TOP_TWO                     
+                12      BINARY_SUBSCR                   
+                14      LOAD_FAST                       1: b
+                16      INPLACE_ADD                     
+                18      ROT_THREE                       
+                20      STORE_SUBSCR                    
+                22      LOAD_CONST                      0: None
+                24      RETURN_VALUE                    
+        'aug_slice_step'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_attr
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'x'
+                'y'
+                'z'
+            [Var Names]
+                'o'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: o
+                2       DUP_TOP                         
+                4       LOAD_ATTR                       0: x
+                6       LOAD_FAST                       1: b
+                8       INPLACE_ADD                     
+                10      ROT_TWO                         
+                12      STORE_ATTR                      0: x
+                14      LOAD_FAST                       0: o
+                16      LOAD_ATTR                       1: y
+                18      DUP_TOP                         
+                20      LOAD_ATTR                       2: z
+                22      LOAD_FAST                       1: b
+                24      INPLACE_SUBTRACT                
+                26      ROT_TWO                         
+                28      STORE_ATTR                      2: z
+                30      LOAD_CONST                      0: None
+                32      RETURN_VALUE                    
+        'aug_attr'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_attr_call
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+                'x'
+            [Var Names]
+                'o'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: o
+                4       CALL_FUNCTION                   1
+                6       DUP_TOP                         
+                8       LOAD_ATTR                       1: x
+                10      LOAD_FAST                       1: b
+                12      INPLACE_ADD                     
+                14      ROT_TWO                         
+                16      STORE_ATTR                      1: x
+                18      LOAD_CONST                      0: None
+                20      RETURN_VALUE                    
+        'aug_attr_call'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_sub_call
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_GLOBAL                     0: use
+                4       LOAD_CONST                      1: 1
+                6       CALL_FUNCTION                   1
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_ADD                     
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_CONST                      0: None
+                22      RETURN_VALUE                    
+        'aug_sub_call'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_nested
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'i'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       2: i
+                4       BINARY_SUBSCR                   
+                6       LOAD_FAST                       3: j
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_ADD                     
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_CONST                      0: None
+                22      RETURN_VALUE                    
+        'aug_nested'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_global_like
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+                1
+                3
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP_TWO                     
+                6       BINARY_SUBSCR                   
+                8       LOAD_CONST                      1: 2
+                10      INPLACE_FLOOR_DIVIDE            
+                12      ROT_THREE                       
+                14      STORE_SUBSCR                    
+                16      LOAD_FAST                       0: a
+                18      LOAD_FAST                       1: b
+                20      DUP_TOP_TWO                     
+                22      BINARY_SUBSCR                   
+                24      LOAD_CONST                      2: 1
+                26      INPLACE_LSHIFT                  
+                28      ROT_THREE                       
+                30      STORE_SUBSCR                    
+                32      LOAD_FAST                       0: a
+                34      LOAD_FAST                       1: b
+                36      DUP_TOP_TWO                     
+                38      BINARY_SUBSCR                   
+                40      LOAD_CONST                      3: 3
+                42      INPLACE_OR                      
+                44      ROT_THREE                       
+                46      STORE_SUBSCR                    
+                48      LOAD_CONST                      0: None
+                50      RETURN_VALUE                    
+        'aug_global_like'
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_tuple_idx
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: (1, 2)
+                4       DUP_TOP_TWO                     
+                6       BINARY_SUBSCR                   
+                8       LOAD_FAST                       1: b
+                10      INPLACE_ADD                     
+                12      ROT_THREE                       
+                14      STORE_SUBSCR                    
+                16      LOAD_CONST                      0: None
+                18      RETURN_VALUE                    
+        'aug_tuple_idx'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> use
+        2       LOAD_CONST                      1: 'use'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      2: <CODE> aug_idx
+        10      LOAD_CONST                      3: 'aug_idx'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: aug_idx
+        16      LOAD_CONST                      4: <CODE> aug_idx_expr
+        18      LOAD_CONST                      5: 'aug_idx_expr'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: aug_idx_expr
+        24      LOAD_CONST                      6: <CODE> aug_slice
+        26      LOAD_CONST                      7: 'aug_slice'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: aug_slice
+        32      LOAD_CONST                      8: <CODE> aug_slice_open
+        34      LOAD_CONST                      9: 'aug_slice_open'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      4: aug_slice_open
+        40      LOAD_CONST                      10: <CODE> aug_slice_step
+        42      LOAD_CONST                      11: 'aug_slice_step'
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      5: aug_slice_step
+        48      LOAD_CONST                      12: <CODE> aug_attr
+        50      LOAD_CONST                      13: 'aug_attr'
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      6: aug_attr
+        56      LOAD_CONST                      14: <CODE> aug_attr_call
+        58      LOAD_CONST                      15: 'aug_attr_call'
+        60      MAKE_FUNCTION                   0
+        62      STORE_NAME                      7: aug_attr_call
+        64      LOAD_CONST                      16: <CODE> aug_sub_call
+        66      LOAD_CONST                      17: 'aug_sub_call'
+        68      MAKE_FUNCTION                   0
+        70      STORE_NAME                      8: aug_sub_call
+        72      LOAD_CONST                      18: <CODE> aug_nested
+        74      LOAD_CONST                      19: 'aug_nested'
+        76      MAKE_FUNCTION                   0
+        78      STORE_NAME                      9: aug_nested
+        80      LOAD_CONST                      20: <CODE> aug_global_like
+        82      LOAD_CONST                      21: 'aug_global_like'
+        84      MAKE_FUNCTION                   0
+        86      STORE_NAME                      10: aug_global_like
+        88      LOAD_CONST                      22: <CODE> aug_tuple_idx
+        90      LOAD_CONST                      23: 'aug_tuple_idx'
+        92      MAKE_FUNCTION                   0
+        94      STORE_NAME                      11: aug_tuple_idx
+        96      LOAD_CONST                      24: None
+        98      RETURN_VALUE                    

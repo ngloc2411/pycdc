@@ -1,0 +1,622 @@
+[Code]
+    File Name: while_loops.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'plain'
+        'with_break'
+        'with_continue'
+        'forever'
+        'while_else'
+        'nested'
+        'if_else_in_loop'
+        'for_in_while'
+        'while_not'
+        'while_call'
+        'break_continue_mix'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: while_loops.py
+            Object Name: plain
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               14 (to 28)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 1
+                16      INPLACE_ADD                     
+                18      STORE_FAST                      1: j
+                20      LOAD_FAST                       1: j
+                22      LOAD_FAST                       0: n
+                24      COMPARE_OP                      0 (<)
+                26      POP_JUMP_IF_TRUE                6 (to 12)
+                28      LOAD_FAST                       1: j
+                30      RETURN_VALUE                    
+        'plain'
+        [Code]
+            File Name: while_loops.py
+            Object Name: with_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+                5
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               19 (to 38)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 1
+                16      INPLACE_ADD                     
+                18      STORE_FAST                      1: j
+                20      LOAD_FAST                       1: j
+                22      LOAD_CONST                      3: 5
+                24      COMPARE_OP                      4 (>)
+                26      POP_JUMP_IF_FALSE               15 (to 30)
+                28      JUMP_FORWARD                    4 (to 38)
+                30      LOAD_FAST                       1: j
+                32      LOAD_FAST                       0: n
+                34      COMPARE_OP                      0 (<)
+                36      POP_JUMP_IF_TRUE                6 (to 12)
+                38      LOAD_GLOBAL                     0: print
+                40      LOAD_FAST                       1: j
+                42      CALL_FUNCTION                   1
+                44      POP_TOP                         
+                46      LOAD_FAST                       1: j
+                48      RETURN_VALUE                    
+        'with_break'
+        [Code]
+            File Name: while_loops.py
+            Object Name: with_continue
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+                2
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               23 (to 46)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 1
+                16      INPLACE_ADD                     
+                18      STORE_FAST                      1: j
+                20      LOAD_FAST                       1: j
+                22      LOAD_CONST                      3: 2
+                24      BINARY_MODULO                   
+                26      POP_JUMP_IF_FALSE               15 (to 30)
+                28      JUMP_ABSOLUTE                   2 (to 4)
+                30      LOAD_GLOBAL                     0: print
+                32      LOAD_FAST                       1: j
+                34      CALL_FUNCTION                   1
+                36      POP_TOP                         
+                38      LOAD_FAST                       1: j
+                40      LOAD_FAST                       0: n
+                42      COMPARE_OP                      0 (<)
+                44      POP_JUMP_IF_TRUE                6 (to 12)
+                46      LOAD_FAST                       1: j
+                48      RETURN_VALUE                    
+        'with_continue'
+        [Code]
+            File Name: while_loops.py
+            Object Name: forever
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                True
+                1
+                'end'
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       NOP                             
+                6       LOAD_FAST                       1: j
+                8       LOAD_CONST                      3: 1
+                10      INPLACE_ADD                     
+                12      STORE_FAST                      1: j
+                14      LOAD_FAST                       1: j
+                16      LOAD_FAST                       0: n
+                18      COMPARE_OP                      4 (>)
+                20      POP_JUMP_IF_FALSE               12 (to 24)
+                22      JUMP_FORWARD                    5 (to 34)
+                24      LOAD_GLOBAL                     0: print
+                26      LOAD_FAST                       1: j
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      JUMP_ABSOLUTE                   3 (to 6)
+                34      LOAD_GLOBAL                     0: print
+                36      LOAD_CONST                      4: 'end'
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      LOAD_CONST                      0: None
+                44      RETURN_VALUE                    
+        'forever'
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_else
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+                7
+                'no break'
+                'after'
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               19 (to 38)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 1
+                16      INPLACE_ADD                     
+                18      STORE_FAST                      1: j
+                20      LOAD_FAST                       1: j
+                22      LOAD_CONST                      3: 7
+                24      COMPARE_OP                      2 (==)
+                26      POP_JUMP_IF_FALSE               15 (to 30)
+                28      JUMP_FORWARD                    8 (to 46)
+                30      LOAD_FAST                       1: j
+                32      LOAD_FAST                       0: n
+                34      COMPARE_OP                      0 (<)
+                36      POP_JUMP_IF_TRUE                6 (to 12)
+                38      LOAD_GLOBAL                     0: print
+                40      LOAD_CONST                      4: 'no break'
+                42      CALL_FUNCTION                   1
+                44      POP_TOP                         
+                46      LOAD_GLOBAL                     0: print
+                48      LOAD_CONST                      5: 'after'
+                50      CALL_FUNCTION                   1
+                52      POP_TOP                         
+                54      LOAD_CONST                      0: None
+                56      RETURN_VALUE                    
+        'while_else'
+        [Code]
+            File Name: while_loops.py
+            Object Name: nested
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'total'
+                'i'
+                'k'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+                3
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: total
+                4       LOAD_CONST                      1: 0
+                6       STORE_FAST                      2: i
+                8       LOAD_FAST                       2: i
+                10      LOAD_FAST                       0: n
+                12      COMPARE_OP                      0 (<)
+                14      POP_JUMP_IF_FALSE               39 (to 78)
+                16      LOAD_CONST                      1: 0
+                18      STORE_FAST                      3: k
+                20      LOAD_FAST                       3: k
+                22      LOAD_FAST                       2: i
+                24      COMPARE_OP                      0 (<)
+                26      POP_JUMP_IF_FALSE               31 (to 62)
+                28      LOAD_FAST                       3: k
+                30      LOAD_CONST                      2: 1
+                32      INPLACE_ADD                     
+                34      STORE_FAST                      3: k
+                36      LOAD_FAST                       3: k
+                38      LOAD_CONST                      3: 3
+                40      COMPARE_OP                      2 (==)
+                42      POP_JUMP_IF_FALSE               23 (to 46)
+                44      JUMP_FORWARD                    8 (to 62)
+                46      LOAD_FAST                       1: total
+                48      LOAD_FAST                       3: k
+                50      INPLACE_ADD                     
+                52      STORE_FAST                      1: total
+                54      LOAD_FAST                       3: k
+                56      LOAD_FAST                       2: i
+                58      COMPARE_OP                      0 (<)
+                60      POP_JUMP_IF_TRUE                14 (to 28)
+                62      LOAD_FAST                       2: i
+                64      LOAD_CONST                      2: 1
+                66      INPLACE_ADD                     
+                68      STORE_FAST                      2: i
+                70      LOAD_FAST                       2: i
+                72      LOAD_FAST                       0: n
+                74      COMPARE_OP                      0 (<)
+                76      POP_JUMP_IF_TRUE                8 (to 16)
+                78      LOAD_GLOBAL                     0: print
+                80      LOAD_FAST                       1: total
+                82      CALL_FUNCTION                   1
+                84      POP_TOP                         
+                86      LOAD_CONST                      0: None
+                88      RETURN_VALUE                    
+        'nested'
+        [Code]
+            File Name: while_loops.py
+            Object Name: if_else_in_loop
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                2
+                'odd'
+                'even'
+                1
+                'done'
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               27 (to 54)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 2
+                16      BINARY_MODULO                   
+                18      POP_JUMP_IF_FALSE               15 (to 30)
+                20      LOAD_GLOBAL                     0: print
+                22      LOAD_CONST                      3: 'odd'
+                24      CALL_FUNCTION                   1
+                26      POP_TOP                         
+                28      JUMP_FORWARD                    4 (to 38)
+                30      LOAD_GLOBAL                     0: print
+                32      LOAD_CONST                      4: 'even'
+                34      CALL_FUNCTION                   1
+                36      POP_TOP                         
+                38      LOAD_FAST                       1: j
+                40      LOAD_CONST                      5: 1
+                42      INPLACE_ADD                     
+                44      STORE_FAST                      1: j
+                46      LOAD_FAST                       1: j
+                48      LOAD_FAST                       0: n
+                50      COMPARE_OP                      0 (<)
+                52      POP_JUMP_IF_TRUE                6 (to 12)
+                54      LOAD_GLOBAL                     0: print
+                56      LOAD_CONST                      6: 'done'
+                58      CALL_FUNCTION                   1
+                60      POP_TOP                         
+                62      LOAD_CONST                      0: None
+                64      RETURN_VALUE                    
+        'if_else_in_loop'
+        [Code]
+            File Name: while_loops.py
+            Object Name: for_in_while
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'items'
+                'n'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                3
+                1
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: n
+                4       LOAD_FAST                       1: n
+                6       LOAD_CONST                      2: 3
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               23 (to 46)
+                12      LOAD_FAST                       0: items
+                14      GET_ITER                        
+                16      FOR_ITER                        6 (to 30)
+                18      STORE_FAST                      2: x
+                20      LOAD_GLOBAL                     0: print
+                22      LOAD_FAST                       2: x
+                24      CALL_FUNCTION                   1
+                26      POP_TOP                         
+                28      JUMP_ABSOLUTE                   8 (to 16)
+                30      LOAD_FAST                       1: n
+                32      LOAD_CONST                      3: 1
+                34      INPLACE_ADD                     
+                36      STORE_FAST                      1: n
+                38      LOAD_FAST                       1: n
+                40      LOAD_CONST                      2: 3
+                42      COMPARE_OP                      0 (<)
+                44      POP_JUMP_IF_TRUE                6 (to 12)
+                46      LOAD_GLOBAL                     0: print
+                48      LOAD_FAST                       1: n
+                50      CALL_FUNCTION                   1
+                52      POP_TOP                         
+                54      LOAD_CONST                      0: None
+                56      RETURN_VALUE                    
+        'for_in_while'
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_not
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'print'
+            [Var Names]
+                'flag'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: flag
+                2       POP_JUMP_IF_TRUE                8 (to 16)
+                4       LOAD_GLOBAL                     0: step
+                6       LOAD_FAST                       0: flag
+                8       CALL_FUNCTION                   1
+                10      STORE_FAST                      0: flag
+                12      LOAD_FAST                       0: flag
+                14      POP_JUMP_IF_FALSE               2 (to 4)
+                16      LOAD_GLOBAL                     1: print
+                18      LOAD_FAST                       0: flag
+                20      CALL_FUNCTION                   1
+                22      POP_TOP                         
+                24      LOAD_CONST                      0: None
+                26      RETURN_VALUE                    
+        'while_not'
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_call
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'pending'
+                'pop'
+                'print'
+            [Var Names]
+                'q'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'empty'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       LOAD_METHOD                     0: pending
+                4       CALL_METHOD                     0
+                6       POP_JUMP_IF_FALSE               12 (to 24)
+                8       LOAD_FAST                       0: q
+                10      LOAD_METHOD                     1: pop
+                12      CALL_METHOD                     0
+                14      POP_TOP                         
+                16      LOAD_FAST                       0: q
+                18      LOAD_METHOD                     0: pending
+                20      CALL_METHOD                     0
+                22      POP_JUMP_IF_TRUE                4 (to 8)
+                24      LOAD_GLOBAL                     2: print
+                26      LOAD_CONST                      1: 'empty'
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      LOAD_CONST                      0: None
+                34      RETURN_VALUE                    
+        'while_call'
+        [Code]
+            File Name: while_loops.py
+            Object Name: break_continue_mix
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'n'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                1
+                3
+                8
+                'x'
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       STORE_FAST                      1: j
+                4       LOAD_FAST                       1: j
+                6       LOAD_FAST                       0: n
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               28 (to 56)
+                12      LOAD_FAST                       1: j
+                14      LOAD_CONST                      2: 1
+                16      INPLACE_ADD                     
+                18      STORE_FAST                      1: j
+                20      LOAD_FAST                       1: j
+                22      LOAD_CONST                      3: 3
+                24      COMPARE_OP                      0 (<)
+                26      POP_JUMP_IF_FALSE               15 (to 30)
+                28      JUMP_ABSOLUTE                   2 (to 4)
+                30      LOAD_FAST                       1: j
+                32      LOAD_CONST                      4: 8
+                34      COMPARE_OP                      4 (>)
+                36      POP_JUMP_IF_FALSE               20 (to 40)
+                38      JUMP_FORWARD                    8 (to 56)
+                40      LOAD_GLOBAL                     0: print
+                42      LOAD_FAST                       1: j
+                44      CALL_FUNCTION                   1
+                46      POP_TOP                         
+                48      LOAD_FAST                       1: j
+                50      LOAD_FAST                       0: n
+                52      COMPARE_OP                      0 (<)
+                54      POP_JUMP_IF_TRUE                6 (to 12)
+                56      LOAD_GLOBAL                     0: print
+                58      LOAD_CONST                      5: 'x'
+                60      CALL_FUNCTION                   1
+                62      POP_TOP                         
+                64      LOAD_CONST                      0: None
+                66      RETURN_VALUE                    
+        'break_continue_mix'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> plain
+        2       LOAD_CONST                      1: 'plain'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: plain
+        8       LOAD_CONST                      2: <CODE> with_break
+        10      LOAD_CONST                      3: 'with_break'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: with_break
+        16      LOAD_CONST                      4: <CODE> with_continue
+        18      LOAD_CONST                      5: 'with_continue'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: with_continue
+        24      LOAD_CONST                      6: <CODE> forever
+        26      LOAD_CONST                      7: 'forever'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: forever
+        32      LOAD_CONST                      8: <CODE> while_else
+        34      LOAD_CONST                      9: 'while_else'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      4: while_else
+        40      LOAD_CONST                      10: <CODE> nested
+        42      LOAD_CONST                      11: 'nested'
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      5: nested
+        48      LOAD_CONST                      12: <CODE> if_else_in_loop
+        50      LOAD_CONST                      13: 'if_else_in_loop'
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      6: if_else_in_loop
+        56      LOAD_CONST                      14: <CODE> for_in_while
+        58      LOAD_CONST                      15: 'for_in_while'
+        60      MAKE_FUNCTION                   0
+        62      STORE_NAME                      7: for_in_while
+        64      LOAD_CONST                      16: <CODE> while_not
+        66      LOAD_CONST                      17: 'while_not'
+        68      MAKE_FUNCTION                   0
+        70      STORE_NAME                      8: while_not
+        72      LOAD_CONST                      18: <CODE> while_call
+        74      LOAD_CONST                      19: 'while_call'
+        76      MAKE_FUNCTION                   0
+        78      STORE_NAME                      9: while_call
+        80      LOAD_CONST                      20: <CODE> break_continue_mix
+        82      LOAD_CONST                      21: 'break_continue_mix'
+        84      MAKE_FUNCTION                   0
+        86      STORE_NAME                      10: break_continue_mix
+        88      LOAD_CONST                      22: None
+        90      RETURN_VALUE                    

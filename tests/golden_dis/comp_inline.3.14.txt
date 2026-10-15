@@ -1,0 +1,172 @@
+[Code]
+    File Name: comp_inline.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: comp_inline.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 7
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'xs'
+                'ys'
+                'x'
+                'a'
+                'b'
+                'y'
+                'c'
+                'd'
+                'e'
+            [Constants]
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       LOAD_FAST_AND_CLEAR             2: x
+                8       SWAP                            2
+                10      BUILD_LIST                      0
+                12      SWAP                            2
+                14      FOR_ITER                        11 (to 38)
+                18      STORE_FAST_LOAD_FAST            34: x, x
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       0 (+)
+                34      LIST_APPEND                     2
+                36      JUMP_BACKWARD                   13 (to 12)
+                40      END_FOR                         
+                42      POP_ITER                        
+                44      STORE_FAST                      3: a
+                46      STORE_FAST                      2: x
+                48      LOAD_FAST_BORROW                0
+                50      GET_ITER                        
+                52      LOAD_FAST_AND_CLEAR             2: x
+                54      SWAP                            2
+                56      BUILD_LIST                      0
+                58      SWAP                            2
+                60      FOR_ITER                        14 (to 90)
+                64      STORE_FAST_LOAD_FAST            34: x, x
+                66      TO_BOOL                         
+                74      POP_JUMP_IF_TRUE                3 (to 82)
+                78      NOT_TAKEN                       
+                80      JUMP_BACKWARD                   12 (to 58)
+                84      LOAD_FAST_BORROW                2
+                86      LIST_APPEND                     2
+                88      JUMP_BACKWARD                   16 (to 58)
+                92      END_FOR                         
+                94      POP_ITER                        
+                96      STORE_FAST                      4: b
+                98      STORE_FAST                      2: x
+                100     LOAD_FAST_BORROW                0
+                102     GET_ITER                        
+                104     LOAD_FAST_AND_CLEAR             2: x
+                106     LOAD_FAST_AND_CLEAR             5: y
+                108     SWAP                            3
+                110     BUILD_LIST                      0
+                112     SWAP                            2
+                114     FOR_ITER                        14 (to 144)
+                118     STORE_FAST_LOAD_FAST            33: x, ys
+                120     GET_ITER                        
+                122     FOR_ITER                        6 (to 136)
+                126     STORE_FAST_LOAD_FAST            82: y, x
+                128     LOAD_FAST_BORROW                5
+                130     BUILD_TUPLE                     2
+                132     LIST_APPEND                     3
+                134     JUMP_BACKWARD                   8 (to 120)
+                138     END_FOR                         
+                140     POP_ITER                        
+                142     JUMP_BACKWARD                   16 (to 112)
+                146     END_FOR                         
+                148     POP_ITER                        
+                150     STORE_FAST                      6: c
+                152     STORE_FAST                      2: x
+                154     STORE_FAST                      5: y
+                156     LOAD_FAST_BORROW                0
+                158     GET_ITER                        
+                160     LOAD_FAST_AND_CLEAR             2: x
+                162     SWAP                            2
+                164     BUILD_SET                       0
+                166     SWAP                            2
+                168     FOR_ITER                        4 (to 178)
+                172     STORE_FAST_LOAD_FAST            34: x, x
+                174     SET_ADD                         2
+                176     JUMP_BACKWARD                   6 (to 166)
+                180     END_FOR                         
+                182     POP_ITER                        
+                184     STORE_FAST                      7: d
+                186     STORE_FAST                      2: x
+                188     LOAD_FAST_BORROW                0
+                190     GET_ITER                        
+                192     LOAD_FAST_AND_CLEAR             2: x
+                194     SWAP                            2
+                196     BUILD_MAP                       0
+                198     SWAP                            2
+                200     FOR_ITER                        5 (to 212)
+                204     STORE_FAST_LOAD_FAST            34: x, x
+                206     LOAD_FAST_BORROW                2
+                208     MAP_ADD                         2
+                210     JUMP_BACKWARD                   7 (to 198)
+                214     END_FOR                         
+                216     POP_ITER                        
+                218     STORE_FAST                      8: e
+                220     STORE_FAST                      2: x
+                222     LOAD_FAST_BORROW_LOAD_FAST_BORROW  52
+                224     LOAD_FAST_BORROW_LOAD_FAST_BORROW  103
+                226     LOAD_FAST_BORROW                8
+                228     BUILD_LIST                      5
+                230     RETURN_VALUE                    
+                232     SWAP                            2
+                234     POP_TOP                         
+                236     SWAP                            2
+                238     STORE_FAST                      2: x
+                240     RERAISE                         0
+                242     SWAP                            2
+                244     POP_TOP                         
+                246     SWAP                            2
+                248     STORE_FAST                      2: x
+                250     RERAISE                         0
+                252     SWAP                            2
+                254     POP_TOP                         
+                256     SWAP                            3
+                258     STORE_FAST                      5: y
+                260     STORE_FAST                      2: x
+                262     RERAISE                         0
+                264     SWAP                            2
+                266     POP_TOP                         
+                268     SWAP                            2
+                270     STORE_FAST                      2: x
+                272     RERAISE                         0
+                274     SWAP                            2
+                276     POP_TOP                         
+                278     SWAP                            2
+                280     STORE_FAST                      2: x
+                282     RERAISE                         0
+            [Exception Table]
+                10 to 44 -> 232 [2] 
+                56 to 74 -> 242 [2] 
+                84 to 96 -> 242 [2] 
+                110 to 150 -> 252 [3] 
+                164 to 184 -> 264 [2] 
+                196 to 218 -> 274 [2] 
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

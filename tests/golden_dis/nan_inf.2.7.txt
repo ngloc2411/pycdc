@@ -1,0 +1,62 @@
+[Code]
+    File Name: nan_inf.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+        'c'
+        'd'
+        'float'
+        'e'
+        'f'
+        'g'
+        'h'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1e+300
+        0
+        -1e+300
+        'nan'
+        '-nan'
+        'inf'
+        '-inf'
+        None
+        inf
+        -nan
+        -inf
+        -nan
+        inf
+        -inf
+    [Disassembly]
+        0       LOAD_CONST                      9: float('-nan')
+        3       STORE_NAME                      0: a
+        6       LOAD_CONST                      11: float('-nan')
+        9       STORE_NAME                      1: b
+        12      LOAD_CONST                      12: float('inf')
+        15      STORE_NAME                      2: c
+        18      LOAD_CONST                      13: float('-inf')
+        21      STORE_NAME                      3: d
+        24      LOAD_NAME                       4: float
+        27      LOAD_CONST                      3: 'nan'
+        30      CALL_FUNCTION                   1
+        33      STORE_NAME                      5: e
+        36      LOAD_NAME                       4: float
+        39      LOAD_CONST                      4: '-nan'
+        42      CALL_FUNCTION                   1
+        45      STORE_NAME                      6: f
+        48      LOAD_NAME                       4: float
+        51      LOAD_CONST                      5: 'inf'
+        54      CALL_FUNCTION                   1
+        57      STORE_NAME                      7: g
+        60      LOAD_NAME                       4: float
+        63      LOAD_CONST                      6: '-inf'
+        66      CALL_FUNCTION                   1
+        69      STORE_NAME                      8: h
+        72      LOAD_CONST                      7: None
+        75      RETURN_VALUE                    

@@ -1,0 +1,176 @@
+[Code]
+    File Name: decorators_forms.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 4
+    Flags: 0x00000000
+    [Names]
+        'deco'
+        'a'
+        'C'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: deco
+            Qualified Name: deco
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'fn'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: fn
+                4       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: a
+            Qualified Name: a
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 0
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: C
+            Qualified Name: C
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000000
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                'property'
+                'p'
+                'staticmethod'
+                's'
+                'classmethod'
+                'c'
+            [Locals+Names]
+            [Constants]
+                'C'
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: p
+                    Qualified Name: C.p
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 0
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Locals+Names]
+                        'self'
+                    [Constants]
+                        None
+                        1
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       RETURN_CONST                    1: 1
+                    [Exception Table]
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: s
+                    Qualified Name: C.s
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Locals+Names]
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       0: x
+                        4       RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: c
+                    Qualified Name: C.c
+                    Arg Count: 2
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Locals+Names]
+                        'cls'
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       0: cls
+                        4       RETURN_VALUE                    
+                    [Exception Table]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_NAME                       0: __name__
+                4       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: 'C'
+                8       STORE_NAME                      2: __qualname__
+                10      LOAD_NAME                       3: property
+                12      LOAD_CONST                      1: <CODE> p
+                14      MAKE_FUNCTION                   0
+                16      CALL                            0
+                24      STORE_NAME                      4: p
+                26      LOAD_NAME                       5: staticmethod
+                28      LOAD_CONST                      2: <CODE> s
+                30      MAKE_FUNCTION                   0
+                32      CALL                            0
+                40      STORE_NAME                      6: s
+                42      LOAD_NAME                       7: classmethod
+                44      LOAD_CONST                      3: <CODE> c
+                46      MAKE_FUNCTION                   0
+                48      CALL                            0
+                56      STORE_NAME                      8: c
+                58      RETURN_CONST                    4: None
+            [Exception Table]
+        'C'
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> deco
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: deco
+        8       LOAD_NAME                       0: deco
+        10      LOAD_CONST                      1: <CODE> a
+        12      MAKE_FUNCTION                   0
+        14      CALL                            0
+        22      STORE_NAME                      1: a
+        24      PUSH_NULL                       
+        26      LOAD_BUILD_CLASS                
+        28      LOAD_CONST                      2: <CODE> C
+        30      MAKE_FUNCTION                   0
+        32      LOAD_CONST                      3: 'C'
+        34      CALL                            2
+        42      STORE_NAME                      2: C
+        44      RETURN_CONST                    4: None
+    [Exception Table]

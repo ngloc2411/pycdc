@@ -1,0 +1,58 @@
+[Code]
+    File Name: test_kwnames.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 3
+    Flags: 0x00000000
+    [Names]
+        'foo'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: test_kwnames.py
+            Object Name: foo
+            Qualified Name: foo
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'x'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + print
+                14      LOAD_FAST                       0: x
+                16      PRECALL                         1
+                20      CALL                            1
+                30      POP_TOP                         
+                32      LOAD_CONST                      0: None
+                34      RETURN_VALUE                    
+            [Exception Table]
+        1
+        (
+            'x'
+        )
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> foo
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: foo
+        8       PUSH_NULL                       
+        10      LOAD_NAME                       0: foo
+        12      LOAD_CONST                      1: 1
+        14      KW_NAMES                        2: ('x',)
+        16      PRECALL                         1
+        20      CALL                            1
+        30      POP_TOP                         
+        32      LOAD_CONST                      3: None
+        34      RETURN_VALUE                    
+    [Exception Table]

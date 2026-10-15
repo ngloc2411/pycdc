@@ -1,0 +1,86 @@
+[Code]
+    File Name: swap_locals.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'main'
+        'g'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: swap_locals.py
+            Object Name: main
+            Qualified Name: main
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: (1, 2)
+                4       UNPACK_SEQUENCE                 2
+                8       STORE_FAST                      0: a
+                10      STORE_FAST                      1: b
+                12      LOAD_FAST                       1: b
+                14      LOAD_FAST                       0: a
+                16      STORE_FAST                      1: b
+                18      STORE_FAST                      0: a
+                20      LOAD_GLOBAL                     1: NULL + print
+                30      LOAD_FAST                       0: a
+                32      LOAD_FAST                       1: b
+                34      CALL                            2
+                42      POP_TOP                         
+                44      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: swap_locals.py
+            Object Name: g
+            Qualified Name: g
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       1: b
+                4       LOAD_FAST                       0: a
+                6       STORE_FAST                      1: b
+                8       STORE_FAST                      0: a
+                10      LOAD_FAST                       0: a
+                12      RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> main
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: main
+        8       LOAD_CONST                      1: <CODE> g
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: g
+        14      RETURN_CONST                    2: None
+    [Exception Table]

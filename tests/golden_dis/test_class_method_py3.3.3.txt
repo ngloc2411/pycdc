@@ -1,0 +1,107 @@
+[Code]
+    File Name: test_class_method.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'MyClass'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: test_class_method.py
+            Object Name: MyClass
+            Arg Count: 1
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000042 (CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                'method'
+            [Var Names]
+                '__locals__'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                'MyClass'
+                [Code]
+                    File Name: test_class_method.py
+                    Object Name: method
+                    Arg Count: 2
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 2
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                        'print'
+                    [Var Names]
+                        'self'
+                        'i'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                        5
+                        'five'
+                        2
+                        'not two'
+                        '2'
+                    [Disassembly]
+                        0       LOAD_FAST                       1: i
+                        3       LOAD_CONST                      1: 5
+                        6       COMPARE_OP                      8 (is)
+                        9       POP_JUMP_IF_FALSE               25
+                        12      LOAD_GLOBAL                     0: print
+                        15      LOAD_CONST                      2: 'five'
+                        18      CALL_FUNCTION                   1
+                        21      POP_TOP                         
+                        22      JUMP_FORWARD                    35 (to 60)
+                        25      LOAD_FAST                       1: i
+                        28      LOAD_CONST                      3: 2
+                        31      COMPARE_OP                      9 (is not)
+                        34      POP_JUMP_IF_FALSE               50
+                        37      LOAD_GLOBAL                     0: print
+                        40      LOAD_CONST                      4: 'not two'
+                        43      CALL_FUNCTION                   1
+                        46      POP_TOP                         
+                        47      JUMP_FORWARD                    10 (to 60)
+                        50      LOAD_GLOBAL                     0: print
+                        53      LOAD_CONST                      5: '2'
+                        56      CALL_FUNCTION                   1
+                        59      POP_TOP                         
+                        60      LOAD_CONST                      0: None
+                        63      RETURN_VALUE                    
+                'MyClass.method'
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: __locals__
+                3       STORE_LOCALS                    
+                4       LOAD_NAME                       0: __name__
+                7       STORE_NAME                      1: __module__
+                10      LOAD_CONST                      0: 'MyClass'
+                13      STORE_NAME                      2: __qualname__
+                16      LOAD_CONST                      1: <CODE> method
+                19      LOAD_CONST                      2: 'MyClass.method'
+                22      MAKE_FUNCTION                   0
+                25      STORE_NAME                      3: method
+                28      LOAD_CONST                      3: None
+                31      RETURN_VALUE                    
+        'MyClass'
+        None
+    [Disassembly]
+        0       LOAD_BUILD_CLASS                
+        1       LOAD_CONST                      0: <CODE> MyClass
+        4       LOAD_CONST                      1: 'MyClass'
+        7       MAKE_FUNCTION                   0
+        10      LOAD_CONST                      1: 'MyClass'
+        13      CALL_FUNCTION                   2
+        16      STORE_NAME                      0: MyClass
+        19      LOAD_CONST                      2: None
+        22      RETURN_VALUE                    

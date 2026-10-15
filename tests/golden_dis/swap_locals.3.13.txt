@@ -1,0 +1,80 @@
+[Code]
+    File Name: swap_locals.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'main'
+        'g'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: swap_locals.py
+            Object Name: main
+            Qualified Name: main
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: (1, 2)
+                4       UNPACK_SEQUENCE                 2
+                8       STORE_FAST_STORE_FAST           1: a, b
+                10      LOAD_FAST_LOAD_FAST             16: b, a
+                12      STORE_FAST_STORE_FAST           16: b, a
+                14      LOAD_GLOBAL                     1: NULL + print
+                24      LOAD_FAST_LOAD_FAST             1: a, b
+                26      CALL                            2
+                34      POP_TOP                         
+                36      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: swap_locals.py
+            Object Name: g
+            Qualified Name: g
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             16: b, a
+                4       STORE_FAST_STORE_FAST           16: b, a
+                6       LOAD_FAST                       0: a
+                8       RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> main
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: main
+        8       LOAD_CONST                      1: <CODE> g
+        10      MAKE_FUNCTION                   
+        12      STORE_NAME                      1: g
+        14      RETURN_CONST                    2: None
+    [Exception Table]

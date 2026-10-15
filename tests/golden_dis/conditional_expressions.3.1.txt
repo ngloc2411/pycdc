@@ -1,0 +1,175 @@
+[Code]
+    File Name: tests/input/conditional_expressions.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'result'
+        'print'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1
+        2
+        0
+        'even'
+        'odd'
+        3
+        -2
+        'negative and even'
+        'positive or odd'
+        -1
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 1
+        3       STORE_NAME                      0: a
+        6       LOAD_NAME                       0: a
+        9       LOAD_CONST                      1: 2
+        12      BINARY_MODULO                   
+        13      LOAD_CONST                      2: 0
+        16      COMPARE_OP                      2 (==)
+        19      POP_JUMP_IF_FALSE               28
+        22      LOAD_CONST                      3: 'even'
+        25      JUMP_FORWARD                    3 (to 31)
+        28      LOAD_CONST                      4: 'odd'
+        31      STORE_NAME                      1: result
+        34      LOAD_NAME                       2: print
+        37      LOAD_NAME                       1: result
+        40      CALL_FUNCTION                   1
+        43      POP_TOP                         
+        44      LOAD_CONST                      1: 2
+        47      STORE_NAME                      0: a
+        50      LOAD_NAME                       0: a
+        53      LOAD_CONST                      1: 2
+        56      BINARY_MODULO                   
+        57      LOAD_CONST                      2: 0
+        60      COMPARE_OP                      2 (==)
+        63      POP_JUMP_IF_FALSE               72
+        66      LOAD_CONST                      3: 'even'
+        69      JUMP_FORWARD                    3 (to 75)
+        72      LOAD_CONST                      4: 'odd'
+        75      STORE_NAME                      1: result
+        78      LOAD_NAME                       2: print
+        81      LOAD_NAME                       1: result
+        84      CALL_FUNCTION                   1
+        87      POP_TOP                         
+        88      LOAD_CONST                      0: 1
+        91      STORE_NAME                      0: a
+        94      LOAD_NAME                       0: a
+        97      LOAD_CONST                      1: 2
+        100     BINARY_MODULO                   
+        101     LOAD_CONST                      2: 0
+        104     COMPARE_OP                      2 (==)
+        107     POP_JUMP_IF_FALSE               120
+        110     LOAD_NAME                       0: a
+        113     LOAD_CONST                      1: 2
+        116     BINARY_MULTIPLY                 
+        117     JUMP_FORWARD                    7 (to 127)
+        120     LOAD_NAME                       0: a
+        123     LOAD_CONST                      5: 3
+        126     BINARY_MULTIPLY                 
+        127     STORE_NAME                      1: result
+        130     LOAD_NAME                       2: print
+        133     LOAD_NAME                       1: result
+        136     CALL_FUNCTION                   1
+        139     POP_TOP                         
+        140     LOAD_CONST                      1: 2
+        143     STORE_NAME                      0: a
+        146     LOAD_NAME                       0: a
+        149     LOAD_CONST                      1: 2
+        152     BINARY_MODULO                   
+        153     LOAD_CONST                      2: 0
+        156     COMPARE_OP                      2 (==)
+        159     POP_JUMP_IF_FALSE               172
+        162     LOAD_NAME                       0: a
+        165     LOAD_CONST                      1: 2
+        168     BINARY_MULTIPLY                 
+        169     JUMP_FORWARD                    7 (to 179)
+        172     LOAD_NAME                       0: a
+        175     LOAD_CONST                      5: 3
+        178     BINARY_MULTIPLY                 
+        179     STORE_NAME                      1: result
+        182     LOAD_NAME                       2: print
+        185     LOAD_NAME                       1: result
+        188     CALL_FUNCTION                   1
+        191     POP_TOP                         
+        192     LOAD_CONST                      0: 1
+        195     STORE_NAME                      0: a
+        198     LOAD_NAME                       0: a
+        201     LOAD_CONST                      1: 2
+        204     BINARY_MODULO                   
+        205     LOAD_CONST                      2: 0
+        208     COMPARE_OP                      2 (==)
+        211     POP_JUMP_IF_FALSE               226
+        214     LOAD_NAME                       2: print
+        217     LOAD_CONST                      3: 'even'
+        220     CALL_FUNCTION                   1
+        223     JUMP_FORWARD                    9 (to 235)
+        226     LOAD_NAME                       2: print
+        229     LOAD_CONST                      4: 'odd'
+        232     CALL_FUNCTION                   1
+        235     POP_TOP                         
+        236     LOAD_CONST                      0: 1
+        239     STORE_NAME                      0: a
+        242     LOAD_NAME                       0: a
+        245     LOAD_CONST                      1: 2
+        248     BINARY_MODULO                   
+        249     LOAD_CONST                      2: 0
+        252     COMPARE_OP                      2 (==)
+        255     POP_JUMP_IF_FALSE               271
+        258     LOAD_NAME                       2: print
+        261     LOAD_CONST                      3: 'even'
+        264     CALL_FUNCTION                   1
+        267     POP_TOP                         
+        268     JUMP_FORWARD                    10 (to 281)
+        271     LOAD_NAME                       2: print
+        274     LOAD_CONST                      4: 'odd'
+        277     CALL_FUNCTION                   1
+        280     POP_TOP                         
+        281     LOAD_CONST                      6: -2
+        284     STORE_NAME                      0: a
+        287     LOAD_NAME                       0: a
+        290     LOAD_CONST                      2: 0
+        293     COMPARE_OP                      0 (<)
+        296     POP_JUMP_IF_FALSE               321
+        299     LOAD_NAME                       0: a
+        302     LOAD_CONST                      1: 2
+        305     BINARY_MODULO                   
+        306     LOAD_CONST                      2: 0
+        309     COMPARE_OP                      2 (==)
+        312     POP_JUMP_IF_FALSE               321
+        315     LOAD_CONST                      7: 'negative and even'
+        318     JUMP_FORWARD                    3 (to 324)
+        321     LOAD_CONST                      8: 'positive or odd'
+        324     STORE_NAME                      1: result
+        327     LOAD_NAME                       2: print
+        330     LOAD_NAME                       1: result
+        333     CALL_FUNCTION                   1
+        336     POP_TOP                         
+        337     LOAD_CONST                      9: -1
+        340     STORE_NAME                      0: a
+        343     LOAD_NAME                       0: a
+        346     LOAD_CONST                      2: 0
+        349     COMPARE_OP                      0 (<)
+        352     POP_JUMP_IF_FALSE               377
+        355     LOAD_NAME                       0: a
+        358     LOAD_CONST                      1: 2
+        361     BINARY_MODULO                   
+        362     LOAD_CONST                      2: 0
+        365     COMPARE_OP                      2 (==)
+        368     POP_JUMP_IF_FALSE               377
+        371     LOAD_CONST                      7: 'negative and even'
+        374     JUMP_FORWARD                    3 (to 380)
+        377     LOAD_CONST                      8: 'positive or odd'
+        380     STORE_NAME                      1: result
+        383     LOAD_NAME                       2: print
+        386     LOAD_NAME                       1: result
+        389     CALL_FUNCTION                   1
+        392     POP_TOP                         
+        393     LOAD_CONST                      10: None
+        396     RETURN_VALUE                    

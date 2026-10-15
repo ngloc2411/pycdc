@@ -1,0 +1,1808 @@
+[Code]
+    File Name: chained_compare.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'use'
+        'chain2'
+        'chain_eq'
+        'chain_mixed'
+        'chain3'
+        'chain_in'
+        'chain_is'
+        'chain_consts'
+        'chain_expr'
+        'chain_call'
+        'chain_if'
+        'chain_if_else'
+        'chain_not'
+        'chain_and'
+        'chain_or'
+        'chain_assign'
+        'chain_while'
+        'chain_in_ternary'
+        'chain_attr'
+        'chain_neq'
+        'chain_notin'
+        'chain_elif'
+        'chain4_if'
+        'chain_arg'
+        'chain_value_in_loop'
+        'chain_break'
+        'chain_continue'
+        'chain_and_chain'
+        'chain_or_chain'
+        'chain_while_and'
+        'chain_while_break'
+        'chain_neg_value'
+        'chain_ret_if'
+        'chain_ternary_value'
+        'chain_mixed_ops'
+        'chain_value_or'
+        'chain_value_and'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: use
+            Qualified Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000007 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS)
+            [Names]
+            [Locals+Names]
+                'a'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain2
+            Qualified Name: chain2
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      2 (<)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      2 (<)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_eq
+            Qualified Name: chain_eq
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      72 (==)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      72 (==)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_mixed
+            Qualified Name: chain_mixed
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      42 (<=)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      2 (<)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain3
+            Qualified Name: chain3
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      2 (<)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               20 (to 64)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST                       2: c
+                32      SWAP                            2
+                34      COPY                            2
+                36      COMPARE_OP                      2 (<)
+                40      COPY                            1
+                42      TO_BOOL                         
+                50      POP_JUMP_IF_FALSE               6 (to 64)
+                54      NOT_TAKEN                       
+                56      POP_TOP                         
+                58      LOAD_FAST_BORROW                3
+                60      COMPARE_OP                      2 (<)
+                64      RETURN_VALUE                    
+                66      SWAP                            2
+                68      POP_TOP                         
+                70      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_in
+            Qualified Name: chain_in
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       CONTAINS_OP                     0 (in)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      CONTAINS_OP                     0 (in)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_is
+            Qualified Name: chain_is
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       IS_OP                           0 (is)
+                10      COPY                            1
+                12      TO_BOOL                         
+                20      POP_JUMP_IF_FALSE               5 (to 32)
+                24      NOT_TAKEN                       
+                26      POP_TOP                         
+                28      LOAD_FAST_BORROW                2
+                30      IS_OP                           0 (is)
+                32      RETURN_VALUE                    
+                34      SWAP                            2
+                36      POP_TOP                         
+                38      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_consts
+            Qualified Name: chain_consts
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'x'
+            [Constants]
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       LOAD_FAST                       0: x
+                6       SWAP                            2
+                8       COPY                            2
+                10      COMPARE_OP                      2 (<)
+                14      COPY                            1
+                16      TO_BOOL                         
+                24      POP_JUMP_IF_FALSE               6 (to 38)
+                28      NOT_TAKEN                       
+                30      POP_TOP                         
+                32      LOAD_SMALL_INT                  10
+                34      COMPARE_OP                      2 (<)
+                38      RETURN_VALUE                    
+                40      SWAP                            2
+                42      POP_TOP                         
+                44      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_expr
+            Qualified Name: chain_expr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       LOAD_SMALL_INT                  1
+                6       BINARY_OP                       0 (+)
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  2
+                22      BINARY_OP                       5 (*)
+                34      SWAP                            2
+                36      COPY                            2
+                38      COMPARE_OP                      2 (<)
+                42      COPY                            1
+                44      TO_BOOL                         
+                52      POP_JUMP_IF_FALSE               13 (to 80)
+                56      NOT_TAKEN                       
+                58      POP_TOP                         
+                60      LOAD_FAST_BORROW                2
+                62      LOAD_SMALL_INT                  3
+                64      BINARY_OP                       10 (-)
+                76      COMPARE_OP                      2 (<)
+                80      RETURN_VALUE                    
+                82      SWAP                            2
+                84      POP_TOP                         
+                86      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_call
+            Qualified Name: chain_call
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + use
+                12      LOAD_FAST_BORROW                0
+                14      CALL                            1
+                22      LOAD_GLOBAL                     1: NULL + use
+                32      LOAD_FAST_BORROW                1
+                34      CALL                            1
+                42      SWAP                            2
+                44      COPY                            2
+                46      COMPARE_OP                      2 (<)
+                50      COPY                            1
+                52      TO_BOOL                         
+                60      POP_JUMP_IF_FALSE               15 (to 92)
+                64      NOT_TAKEN                       
+                66      POP_TOP                         
+                68      LOAD_GLOBAL                     1: NULL + use
+                78      LOAD_FAST_BORROW                2
+                80      CALL                            1
+                88      COMPARE_OP                      2 (<)
+                92      RETURN_VALUE                    
+                94      SWAP                            2
+                96      POP_TOP                         
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_if
+            Qualified Name: chain_if
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               15 (to 56)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    11 (to 58)
+                36      LOAD_GLOBAL                     1: NULL + use
+                46      LOAD_SMALL_INT                  1
+                48      CALL                            1
+                56      POP_TOP                         
+                58      LOAD_GLOBAL                     1: NULL + use
+                68      LOAD_SMALL_INT                  2
+                70      CALL                            1
+                78      POP_TOP                         
+                80      LOAD_CONST                      1: None
+                82      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_if_else
+            Qualified Name: chain_if_else
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               16 (to 58)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    12 (to 60)
+                36      LOAD_GLOBAL                     1: NULL + use
+                46      LOAD_SMALL_INT                  1
+                48      CALL                            1
+                56      POP_TOP                         
+                58      JUMP_FORWARD                    11 (to 82)
+                60      LOAD_GLOBAL                     1: NULL + use
+                70      LOAD_SMALL_INT                  2
+                72      CALL                            1
+                80      POP_TOP                         
+                82      LOAD_GLOBAL                     1: NULL + use
+                92      LOAD_SMALL_INT                  3
+                94      CALL                            1
+                102     POP_TOP                         
+                104     LOAD_CONST                      1: None
+                106     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_not
+            Qualified Name: chain_not
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_TRUE                14 (to 54)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    1 (to 34)
+                32      POP_TOP                         
+                34      LOAD_GLOBAL                     1: NULL + use
+                44      LOAD_SMALL_INT                  1
+                46      CALL                            1
+                54      POP_TOP                         
+                56      LOAD_GLOBAL                     1: NULL + use
+                66      LOAD_SMALL_INT                  2
+                68      CALL                            1
+                76      POP_TOP                         
+                78      LOAD_CONST                      1: None
+                80      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_and
+            Qualified Name: chain_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               23 (to 72)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    19 (to 74)
+                36      LOAD_FAST_BORROW                3
+                38      TO_BOOL                         
+                46      POP_JUMP_IF_FALSE               12 (to 72)
+                50      NOT_TAKEN                       
+                52      LOAD_GLOBAL                     1: NULL + use
+                62      LOAD_SMALL_INT                  1
+                64      CALL                            1
+                72      POP_TOP                         
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_SMALL_INT                  2
+                86      CALL                            1
+                94      POP_TOP                         
+                96      LOAD_CONST                      1: None
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_or
+            Qualified Name: chain_or
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_TRUE                11 (to 48)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    1 (to 34)
+                32      POP_TOP                         
+                34      LOAD_FAST_BORROW                3
+                36      TO_BOOL                         
+                44      POP_JUMP_IF_FALSE               12 (to 70)
+                48      NOT_TAKEN                       
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_SMALL_INT                  1
+                62      CALL                            1
+                70      POP_TOP                         
+                72      LOAD_GLOBAL                     1: NULL + use
+                82      LOAD_SMALL_INT                  2
+                84      CALL                            1
+                92      POP_TOP                         
+                94      LOAD_CONST                      1: None
+                96      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_assign
+            Qualified Name: chain_assign
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      2 (<)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      2 (<)
+                36      JUMP_FORWARD                    2 (to 42)
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      STORE_FAST                      3: r
+                44      LOAD_GLOBAL                     1: NULL + use
+                54      LOAD_FAST_BORROW                3
+                56      CALL                            1
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                3
+                76      CALL                            1
+                84      BINARY_OP                       0 (+)
+                96      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while
+            Qualified Name: chain_while
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               15 (to 56)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    11 (to 58)
+                36      LOAD_FAST_BORROW                0
+                38      LOAD_SMALL_INT                  1
+                40      BINARY_OP                       0 (+)
+                52      STORE_FAST                      0: a
+                54      JUMP_BACKWARD                   28 (to 0)
+                58      LOAD_GLOBAL                     1: NULL + use
+                68      LOAD_FAST_BORROW                0
+                70      CALL                            1
+                78      POP_TOP                         
+                80      LOAD_CONST                      1: None
+                82      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_in_ternary
+            Qualified Name: chain_in_ternary
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               6 (to 38)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    2 (to 40)
+                36      LOAD_FAST                       3: x
+                38      JUMP_FORWARD                    1 (to 42)
+                40      LOAD_FAST                       4: y
+                42      STORE_FAST                      5: r
+                44      LOAD_GLOBAL                     1: NULL + use
+                54      LOAD_FAST_BORROW                5
+                56      CALL                            1
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                5
+                76      CALL                            1
+                84      BINARY_OP                       0 (+)
+                96      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_attr
+            Qualified Name: chain_attr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'v'
+            [Locals+Names]
+                'o'
+                'lo'
+                'hi'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                4       LOAD_ATTR                       0: v
+                24      SWAP                            2
+                26      COPY                            2
+                28      COMPARE_OP                      42 (<=)
+                32      COPY                            1
+                34      TO_BOOL                         
+                42      POP_JUMP_IF_FALSE               6 (to 56)
+                46      NOT_TAKEN                       
+                48      POP_TOP                         
+                50      LOAD_FAST_BORROW                2
+                52      COMPARE_OP                      42 (<=)
+                56      RETURN_VALUE                    
+                58      SWAP                            2
+                60      POP_TOP                         
+                62      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_neq
+            Qualified Name: chain_neq
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      103 (!=)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      103 (!=)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_notin
+            Qualified Name: chain_notin
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       CONTAINS_OP                     1 (not in)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      CONTAINS_OP                     1 (not in)
+                36      RETURN_VALUE                    
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_elif
+            Qualified Name: chain_elif
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               16 (to 58)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    12 (to 60)
+                36      LOAD_GLOBAL                     1: NULL + use
+                46      LOAD_SMALL_INT                  1
+                48      CALL                            1
+                56      POP_TOP                         
+                58      JUMP_FORWARD                    40 (to 140)
+                60      LOAD_FAST_LOAD_FAST             18: b, c
+                62      SWAP                            2
+                64      COPY                            2
+                66      COMPARE_OP                      18 (<)
+                70      POP_JUMP_IF_FALSE               8 (to 88)
+                74      NOT_TAKEN                       
+                76      LOAD_FAST_BORROW                3
+                78      COMPARE_OP                      18 (<)
+                82      POP_JUMP_IF_FALSE               16 (to 116)
+                86      NOT_TAKEN                       
+                88      JUMP_FORWARD                    2 (to 94)
+                90      POP_TOP                         
+                92      JUMP_FORWARD                    12 (to 118)
+                94      LOAD_GLOBAL                     1: NULL + use
+                104     LOAD_SMALL_INT                  2
+                106     CALL                            1
+                114     POP_TOP                         
+                116     JUMP_FORWARD                    11 (to 140)
+                118     LOAD_GLOBAL                     1: NULL + use
+                128     LOAD_SMALL_INT                  3
+                130     CALL                            1
+                138     POP_TOP                         
+                140     LOAD_GLOBAL                     1: NULL + use
+                150     LOAD_SMALL_INT                  4
+                152     CALL                            1
+                160     POP_TOP                         
+                162     LOAD_CONST                      1: None
+                164     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain4_if
+            Qualified Name: chain4_if
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               16 (to 46)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST                       2: c
+                20      SWAP                            2
+                22      COPY                            2
+                24      COMPARE_OP                      18 (<)
+                28      POP_JUMP_IF_FALSE               8 (to 46)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST_BORROW                3
+                36      COMPARE_OP                      18 (<)
+                40      POP_JUMP_IF_FALSE               15 (to 72)
+                44      NOT_TAKEN                       
+                46      JUMP_FORWARD                    2 (to 52)
+                48      POP_TOP                         
+                50      JUMP_FORWARD                    11 (to 74)
+                52      LOAD_GLOBAL                     1: NULL + use
+                62      LOAD_SMALL_INT                  1
+                64      CALL                            1
+                72      POP_TOP                         
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_SMALL_INT                  2
+                86      CALL                            1
+                94      POP_TOP                         
+                96      LOAD_CONST                      1: None
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_arg
+            Qualified Name: chain_arg
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + use
+                12      LOAD_FAST_LOAD_FAST             1: a, b
+                14      SWAP                            2
+                16      COPY                            2
+                18      COMPARE_OP                      2 (<)
+                22      COPY                            1
+                24      TO_BOOL                         
+                32      POP_JUMP_IF_FALSE               6 (to 46)
+                36      NOT_TAKEN                       
+                38      POP_TOP                         
+                40      LOAD_FAST_BORROW                2
+                42      COMPARE_OP                      2 (<)
+                46      JUMP_FORWARD                    2 (to 52)
+                48      SWAP                            2
+                50      POP_TOP                         
+                52      LOAD_FAST_BORROW                1
+                54      CALL                            2
+                62      STORE_FAST                      3: r
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                3
+                76      CALL                            1
+                84      LOAD_GLOBAL                     1: NULL + use
+                94      LOAD_FAST_BORROW                3
+                96      CALL                            1
+                104     BINARY_OP                       0 (+)
+                116     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_in_loop
+            Qualified Name: chain_value_in_loop
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'append'
+            [Locals+Names]
+                'items'
+                'lo'
+                'hi'
+                'out'
+                'x'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_LIST                      0
+                4       STORE_FAST                      3: out
+                6       LOAD_FAST_BORROW                0
+                8       GET_ITER                        
+                10      FOR_ITER                        39 (to 90)
+                14      STORE_FAST                      4: x
+                16      LOAD_FAST                       3: out
+                18      LOAD_ATTR                       1: append
+                38      LOAD_FAST_LOAD_FAST             20: lo, x
+                40      SWAP                            2
+                42      COPY                            2
+                44      COMPARE_OP                      2 (<)
+                48      COPY                            1
+                50      TO_BOOL                         
+                58      POP_JUMP_IF_FALSE               6 (to 72)
+                62      NOT_TAKEN                       
+                64      POP_TOP                         
+                66      LOAD_FAST_BORROW                2
+                68      COMPARE_OP                      2 (<)
+                72      JUMP_FORWARD                    2 (to 78)
+                74      SWAP                            2
+                76      POP_TOP                         
+                78      CALL                            1
+                86      POP_TOP                         
+                88      JUMP_BACKWARD                   41 (to 8)
+                92      END_FOR                         
+                94      POP_ITER                        
+                96      LOAD_FAST_BORROW                3
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_break
+            Qualified Name: chain_break
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'items'
+                'lo'
+                'hi'
+                'x'
+            [Constants]
+                0
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       FOR_ITER                        33 (to 74)
+                10      STORE_FAST                      3: x
+                12      LOAD_FAST_LOAD_FAST             49: x, lo
+                14      SWAP                            2
+                16      COPY                            2
+                18      COMPARE_OP                      18 (<)
+                22      POP_JUMP_IF_FALSE               8 (to 40)
+                26      NOT_TAKEN                       
+                28      LOAD_FAST_BORROW                2
+                30      COMPARE_OP                      18 (<)
+                34      POP_JUMP_IF_FALSE               6 (to 48)
+                38      NOT_TAKEN                       
+                40      JUMP_FORWARD                    2 (to 46)
+                42      POP_TOP                         
+                44      JUMP_FORWARD                    2 (to 50)
+                46      POP_TOP                         
+                48      JUMP_FORWARD                    15 (to 80)
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST_BORROW                3
+                62      CALL                            1
+                70      POP_TOP                         
+                72      JUMP_BACKWARD                   35 (to 4)
+                76      END_FOR                         
+                78      POP_ITER                        
+                80      LOAD_GLOBAL                     1: NULL + use
+                90      LOAD_SMALL_INT                  0
+                92      CALL                            1
+                100     POP_TOP                         
+                102     LOAD_CONST                      1: None
+                104     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_continue
+            Qualified Name: chain_continue
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'items'
+                'lo'
+                'hi'
+                'x'
+            [Constants]
+                0
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       FOR_ITER                        33 (to 74)
+                10      STORE_FAST                      3: x
+                12      LOAD_FAST_LOAD_FAST             19: lo, x
+                14      SWAP                            2
+                16      COPY                            2
+                18      COMPARE_OP                      18 (<)
+                22      POP_JUMP_IF_FALSE               8 (to 40)
+                26      NOT_TAKEN                       
+                28      LOAD_FAST_BORROW                2
+                30      COMPARE_OP                      18 (<)
+                34      POP_JUMP_IF_FALSE               6 (to 48)
+                38      NOT_TAKEN                       
+                40      JUMP_FORWARD                    2 (to 46)
+                42      POP_TOP                         
+                44      JUMP_FORWARD                    2 (to 50)
+                46      JUMP_BACKWARD                   22 (to 4)
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST_BORROW                3
+                62      CALL                            1
+                70      POP_TOP                         
+                72      JUMP_BACKWARD                   35 (to 4)
+                76      END_FOR                         
+                78      POP_ITER                        
+                80      LOAD_GLOBAL                     1: NULL + use
+                90      LOAD_SMALL_INT                  0
+                92      CALL                            1
+                100     POP_TOP                         
+                102     LOAD_CONST                      1: None
+                104     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_and_chain
+            Qualified Name: chain_and_chain
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               32 (to 90)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    28 (to 92)
+                36      LOAD_FAST_LOAD_FAST             35: c, d
+                38      SWAP                            2
+                40      COPY                            2
+                42      COMPARE_OP                      18 (<)
+                46      POP_JUMP_IF_FALSE               8 (to 64)
+                50      NOT_TAKEN                       
+                52      LOAD_FAST_BORROW                4
+                54      COMPARE_OP                      18 (<)
+                58      POP_JUMP_IF_FALSE               15 (to 90)
+                62      NOT_TAKEN                       
+                64      JUMP_FORWARD                    2 (to 70)
+                66      POP_TOP                         
+                68      JUMP_FORWARD                    11 (to 92)
+                70      LOAD_GLOBAL                     1: NULL + use
+                80      LOAD_SMALL_INT                  1
+                82      CALL                            1
+                90      POP_TOP                         
+                92      LOAD_GLOBAL                     1: NULL + use
+                102     LOAD_SMALL_INT                  2
+                104     CALL                            1
+                112     POP_TOP                         
+                114     LOAD_CONST                      1: None
+                116     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_or_chain
+            Qualified Name: chain_or_chain
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_TRUE                20 (to 66)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    1 (to 34)
+                32      POP_TOP                         
+                34      LOAD_FAST_LOAD_FAST             35: c, d
+                36      SWAP                            2
+                38      COPY                            2
+                40      COMPARE_OP                      18 (<)
+                44      POP_JUMP_IF_FALSE               8 (to 62)
+                48      NOT_TAKEN                       
+                50      LOAD_FAST_BORROW                4
+                52      COMPARE_OP                      18 (<)
+                56      POP_JUMP_IF_FALSE               15 (to 88)
+                60      NOT_TAKEN                       
+                62      JUMP_FORWARD                    2 (to 68)
+                64      POP_TOP                         
+                66      JUMP_FORWARD                    11 (to 90)
+                68      LOAD_GLOBAL                     1: NULL + use
+                78      LOAD_SMALL_INT                  1
+                80      CALL                            1
+                88      POP_TOP                         
+                90      LOAD_GLOBAL                     1: NULL + use
+                100     LOAD_SMALL_INT                  2
+                102     CALL                            1
+                110     POP_TOP                         
+                112     LOAD_CONST                      1: None
+                114     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while_and
+            Qualified Name: chain_while_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Constants]
+                1
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               23 (to 72)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    19 (to 74)
+                36      LOAD_FAST_BORROW                3
+                38      TO_BOOL                         
+                46      POP_JUMP_IF_FALSE               12 (to 72)
+                50      NOT_TAKEN                       
+                52      LOAD_FAST_BORROW                0
+                54      LOAD_SMALL_INT                  1
+                56      BINARY_OP                       0 (+)
+                68      STORE_FAST                      0: a
+                70      JUMP_BACKWARD                   36 (to 0)
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_FAST_BORROW                0
+                86      CALL                            1
+                94      POP_TOP                         
+                96      LOAD_CONST                      1: None
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while_break
+            Qualified Name: chain_while_break
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                3
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               23 (to 72)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    19 (to 74)
+                36      LOAD_FAST_BORROW                0
+                38      LOAD_SMALL_INT                  3
+                40      COMPARE_OP                      88 (==)
+                44      POP_JUMP_IF_FALSE               2 (to 50)
+                48      NOT_TAKEN                       
+                50      JUMP_FORWARD                    11 (to 74)
+                52      LOAD_FAST_BORROW                0
+                54      LOAD_SMALL_INT                  1
+                56      BINARY_OP                       0 (+)
+                68      STORE_FAST                      0: a
+                70      JUMP_BACKWARD                   36 (to 0)
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_FAST_BORROW                0
+                86      CALL                            1
+                94      POP_TOP                         
+                96      LOAD_CONST                      1: None
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_neg_value
+            Qualified Name: chain_neg_value
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      2 (<)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      2 (<)
+                36      JUMP_FORWARD                    2 (to 42)
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      TO_BOOL                         
+                50      UNARY_NOT                       
+                52      STORE_FAST                      3: r
+                54      LOAD_GLOBAL                     1: NULL + use
+                64      LOAD_FAST_BORROW                3
+                66      CALL                            1
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_FAST_BORROW                3
+                86      CALL                            1
+                94      BINARY_OP                       0 (+)
+                106     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_ret_if
+            Qualified Name: chain_ret_if
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               10 (to 34)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               7 (to 40)
+                28      NOT_TAKEN                       
+                30      NOP                             
+                32      LOAD_SMALL_INT                  1
+                34      RETURN_VALUE                    
+                36      POP_TOP                         
+                38      LOAD_SMALL_INT                  2
+                40      RETURN_VALUE                    
+                42      LOAD_SMALL_INT                  2
+                44      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_ternary_value
+            Qualified Name: chain_ternary_value
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               8 (to 30)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      COMPARE_OP                      18 (<)
+                24      POP_JUMP_IF_FALSE               6 (to 38)
+                28      NOT_TAKEN                       
+                30      JUMP_FORWARD                    2 (to 36)
+                32      POP_TOP                         
+                34      JUMP_FORWARD                    2 (to 40)
+                36      LOAD_FAST                       3: x
+                38      JUMP_FORWARD                    1 (to 42)
+                40      LOAD_FAST                       4: y
+                42      STORE_FAST                      5: r
+                44      LOAD_GLOBAL                     1: NULL + use
+                54      LOAD_FAST_BORROW                5
+                56      CALL                            1
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                5
+                76      CALL                            1
+                84      BINARY_OP                       0 (+)
+                96      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_mixed_ops
+            Qualified Name: chain_mixed_ops
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       IS_OP                           1 (is not)
+                10      COPY                            1
+                12      TO_BOOL                         
+                20      POP_JUMP_IF_FALSE               6 (to 34)
+                24      NOT_TAKEN                       
+                26      POP_TOP                         
+                28      LOAD_FAST_BORROW                2
+                30      COMPARE_OP                      72 (==)
+                34      JUMP_FORWARD                    2 (to 40)
+                36      SWAP                            2
+                38      POP_TOP                         
+                40      STORE_FAST                      3: r
+                42      LOAD_GLOBAL                     1: NULL + use
+                52      LOAD_FAST_BORROW                3
+                54      CALL                            1
+                62      LOAD_GLOBAL                     1: NULL + use
+                72      LOAD_FAST_BORROW                3
+                74      CALL                            1
+                82      BINARY_OP                       0 (+)
+                94      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_or
+            Qualified Name: chain_value_or
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_LOAD_FAST             1: a, b
+                4       SWAP                            2
+                6       COPY                            2
+                8       COMPARE_OP                      2 (<)
+                12      COPY                            1
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               6 (to 36)
+                26      NOT_TAKEN                       
+                28      POP_TOP                         
+                30      LOAD_FAST_BORROW                2
+                32      COMPARE_OP                      2 (<)
+                36      JUMP_FORWARD                    2 (to 42)
+                38      SWAP                            2
+                40      POP_TOP                         
+                42      COPY                            1
+                44      TO_BOOL                         
+                52      POP_JUMP_IF_TRUE                3 (to 60)
+                56      NOT_TAKEN                       
+                58      POP_TOP                         
+                60      LOAD_FAST                       3: d
+                62      STORE_FAST                      4: r
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                4
+                76      CALL                            1
+                84      LOAD_GLOBAL                     1: NULL + use
+                94      LOAD_FAST_BORROW                4
+                96      CALL                            1
+                104     BINARY_OP                       0 (+)
+                116     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_and
+            Qualified Name: chain_value_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       3: d
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_FALSE               22 (to 60)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST_LOAD_FAST             1: a, b
+                24      SWAP                            2
+                26      COPY                            2
+                28      COMPARE_OP                      2 (<)
+                32      COPY                            1
+                34      TO_BOOL                         
+                42      POP_JUMP_IF_FALSE               6 (to 56)
+                46      NOT_TAKEN                       
+                48      POP_TOP                         
+                50      LOAD_FAST_BORROW                2
+                52      COMPARE_OP                      2 (<)
+                56      JUMP_FORWARD                    2 (to 62)
+                58      SWAP                            2
+                60      POP_TOP                         
+                62      STORE_FAST                      4: r
+                64      LOAD_GLOBAL                     1: NULL + use
+                74      LOAD_FAST_BORROW                4
+                76      CALL                            1
+                84      LOAD_GLOBAL                     1: NULL + use
+                94      LOAD_FAST_BORROW                4
+                96      CALL                            1
+                104     BINARY_OP                       0 (+)
+                116     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> use
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      1: <CODE> chain2
+        10      MAKE_FUNCTION                   
+        12      STORE_NAME                      1: chain2
+        14      LOAD_CONST                      2: <CODE> chain_eq
+        16      MAKE_FUNCTION                   
+        18      STORE_NAME                      2: chain_eq
+        20      LOAD_CONST                      3: <CODE> chain_mixed
+        22      MAKE_FUNCTION                   
+        24      STORE_NAME                      3: chain_mixed
+        26      LOAD_CONST                      4: <CODE> chain3
+        28      MAKE_FUNCTION                   
+        30      STORE_NAME                      4: chain3
+        32      LOAD_CONST                      5: <CODE> chain_in
+        34      MAKE_FUNCTION                   
+        36      STORE_NAME                      5: chain_in
+        38      LOAD_CONST                      6: <CODE> chain_is
+        40      MAKE_FUNCTION                   
+        42      STORE_NAME                      6: chain_is
+        44      LOAD_CONST                      7: <CODE> chain_consts
+        46      MAKE_FUNCTION                   
+        48      STORE_NAME                      7: chain_consts
+        50      LOAD_CONST                      8: <CODE> chain_expr
+        52      MAKE_FUNCTION                   
+        54      STORE_NAME                      8: chain_expr
+        56      LOAD_CONST                      9: <CODE> chain_call
+        58      MAKE_FUNCTION                   
+        60      STORE_NAME                      9: chain_call
+        62      LOAD_CONST                      10: <CODE> chain_if
+        64      MAKE_FUNCTION                   
+        66      STORE_NAME                      10: chain_if
+        68      LOAD_CONST                      11: <CODE> chain_if_else
+        70      MAKE_FUNCTION                   
+        72      STORE_NAME                      11: chain_if_else
+        74      LOAD_CONST                      12: <CODE> chain_not
+        76      MAKE_FUNCTION                   
+        78      STORE_NAME                      12: chain_not
+        80      LOAD_CONST                      13: <CODE> chain_and
+        82      MAKE_FUNCTION                   
+        84      STORE_NAME                      13: chain_and
+        86      LOAD_CONST                      14: <CODE> chain_or
+        88      MAKE_FUNCTION                   
+        90      STORE_NAME                      14: chain_or
+        92      LOAD_CONST                      15: <CODE> chain_assign
+        94      MAKE_FUNCTION                   
+        96      STORE_NAME                      15: chain_assign
+        98      LOAD_CONST                      16: <CODE> chain_while
+        100     MAKE_FUNCTION                   
+        102     STORE_NAME                      16: chain_while
+        104     LOAD_CONST                      17: <CODE> chain_in_ternary
+        106     MAKE_FUNCTION                   
+        108     STORE_NAME                      17: chain_in_ternary
+        110     LOAD_CONST                      18: <CODE> chain_attr
+        112     MAKE_FUNCTION                   
+        114     STORE_NAME                      18: chain_attr
+        116     LOAD_CONST                      19: <CODE> chain_neq
+        118     MAKE_FUNCTION                   
+        120     STORE_NAME                      19: chain_neq
+        122     LOAD_CONST                      20: <CODE> chain_notin
+        124     MAKE_FUNCTION                   
+        126     STORE_NAME                      20: chain_notin
+        128     LOAD_CONST                      21: <CODE> chain_elif
+        130     MAKE_FUNCTION                   
+        132     STORE_NAME                      21: chain_elif
+        134     LOAD_CONST                      22: <CODE> chain4_if
+        136     MAKE_FUNCTION                   
+        138     STORE_NAME                      22: chain4_if
+        140     LOAD_CONST                      23: <CODE> chain_arg
+        142     MAKE_FUNCTION                   
+        144     STORE_NAME                      23: chain_arg
+        146     LOAD_CONST                      24: <CODE> chain_value_in_loop
+        148     MAKE_FUNCTION                   
+        150     STORE_NAME                      24: chain_value_in_loop
+        152     LOAD_CONST                      25: <CODE> chain_break
+        154     MAKE_FUNCTION                   
+        156     STORE_NAME                      25: chain_break
+        158     LOAD_CONST                      26: <CODE> chain_continue
+        160     MAKE_FUNCTION                   
+        162     STORE_NAME                      26: chain_continue
+        164     LOAD_CONST                      27: <CODE> chain_and_chain
+        166     MAKE_FUNCTION                   
+        168     STORE_NAME                      27: chain_and_chain
+        170     LOAD_CONST                      28: <CODE> chain_or_chain
+        172     MAKE_FUNCTION                   
+        174     STORE_NAME                      28: chain_or_chain
+        176     LOAD_CONST                      29: <CODE> chain_while_and
+        178     MAKE_FUNCTION                   
+        180     STORE_NAME                      29: chain_while_and
+        182     LOAD_CONST                      30: <CODE> chain_while_break
+        184     MAKE_FUNCTION                   
+        186     STORE_NAME                      30: chain_while_break
+        188     LOAD_CONST                      31: <CODE> chain_neg_value
+        190     MAKE_FUNCTION                   
+        192     STORE_NAME                      31: chain_neg_value
+        194     LOAD_CONST                      32: <CODE> chain_ret_if
+        196     MAKE_FUNCTION                   
+        198     STORE_NAME                      32: chain_ret_if
+        200     LOAD_CONST                      33: <CODE> chain_ternary_value
+        202     MAKE_FUNCTION                   
+        204     STORE_NAME                      33: chain_ternary_value
+        206     LOAD_CONST                      34: <CODE> chain_mixed_ops
+        208     MAKE_FUNCTION                   
+        210     STORE_NAME                      34: chain_mixed_ops
+        212     LOAD_CONST                      35: <CODE> chain_value_or
+        214     MAKE_FUNCTION                   
+        216     STORE_NAME                      35: chain_value_or
+        218     LOAD_CONST                      36: <CODE> chain_value_and
+        220     MAKE_FUNCTION                   
+        222     STORE_NAME                      36: chain_value_and
+        224     LOAD_CONST                      37: None
+        226     RETURN_VALUE                    
+    [Exception Table]

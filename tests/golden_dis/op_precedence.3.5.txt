@@ -1,0 +1,113 @@
+[Code]
+    File Name: op_precedence.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'foo'
+        'bar'
+        'baz'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: op_precedence.py
+            Object Name: foo
+            Arg Count: 3
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       2: c
+                3       LOAD_FAST                       0: a
+                6       LOAD_FAST                       1: b
+                9       BINARY_ADD                      
+                10      BINARY_SUBTRACT                 
+                11      RETURN_VALUE                    
+        'foo'
+        [Code]
+            File Name: op_precedence.py
+            Object Name: bar
+            Arg Count: 4
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                3       LOAD_FAST                       1: b
+                6       LOAD_FAST                       2: c
+                9       BINARY_POWER                    
+                10      LOAD_FAST                       3: d
+                13      BINARY_MULTIPLY                 
+                14      BINARY_TRUE_DIVIDE              
+                15      RETURN_VALUE                    
+        'bar'
+        [Code]
+            File Name: op_precedence.py
+            Object Name: baz
+            Arg Count: 4
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                3       LOAD_FAST                       1: b
+                6       LOAD_FAST                       2: c
+                9       BINARY_XOR                      
+                10      LOAD_FAST                       3: d
+                13      BINARY_ADD                      
+                14      BINARY_SUBTRACT                 
+                15      RETURN_VALUE                    
+        'baz'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> foo
+        3       LOAD_CONST                      1: 'foo'
+        6       MAKE_FUNCTION                   0
+        9       STORE_NAME                      0: foo
+        12      LOAD_CONST                      2: <CODE> bar
+        15      LOAD_CONST                      3: 'bar'
+        18      MAKE_FUNCTION                   0
+        21      STORE_NAME                      1: bar
+        24      LOAD_CONST                      4: <CODE> baz
+        27      LOAD_CONST                      5: 'baz'
+        30      MAKE_FUNCTION                   0
+        33      STORE_NAME                      2: baz
+        36      LOAD_CONST                      6: None
+        39      RETURN_VALUE                    

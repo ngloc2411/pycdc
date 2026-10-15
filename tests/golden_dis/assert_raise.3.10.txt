@@ -1,0 +1,62 @@
+[Code]
+    File Name: assert_raise.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: assert_raise.py
+            Object Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'ValueError'
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                4
+                'msg'
+                'x'
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 4
+                4       COMPARE_OP                      2 (==)
+                6       POP_JUMP_IF_TRUE                8 (to 16)
+                8       LOAD_ASSERTION_ERROR            
+                10      LOAD_CONST                      2: 'msg'
+                12      CALL_FUNCTION                   1
+                14      RAISE_VARARGS                   1
+                16      LOAD_FAST                       0: a
+                18      POP_JUMP_IF_TRUE                12 (to 24)
+                20      LOAD_ASSERTION_ERROR            
+                22      RAISE_VARARGS                   1
+                24      LOAD_GLOBAL                     0: ValueError
+                26      LOAD_CONST                      3: 'x'
+                28      CALL_FUNCTION                   1
+                30      LOAD_CONST                      0: None
+                32      RAISE_VARARGS                   2
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

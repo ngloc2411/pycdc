@@ -1,0 +1,174 @@
+[Code]
+    File Name: genexpr_call.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: genexpr_call.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+                'sum'
+                'any'
+                'sorted'
+            [Locals+Names]
+                'xs'
+            [Constants]
+                None
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       FOR_ITER                        6 (to 22)
+                        10      STORE_FAST                      1: x
+                        12      LOAD_FAST                       1: x
+                        14      YIELD_VALUE                     
+                        16      RESUME                          1
+                        18      POP_TOP                         
+                        20      JUMP_BACKWARD                   7 (to 8)
+                        22      LOAD_CONST                      0: None
+                        24      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 3
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        4
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       FOR_ITER                        10 (to 30)
+                        10      STORE_FAST                      1: x
+                        12      LOAD_FAST                       1: x
+                        14      LOAD_CONST                      0: 4
+                        16      COMPARE_OP                      4 (>)
+                        22      YIELD_VALUE                     
+                        24      RESUME                          1
+                        26      POP_TOP                         
+                        28      JUMP_BACKWARD                   11 (to 8)
+                        30      LOAD_CONST                      1: None
+                        32      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       FOR_ITER                        8 (to 26)
+                        10      STORE_FAST                      1: x
+                        12      LOAD_FAST                       1: x
+                        14      POP_JUMP_BACKWARD_IF_FALSE      4 (to 8)
+                        16      LOAD_FAST                       1: x
+                        18      YIELD_VALUE                     
+                        20      RESUME                          1
+                        22      POP_TOP                         
+                        24      JUMP_BACKWARD                   9 (to 8)
+                        26      LOAD_CONST                      0: None
+                        28      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + print
+                14      LOAD_GLOBAL                     3: NULL + sum
+                26      LOAD_CONST                      1: <CODE> <genexpr>
+                28      MAKE_FUNCTION                   0
+                30      LOAD_FAST                       0: xs
+                32      GET_ITER                        
+                34      PRECALL                         0
+                38      CALL                            0
+                48      PRECALL                         1
+                52      CALL                            1
+                62      PRECALL                         1
+                66      CALL                            1
+                76      POP_TOP                         
+                78      LOAD_GLOBAL                     1: NULL + print
+                90      LOAD_GLOBAL                     5: NULL + any
+                102     LOAD_CONST                      2: <CODE> <genexpr>
+                104     MAKE_FUNCTION                   0
+                106     LOAD_FAST                       0: xs
+                108     GET_ITER                        
+                110     PRECALL                         0
+                114     CALL                            0
+                124     PRECALL                         1
+                128     CALL                            1
+                138     PRECALL                         1
+                142     CALL                            1
+                152     POP_TOP                         
+                154     LOAD_GLOBAL                     7: NULL + sorted
+                166     LOAD_CONST                      3: <CODE> <genexpr>
+                168     MAKE_FUNCTION                   0
+                170     LOAD_FAST                       0: xs
+                172     GET_ITER                        
+                174     PRECALL                         0
+                178     CALL                            0
+                188     PRECALL                         1
+                192     CALL                            1
+                202     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

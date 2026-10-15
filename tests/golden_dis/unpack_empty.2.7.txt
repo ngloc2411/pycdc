@@ -1,0 +1,35 @@
+[Code]
+    File Name: unpack_empty.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'c'
+        'y'
+        'x'
+        'BLOCK'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        None
+    [Disassembly]
+        0       LOAD_NAME                       0: c
+        3       UNPACK_SEQUENCE                 0
+        6       BUILD_LIST                      0
+        9       STORE_NAME                      1: y
+        12      SETUP_LOOP                      18 (to 33)
+        15      LOAD_NAME                       2: x
+        18      GET_ITER                        
+        19      FOR_ITER                        10 (to 32)
+        22      UNPACK_SEQUENCE                 0
+        25      LOAD_NAME                       3: BLOCK
+        28      POP_TOP                         
+        29      JUMP_ABSOLUTE                   19
+        32      POP_BLOCK                       
+        33      BUILD_LIST                      0
+        36      UNPACK_SEQUENCE                 0
+        39      LOAD_CONST                      0: None
+        42      RETURN_VALUE                    

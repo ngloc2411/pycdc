@@ -1,0 +1,55 @@
+[Code]
+    File Name: is_none_branches.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'n1'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: is_none_branches.py
+            Object Name: n1
+            Qualified Name: n1
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'x'
+            [Constants]
+                None
+                'a'
+                'b'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       POP_JUMP_IF_NOT_NONE            11 (to 28)
+                6       LOAD_GLOBAL                     1: NULL + print
+                16      LOAD_CONST                      1: 'a'
+                18      CALL                            1
+                26      POP_TOP                         
+                28      LOAD_FAST                       0: x
+                30      POP_JUMP_IF_NONE                11 (to 54)
+                32      LOAD_GLOBAL                     1: NULL + print
+                42      LOAD_CONST                      2: 'b'
+                44      CALL                            1
+                52      POP_TOP                         
+                54      LOAD_FAST                       0: x
+                56      RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> n1
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: n1
+        8       RETURN_CONST                    1: None
+    [Exception Table]

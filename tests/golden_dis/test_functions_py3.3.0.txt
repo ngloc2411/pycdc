@@ -1,0 +1,335 @@
+[Code]
+    File Name: ../input/test_functions_py3.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'x0'
+        'x1'
+        'x2'
+        'x3a'
+        'x3b'
+        'x3c'
+        'x4a'
+        'x4b'
+        'x4c'
+        'x5a'
+        'x5b'
+        'x6a'
+        'x7a'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x0
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x1
+            Arg Count: 1
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'arg1'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x2
+            Arg Count: 2
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'arg1'
+                'arg2'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x3a
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000047 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'args'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x3b
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x0000004B (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x3c
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 1
+            Flags: 0x0000004F (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'args'
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        1
+        2
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x4a
+            Arg Count: 3
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 1
+            Flags: 0x00000047 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'foo'
+                'bar'
+                'bla'
+                'args'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x4b
+            Arg Count: 3
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 1
+            Flags: 0x0000004B (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'foo'
+                'bar'
+                'bla'
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x4c
+            Arg Count: 3
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 1
+            Flags: 0x0000004F (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'foo'
+                'bar'
+                'bla'
+                'args'
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        'bar'
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x5a
+            Arg Count: 0
+            KW Only Arg Count: 1
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'bar'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x5b
+            Arg Count: 0
+            KW Only Arg Count: 1
+            Locals: 2
+            Stack Size: 1
+            Flags: 0x0000004B (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'bar'
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x6a
+            Arg Count: 1
+            KW Only Arg Count: 1
+            Locals: 2
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'foo'
+                'bar'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_functions_py3.py
+            Object Name: x7a
+            Arg Count: 1
+            KW Only Arg Count: 1
+            Locals: 3
+            Stack Size: 1
+            Flags: 0x0000004B (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'foo'
+                'bar'
+                'kwargs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                3       RETURN_VALUE                    
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> x0
+        3       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: x0
+        9       LOAD_CONST                      1: <CODE> x1
+        12      MAKE_FUNCTION                   0
+        15      STORE_NAME                      1: x1
+        18      LOAD_CONST                      2: <CODE> x2
+        21      MAKE_FUNCTION                   0
+        24      STORE_NAME                      2: x2
+        27      LOAD_CONST                      3: <CODE> x3a
+        30      MAKE_FUNCTION                   0
+        33      STORE_NAME                      3: x3a
+        36      LOAD_CONST                      4: <CODE> x3b
+        39      MAKE_FUNCTION                   0
+        42      STORE_NAME                      4: x3b
+        45      LOAD_CONST                      5: <CODE> x3c
+        48      MAKE_FUNCTION                   0
+        51      STORE_NAME                      5: x3c
+        54      LOAD_CONST                      6: 1
+        57      LOAD_CONST                      7: 2
+        60      LOAD_CONST                      8: <CODE> x4a
+        63      MAKE_FUNCTION                   2
+        66      STORE_NAME                      6: x4a
+        69      LOAD_CONST                      6: 1
+        72      LOAD_CONST                      7: 2
+        75      LOAD_CONST                      9: <CODE> x4b
+        78      MAKE_FUNCTION                   2
+        81      STORE_NAME                      7: x4b
+        84      LOAD_CONST                      6: 1
+        87      LOAD_CONST                      7: 2
+        90      LOAD_CONST                      10: <CODE> x4c
+        93      MAKE_FUNCTION                   2
+        96      STORE_NAME                      8: x4c
+        99      LOAD_CONST                      11: 'bar'
+        102     LOAD_CONST                      6: 1
+        105     LOAD_CONST                      12: <CODE> x5a
+        108     MAKE_FUNCTION                   256
+        111     STORE_NAME                      9: x5a
+        114     LOAD_CONST                      11: 'bar'
+        117     LOAD_CONST                      6: 1
+        120     LOAD_CONST                      13: <CODE> x5b
+        123     MAKE_FUNCTION                   256
+        126     STORE_NAME                      10: x5b
+        129     LOAD_CONST                      11: 'bar'
+        132     LOAD_CONST                      6: 1
+        135     LOAD_CONST                      14: <CODE> x6a
+        138     MAKE_FUNCTION                   256
+        141     STORE_NAME                      11: x6a
+        144     LOAD_CONST                      11: 'bar'
+        147     LOAD_CONST                      6: 1
+        150     LOAD_CONST                      15: <CODE> x7a
+        153     MAKE_FUNCTION                   256
+        156     STORE_NAME                      12: x7a
+        159     LOAD_CONST                      16: None
+        162     RETURN_VALUE                    

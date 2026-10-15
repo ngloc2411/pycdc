@@ -1,0 +1,141 @@
+[Code]
+    File Name: lambda_forms.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 9
+    Flags: 0x00000000
+    [Names]
+        'f'
+        'g'
+        'h'
+        'print'
+        'list'
+        'map'
+    [Locals+Names]
+    [Constants]
+        1
+        [Code]
+            File Name: lambda_forms.py
+            Object Name: <lambda>
+            Qualified Name: <lambda>
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       1: b
+                6       BINARY_OP                       5 (*)
+                10      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: lambda_forms.py
+            Object Name: <lambda>
+            Qualified Name: <lambda>
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      0: None
+                4       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: lambda_forms.py
+            Object Name: <lambda>
+            Qualified Name: <lambda>
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x0000000F (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_VARKEYWORDS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'k'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       1: k
+                6       BUILD_TUPLE                     2
+                8       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: lambda_forms.py
+            Object Name: <lambda>
+            Qualified Name: <lambda>
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'v'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: v
+                4       LOAD_CONST                      1: 1
+                6       BINARY_OP                       0 (+)
+                10      RETURN_VALUE                    
+            [Exception Table]
+        2
+        None
+        (
+            1
+        )
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      7: (1,)
+        4       LOAD_CONST                      1: <CODE> <lambda>
+        6       MAKE_FUNCTION                   1
+        8       STORE_NAME                      0: f
+        10      LOAD_CONST                      2: <CODE> <lambda>
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: g
+        16      LOAD_CONST                      3: <CODE> <lambda>
+        18      MAKE_FUNCTION                   0
+        20      STORE_NAME                      2: h
+        22      PUSH_NULL                       
+        24      LOAD_NAME                       3: print
+        26      PUSH_NULL                       
+        28      LOAD_NAME                       4: list
+        30      PUSH_NULL                       
+        32      LOAD_NAME                       5: map
+        34      LOAD_CONST                      4: <CODE> <lambda>
+        36      MAKE_FUNCTION                   0
+        38      LOAD_CONST                      0: 1
+        40      LOAD_CONST                      5: 2
+        42      BUILD_LIST                      2
+        44      PRECALL                         2
+        48      CALL                            2
+        58      PRECALL                         1
+        62      CALL                            1
+        72      PRECALL                         1
+        76      CALL                            1
+        86      POP_TOP                         
+        88      LOAD_CONST                      6: None
+        90      RETURN_VALUE                    
+    [Exception Table]

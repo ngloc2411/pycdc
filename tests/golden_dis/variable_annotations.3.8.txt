@@ -1,0 +1,75 @@
+[Code]
+    File Name: variable_annotations.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'int'
+        '__annotations__'
+        'b'
+        'c'
+        'x'
+        'y'
+        'str'
+        'z'
+        'tuple'
+        'confirm_subscr'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        'a'
+        'no annotation'
+        10
+        'x'
+        'annotation'
+        'y'
+        (
+            1
+            2
+            3
+        )
+        'z'
+        'works'
+        'test'
+        None
+    [Disassembly]
+        0       SETUP_ANNOTATIONS               
+        2       LOAD_NAME                       0: int
+        4       LOAD_NAME                       1: __annotations__
+        6       LOAD_CONST                      0: 'a'
+        8       STORE_SUBSCR                    
+        10      LOAD_NAME                       2: b
+        12      POP_TOP                         
+        14      LOAD_CONST                      1: 'no annotation'
+        16      STORE_NAME                      3: c
+        18      LOAD_CONST                      2: 10
+        20      STORE_NAME                      4: x
+        22      LOAD_NAME                       0: int
+        24      LOAD_NAME                       1: __annotations__
+        26      LOAD_CONST                      3: 'x'
+        28      STORE_SUBSCR                    
+        30      LOAD_CONST                      4: 'annotation'
+        32      STORE_NAME                      5: y
+        34      LOAD_NAME                       6: str
+        36      LOAD_NAME                       1: __annotations__
+        38      LOAD_CONST                      5: 'y'
+        40      STORE_SUBSCR                    
+        42      LOAD_CONST                      6: (1, 2, 3)
+        44      STORE_NAME                      7: z
+        46      LOAD_NAME                       8: tuple
+        48      LOAD_NAME                       1: __annotations__
+        50      LOAD_CONST                      7: 'z'
+        52      STORE_SUBSCR                    
+        54      BUILD_MAP                       0
+        56      STORE_NAME                      9: confirm_subscr
+        58      LOAD_CONST                      8: 'works'
+        60      LOAD_NAME                       9: confirm_subscr
+        62      LOAD_CONST                      9: 'test'
+        64      STORE_SUBSCR                    
+        66      LOAD_CONST                      10: None
+        68      RETURN_VALUE                    

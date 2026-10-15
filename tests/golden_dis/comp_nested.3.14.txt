@@ -1,0 +1,90 @@
+[Code]
+    File Name: comp_nested.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: comp_nested.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 8
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'range'
+            [Locals+Names]
+                'xs'
+                'x'
+                'y'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       LOAD_FAST_AND_CLEAR             1: x
+                8       LOAD_FAST_AND_CLEAR             2: y
+                10      SWAP                            3
+                12      BUILD_LIST                      0
+                14      SWAP                            2
+                16      FOR_ITER                        29 (to 76)
+                20      STORE_FAST                      1: x
+                22      LOAD_GLOBAL                     1: NULL + range
+                32      LOAD_FAST_BORROW                1
+                34      CALL                            1
+                42      GET_ITER                        
+                44      LOAD_FAST_AND_CLEAR             2: y
+                46      SWAP                            2
+                48      BUILD_LIST                      0
+                50      SWAP                            2
+                52      FOR_ITER                        4 (to 62)
+                56      STORE_FAST_LOAD_FAST            34: y, y
+                58      LIST_APPEND                     2
+                60      JUMP_BACKWARD                   6 (to 50)
+                64      END_FOR                         
+                66      POP_ITER                        
+                68      SWAP                            2
+                70      STORE_FAST                      2: y
+                72      LIST_APPEND                     2
+                74      JUMP_BACKWARD                   31 (to 14)
+                78      END_FOR                         
+                80      POP_ITER                        
+                82      SWAP                            3
+                84      STORE_FAST                      2: y
+                86      STORE_FAST                      1: x
+                88      RETURN_VALUE                    
+                90      SWAP                            2
+                92      POP_TOP                         
+                94      SWAP                            2
+                96      STORE_FAST                      2: y
+                98      RERAISE                         0
+                100     SWAP                            2
+                102     POP_TOP                         
+                104     SWAP                            3
+                106     STORE_FAST                      2: y
+                108     STORE_FAST                      1: x
+                110     RERAISE                         0
+            [Exception Table]
+                12 to 48 -> 100 [3] 
+                48 to 68 -> 90 [6] 
+                68 to 82 -> 100 [3] 
+                90 to 100 -> 100 [3] 
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

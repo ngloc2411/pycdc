@@ -1,0 +1,178 @@
+[Code]
+    File Name: ../input/private_name.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'Klass'
+        'k'
+        'method'
+        '_internal_name'
+        '__private_name'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: ../input/private_name.py
+            Object Name: Klass
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 2
+            Flags: 0x00000040 (CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                '__init__'
+                'method'
+                '_internal_name'
+                '_Klass__private_name'
+                'var'
+                '_internal_var'
+                '_Klass__private_var'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                'Klass'
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: __init__
+                    Arg Count: 1
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_CONST                      0: None
+                        2       RETURN_VALUE                    
+                'Klass.__init__'
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: method
+                    Arg Count: 1
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_CONST                      0: None
+                        2       RETURN_VALUE                    
+                'Klass.method'
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: _internal_name
+                    Arg Count: 1
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_CONST                      0: None
+                        2       RETURN_VALUE                    
+                'Klass._internal_name'
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: __private_name
+                    Arg Count: 1
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_CONST                      0: None
+                        2       RETURN_VALUE                    
+                'Klass.__private_name'
+                1
+                2
+                3
+                None
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                2       STORE_NAME                      1: __module__
+                4       LOAD_CONST                      0: 'Klass'
+                6       STORE_NAME                      2: __qualname__
+                8       LOAD_CONST                      1: <CODE> __init__
+                10      LOAD_CONST                      2: 'Klass.__init__'
+                12      MAKE_FUNCTION                   0
+                14      STORE_NAME                      3: __init__
+                16      LOAD_CONST                      3: <CODE> method
+                18      LOAD_CONST                      4: 'Klass.method'
+                20      MAKE_FUNCTION                   0
+                22      STORE_NAME                      4: method
+                24      LOAD_CONST                      5: <CODE> _internal_name
+                26      LOAD_CONST                      6: 'Klass._internal_name'
+                28      MAKE_FUNCTION                   0
+                30      STORE_NAME                      5: _internal_name
+                32      LOAD_CONST                      7: <CODE> __private_name
+                34      LOAD_CONST                      8: 'Klass.__private_name'
+                36      MAKE_FUNCTION                   0
+                38      STORE_NAME                      6: _Klass__private_name
+                40      LOAD_CONST                      9: 1
+                42      STORE_NAME                      7: var
+                44      LOAD_CONST                      10: 2
+                46      STORE_NAME                      8: _internal_var
+                48      LOAD_CONST                      11: 3
+                50      STORE_NAME                      9: _Klass__private_var
+                52      LOAD_CONST                      12: None
+                54      RETURN_VALUE                    
+        'Klass'
+        None
+    [Disassembly]
+        0       LOAD_BUILD_CLASS                
+        2       LOAD_CONST                      0: <CODE> Klass
+        4       LOAD_CONST                      1: 'Klass'
+        6       MAKE_FUNCTION                   0
+        8       LOAD_CONST                      1: 'Klass'
+        10      CALL_FUNCTION                   2
+        12      STORE_NAME                      0: Klass
+        14      LOAD_NAME                       0: Klass
+        16      CALL_FUNCTION                   0
+        18      STORE_NAME                      1: k
+        20      LOAD_NAME                       1: k
+        22      LOAD_METHOD                     2: method
+        24      CALL_METHOD                     0
+        26      POP_TOP                         
+        28      LOAD_NAME                       1: k
+        30      LOAD_METHOD                     3: _internal_name
+        32      CALL_METHOD                     0
+        34      POP_TOP                         
+        36      LOAD_NAME                       1: k
+        38      LOAD_METHOD                     4: __private_name
+        40      CALL_METHOD                     0
+        42      POP_TOP                         
+        44      LOAD_CONST                      2: None
+        46      RETURN_VALUE                    

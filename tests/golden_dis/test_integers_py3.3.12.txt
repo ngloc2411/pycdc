@@ -1,0 +1,124 @@
+[Code]
+    File Name: tests/input/test_integers_py3.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 6
+    Flags: 0x00000000
+    [Names]
+        '__doc__'
+        'sys'
+        'i'
+        'maxsize'
+        'minsize'
+        'print'
+        'repr'
+    [Locals+Names]
+    [Constants]
+        "\ntest_integers.py -- source test pattern for integers\n\nThis source is part of the decompyle test suite.\nSnippet taken from python libs's test_class.py\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n"
+        0
+        None
+        1
+        42
+        -1
+        -42
+        -2147483647
+        -2147483648
+        -0x80000001
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: "\ntest_integers.py -- source test pattern for integers\n\nThis source is part of the decompyle test suite.\nSnippet taken from python libs's test_class.py\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n"
+        4       STORE_NAME                      0: __doc__
+        6       LOAD_CONST                      1: 0
+        8       LOAD_CONST                      2: None
+        10      IMPORT_NAME                     1: sys
+        12      STORE_NAME                      1: sys
+        14      LOAD_CONST                      3: 1
+        16      STORE_NAME                      2: i
+        18      LOAD_CONST                      4: 42
+        20      STORE_NAME                      2: i
+        22      LOAD_CONST                      5: -1
+        24      STORE_NAME                      2: i
+        26      LOAD_CONST                      6: -42
+        28      STORE_NAME                      2: i
+        30      LOAD_NAME                       1: sys
+        32      LOAD_ATTR                       6: maxsize
+        52      STORE_NAME                      2: i
+        54      LOAD_NAME                       1: sys
+        56      LOAD_ATTR                       6: maxsize
+        76      UNARY_NEGATIVE                  
+        78      LOAD_CONST                      3: 1
+        80      BINARY_OP                       10 (-)
+        84      STORE_NAME                      4: minsize
+        86      PUSH_NULL                       
+        88      LOAD_NAME                       5: print
+        90      LOAD_NAME                       1: sys
+        92      LOAD_ATTR                       6: maxsize
+        112     CALL                            1
+        120     POP_TOP                         
+        122     PUSH_NULL                       
+        124     LOAD_NAME                       5: print
+        126     LOAD_NAME                       4: minsize
+        128     CALL                            1
+        136     POP_TOP                         
+        138     PUSH_NULL                       
+        140     LOAD_NAME                       5: print
+        142     LOAD_NAME                       4: minsize
+        144     LOAD_CONST                      3: 1
+        146     BINARY_OP                       10 (-)
+        150     CALL                            1
+        158     POP_TOP                         
+        160     PUSH_NULL                       
+        162     LOAD_NAME                       5: print
+        164     CALL                            0
+        172     POP_TOP                         
+        174     LOAD_CONST                      7: -2147483647
+        176     STORE_NAME                      2: i
+        178     PUSH_NULL                       
+        180     LOAD_NAME                       5: print
+        182     LOAD_NAME                       2: i
+        184     PUSH_NULL                       
+        186     LOAD_NAME                       6: repr
+        188     LOAD_NAME                       2: i
+        190     CALL                            1
+        198     CALL                            2
+        206     POP_TOP                         
+        208     LOAD_NAME                       2: i
+        210     LOAD_CONST                      3: 1
+        212     BINARY_OP                       10 (-)
+        216     STORE_NAME                      2: i
+        218     PUSH_NULL                       
+        220     LOAD_NAME                       5: print
+        222     LOAD_NAME                       2: i
+        224     PUSH_NULL                       
+        226     LOAD_NAME                       6: repr
+        228     LOAD_NAME                       2: i
+        230     CALL                            1
+        238     CALL                            2
+        246     POP_TOP                         
+        248     LOAD_CONST                      8: -2147483648
+        250     STORE_NAME                      2: i
+        252     PUSH_NULL                       
+        254     LOAD_NAME                       5: print
+        256     LOAD_NAME                       2: i
+        258     PUSH_NULL                       
+        260     LOAD_NAME                       6: repr
+        262     LOAD_NAME                       2: i
+        264     CALL                            1
+        272     CALL                            2
+        280     POP_TOP                         
+        282     LOAD_CONST                      9: -0x80000001
+        284     STORE_NAME                      2: i
+        286     PUSH_NULL                       
+        288     LOAD_NAME                       5: print
+        290     LOAD_NAME                       2: i
+        292     PUSH_NULL                       
+        294     LOAD_NAME                       6: repr
+        296     LOAD_NAME                       2: i
+        298     CALL                            1
+        306     CALL                            2
+        314     POP_TOP                         
+        316     RETURN_CONST                    2: None
+    [Exception Table]

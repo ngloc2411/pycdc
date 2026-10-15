@@ -1,0 +1,62 @@
+[Code]
+    File Name: D:\Desktop\git_pycdc\test\class_NODE_BINARY.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'Test'
+        't'
+        'MyNet'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        0
+        None
+        [Code]
+            File Name: D:\Desktop\git_pycdc\test\class_NODE_BINARY.py
+            Object Name: MyNet
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000040 (CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                'MyNet'
+                None
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                2       STORE_NAME                      1: __module__
+                4       LOAD_CONST                      0: 'MyNet'
+                6       STORE_NAME                      2: __qualname__
+                8       LOAD_CONST                      1: None
+                10      RETURN_VALUE                    
+        'MyNet'
+    [Disassembly]
+        0       LOAD_CONST                      0: 0
+        2       LOAD_CONST                      1: None
+        4       IMPORT_NAME                     0: Test
+        6       STORE_NAME                      0: Test
+        8       LOAD_BUILD_CLASS                
+        10      LOAD_CONST                      2: <CODE> MyNet
+        12      LOAD_CONST                      3: 'MyNet'
+        14      MAKE_FUNCTION                   0
+        16      LOAD_CONST                      3: 'MyNet'
+        18      LOAD_NAME                       0: Test
+        20      LOAD_ATTR                       1: t
+        22      CALL_FUNCTION                   3
+        24      STORE_NAME                      2: MyNet
+        26      LOAD_CONST                      1: None
+        28      RETURN_VALUE                    

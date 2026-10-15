@@ -1,0 +1,33 @@
+[Code]
+    File Name: is_op.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        10
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 10
+        2       STORE_NAME                      0: a
+        4       LOAD_CONST                      0: 10
+        6       STORE_NAME                      1: b
+        8       LOAD_NAME                       0: a
+        10      LOAD_NAME                       1: b
+        12      IS_OP                           0 (is)
+        14      POP_JUMP_IF_FALSE               16
+        16      LOAD_NAME                       0: a
+        18      LOAD_NAME                       1: b
+        20      IS_OP                           1 (is not)
+        22      POP_JUMP_IF_FALSE               24
+        24      LOAD_CONST                      1: None
+        26      RETURN_VALUE                    

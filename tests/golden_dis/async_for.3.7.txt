@@ -1,0 +1,682 @@
+[Code]
+    File Name: async_for.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'time_for_some_fun'
+        'tryBlocks'
+        'print'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: async_for.py
+            Object Name: a
+            Arg Count: 2
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x000000C3 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE | CO_COROUTINE)
+            [Names]
+                'StopAsyncIteration'
+            [Var Names]
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       SETUP_LOOP                      42 (to 44)
+                2       LOAD_FAST                       1: c
+                4       GET_AITER                       
+                6       SETUP_EXCEPT                    12 (to 20)
+                8       GET_ANEXT                       
+                10      LOAD_CONST                      0: None
+                12      YIELD_FROM                      
+                14      STORE_FAST                      0: b
+                16      POP_BLOCK                       
+                18      JUMP_ABSOLUTE                   6
+                20      DUP_TOP                         
+                22      LOAD_GLOBAL                     0: StopAsyncIteration
+                24      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                26      POP_JUMP_IF_TRUE                32
+                28      END_FINALLY                     
+                30      JUMP_ABSOLUTE                   6
+                32      POP_TOP                         
+                34      POP_TOP                         
+                36      POP_TOP                         
+                38      POP_EXCEPT                      
+                40      POP_TOP                         
+                42      POP_BLOCK                       
+                44      LOAD_CONST                      0: None
+                46      RETURN_VALUE                    
+        'a'
+        [Code]
+            File Name: async_for.py
+            Object Name: a
+            Arg Count: 2
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x000000C3 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE | CO_COROUTINE)
+            [Names]
+                'StopAsyncIteration'
+            [Var Names]
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       SETUP_LOOP                      44 (to 46)
+                2       LOAD_FAST                       1: c
+                4       GET_AITER                       
+                6       SETUP_EXCEPT                    12 (to 20)
+                8       GET_ANEXT                       
+                10      LOAD_CONST                      0: None
+                12      YIELD_FROM                      
+                14      STORE_FAST                      0: b
+                16      POP_BLOCK                       
+                18      JUMP_ABSOLUTE                   6
+                20      DUP_TOP                         
+                22      LOAD_GLOBAL                     0: StopAsyncIteration
+                24      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                26      POP_JUMP_IF_TRUE                34
+                28      END_FINALLY                     
+                30      JUMP_ABSOLUTE                   6
+                32      JUMP_ABSOLUTE                   6
+                34      POP_TOP                         
+                36      POP_TOP                         
+                38      POP_TOP                         
+                40      POP_EXCEPT                      
+                42      POP_TOP                         
+                44      POP_BLOCK                       
+                46      LOAD_CONST                      0: None
+                48      RETURN_VALUE                    
+        [Code]
+            File Name: async_for.py
+            Object Name: a
+            Arg Count: 2
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x000000C3 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE | CO_COROUTINE)
+            [Names]
+                'StopAsyncIteration'
+            [Var Names]
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       SETUP_LOOP                      44 (to 46)
+                2       LOAD_FAST                       1: c
+                4       GET_AITER                       
+                6       SETUP_EXCEPT                    12 (to 20)
+                8       GET_ANEXT                       
+                10      LOAD_CONST                      0: None
+                12      YIELD_FROM                      
+                14      STORE_FAST                      0: b
+                16      POP_BLOCK                       
+                18      JUMP_FORWARD                    10 (to 30)
+                20      DUP_TOP                         
+                22      LOAD_GLOBAL                     0: StopAsyncIteration
+                24      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                26      POP_JUMP_IF_TRUE                34
+                28      END_FINALLY                     
+                30      BREAK_LOOP                      
+                32      JUMP_ABSOLUTE                   6
+                34      POP_TOP                         
+                36      POP_TOP                         
+                38      POP_TOP                         
+                40      POP_EXCEPT                      
+                42      POP_TOP                         
+                44      POP_BLOCK                       
+                46      LOAD_CONST                      0: None
+                48      RETURN_VALUE                    
+        [Code]
+            File Name: async_for.py
+            Object Name: time_for_some_fun
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 15
+            Stack Size: 16
+            Flags: 0x000000C3 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE | CO_COROUTINE)
+            [Names]
+                'myfunc'
+                'c'
+                'StopAsyncIteration'
+                'print'
+                'regular_for'
+                'var2'
+                'var3'
+                'inner'
+                'regular'
+                'inner2'
+                'inner3'
+                'inner4'
+                'qwer'
+            [Var Names]
+                'x'
+                'y'
+                'i'
+                'var1'
+                'x1'
+                'x2'
+                'x3'
+                'x4'
+                'x5'
+                'x6'
+                'q'
+                'w'
+                'e'
+                'r'
+                'u'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                123
+                3
+                'something'
+                'test LOAD_GLOBAL'
+                'ridiculous nesting'
+                6
+                'outside loop'
+            [Disassembly]
+                0       SETUP_LOOP                      366 (to 370)
+                4       LOAD_GLOBAL                     0: myfunc
+                6       LOAD_GLOBAL                     1: c
+                8       CALL_FUNCTION                   1
+                10      GET_AITER                       
+                12      SETUP_EXCEPT                    16 (to 30)
+                14      GET_ANEXT                       
+                16      LOAD_CONST                      0: None
+                18      YIELD_FROM                      
+                20      UNPACK_SEQUENCE                 2
+                22      STORE_FAST                      0: x
+                24      STORE_FAST                      1: y
+                26      POP_BLOCK                       
+                28      JUMP_FORWARD                    12 (to 42)
+                30      DUP_TOP                         
+                32      LOAD_GLOBAL                     2: StopAsyncIteration
+                34      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                36      POP_JUMP_IF_TRUE                358
+                40      END_FINALLY                     
+                42      LOAD_GLOBAL                     3: print
+                44      LOAD_CONST                      1: 123
+                46      CALL_FUNCTION                   1
+                48      POP_TOP                         
+                50      LOAD_FAST                       0: x
+                52      LOAD_CONST                      2: 3
+                54      COMPARE_OP                      2 (==)
+                56      POP_JUMP_IF_FALSE               68
+                58      LOAD_GLOBAL                     3: print
+                60      LOAD_CONST                      3: 'something'
+                62      CALL_FUNCTION                   1
+                64      POP_TOP                         
+                66      BREAK_LOOP                      
+                68      SETUP_LOOP                      284 (to 356)
+                72      LOAD_GLOBAL                     4: regular_for
+                74      GET_ITER                        
+                76      FOR_ITER                        274 (to 354)
+                80      STORE_FAST                      2: i
+                82      LOAD_GLOBAL                     5: var2
+                84      LOAD_GLOBAL                     6: var3
+                86      BINARY_ADD                      
+                88      STORE_FAST                      3: var1
+                90      SETUP_LOOP                      258 (to 352)
+                94      LOAD_GLOBAL                     3: print
+                96      GET_AITER                       
+                98      SETUP_EXCEPT                    12 (to 112)
+                100     GET_ANEXT                       
+                102     LOAD_CONST                      0: None
+                104     YIELD_FROM                      
+                106     STORE_FAST                      4: x1
+                108     POP_BLOCK                       
+                110     JUMP_FORWARD                    12 (to 124)
+                112     DUP_TOP                         
+                114     LOAD_GLOBAL                     2: StopAsyncIteration
+                116     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                118     POP_JUMP_IF_TRUE                340
+                122     END_FINALLY                     
+                124     LOAD_GLOBAL                     3: print
+                126     LOAD_CONST                      4: 'test LOAD_GLOBAL'
+                128     CALL_FUNCTION                   1
+                130     POP_TOP                         
+                132     SETUP_LOOP                      204 (to 338)
+                134     LOAD_GLOBAL                     7: inner
+                136     GET_AITER                       
+                138     SETUP_EXCEPT                    12 (to 152)
+                140     GET_ANEXT                       
+                142     LOAD_CONST                      0: None
+                144     YIELD_FROM                      
+                146     STORE_FAST                      5: x2
+                148     POP_BLOCK                       
+                150     JUMP_FORWARD                    12 (to 164)
+                152     DUP_TOP                         
+                154     LOAD_GLOBAL                     2: StopAsyncIteration
+                156     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                158     POP_JUMP_IF_TRUE                326
+                162     END_FINALLY                     
+                164     SETUP_LOOP                      158 (to 324)
+                166     LOAD_GLOBAL                     8: regular
+                168     GET_ITER                        
+                170     FOR_ITER                        150 (to 322)
+                172     STORE_FAST                      6: x3
+                174     SETUP_LOOP                      144 (to 320)
+                176     LOAD_GLOBAL                     9: inner2
+                178     GET_AITER                       
+                180     SETUP_EXCEPT                    12 (to 194)
+                182     GET_ANEXT                       
+                184     LOAD_CONST                      0: None
+                186     YIELD_FROM                      
+                188     STORE_FAST                      7: x4
+                190     POP_BLOCK                       
+                192     JUMP_FORWARD                    12 (to 206)
+                194     DUP_TOP                         
+                196     LOAD_GLOBAL                     2: StopAsyncIteration
+                198     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                200     POP_JUMP_IF_TRUE                308
+                204     END_FINALLY                     
+                206     SETUP_LOOP                      98 (to 306)
+                208     LOAD_GLOBAL                     10: inner3
+                210     GET_AITER                       
+                212     SETUP_EXCEPT                    12 (to 226)
+                214     GET_ANEXT                       
+                216     LOAD_CONST                      0: None
+                218     YIELD_FROM                      
+                220     STORE_FAST                      8: x5
+                222     POP_BLOCK                       
+                224     JUMP_FORWARD                    12 (to 238)
+                226     DUP_TOP                         
+                228     LOAD_GLOBAL                     2: StopAsyncIteration
+                230     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                232     POP_JUMP_IF_TRUE                294
+                236     END_FINALLY                     
+                238     SETUP_LOOP                      52 (to 292)
+                240     LOAD_GLOBAL                     11: inner4
+                242     GET_AITER                       
+                244     SETUP_EXCEPT                    12 (to 258)
+                246     GET_ANEXT                       
+                248     LOAD_CONST                      0: None
+                250     YIELD_FROM                      
+                252     STORE_FAST                      9: x6
+                254     POP_BLOCK                       
+                256     JUMP_FORWARD                    12 (to 270)
+                258     DUP_TOP                         
+                260     LOAD_GLOBAL                     2: StopAsyncIteration
+                262     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                264     POP_JUMP_IF_TRUE                280
+                268     END_FINALLY                     
+                270     LOAD_GLOBAL                     3: print
+                272     LOAD_CONST                      5: 'ridiculous nesting'
+                274     CALL_FUNCTION                   1
+                276     POP_TOP                         
+                278     JUMP_ABSOLUTE                   244
+                280     POP_TOP                         
+                282     POP_TOP                         
+                284     POP_TOP                         
+                286     POP_EXCEPT                      
+                288     POP_TOP                         
+                290     POP_BLOCK                       
+                292     JUMP_ABSOLUTE                   212
+                294     POP_TOP                         
+                296     POP_TOP                         
+                298     POP_TOP                         
+                300     POP_EXCEPT                      
+                302     POP_TOP                         
+                304     POP_BLOCK                       
+                306     JUMP_ABSOLUTE                   180
+                308     POP_TOP                         
+                310     POP_TOP                         
+                312     POP_TOP                         
+                314     POP_EXCEPT                      
+                316     POP_TOP                         
+                318     POP_BLOCK                       
+                320     JUMP_ABSOLUTE                   170
+                322     POP_BLOCK                       
+                324     JUMP_ABSOLUTE                   138
+                326     POP_TOP                         
+                328     POP_TOP                         
+                330     POP_TOP                         
+                332     POP_EXCEPT                      
+                334     POP_TOP                         
+                336     POP_BLOCK                       
+                338     JUMP_ABSOLUTE                   98
+                340     POP_TOP                         
+                342     POP_TOP                         
+                344     POP_TOP                         
+                346     POP_EXCEPT                      
+                348     POP_TOP                         
+                350     POP_BLOCK                       
+                352     JUMP_ABSOLUTE                   76
+                354     POP_BLOCK                       
+                356     JUMP_ABSOLUTE                   12
+                358     POP_TOP                         
+                360     POP_TOP                         
+                362     POP_TOP                         
+                364     POP_EXCEPT                      
+                366     POP_TOP                         
+                368     POP_BLOCK                       
+                370     SETUP_LOOP                      58 (to 430)
+                372     LOAD_GLOBAL                     12: qwer
+                374     GET_AITER                       
+                376     SETUP_EXCEPT                    20 (to 398)
+                378     GET_ANEXT                       
+                380     LOAD_CONST                      0: None
+                382     YIELD_FROM                      
+                384     UNPACK_SEQUENCE                 4
+                386     STORE_FAST                      10: q
+                388     STORE_FAST                      11: w
+                390     STORE_FAST                      12: e
+                392     STORE_FAST                      13: r
+                394     POP_BLOCK                       
+                396     JUMP_FORWARD                    12 (to 410)
+                398     DUP_TOP                         
+                400     LOAD_GLOBAL                     2: StopAsyncIteration
+                402     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                404     POP_JUMP_IF_TRUE                418
+                408     END_FINALLY                     
+                410     LOAD_CONST                      6: 6
+                412     STORE_FAST                      14: u
+                414     JUMP_ABSOLUTE                   376
+                418     POP_TOP                         
+                420     POP_TOP                         
+                422     POP_TOP                         
+                424     POP_EXCEPT                      
+                426     POP_TOP                         
+                428     POP_BLOCK                       
+                430     SETUP_LOOP                      94 (to 526)
+                432     LOAD_GLOBAL                     9: inner2
+                434     GET_AITER                       
+                436     SETUP_EXCEPT                    12 (to 450)
+                438     GET_ANEXT                       
+                440     LOAD_CONST                      0: None
+                442     YIELD_FROM                      
+                444     STORE_FAST                      7: x4
+                446     POP_BLOCK                       
+                448     JUMP_FORWARD                    12 (to 462)
+                450     DUP_TOP                         
+                452     LOAD_GLOBAL                     2: StopAsyncIteration
+                454     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                456     POP_JUMP_IF_TRUE                514
+                460     END_FINALLY                     
+                462     SETUP_LOOP                      46 (to 510)
+                464     LOAD_GLOBAL                     10: inner3
+                466     GET_AITER                       
+                468     SETUP_EXCEPT                    12 (to 482)
+                470     GET_ANEXT                       
+                472     LOAD_CONST                      0: None
+                474     YIELD_FROM                      
+                476     STORE_FAST                      8: x5
+                478     POP_BLOCK                       
+                480     JUMP_FORWARD                    12 (to 494)
+                482     DUP_TOP                         
+                484     LOAD_GLOBAL                     2: StopAsyncIteration
+                486     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                488     POP_JUMP_IF_TRUE                498
+                492     END_FINALLY                     
+                494     JUMP_ABSOLUTE                   468
+                498     POP_TOP                         
+                500     POP_TOP                         
+                502     POP_TOP                         
+                504     POP_EXCEPT                      
+                506     POP_TOP                         
+                508     POP_BLOCK                       
+                510     JUMP_ABSOLUTE                   436
+                514     POP_TOP                         
+                516     POP_TOP                         
+                518     POP_TOP                         
+                520     POP_EXCEPT                      
+                522     POP_TOP                         
+                524     POP_BLOCK                       
+                526     LOAD_GLOBAL                     3: print
+                528     LOAD_CONST                      7: 'outside loop'
+                530     CALL_FUNCTION                   1
+                532     POP_TOP                         
+                534     LOAD_CONST                      0: None
+                536     RETURN_VALUE                    
+        'time_for_some_fun'
+        [Code]
+            File Name: async_for.py
+            Object Name: tryBlocks
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 10
+            Flags: 0x000000C3 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE | CO_COROUTINE)
+            [Names]
+                'c'
+                'StopAsyncIteration'
+                'stuff'
+                'things'
+                'x'
+                'STUFF'
+                'MyException'
+                'BLOCK_AFTER'
+                'c2'
+                'stuff2'
+                'things2'
+                'STUFF2'
+                'MyException2'
+                'AFTER'
+                'OUTEREXCEPT'
+            [Var Names]
+                'b'
+                'running'
+                'b2'
+                'running2'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                False
+            [Disassembly]
+                0       SETUP_LOOP                      98 (to 100)
+                2       LOAD_GLOBAL                     0: c
+                4       GET_AITER                       
+                6       SETUP_EXCEPT                    12 (to 20)
+                8       GET_ANEXT                       
+                10      LOAD_CONST                      0: None
+                12      YIELD_FROM                      
+                14      STORE_FAST                      0: b
+                16      POP_BLOCK                       
+                18      JUMP_FORWARD                    10 (to 30)
+                20      DUP_TOP                         
+                22      LOAD_GLOBAL                     1: StopAsyncIteration
+                24      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                26      POP_JUMP_IF_TRUE                88
+                28      END_FINALLY                     
+                30      LOAD_GLOBAL                     2: stuff
+                32      POP_TOP                         
+                34      LOAD_GLOBAL                     3: things
+                36      LOAD_GLOBAL                     4: x
+                38      CALL_FUNCTION                   1
+                40      GET_AWAITABLE                   
+                42      LOAD_CONST                      0: None
+                44      YIELD_FROM                      
+                46      POP_TOP                         
+                48      SETUP_EXCEPT                    8 (to 58)
+                50      LOAD_GLOBAL                     5: STUFF
+                52      POP_TOP                         
+                54      POP_BLOCK                       
+                56      JUMP_FORWARD                    24 (to 82)
+                58      DUP_TOP                         
+                60      LOAD_GLOBAL                     6: MyException
+                62      COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                64      POP_JUMP_IF_FALSE               80
+                66      POP_TOP                         
+                68      POP_TOP                         
+                70      POP_TOP                         
+                72      LOAD_CONST                      1: False
+                74      STORE_FAST                      1: running
+                76      POP_EXCEPT                      
+                78      JUMP_FORWARD                    2 (to 82)
+                80      END_FINALLY                     
+                82      LOAD_GLOBAL                     7: BLOCK_AFTER
+                84      POP_TOP                         
+                86      JUMP_ABSOLUTE                   6
+                88      POP_TOP                         
+                90      POP_TOP                         
+                92      POP_TOP                         
+                94      POP_EXCEPT                      
+                96      POP_TOP                         
+                98      POP_BLOCK                       
+                100     SETUP_EXCEPT                    208 (to 310)
+                102     SETUP_LOOP                      202 (to 306)
+                104     LOAD_GLOBAL                     0: c
+                106     GET_AITER                       
+                108     SETUP_EXCEPT                    12 (to 122)
+                110     GET_ANEXT                       
+                112     LOAD_CONST                      0: None
+                114     YIELD_FROM                      
+                116     STORE_FAST                      0: b
+                118     POP_BLOCK                       
+                120     JUMP_FORWARD                    12 (to 134)
+                122     DUP_TOP                         
+                124     LOAD_GLOBAL                     1: StopAsyncIteration
+                126     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                128     POP_JUMP_IF_TRUE                294
+                132     END_FINALLY                     
+                134     LOAD_GLOBAL                     2: stuff
+                136     POP_TOP                         
+                138     LOAD_GLOBAL                     3: things
+                140     LOAD_GLOBAL                     4: x
+                142     CALL_FUNCTION                   1
+                144     GET_AWAITABLE                   
+                146     LOAD_CONST                      0: None
+                148     YIELD_FROM                      
+                150     POP_TOP                         
+                152     SETUP_LOOP                      98 (to 252)
+                154     LOAD_GLOBAL                     8: c2
+                156     GET_AITER                       
+                158     SETUP_EXCEPT                    12 (to 172)
+                160     GET_ANEXT                       
+                162     LOAD_CONST                      0: None
+                164     YIELD_FROM                      
+                166     STORE_FAST                      2: b2
+                168     POP_BLOCK                       
+                170     JUMP_FORWARD                    10 (to 182)
+                172     DUP_TOP                         
+                174     LOAD_GLOBAL                     1: StopAsyncIteration
+                176     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                178     POP_JUMP_IF_TRUE                240
+                180     END_FINALLY                     
+                182     LOAD_GLOBAL                     9: stuff2
+                184     POP_TOP                         
+                186     LOAD_GLOBAL                     10: things2
+                188     LOAD_GLOBAL                     4: x
+                190     CALL_FUNCTION                   1
+                192     GET_AWAITABLE                   
+                194     LOAD_CONST                      0: None
+                196     YIELD_FROM                      
+                198     POP_TOP                         
+                200     SETUP_EXCEPT                    8 (to 210)
+                202     LOAD_GLOBAL                     11: STUFF2
+                204     POP_TOP                         
+                206     POP_BLOCK                       
+                208     JUMP_FORWARD                    24 (to 234)
+                210     DUP_TOP                         
+                212     LOAD_GLOBAL                     12: MyException2
+                214     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                216     POP_JUMP_IF_FALSE               232
+                218     POP_TOP                         
+                220     POP_TOP                         
+                222     POP_TOP                         
+                224     LOAD_CONST                      1: False
+                226     STORE_FAST                      3: running2
+                228     POP_EXCEPT                      
+                230     JUMP_FORWARD                    2 (to 234)
+                232     END_FINALLY                     
+                234     LOAD_GLOBAL                     13: AFTER
+                236     POP_TOP                         
+                238     JUMP_ABSOLUTE                   158
+                240     POP_TOP                         
+                242     POP_TOP                         
+                244     POP_TOP                         
+                246     POP_EXCEPT                      
+                248     POP_TOP                         
+                250     POP_BLOCK                       
+                252     SETUP_EXCEPT                    8 (to 262)
+                254     LOAD_GLOBAL                     5: STUFF
+                256     POP_TOP                         
+                258     POP_BLOCK                       
+                260     JUMP_FORWARD                    26 (to 288)
+                262     DUP_TOP                         
+                264     LOAD_GLOBAL                     6: MyException
+                266     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                268     POP_JUMP_IF_FALSE               286
+                272     POP_TOP                         
+                274     POP_TOP                         
+                276     POP_TOP                         
+                278     LOAD_CONST                      1: False
+                280     STORE_FAST                      1: running
+                282     POP_EXCEPT                      
+                284     JUMP_FORWARD                    2 (to 288)
+                286     END_FINALLY                     
+                288     LOAD_GLOBAL                     7: BLOCK_AFTER
+                290     POP_TOP                         
+                292     JUMP_ABSOLUTE                   108
+                294     POP_TOP                         
+                296     POP_TOP                         
+                298     POP_TOP                         
+                300     POP_EXCEPT                      
+                302     POP_TOP                         
+                304     POP_BLOCK                       
+                306     POP_BLOCK                       
+                308     JUMP_FORWARD                    26 (to 336)
+                310     DUP_TOP                         
+                312     LOAD_GLOBAL                     12: MyException2
+                314     COMPARE_OP                      10 (<EXCEPTION MATCH>)
+                316     POP_JUMP_IF_FALSE               334
+                320     POP_TOP                         
+                322     POP_TOP                         
+                324     POP_TOP                         
+                326     LOAD_GLOBAL                     14: OUTEREXCEPT
+                328     POP_TOP                         
+                330     POP_EXCEPT                      
+                332     JUMP_FORWARD                    2 (to 336)
+                334     END_FINALLY                     
+                336     LOAD_CONST                      0: None
+                338     RETURN_VALUE                    
+        'tryBlocks'
+        'outside function'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> a
+        2       LOAD_CONST                      1: 'a'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: a
+        8       LOAD_CONST                      2: <CODE> a
+        10      LOAD_CONST                      1: 'a'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      0: a
+        16      LOAD_CONST                      3: <CODE> a
+        18      LOAD_CONST                      1: 'a'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      0: a
+        24      LOAD_CONST                      4: <CODE> time_for_some_fun
+        26      LOAD_CONST                      5: 'time_for_some_fun'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      1: time_for_some_fun
+        32      LOAD_CONST                      6: <CODE> tryBlocks
+        34      LOAD_CONST                      7: 'tryBlocks'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      2: tryBlocks
+        40      LOAD_NAME                       3: print
+        42      LOAD_CONST                      8: 'outside function'
+        44      CALL_FUNCTION                   1
+        46      POP_TOP                         
+        48      LOAD_CONST                      9: None
+        50      RETURN_VALUE                    

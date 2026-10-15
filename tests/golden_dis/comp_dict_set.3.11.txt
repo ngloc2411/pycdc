@@ -1,0 +1,115 @@
+[Code]
+    File Name: comp_dict_set.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: comp_dict_set.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'xs'
+                'a'
+                'b'
+            [Constants]
+                None
+                [Code]
+                    File Name: comp_dict_set.py
+                    Object Name: <dictcomp>
+                    Qualified Name: f.<locals>.<dictcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 4
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       BUILD_MAP                       0
+                        4       LOAD_FAST                       0: .0
+                        6       FOR_ITER                        7 (to 22)
+                        8       STORE_FAST                      1: x
+                        10      LOAD_FAST                       1: x
+                        12      POP_JUMP_BACKWARD_IF_FALSE      4 (to 6)
+                        14      LOAD_FAST                       1: x
+                        16      LOAD_FAST                       1: x
+                        18      MAP_ADD                         2
+                        20      JUMP_BACKWARD                   8 (to 6)
+                        22      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: comp_dict_set.py
+                    Object Name: <setcomp>
+                    Qualified Name: f.<locals>.<setcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 4
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        3
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       BUILD_SET                       0
+                        4       LOAD_FAST                       0: .0
+                        6       FOR_ITER                        7 (to 22)
+                        8       STORE_FAST                      1: x
+                        10      LOAD_FAST                       1: x
+                        12      LOAD_CONST                      0: 3
+                        14      BINARY_OP                       6 (%)
+                        18      SET_ADD                         2
+                        20      JUMP_BACKWARD                   8 (to 6)
+                        22      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: <CODE> <dictcomp>
+                4       MAKE_FUNCTION                   0
+                6       LOAD_FAST                       0: xs
+                8       GET_ITER                        
+                10      PRECALL                         0
+                14      CALL                            0
+                24      STORE_FAST                      1: a
+                26      LOAD_CONST                      2: <CODE> <setcomp>
+                28      MAKE_FUNCTION                   0
+                30      LOAD_FAST                       0: xs
+                32      GET_ITER                        
+                34      PRECALL                         0
+                38      CALL                            0
+                48      STORE_FAST                      2: b
+                50      LOAD_FAST                       1: a
+                52      LOAD_FAST                       2: b
+                54      BUILD_TUPLE                     2
+                56      RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

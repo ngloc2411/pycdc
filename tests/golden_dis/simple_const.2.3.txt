@@ -1,0 +1,61 @@
+[Code]
+    File Name: ../input/simple_const.py
+    Object Name: ?
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+        'c'
+        'd'
+        'e'
+        'f'
+        'g'
+    [Var Names]
+        'a'
+        'c'
+        'b'
+        'e'
+        'd'
+        'g'
+        'f'
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        42
+        3.1415899999999999
+        'test'
+        1
+        2
+        3
+        'key'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 42
+        3       STORE_NAME                      0: a
+        6       LOAD_CONST                      1: 3.1415899999999999
+        9       STORE_NAME                      1: b
+        12      LOAD_CONST                      2: 'test'
+        15      STORE_NAME                      2: c
+        18      LOAD_CONST                      3: 1
+        21      LOAD_CONST                      4: 2
+        24      BUILD_TUPLE                     2
+        27      STORE_NAME                      3: d
+        30      LOAD_CONST                      5: 3
+        33      BUILD_TUPLE                     1
+        36      STORE_NAME                      4: e
+        39      LOAD_CONST                      3: 1
+        42      LOAD_CONST                      4: 2
+        45      BUILD_LIST                      2
+        48      STORE_NAME                      5: f
+        51      BUILD_MAP                       0
+        54      DUP_TOP                         
+        55      LOAD_CONST                      6: 'key'
+        58      LOAD_CONST                      0: 42
+        61      ROT_THREE                       
+        62      STORE_SUBSCR                    
+        63      STORE_NAME                      6: g
+        66      LOAD_CONST                      7: None
+        69      RETURN_VALUE                    

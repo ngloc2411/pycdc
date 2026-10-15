@@ -1,0 +1,457 @@
+[Code]
+    File Name: try_in_loops.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'w1'
+        'w2'
+        'w3'
+        'w4'
+        'w5'
+        'w6'
+        'w7'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w1
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 8
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'alive'
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'bad'
+                'over'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       LOAD_METHOD                     0: alive
+                4       CALL_METHOD                     0
+                6       POP_JUMP_IF_FALSE               50
+                8       SETUP_FINALLY                   12 (to 22)
+                10      LOAD_FAST                       0: q
+                12      LOAD_METHOD                     1: step
+                14      CALL_METHOD                     0
+                16      POP_TOP                         
+                18      POP_BLOCK                       
+                20      JUMP_ABSOLUTE                   0
+                22      DUP_TOP                         
+                24      LOAD_GLOBAL                     2: ValueError
+                26      JUMP_IF_NOT_EXC_MATCH           46
+                28      POP_TOP                         
+                30      POP_TOP                         
+                32      POP_TOP                         
+                34      LOAD_GLOBAL                     3: print
+                36      LOAD_CONST                      1: 'bad'
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      POP_EXCEPT                      
+                44      JUMP_ABSOLUTE                   0
+                46      RERAISE                         
+                48      JUMP_ABSOLUTE                   0
+                50      LOAD_GLOBAL                     3: print
+                52      LOAD_CONST                      2: 'over'
+                54      CALL_FUNCTION                   1
+                56      POP_TOP                         
+                58      LOAD_CONST                      0: None
+                60      RETURN_VALUE                    
+        'w1'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w2
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 8
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'alive'
+                'step'
+                'ValueError'
+                'print'
+                'KeyError'
+            [Var Names]
+                'q'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'bad'
+                'key'
+                'tick'
+                'over'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       LOAD_METHOD                     0: alive
+                4       CALL_METHOD                     0
+                6       POP_JUMP_IF_FALSE               82
+                8       SETUP_FINALLY                   12 (to 22)
+                10      LOAD_FAST                       0: q
+                12      LOAD_METHOD                     1: step
+                14      CALL_METHOD                     0
+                16      POP_TOP                         
+                18      POP_BLOCK                       
+                20      JUMP_FORWARD                    50 (to 72)
+                22      DUP_TOP                         
+                24      LOAD_GLOBAL                     2: ValueError
+                26      JUMP_IF_NOT_EXC_MATCH           46
+                28      POP_TOP                         
+                30      POP_TOP                         
+                32      POP_TOP                         
+                34      LOAD_GLOBAL                     3: print
+                36      LOAD_CONST                      1: 'bad'
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      POP_EXCEPT                      
+                44      JUMP_FORWARD                    26 (to 72)
+                46      DUP_TOP                         
+                48      LOAD_GLOBAL                     4: KeyError
+                50      JUMP_IF_NOT_EXC_MATCH           70
+                52      POP_TOP                         
+                54      POP_TOP                         
+                56      POP_TOP                         
+                58      LOAD_GLOBAL                     3: print
+                60      LOAD_CONST                      2: 'key'
+                62      CALL_FUNCTION                   1
+                64      POP_TOP                         
+                66      POP_EXCEPT                      
+                68      JUMP_FORWARD                    2 (to 72)
+                70      RERAISE                         
+                72      LOAD_GLOBAL                     3: print
+                74      LOAD_CONST                      3: 'tick'
+                76      CALL_FUNCTION                   1
+                78      POP_TOP                         
+                80      JUMP_ABSOLUTE                   0
+                82      LOAD_GLOBAL                     3: print
+                84      LOAD_CONST                      4: 'over'
+                86      CALL_FUNCTION                   1
+                88      POP_TOP                         
+                90      LOAD_CONST                      0: None
+                92      RETURN_VALUE                    
+        'w2'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w3
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'done'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       GET_ITER                        
+                4       FOR_ITER                        50 (to 56)
+                6       STORE_FAST                      1: i
+                8       SETUP_FINALLY                   14 (to 24)
+                10      LOAD_FAST                       0: q
+                12      LOAD_METHOD                     0: step
+                14      LOAD_FAST                       1: i
+                16      CALL_METHOD                     1
+                18      POP_TOP                         
+                20      POP_BLOCK                       
+                22      JUMP_FORWARD                    22 (to 46)
+                24      DUP_TOP                         
+                26      LOAD_GLOBAL                     1: ValueError
+                28      JUMP_IF_NOT_EXC_MATCH           44
+                30      POP_TOP                         
+                32      POP_TOP                         
+                34      POP_TOP                         
+                36      POP_EXCEPT                      
+                38      JUMP_ABSOLUTE                   4
+                40      POP_EXCEPT                      
+                42      JUMP_FORWARD                    2 (to 46)
+                44      RERAISE                         
+                46      LOAD_GLOBAL                     2: print
+                48      LOAD_FAST                       1: i
+                50      CALL_FUNCTION                   1
+                52      POP_TOP                         
+                54      JUMP_ABSOLUTE                   4
+                56      LOAD_GLOBAL                     2: print
+                58      LOAD_CONST                      1: 'done'
+                60      CALL_FUNCTION                   1
+                62      POP_TOP                         
+                64      LOAD_CONST                      0: None
+                66      RETURN_VALUE                    
+        'w3'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w4
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'ok'
+                'done'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       GET_ITER                        
+                4       FOR_ITER                        52 (to 58)
+                6       STORE_FAST                      1: i
+                8       SETUP_FINALLY                   14 (to 24)
+                10      LOAD_FAST                       0: q
+                12      LOAD_METHOD                     0: step
+                14      LOAD_FAST                       1: i
+                16      CALL_METHOD                     1
+                18      POP_TOP                         
+                20      POP_BLOCK                       
+                22      JUMP_FORWARD                    24 (to 48)
+                24      DUP_TOP                         
+                26      LOAD_GLOBAL                     1: ValueError
+                28      JUMP_IF_NOT_EXC_MATCH           46
+                30      POP_TOP                         
+                32      POP_TOP                         
+                34      POP_TOP                         
+                36      POP_EXCEPT                      
+                38      POP_TOP                         
+                40      JUMP_ABSOLUTE                   58
+                42      POP_EXCEPT                      
+                44      JUMP_FORWARD                    2 (to 48)
+                46      RERAISE                         
+                48      LOAD_GLOBAL                     2: print
+                50      LOAD_CONST                      1: 'ok'
+                52      CALL_FUNCTION                   1
+                54      POP_TOP                         
+                56      JUMP_ABSOLUTE                   4
+                58      LOAD_GLOBAL                     2: print
+                60      LOAD_CONST                      2: 'done'
+                62      CALL_FUNCTION                   1
+                64      POP_TOP                         
+                66      LOAD_CONST                      0: None
+                68      RETURN_VALUE                    
+        'w4'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w5
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 8
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                'f'
+            [Disassembly]
+                0       SETUP_FINALLY                   12 (to 14)
+                2       LOAD_FAST                       0: q
+                4       LOAD_METHOD                     0: step
+                6       CALL_METHOD                     0
+                8       POP_TOP                         
+                10      POP_BLOCK                       
+                12      JUMP_FORWARD                    20 (to 34)
+                14      DUP_TOP                         
+                16      LOAD_GLOBAL                     1: ValueError
+                18      JUMP_IF_NOT_EXC_MATCH           32
+                20      POP_TOP                         
+                22      POP_TOP                         
+                24      POP_TOP                         
+                26      POP_EXCEPT                      
+                28      LOAD_CONST                      1: 1
+                30      RETURN_VALUE                    
+                32      RERAISE                         
+                34      LOAD_GLOBAL                     2: print
+                36      LOAD_CONST                      2: 'f'
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      JUMP_ABSOLUTE                   0
+                44      LOAD_CONST                      0: None
+                46      RETURN_VALUE                    
+        'w5'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w6
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 9
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'bad'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       GET_ITER                        
+                4       FOR_ITER                        46 (to 52)
+                6       STORE_FAST                      1: i
+                8       SETUP_FINALLY                   14 (to 24)
+                10      LOAD_FAST                       0: q
+                12      LOAD_METHOD                     0: step
+                14      LOAD_FAST                       1: i
+                16      CALL_METHOD                     1
+                18      POP_TOP                         
+                20      POP_BLOCK                       
+                22      JUMP_ABSOLUTE                   4
+                24      DUP_TOP                         
+                26      LOAD_GLOBAL                     1: ValueError
+                28      JUMP_IF_NOT_EXC_MATCH           48
+                30      POP_TOP                         
+                32      POP_TOP                         
+                34      POP_TOP                         
+                36      LOAD_GLOBAL                     2: print
+                38      LOAD_CONST                      1: 'bad'
+                40      CALL_FUNCTION                   1
+                42      POP_TOP                         
+                44      POP_EXCEPT                      
+                46      JUMP_ABSOLUTE                   4
+                48      RERAISE                         
+                50      JUMP_ABSOLUTE                   4
+                52      LOAD_CONST                      0: None
+                54      RETURN_VALUE                    
+        'w6'
+        [Code]
+            File Name: try_in_loops.py
+            Object Name: w7
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 10
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'step'
+                'ValueError'
+                'print'
+            [Var Names]
+                'q'
+                'i'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'bad'
+            [Disassembly]
+                0       LOAD_FAST                       0: q
+                2       GET_ITER                        
+                4       FOR_ITER                        64 (to 70)
+                6       STORE_FAST                      1: i
+                8       LOAD_FAST                       1: i
+                10      GET_ITER                        
+                12      FOR_ITER                        46 (to 60)
+                14      STORE_FAST                      2: j
+                16      SETUP_FINALLY                   14 (to 32)
+                18      LOAD_FAST                       0: q
+                20      LOAD_METHOD                     0: step
+                22      LOAD_FAST                       2: j
+                24      CALL_METHOD                     1
+                26      POP_TOP                         
+                28      POP_BLOCK                       
+                30      JUMP_ABSOLUTE                   12
+                32      DUP_TOP                         
+                34      LOAD_GLOBAL                     1: ValueError
+                36      JUMP_IF_NOT_EXC_MATCH           56
+                38      POP_TOP                         
+                40      POP_TOP                         
+                42      POP_TOP                         
+                44      LOAD_GLOBAL                     2: print
+                46      LOAD_CONST                      1: 'bad'
+                48      CALL_FUNCTION                   1
+                50      POP_TOP                         
+                52      POP_EXCEPT                      
+                54      JUMP_ABSOLUTE                   12
+                56      RERAISE                         
+                58      JUMP_ABSOLUTE                   12
+                60      LOAD_GLOBAL                     2: print
+                62      LOAD_FAST                       1: i
+                64      CALL_FUNCTION                   1
+                66      POP_TOP                         
+                68      JUMP_ABSOLUTE                   4
+                70      LOAD_CONST                      0: None
+                72      RETURN_VALUE                    
+        'w7'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> w1
+        2       LOAD_CONST                      1: 'w1'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: w1
+        8       LOAD_CONST                      2: <CODE> w2
+        10      LOAD_CONST                      3: 'w2'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: w2
+        16      LOAD_CONST                      4: <CODE> w3
+        18      LOAD_CONST                      5: 'w3'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: w3
+        24      LOAD_CONST                      6: <CODE> w4
+        26      LOAD_CONST                      7: 'w4'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: w4
+        32      LOAD_CONST                      8: <CODE> w5
+        34      LOAD_CONST                      9: 'w5'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      4: w5
+        40      LOAD_CONST                      10: <CODE> w6
+        42      LOAD_CONST                      11: 'w6'
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      5: w6
+        48      LOAD_CONST                      12: <CODE> w7
+        50      LOAD_CONST                      13: 'w7'
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      6: w7
+        56      LOAD_CONST                      14: None
+        58      RETURN_VALUE                    

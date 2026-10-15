@@ -1,0 +1,127 @@
+[Code]
+    File Name: multi_assign.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: multi_assign.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 20
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'p'
+                'q'
+                'r'
+                's'
+                't'
+                'first'
+                'rest'
+                'm'
+                'n'
+                'o'
+                'c'
+                'd'
+                'e'
+                'g'
+                'k'
+                'l'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       STORE_FAST                      2: x
+                8       STORE_FAST                      3: y
+                10      LOAD_FAST                       0: a
+                12      UNPACK_SEQUENCE                 2
+                16      STORE_FAST                      4: p
+                18      STORE_FAST                      5: q
+                20      LOAD_FAST                       0: a
+                22      LOAD_CONST                      1: 1
+                24      SWAP                            2
+                26      UNPACK_SEQUENCE                 2
+                30      STORE_FAST                      6: r
+                32      STORE_FAST                      7: s
+                34      STORE_FAST                      8: t
+                36      LOAD_FAST                       0: a
+                38      UNPACK_EX                       1
+                40      STORE_FAST                      9: first
+                42      STORE_FAST                      10: rest
+                44      LOAD_FAST                       0: a
+                46      LOAD_FAST                       1: b
+                48      SWAP                            2
+                50      STORE_FAST                      11: m
+                52      UNPACK_SEQUENCE                 2
+                56      STORE_FAST                      12: n
+                58      STORE_FAST                      13: o
+                60      LOAD_FAST                       0: a
+                62      LOAD_FAST                       1: b
+                64      SWAP                            2
+                66      UNPACK_SEQUENCE                 2
+                70      STORE_FAST                      14: c
+                72      STORE_FAST                      15: d
+                74      UNPACK_SEQUENCE                 2
+                78      STORE_FAST                      16: e
+                80      STORE_FAST                      17: g
+                82      LOAD_FAST                       0: a
+                84      LOAD_FAST                       1: b
+                86      BINARY_OP                       0 (+)
+                90      COPY                            1
+                92      STORE_FAST                      18: k
+                94      COPY                            1
+                96      STORE_FAST                      19: l
+                98      STORE_FAST                      11: m
+                100     LOAD_GLOBAL                     1: NULL + print
+                112     LOAD_FAST                       2: x
+                114     LOAD_FAST                       3: y
+                116     LOAD_FAST                       4: p
+                118     LOAD_FAST                       5: q
+                120     LOAD_FAST                       6: r
+                122     LOAD_FAST                       7: s
+                124     LOAD_FAST                       8: t
+                126     LOAD_FAST                       9: first
+                128     LOAD_FAST                       10: rest
+                130     LOAD_FAST                       11: m
+                132     LOAD_FAST                       12: n
+                134     LOAD_FAST                       13: o
+                136     LOAD_FAST                       14: c
+                138     LOAD_FAST                       15: d
+                140     LOAD_FAST                       16: e
+                142     LOAD_FAST                       17: g
+                144     LOAD_FAST                       18: k
+                146     LOAD_FAST                       19: l
+                148     PRECALL                         18
+                152     CALL                            18
+                162     POP_TOP                         
+                164     LOAD_FAST                       0: a
+                166     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

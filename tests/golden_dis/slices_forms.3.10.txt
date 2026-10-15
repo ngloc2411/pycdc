@@ -1,0 +1,759 @@
+[Code]
+    File Name: slices_forms.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'use'
+        'sl_basic'
+        'sl_neg'
+        'sl_tuple'
+        'sl_store'
+        'sl_del'
+        'sl_aug'
+        'sl_nested'
+        'sl_expr'
+        'sl_call'
+        'sl_attr'
+        'sl_str'
+        'sl_cond'
+        'sl_loop'
+        'sl_ellipsis'
+        'sl_single'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: slices_forms.py
+            Object Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000047 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       RETURN_VALUE                    
+        'use'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_basic
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 11
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+                -1
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 1
+                6       LOAD_CONST                      2: 2
+                8       BUILD_SLICE                     2
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       0: a
+                14      LOAD_CONST                      0: None
+                16      LOAD_CONST                      2: 2
+                18      BUILD_SLICE                     2
+                20      BINARY_SUBSCR                   
+                22      LOAD_FAST                       0: a
+                24      LOAD_CONST                      1: 1
+                26      LOAD_CONST                      0: None
+                28      BUILD_SLICE                     2
+                30      BINARY_SUBSCR                   
+                32      LOAD_FAST                       0: a
+                34      LOAD_CONST                      0: None
+                36      LOAD_CONST                      0: None
+                38      BUILD_SLICE                     2
+                40      BINARY_SUBSCR                   
+                42      LOAD_FAST                       0: a
+                44      LOAD_CONST                      0: None
+                46      LOAD_CONST                      0: None
+                48      LOAD_CONST                      2: 2
+                50      BUILD_SLICE                     3
+                52      BINARY_SUBSCR                   
+                54      LOAD_FAST                       0: a
+                56      LOAD_CONST                      1: 1
+                58      LOAD_CONST                      2: 2
+                60      LOAD_CONST                      3: 3
+                62      BUILD_SLICE                     3
+                64      BINARY_SUBSCR                   
+                66      LOAD_FAST                       0: a
+                68      LOAD_CONST                      0: None
+                70      LOAD_CONST                      0: None
+                72      LOAD_CONST                      4: -1
+                74      BUILD_SLICE                     3
+                76      BINARY_SUBSCR                   
+                78      CALL_FUNCTION                   7
+                80      RETURN_VALUE                    
+        'sl_basic'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_neg
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 10
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'n'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                -1
+                -2
+                1
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: -1
+                6       BINARY_SUBSCR                   
+                8       LOAD_FAST                       0: a
+                10      LOAD_CONST                      0: None
+                12      LOAD_CONST                      1: -1
+                14      BUILD_SLICE                     2
+                16      BINARY_SUBSCR                   
+                18      LOAD_FAST                       0: a
+                20      LOAD_CONST                      2: -2
+                22      LOAD_CONST                      0: None
+                24      BUILD_SLICE                     2
+                26      BINARY_SUBSCR                   
+                28      LOAD_FAST                       0: a
+                30      LOAD_FAST                       1: n
+                32      LOAD_CONST                      0: None
+                34      BUILD_SLICE                     2
+                36      BINARY_SUBSCR                   
+                38      LOAD_FAST                       0: a
+                40      LOAD_CONST                      0: None
+                42      LOAD_FAST                       1: n
+                44      BUILD_SLICE                     2
+                46      BINARY_SUBSCR                   
+                48      LOAD_FAST                       0: a
+                50      LOAD_FAST                       1: n
+                52      LOAD_FAST                       1: n
+                54      LOAD_CONST                      3: 1
+                56      BINARY_ADD                      
+                58      BUILD_SLICE                     2
+                60      BINARY_SUBSCR                   
+                62      CALL_FUNCTION                   6
+                64      RETURN_VALUE                    
+        'sl_neg'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_tuple
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 7
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+                (
+                    1
+                    2
+                )
+                (
+                    ...
+                    0
+                )
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      0: None
+                6       LOAD_CONST                      0: None
+                8       BUILD_SLICE                     2
+                10      LOAD_CONST                      1: 1
+                12      BUILD_TUPLE                     2
+                14      BINARY_SUBSCR                   
+                16      LOAD_FAST                       0: a
+                18      LOAD_CONST                      1: 1
+                20      LOAD_CONST                      2: 2
+                22      BUILD_SLICE                     2
+                24      LOAD_CONST                      0: None
+                26      LOAD_CONST                      0: None
+                28      LOAD_CONST                      3: 3
+                30      BUILD_SLICE                     3
+                32      BUILD_TUPLE                     2
+                34      BINARY_SUBSCR                   
+                36      LOAD_FAST                       0: a
+                38      LOAD_CONST                      4: (1, 2)
+                40      BINARY_SUBSCR                   
+                42      LOAD_FAST                       0: a
+                44      LOAD_CONST                      5: (..., 0)
+                46      BINARY_SUBSCR                   
+                48      CALL_FUNCTION                   4
+                50      RETURN_VALUE                    
+        'sl_tuple'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_store
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 5
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                0
+            [Disassembly]
+                0       LOAD_FAST                       1: b
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 1
+                6       LOAD_CONST                      2: 2
+                8       BUILD_SLICE                     2
+                10      STORE_SUBSCR                    
+                12      LOAD_FAST                       1: b
+                14      LOAD_FAST                       0: a
+                16      LOAD_CONST                      0: None
+                18      LOAD_CONST                      0: None
+                20      LOAD_CONST                      2: 2
+                22      BUILD_SLICE                     3
+                24      STORE_SUBSCR                    
+                26      LOAD_FAST                       1: b
+                28      LOAD_FAST                       0: a
+                30      LOAD_CONST                      3: 0
+                32      STORE_SUBSCR                    
+                34      LOAD_CONST                      0: None
+                36      RETURN_VALUE                    
+        'sl_store'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_del
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                0
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 2
+                6       BUILD_SLICE                     2
+                8       DELETE_SUBSCR                   
+                10      LOAD_FAST                       0: a
+                12      LOAD_CONST                      0: None
+                14      LOAD_CONST                      0: None
+                16      LOAD_CONST                      2: 2
+                18      BUILD_SLICE                     3
+                20      DELETE_SUBSCR                   
+                22      LOAD_FAST                       0: a
+                24      LOAD_CONST                      3: 0
+                26      DELETE_SUBSCR                   
+                28      LOAD_CONST                      0: None
+                30      RETURN_VALUE                    
+        'sl_del'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_aug
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                3
+                0
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 3
+                6       BUILD_SLICE                     2
+                8       DUP_TOP_TWO                     
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       1: b
+                14      INPLACE_ADD                     
+                16      ROT_THREE                       
+                18      STORE_SUBSCR                    
+                20      LOAD_FAST                       0: a
+                22      LOAD_CONST                      3: 0
+                24      DUP_TOP_TWO                     
+                26      BINARY_SUBSCR                   
+                28      LOAD_FAST                       1: b
+                30      INPLACE_SUBTRACT                
+                32      ROT_THREE                       
+                34      STORE_SUBSCR                    
+                36      LOAD_CONST                      0: None
+                38      RETURN_VALUE                    
+        'sl_aug'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_nested
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'i'
+                'j'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: i
+                4       BINARY_SUBSCR                   
+                6       LOAD_FAST                       2: j
+                8       LOAD_FAST                       1: i
+                10      BUILD_SLICE                     2
+                12      BINARY_SUBSCR                   
+                14      LOAD_CONST                      0: None
+                16      LOAD_CONST                      0: None
+                18      LOAD_CONST                      1: 2
+                20      BUILD_SLICE                     3
+                22      BINARY_SUBSCR                   
+                24      RETURN_VALUE                    
+        'sl_nested'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_expr
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: i
+                4       LOAD_CONST                      1: 1
+                6       BINARY_ADD                      
+                8       LOAD_FAST                       1: i
+                10      LOAD_CONST                      2: 2
+                12      BINARY_MULTIPLY                 
+                14      BUILD_SLICE                     2
+                16      BINARY_SUBSCR                   
+                18      RETURN_VALUE                    
+        'sl_expr'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_call
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       CALL_FUNCTION                   1
+                6       LOAD_CONST                      1: 1
+                8       LOAD_CONST                      2: 2
+                10      BUILD_SLICE                     2
+                12      BINARY_SUBSCR                   
+                14      RETURN_VALUE                    
+        'sl_call'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_attr
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'items'
+            [Var Names]
+                'o'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                -1
+            [Disassembly]
+                0       LOAD_FAST                       0: o
+                2       LOAD_ATTR                       0: items
+                4       LOAD_CONST                      1: 1
+                6       LOAD_CONST                      0: None
+                8       BUILD_SLICE                     2
+                10      BINARY_SUBSCR                   
+                12      LOAD_FAST                       0: o
+                14      LOAD_ATTR                       0: items
+                16      LOAD_CONST                      0: None
+                18      LOAD_CONST                      2: -1
+                20      BUILD_SLICE                     2
+                22      BINARY_SUBSCR                   
+                24      BUILD_TUPLE                     2
+                26      RETURN_VALUE                    
+        'sl_attr'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_str
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 5
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                's'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                3
+                -1
+            [Disassembly]
+                0       LOAD_FAST                       0: s
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 3
+                6       BUILD_SLICE                     2
+                8       BINARY_SUBSCR                   
+                10      LOAD_FAST                       0: s
+                12      LOAD_CONST                      0: None
+                14      LOAD_CONST                      0: None
+                16      LOAD_CONST                      3: -1
+                18      BUILD_SLICE                     3
+                20      BINARY_SUBSCR                   
+                22      BINARY_ADD                      
+                24      RETURN_VALUE                    
+        'sl_str'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_cond
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'c'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      2: 2
+                6       BUILD_SLICE                     2
+                8       BINARY_SUBSCR                   
+                10      POP_JUMP_IF_FALSE               10 (to 20)
+                12      LOAD_GLOBAL                     0: use
+                14      LOAD_CONST                      1: 1
+                16      CALL_FUNCTION                   1
+                18      POP_TOP                         
+                20      LOAD_FAST                       1: c
+                22      POP_JUMP_IF_FALSE               18 (to 36)
+                24      LOAD_FAST                       0: a
+                26      LOAD_CONST                      0: None
+                28      LOAD_FAST                       1: c
+                30      BUILD_SLICE                     2
+                32      BINARY_SUBSCR                   
+                34      JUMP_FORWARD                    5 (to 46)
+                36      LOAD_FAST                       0: a
+                38      LOAD_FAST                       1: c
+                40      LOAD_CONST                      0: None
+                42      BUILD_SLICE                     2
+                44      BINARY_SUBSCR                   
+                46      STORE_FAST                      2: r
+                48      LOAD_GLOBAL                     0: use
+                50      LOAD_FAST                       2: r
+                52      CALL_FUNCTION                   1
+                54      LOAD_GLOBAL                     0: use
+                56      LOAD_FAST                       2: r
+                58      CALL_FUNCTION                   1
+                60      BINARY_ADD                      
+                62      RETURN_VALUE                    
+        'sl_cond'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_loop
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 5
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                [Code]
+                    File Name: slices_forms.py
+                    Object Name: <listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 3
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'y'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                    [Disassembly]
+                        0       BUILD_LIST                      0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        4 (to 14)
+                        6       STORE_FAST                      1: y
+                        8       LOAD_FAST                       1: y
+                        10      LIST_APPEND                     2
+                        12      JUMP_ABSOLUTE                   2 (to 4)
+                        14      RETURN_VALUE                    
+                'sl_loop.<locals>.<listcomp>'
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       LOAD_CONST                      0: None
+                6       BUILD_SLICE                     2
+                8       BINARY_SUBSCR                   
+                10      GET_ITER                        
+                12      FOR_ITER                        6 (to 26)
+                14      STORE_FAST                      1: x
+                16      LOAD_GLOBAL                     0: use
+                18      LOAD_FAST                       1: x
+                20      CALL_FUNCTION                   1
+                22      POP_TOP                         
+                24      JUMP_ABSOLUTE                   6 (to 12)
+                26      LOAD_CONST                      2: <CODE> <listcomp>
+                28      LOAD_CONST                      3: 'sl_loop.<locals>.<listcomp>'
+                30      MAKE_FUNCTION                   0
+                32      LOAD_FAST                       0: a
+                34      LOAD_CONST                      0: None
+                36      LOAD_CONST                      0: None
+                38      LOAD_CONST                      4: 2
+                40      BUILD_SLICE                     3
+                42      BINARY_SUBSCR                   
+                44      GET_ITER                        
+                46      CALL_FUNCTION                   1
+                48      RETURN_VALUE                    
+        'sl_loop'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_ellipsis
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                ...
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: ...
+                4       LOAD_CONST                      2: 1
+                6       LOAD_CONST                      3: 2
+                8       BUILD_SLICE                     2
+                10      BUILD_TUPLE                     2
+                12      BINARY_SUBSCR                   
+                14      RETURN_VALUE                    
+        'sl_ellipsis'
+        [Code]
+            File Name: slices_forms.py
+            Object Name: sl_single
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                (
+                    1
+                )
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: (1,)
+                4       BINARY_SUBSCR                   
+                6       RETURN_VALUE                    
+        'sl_single'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> use
+        2       LOAD_CONST                      1: 'use'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      2: <CODE> sl_basic
+        10      LOAD_CONST                      3: 'sl_basic'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: sl_basic
+        16      LOAD_CONST                      4: <CODE> sl_neg
+        18      LOAD_CONST                      5: 'sl_neg'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: sl_neg
+        24      LOAD_CONST                      6: <CODE> sl_tuple
+        26      LOAD_CONST                      7: 'sl_tuple'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: sl_tuple
+        32      LOAD_CONST                      8: <CODE> sl_store
+        34      LOAD_CONST                      9: 'sl_store'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      4: sl_store
+        40      LOAD_CONST                      10: <CODE> sl_del
+        42      LOAD_CONST                      11: 'sl_del'
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      5: sl_del
+        48      LOAD_CONST                      12: <CODE> sl_aug
+        50      LOAD_CONST                      13: 'sl_aug'
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      6: sl_aug
+        56      LOAD_CONST                      14: <CODE> sl_nested
+        58      LOAD_CONST                      15: 'sl_nested'
+        60      MAKE_FUNCTION                   0
+        62      STORE_NAME                      7: sl_nested
+        64      LOAD_CONST                      16: <CODE> sl_expr
+        66      LOAD_CONST                      17: 'sl_expr'
+        68      MAKE_FUNCTION                   0
+        70      STORE_NAME                      8: sl_expr
+        72      LOAD_CONST                      18: <CODE> sl_call
+        74      LOAD_CONST                      19: 'sl_call'
+        76      MAKE_FUNCTION                   0
+        78      STORE_NAME                      9: sl_call
+        80      LOAD_CONST                      20: <CODE> sl_attr
+        82      LOAD_CONST                      21: 'sl_attr'
+        84      MAKE_FUNCTION                   0
+        86      STORE_NAME                      10: sl_attr
+        88      LOAD_CONST                      22: <CODE> sl_str
+        90      LOAD_CONST                      23: 'sl_str'
+        92      MAKE_FUNCTION                   0
+        94      STORE_NAME                      11: sl_str
+        96      LOAD_CONST                      24: <CODE> sl_cond
+        98      LOAD_CONST                      25: 'sl_cond'
+        100     MAKE_FUNCTION                   0
+        102     STORE_NAME                      12: sl_cond
+        104     LOAD_CONST                      26: <CODE> sl_loop
+        106     LOAD_CONST                      27: 'sl_loop'
+        108     MAKE_FUNCTION                   0
+        110     STORE_NAME                      13: sl_loop
+        112     LOAD_CONST                      28: <CODE> sl_ellipsis
+        114     LOAD_CONST                      29: 'sl_ellipsis'
+        116     MAKE_FUNCTION                   0
+        118     STORE_NAME                      14: sl_ellipsis
+        120     LOAD_CONST                      30: <CODE> sl_single
+        122     LOAD_CONST                      31: 'sl_single'
+        124     MAKE_FUNCTION                   0
+        126     STORE_NAME                      15: sl_single
+        128     LOAD_CONST                      32: None
+        130     RETURN_VALUE                    

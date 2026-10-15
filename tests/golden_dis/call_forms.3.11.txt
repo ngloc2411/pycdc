@@ -1,0 +1,212 @@
+[Code]
+    File Name: call_forms.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: call_forms.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'm'
+                'attr'
+                'print'
+            [Locals+Names]
+                'fn'
+                'a'
+                'b'
+                'obj'
+            [Constants]
+                None
+                1
+                (
+                    'b'
+                )
+                3
+                (
+                    'x'
+                    'y'
+                    'z'
+                )
+                'c'
+                (
+                    'k'
+                )
+                'k'
+                (
+                    'c'
+                )
+                [Code]
+                    File Name: call_forms.py
+                    Object Name: <lambda>
+                    Qualified Name: f.<locals>.<lambda>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        'q'
+                    [Constants]
+                        None
+                        1
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       0: q
+                        4       LOAD_CONST                      1: 1
+                        6       BINARY_OP                       0 (+)
+                        10      RETURN_VALUE                    
+                    [Exception Table]
+                (
+                    'key'
+                )
+                ''
+                (
+                    'sep'
+                )
+                (
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       PUSH_NULL                       
+                4       LOAD_FAST                       0: fn
+                6       LOAD_FAST                       1: a
+                8       LOAD_FAST                       2: b
+                10      PRECALL                         2
+                14      CALL                            2
+                24      POP_TOP                         
+                26      PUSH_NULL                       
+                28      LOAD_FAST                       0: fn
+                30      LOAD_FAST                       1: a
+                32      LOAD_CONST                      1: 1
+                34      KW_NAMES                        2: ('b',)
+                36      PRECALL                         2
+                40      CALL                            2
+                50      POP_TOP                         
+                52      PUSH_NULL                       
+                54      LOAD_FAST                       0: fn
+                56      LOAD_FAST                       1: a
+                58      LOAD_FAST                       2: b
+                60      LOAD_CONST                      3: 3
+                62      KW_NAMES                        4: ('x', 'y', 'z')
+                64      PRECALL                         3
+                68      CALL                            3
+                78      POP_TOP                         
+                80      PUSH_NULL                       
+                82      LOAD_FAST                       0: fn
+                84      LOAD_FAST                       1: a
+                86      BUILD_MAP                       0
+                88      LOAD_FAST                       2: b
+                90      DICT_MERGE                      1
+                92      CALL_FUNCTION_EX                1
+                94      POP_TOP                         
+                96      PUSH_NULL                       
+                98      LOAD_FAST                       0: fn
+                100     LOAD_FAST                       1: a
+                102     BUILD_LIST                      1
+                104     LOAD_FAST                       2: b
+                106     LIST_EXTEND                     1
+                108     LIST_TO_TUPLE                   
+                110     LOAD_CONST                      5: 'c'
+                112     LOAD_CONST                      1: 1
+                114     BUILD_MAP                       1
+                116     LOAD_FAST                       2: b
+                118     DICT_MERGE                      1
+                120     CALL_FUNCTION_EX                1
+                122     POP_TOP                         
+                124     PUSH_NULL                       
+                126     LOAD_FAST                       0: fn
+                128     LOAD_FAST                       1: a
+                130     LOAD_FAST                       2: b
+                132     BUILD_LIST                      2
+                134     LOAD_FAST                       1: a
+                136     LIST_EXTEND                     1
+                138     LIST_TO_TUPLE                   
+                140     CALL_FUNCTION_EX                0
+                142     POP_TOP                         
+                144     PUSH_NULL                       
+                146     LOAD_FAST                       0: fn
+                148     LOAD_CONST                      13: ()
+                150     BUILD_MAP                       0
+                152     LOAD_FAST                       1: a
+                154     DICT_MERGE                      1
+                156     CALL_FUNCTION_EX                1
+                158     POP_TOP                         
+                160     PUSH_NULL                       
+                162     LOAD_FAST                       0: fn
+                164     LOAD_FAST                       1: a
+                166     CALL_FUNCTION_EX                0
+                168     POP_TOP                         
+                170     LOAD_FAST                       3: obj
+                172     LOAD_METHOD                     0: m
+                194     LOAD_FAST                       1: a
+                196     LOAD_FAST                       2: b
+                198     KW_NAMES                        6: ('k',)
+                200     PRECALL                         2
+                204     CALL                            2
+                214     POP_TOP                         
+                216     PUSH_NULL                       
+                218     LOAD_FAST                       3: obj
+                220     LOAD_ATTR                       0: m
+                230     LOAD_FAST                       1: a
+                232     LOAD_CONST                      7: 'k'
+                234     LOAD_FAST                       2: b
+                236     BUILD_MAP                       1
+                238     CALL_FUNCTION_EX                1
+                240     POP_TOP                         
+                242     PUSH_NULL                       
+                244     LOAD_FAST                       3: obj
+                246     LOAD_ATTR                       1: attr
+                256     LOAD_METHOD                     0: m
+                278     LOAD_FAST                       1: a
+                280     PRECALL                         1
+                284     CALL                            1
+                294     LOAD_FAST                       2: b
+                296     LOAD_FAST                       1: a
+                298     KW_NAMES                        8: ('c',)
+                300     PRECALL                         2
+                304     CALL                            2
+                314     POP_TOP                         
+                316     LOAD_GLOBAL                     5: NULL + print
+                328     PUSH_NULL                       
+                330     LOAD_FAST                       0: fn
+                332     LOAD_FAST                       1: a
+                334     LOAD_CONST                      9: <CODE> <lambda>
+                336     MAKE_FUNCTION                   0
+                338     KW_NAMES                        10: ('key',)
+                340     PRECALL                         2
+                344     CALL                            2
+                354     LOAD_CONST                      11: ''
+                356     KW_NAMES                        12: ('sep',)
+                358     PRECALL                         2
+                362     CALL                            2
+                372     POP_TOP                         
+                374     PUSH_NULL                       
+                376     LOAD_FAST                       0: fn
+                378     PRECALL                         0
+                382     CALL                            0
+                392     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

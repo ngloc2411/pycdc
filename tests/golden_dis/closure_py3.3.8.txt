@@ -1,0 +1,82 @@
+[Code]
+    File Name: closure_py3.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'outer'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: closure_py3.py
+            Object Name: outer
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Var Names]
+                'x'
+                'inner'
+            [Free Vars]
+            [Cell Vars]
+                'x'
+                'y'
+            [Constants]
+                None
+                2
+                [Code]
+                    File Name: closure_py3.py
+                    Object Name: inner
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 2
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Var Names]
+                        'a'
+                    [Free Vars]
+                        'x'
+                        'y'
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_DEREF                      0: x
+                        2       LOAD_DEREF                      1: y
+                        4       BINARY_ADD                      
+                        6       LOAD_FAST                       0: a
+                        8       BINARY_ADD                      
+                        10      RETURN_VALUE                    
+                'outer.<locals>.inner'
+            [Disassembly]
+                0       LOAD_CONST                      1: 2
+                2       STORE_DEREF                     1: y
+                4       LOAD_CLOSURE                    0: x
+                6       LOAD_CLOSURE                    1: y
+                8       BUILD_TUPLE                     2
+                10      LOAD_CONST                      2: <CODE> inner
+                12      LOAD_CONST                      3: 'outer.<locals>.inner'
+                14      MAKE_FUNCTION                   8
+                16      STORE_FAST                      1: inner
+                18      LOAD_FAST                       1: inner
+                20      RETURN_VALUE                    
+        'outer'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> outer
+        2       LOAD_CONST                      1: 'outer'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: outer
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

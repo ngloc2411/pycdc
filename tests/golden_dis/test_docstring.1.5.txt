@@ -1,0 +1,263 @@
+[Code]
+    File Name: ../input/test_docstring.py
+    Object Name: ?
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000000
+    [Names]
+        '__doc__'
+        'Doc_Test'
+        'XXX'
+        'Y11'
+    [Var Names]
+    [Constants]
+        '\nModule docstring\n'
+        [Code]
+            File Name: ../input/test_docstring.py
+            Object Name: Doc_Test
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Var Names]
+            [Constants]
+                'Function docstring'
+                None
+            [Disassembly]
+                0       SET_LINENO                      5
+                3       SET_LINENO                      6
+                6       SET_LINENO                      7
+                9       LOAD_CONST                      1: None
+                12      RETURN_VALUE                    
+        'XXX'
+        [Code]
+            File Name: ../input/test_docstring.py
+            Object Name: XXX
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000002 (CO_NEWLOCALS)
+            [Names]
+                '__doc__'
+                '__init__'
+                'XXX11'
+                'XXX12'
+                'XXX13'
+            [Var Names]
+            [Constants]
+                'Class docstring'
+                [Code]
+                    File Name: ../input/test_docstring.py
+                    Object Name: __init__
+                    Arg Count: 1
+                    Locals: 2
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'self'
+                        'a'
+                        'XXX22'
+                    [Var Names]
+                        'self'
+                        'XXX22'
+                    [Constants]
+                        '__init__:  Member function docstring'
+                        1
+                        [Code]
+                            File Name: ../input/test_docstring.py
+                            Object Name: XXX22
+                            Arg Count: 0
+                            Locals: 0
+                            Stack Size: 1
+                            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                            [Names]
+                            [Var Names]
+                            [Constants]
+                                'XXX22: Nested function docstring'
+                                None
+                            [Disassembly]
+                                0       SET_LINENO                      16
+                                3       SET_LINENO                      17
+                                6       SET_LINENO                      18
+                                9       LOAD_CONST                      1: None
+                                12      RETURN_VALUE                    
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      12
+                        3       SET_LINENO                      13
+                        6       SET_LINENO                      14
+                        9       LOAD_CONST                      1: 1
+                        12      LOAD_FAST                       0: self
+                        15      STORE_ATTR                      1: a
+                        18      SET_LINENO                      16
+                        21      LOAD_CONST                      2: <CODE> XXX22
+                        24      MAKE_FUNCTION                   0
+                        27      STORE_FAST                      1: XXX22
+                        30      LOAD_CONST                      3: None
+                        33      RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/test_docstring.py
+                    Object Name: XXX11
+                    Arg Count: 0
+                    Locals: 0
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                    [Constants]
+                        'XXX11: Member Function docstring'
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      20
+                        3       SET_LINENO                      21
+                        6       SET_LINENO                      22
+                        9       LOAD_CONST                      1: None
+                        12      RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/test_docstring.py
+                    Object Name: XXX12
+                    Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'foo'
+                    [Var Names]
+                        'foo'
+                    [Constants]
+                        None
+                        'XXX12: Normal string'
+                    [Disassembly]
+                        0       SET_LINENO                      24
+                        3       SET_LINENO                      25
+                        6       LOAD_CONST                      1: 'XXX12: Normal string'
+                        9       STORE_FAST                      0: foo
+                        12      LOAD_CONST                      0: None
+                        15      RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/test_docstring.py
+                    Object Name: XXX13
+                    Arg Count: 0
+                    Locals: 0
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      27
+                        3       SET_LINENO                      28
+                        6       LOAD_CONST                      0: None
+                        9       RETURN_VALUE                    
+            [Disassembly]
+                0       SET_LINENO                      9
+                3       LOAD_CONST                      0: 'Class docstring'
+                6       STORE_NAME                      0: __doc__
+                9       SET_LINENO                      10
+                12      SET_LINENO                      12
+                15      LOAD_CONST                      1: <CODE> __init__
+                18      MAKE_FUNCTION                   0
+                21      STORE_NAME                      1: __init__
+                24      SET_LINENO                      20
+                27      LOAD_CONST                      2: <CODE> XXX11
+                30      MAKE_FUNCTION                   0
+                33      STORE_NAME                      2: XXX11
+                36      SET_LINENO                      24
+                39      LOAD_CONST                      3: <CODE> XXX12
+                42      MAKE_FUNCTION                   0
+                45      STORE_NAME                      3: XXX12
+                48      SET_LINENO                      27
+                51      LOAD_CONST                      4: <CODE> XXX13
+                54      MAKE_FUNCTION                   0
+                57      STORE_NAME                      4: XXX13
+                60      LOAD_LOCALS                     
+                61      RETURN_VALUE                    
+        [Code]
+            File Name: ../input/test_docstring.py
+            Object Name: Y11
+            Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'Y22'
+            [Var Names]
+                'Y22'
+            [Constants]
+                None
+                [Code]
+                    File Name: ../input/test_docstring.py
+                    Object Name: Y22
+                    Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'Y33'
+                    [Var Names]
+                        'Y33'
+                    [Constants]
+                        None
+                        [Code]
+                            File Name: ../input/test_docstring.py
+                            Object Name: Y33
+                            Arg Count: 0
+                            Locals: 0
+                            Stack Size: 1
+                            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                            [Names]
+                            [Var Names]
+                            [Constants]
+                                None
+                            [Disassembly]
+                                0       SET_LINENO                      32
+                                3       SET_LINENO                      33
+                                6       LOAD_CONST                      0: None
+                                9       RETURN_VALUE                    
+                    [Disassembly]
+                        0       SET_LINENO                      31
+                        3       SET_LINENO                      32
+                        6       LOAD_CONST                      1: <CODE> Y33
+                        9       MAKE_FUNCTION                   0
+                        12      STORE_FAST                      0: Y33
+                        15      LOAD_CONST                      0: None
+                        18      RETURN_VALUE                    
+            [Disassembly]
+                0       SET_LINENO                      30
+                3       SET_LINENO                      31
+                6       LOAD_CONST                      1: <CODE> Y22
+                9       MAKE_FUNCTION                   0
+                12      STORE_FAST                      0: Y22
+                15      LOAD_CONST                      0: None
+                18      RETURN_VALUE                    
+        None
+    [Disassembly]
+        0       SET_LINENO                      0
+        3       LOAD_CONST                      0: '\nModule docstring\n'
+        6       STORE_NAME                      0: __doc__
+        9       SET_LINENO                      3
+        12      SET_LINENO                      5
+        15      LOAD_CONST                      1: <CODE> Doc_Test
+        18      MAKE_FUNCTION                   0
+        21      STORE_NAME                      1: Doc_Test
+        24      SET_LINENO                      9
+        27      LOAD_CONST                      2: 'XXX'
+        30      BUILD_TUPLE                     0
+        33      LOAD_CONST                      3: <CODE> XXX
+        36      MAKE_FUNCTION                   0
+        39      CALL_FUNCTION                   0
+        42      BUILD_CLASS                     
+        43      STORE_NAME                      2: XXX
+        46      SET_LINENO                      30
+        49      LOAD_CONST                      4: <CODE> Y11
+        52      MAKE_FUNCTION                   0
+        55      STORE_NAME                      3: Y11
+        58      SET_LINENO                      35
+        61      LOAD_NAME                       0: __doc__
+        64      PRINT_ITEM                      
+        65      PRINT_NEWLINE                   
+        66      LOAD_CONST                      5: None
+        69      RETURN_VALUE                    

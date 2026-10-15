@@ -1,0 +1,194 @@
+[Code]
+    File Name: loop_tail_if.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+        'g'
+        'h'
+        'gen'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'xs'
+                'x'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: xs
+                4       GET_ITER                        
+                6       FOR_ITER                        19 (to 46)
+                8       STORE_FAST                      1: x
+                10      LOAD_FAST                       1: x
+                12      POP_JUMP_FORWARD_IF_FALSE       15 (to 44)
+                14      LOAD_GLOBAL                     1: NULL + print
+                26      LOAD_FAST                       1: x
+                28      PRECALL                         1
+                32      CALL                            1
+                42      POP_TOP                         
+                44      JUMP_BACKWARD                   20 (to 6)
+                46      LOAD_CONST                      1: 1
+                48      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: g
+            Qualified Name: g
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'xs'
+                'x'
+            [Constants]
+                None
+                2
+                'big'
+                5
+                'huge'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: xs
+                4       GET_ITER                        
+                6       FOR_ITER                        59 (to 126)
+                8       STORE_FAST                      1: x
+                10      LOAD_GLOBAL                     1: NULL + print
+                22      LOAD_FAST                       1: x
+                24      PRECALL                         1
+                28      CALL                            1
+                38      POP_TOP                         
+                40      LOAD_FAST                       1: x
+                42      LOAD_CONST                      1: 2
+                44      COMPARE_OP                      4 (>)
+                50      POP_JUMP_FORWARD_IF_FALSE       36 (to 124)
+                52      LOAD_GLOBAL                     1: NULL + print
+                64      LOAD_CONST                      2: 'big'
+                66      PRECALL                         1
+                70      CALL                            1
+                80      POP_TOP                         
+                82      LOAD_FAST                       1: x
+                84      LOAD_CONST                      3: 5
+                86      COMPARE_OP                      4 (>)
+                92      POP_JUMP_FORWARD_IF_FALSE       15 (to 124)
+                94      LOAD_GLOBAL                     1: NULL + print
+                106     LOAD_CONST                      4: 'huge'
+                108     PRECALL                         1
+                112     CALL                            1
+                122     POP_TOP                         
+                124     JUMP_BACKWARD                   60 (to 6)
+                126     LOAD_CONST                      0: None
+                128     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: h
+            Qualified Name: h
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'xs'
+                'x'
+            [Constants]
+                None
+                'zero'
+                'done'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: xs
+                4       GET_ITER                        
+                6       FOR_ITER                        19 (to 46)
+                8       STORE_FAST                      1: x
+                10      LOAD_FAST                       1: x
+                12      POP_JUMP_FORWARD_IF_TRUE        15 (to 44)
+                14      LOAD_GLOBAL                     1: NULL + print
+                26      LOAD_CONST                      1: 'zero'
+                28      PRECALL                         1
+                32      CALL                            1
+                42      POP_TOP                         
+                44      JUMP_BACKWARD                   20 (to 6)
+                46      LOAD_GLOBAL                     1: NULL + print
+                58      LOAD_CONST                      2: 'done'
+                60      PRECALL                         1
+                64      CALL                            1
+                74      POP_TOP                         
+                76      LOAD_CONST                      0: None
+                78      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: gen
+            Qualified Name: gen
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000023 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR)
+            [Names]
+            [Locals+Names]
+                'xs'
+                'x'
+            [Constants]
+                None
+            [Disassembly]
+                0       RETURN_GENERATOR                
+                2       POP_TOP                         
+                4       RESUME                          0
+                6       LOAD_FAST                       0: xs
+                8       GET_ITER                        
+                10      FOR_ITER                        8 (to 28)
+                12      STORE_FAST                      1: x
+                14      LOAD_FAST                       1: x
+                16      POP_JUMP_FORWARD_IF_FALSE       4 (to 26)
+                18      LOAD_FAST                       1: x
+                20      YIELD_VALUE                     
+                22      RESUME                          1
+                24      POP_TOP                         
+                26      JUMP_BACKWARD                   9 (to 10)
+                28      LOAD_CONST                      0: None
+                30      RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: <CODE> g
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: g
+        14      LOAD_CONST                      2: <CODE> h
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: h
+        20      LOAD_CONST                      3: <CODE> gen
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: gen
+        26      LOAD_CONST                      4: None
+        28      RETURN_VALUE                    
+    [Exception Table]

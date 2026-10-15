@@ -1,0 +1,166 @@
+[Code]
+    File Name: ../input/private_name.py
+    Object Name: ?
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000000
+    [Names]
+        'Klass'
+        'k'
+        'method'
+        '_internal_name'
+        '__private_name'
+    [Var Names]
+    [Constants]
+        'Klass'
+        [Code]
+            File Name: ../input/private_name.py
+            Object Name: Klass
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000002 (CO_NEWLOCALS)
+            [Names]
+                '__init__'
+                'method'
+                '_internal_name'
+                '_Klass__private_name'
+                'var'
+                '_internal_var'
+                '_Klass__private_var'
+            [Var Names]
+            [Constants]
+                None
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: __init__
+                    Arg Count: 1
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      7
+                        3       SET_LINENO                      8
+                        6       LOAD_CONST                      0: None
+                        9       RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: method
+                    Arg Count: 1
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      10
+                        3       SET_LINENO                      11
+                        6       LOAD_CONST                      0: None
+                        9       RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: _internal_name
+                    Arg Count: 1
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      13
+                        3       SET_LINENO                      14
+                        6       LOAD_CONST                      0: None
+                        9       RETURN_VALUE                    
+                [Code]
+                    File Name: ../input/private_name.py
+                    Object Name: __private_name
+                    Arg Count: 1
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       SET_LINENO                      16
+                        3       SET_LINENO                      17
+                        6       LOAD_CONST                      0: None
+                        9       RETURN_VALUE                    
+                1
+                2
+                3
+            [Disassembly]
+                0       SET_LINENO                      6
+                3       SET_LINENO                      7
+                6       LOAD_CONST                      1: <CODE> __init__
+                9       MAKE_FUNCTION                   0
+                12      STORE_NAME                      0: __init__
+                15      SET_LINENO                      10
+                18      LOAD_CONST                      2: <CODE> method
+                21      MAKE_FUNCTION                   0
+                24      STORE_NAME                      1: method
+                27      SET_LINENO                      13
+                30      LOAD_CONST                      3: <CODE> _internal_name
+                33      MAKE_FUNCTION                   0
+                36      STORE_NAME                      2: _internal_name
+                39      SET_LINENO                      16
+                42      LOAD_CONST                      4: <CODE> __private_name
+                45      MAKE_FUNCTION                   0
+                48      STORE_NAME                      3: _Klass__private_name
+                51      SET_LINENO                      19
+                54      LOAD_CONST                      5: 1
+                57      STORE_NAME                      4: var
+                60      SET_LINENO                      20
+                63      LOAD_CONST                      6: 2
+                66      STORE_NAME                      5: _internal_var
+                69      SET_LINENO                      21
+                72      LOAD_CONST                      7: 3
+                75      STORE_NAME                      6: _Klass__private_var
+                78      LOAD_LOCALS                     
+                79      RETURN_VALUE                    
+        None
+    [Disassembly]
+        0       SET_LINENO                      0
+        3       SET_LINENO                      6
+        6       LOAD_CONST                      0: 'Klass'
+        9       BUILD_TUPLE                     0
+        12      LOAD_CONST                      1: <CODE> Klass
+        15      MAKE_FUNCTION                   0
+        18      CALL_FUNCTION                   0
+        21      BUILD_CLASS                     
+        22      STORE_NAME                      0: Klass
+        25      SET_LINENO                      23
+        28      LOAD_NAME                       0: Klass
+        31      CALL_FUNCTION                   0
+        34      STORE_NAME                      1: k
+        37      SET_LINENO                      24
+        40      LOAD_NAME                       1: k
+        43      LOAD_ATTR                       2: method
+        46      CALL_FUNCTION                   0
+        49      POP_TOP                         
+        50      SET_LINENO                      25
+        53      LOAD_NAME                       1: k
+        56      LOAD_ATTR                       3: _internal_name
+        59      CALL_FUNCTION                   0
+        62      POP_TOP                         
+        63      SET_LINENO                      28
+        66      LOAD_NAME                       1: k
+        69      LOAD_ATTR                       4: __private_name
+        72      CALL_FUNCTION                   0
+        75      POP_TOP                         
+        76      LOAD_CONST                      2: None
+        79      RETURN_VALUE                    

@@ -1,0 +1,79 @@
+[Code]
+    File Name: ../tests/input/test_raise_varargs.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 2
+    Flags: 0x00000000
+    [Names]
+        'struct'
+        'bytes_to_words'
+    [Locals+Names]
+    [Constants]
+        0
+        None
+        [Code]
+            File Name: ../tests/input/test_raise_varargs.py
+            Object Name: bytes_to_words
+            Qualified Name: bytes_to_words
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 7
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'len'
+                'ValueError'
+                'struct'
+                'unpack'
+            [Locals+Names]
+                'b'
+            [Constants]
+                'Convert a byte string (little-endian) to a list of 32-bit words.'
+                4
+                0
+                'Input bytes length must be a multiple of 4 for word conversion.'
+                '<'
+                'I'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + len
+                12      LOAD_FAST                       0: b
+                14      CALL                            1
+                22      LOAD_CONST                      1: 4
+                24      BINARY_OP                       6 (%)
+                28      LOAD_CONST                      2: 0
+                30      COMPARE_OP                      55 (!=)
+                34      POP_JUMP_IF_FALSE               11 (to 58)
+                36      LOAD_GLOBAL                     3: NULL + ValueError
+                46      LOAD_CONST                      3: 'Input bytes length must be a multiple of 4 for word conversion.'
+                48      CALL                            1
+                56      RAISE_VARARGS                   1
+                58      LOAD_GLOBAL                     5: NULL + struct
+                68      LOAD_ATTR                       6: unpack
+                88      LOAD_CONST                      4: '<'
+                90      LOAD_CONST                      5: 'I'
+                92      LOAD_GLOBAL                     1: NULL + len
+                102     LOAD_FAST                       0: b
+                104     CALL                            1
+                112     LOAD_CONST                      1: 4
+                114     BINARY_OP                       2 (//)
+                118     BINARY_OP                       5 (*)
+                122     BINARY_OP                       0 (+)
+                126     LOAD_FAST                       0: b
+                128     CALL                            2
+                136     RETURN_VALUE                    
+            [Exception Table]
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: 0
+        4       LOAD_CONST                      1: None
+        6       IMPORT_NAME                     0: struct
+        8       STORE_NAME                      0: struct
+        10      LOAD_CONST                      2: <CODE> bytes_to_words
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: bytes_to_words
+        16      RETURN_CONST                    1: None
+    [Exception Table]

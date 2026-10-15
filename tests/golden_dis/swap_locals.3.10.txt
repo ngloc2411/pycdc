@@ -1,0 +1,94 @@
+[Code]
+    File Name: swap_locals.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'main'
+        'g'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: swap_locals.py
+            Object Name: main
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       LOAD_CONST                      1: (1, 2)
+                2       UNPACK_SEQUENCE                 2
+                4       STORE_FAST                      0: a
+                6       STORE_FAST                      1: b
+                8       LOAD_FAST                       1: b
+                10      LOAD_FAST                       0: a
+                12      ROT_TWO                         
+                14      STORE_FAST                      0: a
+                16      STORE_FAST                      1: b
+                18      LOAD_GLOBAL                     0: print
+                20      LOAD_FAST                       0: a
+                22      LOAD_FAST                       1: b
+                24      CALL_FUNCTION                   2
+                26      POP_TOP                         
+                28      LOAD_CONST                      0: None
+                30      RETURN_VALUE                    
+        'main'
+        [Code]
+            File Name: swap_locals.py
+            Object Name: g
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       1: b
+                2       LOAD_FAST                       0: a
+                4       ROT_TWO                         
+                6       STORE_FAST                      0: a
+                8       STORE_FAST                      1: b
+                10      LOAD_FAST                       0: a
+                12      RETURN_VALUE                    
+        'g'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> main
+        2       LOAD_CONST                      1: 'main'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: main
+        8       LOAD_CONST                      2: <CODE> g
+        10      LOAD_CONST                      3: 'g'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: g
+        16      LOAD_CONST                      4: None
+        18      RETURN_VALUE                    

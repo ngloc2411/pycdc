@@ -1,0 +1,117 @@
+[Code]
+    File Name: op_precedence.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'foo'
+        'bar'
+        'baz'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: op_precedence.py
+            Object Name: foo
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       2: c
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       1: b
+                6       BINARY_ADD                      
+                8       BINARY_SUBTRACT                 
+                10      RETURN_VALUE                    
+        'foo'
+        [Code]
+            File Name: op_precedence.py
+            Object Name: bar
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       LOAD_FAST                       2: c
+                6       BINARY_POWER                    
+                8       LOAD_FAST                       3: d
+                10      BINARY_MULTIPLY                 
+                12      BINARY_TRUE_DIVIDE              
+                14      RETURN_VALUE                    
+        'bar'
+        [Code]
+            File Name: op_precedence.py
+            Object Name: baz
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       LOAD_FAST                       2: c
+                6       BINARY_XOR                      
+                8       LOAD_FAST                       3: d
+                10      BINARY_ADD                      
+                12      BINARY_SUBTRACT                 
+                14      RETURN_VALUE                    
+        'baz'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> foo
+        2       LOAD_CONST                      1: 'foo'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: foo
+        8       LOAD_CONST                      2: <CODE> bar
+        10      LOAD_CONST                      3: 'bar'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: bar
+        16      LOAD_CONST                      4: <CODE> baz
+        18      LOAD_CONST                      5: 'baz'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: baz
+        24      LOAD_CONST                      6: None
+        26      RETURN_VALUE                    

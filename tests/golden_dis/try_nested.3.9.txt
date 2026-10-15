@@ -1,0 +1,78 @@
+[Code]
+    File Name: try_nested.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: try_nested.py
+            Object Name: f
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 8
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'RuntimeError'
+                'ValueError'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'a'
+                'b'
+            [Disassembly]
+                0       SETUP_FINALLY                   44 (to 46)
+                2       SETUP_FINALLY                   12 (to 16)
+                4       LOAD_GLOBAL                     0: RuntimeError
+                6       LOAD_CONST                      1: 'a'
+                8       CALL_FUNCTION                   1
+                10      RAISE_VARARGS                   1
+                12      POP_BLOCK                       
+                14      JUMP_FORWARD                    26 (to 42)
+                16      DUP_TOP                         
+                18      LOAD_GLOBAL                     0: RuntimeError
+                20      JUMP_IF_NOT_EXC_MATCH           40
+                22      POP_TOP                         
+                24      POP_TOP                         
+                26      POP_TOP                         
+                28      LOAD_GLOBAL                     1: ValueError
+                30      LOAD_CONST                      2: 'b'
+                32      CALL_FUNCTION                   1
+                34      RAISE_VARARGS                   1
+                36      POP_EXCEPT                      
+                38      JUMP_FORWARD                    2 (to 42)
+                40      RERAISE                         
+                42      POP_BLOCK                       
+                44      JUMP_FORWARD                    18 (to 64)
+                46      DUP_TOP                         
+                48      LOAD_GLOBAL                     1: ValueError
+                50      JUMP_IF_NOT_EXC_MATCH           62
+                52      POP_TOP                         
+                54      POP_TOP                         
+                56      POP_TOP                         
+                58      POP_EXCEPT                      
+                60      JUMP_FORWARD                    2 (to 64)
+                62      RERAISE                         
+                64      LOAD_CONST                      0: None
+                66      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

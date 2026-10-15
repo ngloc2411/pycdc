@@ -1,0 +1,89 @@
+[Code]
+    File Name: ../input/test_divide_future.py
+    Object Name: ?
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00002000 (<0x2000>)
+    [Names]
+        '__future__'
+        'division'
+        'ai'
+        'bi'
+        'af'
+        'bf'
+    [Var Names]
+        'ai'
+        'division'
+        'bf'
+        'bi'
+        'af'
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        (
+            'division'
+        )
+        1
+        2
+        1.5
+        2.5
+        '  1 // 2   ='
+        '1.5 // 2.5 ='
+        '  1 /  2   ='
+        '1.5 /  2.5 ='
+        None
+    [Disassembly]
+        0       SET_LINENO                      0
+        3       SET_LINENO                      1
+        6       LOAD_CONST                      0: ('division',)
+        9       IMPORT_NAME                     0: __future__
+        12      IMPORT_FROM                     1: division
+        15      STORE_NAME                      1: division
+        18      POP_TOP                         
+        19      SET_LINENO                      3
+        22      LOAD_CONST                      1: 1
+        25      STORE_NAME                      2: ai
+        28      SET_LINENO                      4
+        31      LOAD_CONST                      2: 2
+        34      STORE_NAME                      3: bi
+        37      SET_LINENO                      5
+        40      LOAD_CONST                      3: 1.5
+        43      STORE_NAME                      4: af
+        46      SET_LINENO                      6
+        49      LOAD_CONST                      4: 2.5
+        52      STORE_NAME                      5: bf
+        55      SET_LINENO                      8
+        58      LOAD_CONST                      5: '  1 // 2   ='
+        61      PRINT_ITEM                      
+        62      LOAD_NAME                       2: ai
+        65      LOAD_NAME                       3: bi
+        68      BINARY_FLOOR_DIVIDE             
+        69      PRINT_ITEM                      
+        70      PRINT_NEWLINE                   
+        71      SET_LINENO                      9
+        74      LOAD_CONST                      6: '1.5 // 2.5 ='
+        77      PRINT_ITEM                      
+        78      LOAD_NAME                       4: af
+        81      LOAD_NAME                       5: bf
+        84      BINARY_FLOOR_DIVIDE             
+        85      PRINT_ITEM                      
+        86      PRINT_NEWLINE                   
+        87      SET_LINENO                      10
+        90      LOAD_CONST                      7: '  1 /  2   ='
+        93      PRINT_ITEM                      
+        94      LOAD_NAME                       2: ai
+        97      LOAD_NAME                       3: bi
+        100     BINARY_TRUE_DIVIDE              
+        101     PRINT_ITEM                      
+        102     PRINT_NEWLINE                   
+        103     SET_LINENO                      11
+        106     LOAD_CONST                      8: '1.5 /  2.5 ='
+        109     PRINT_ITEM                      
+        110     LOAD_NAME                       4: af
+        113     LOAD_NAME                       5: bf
+        116     BINARY_TRUE_DIVIDE              
+        117     PRINT_ITEM                      
+        118     PRINT_NEWLINE                   
+        119     LOAD_CONST                      9: None
+        122     RETURN_VALUE                    

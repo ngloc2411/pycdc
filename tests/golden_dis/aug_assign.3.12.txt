@@ -1,0 +1,491 @@
+[Code]
+    File Name: aug_assign.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'use'
+        'aug_idx'
+        'aug_idx_expr'
+        'aug_slice'
+        'aug_slice_open'
+        'aug_slice_step'
+        'aug_attr'
+        'aug_attr_call'
+        'aug_sub_call'
+        'aug_nested'
+        'aug_global_like'
+        'aug_tuple_idx'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: use
+            Qualified Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000007 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS)
+            [Names]
+            [Locals+Names]
+                'a'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_idx
+            Qualified Name: aug_idx
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 0
+                6       COPY                            2
+                8       COPY                            2
+                10      BINARY_SUBSCR                   
+                14      LOAD_FAST                       1: b
+                16      BINARY_OP                       23 (-=)
+                20      SWAP                            3
+                22      SWAP                            2
+                24      STORE_SUBSCR                    
+                28      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_idx_expr
+            Qualified Name: aug_idx_expr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'i'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       2: i
+                6       LOAD_CONST                      1: 1
+                8       BINARY_OP                       0 (+)
+                12      COPY                            2
+                14      COPY                            2
+                16      BINARY_SUBSCR                   
+                20      LOAD_FAST                       1: b
+                22      BINARY_OP                       18 (*=)
+                26      SWAP                            3
+                28      SWAP                            2
+                30      STORE_SUBSCR                    
+                34      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice
+            Qualified Name: aug_slice
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+                3
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 1
+                6       LOAD_CONST                      2: 3
+                8       COPY                            3
+                10      COPY                            3
+                12      COPY                            3
+                14      BINARY_SLICE                    
+                16      LOAD_FAST                       1: b
+                18      BINARY_OP                       13 (+=)
+                22      SWAP                            4
+                24      SWAP                            3
+                26      SWAP                            2
+                28      STORE_SLICE                     
+                30      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice_open
+            Qualified Name: aug_slice_open
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      0: None
+                6       LOAD_CONST                      1: 2
+                8       COPY                            3
+                10      COPY                            3
+                12      COPY                            3
+                14      BINARY_SLICE                    
+                16      LOAD_FAST                       1: b
+                18      BINARY_OP                       13 (+=)
+                22      SWAP                            4
+                24      SWAP                            3
+                26      SWAP                            2
+                28      STORE_SLICE                     
+                30      LOAD_FAST                       0: a
+                32      LOAD_CONST                      1: 2
+                34      LOAD_CONST                      0: None
+                36      COPY                            3
+                38      COPY                            3
+                40      COPY                            3
+                42      BINARY_SLICE                    
+                44      LOAD_FAST                       1: b
+                46      BINARY_OP                       13 (+=)
+                50      SWAP                            4
+                52      SWAP                            3
+                54      SWAP                            2
+                56      STORE_SLICE                     
+                58      LOAD_FAST                       0: a
+                60      LOAD_CONST                      0: None
+                62      LOAD_CONST                      0: None
+                64      COPY                            3
+                66      COPY                            3
+                68      COPY                            3
+                70      BINARY_SLICE                    
+                72      LOAD_FAST                       1: b
+                74      BINARY_OP                       13 (+=)
+                78      SWAP                            4
+                80      SWAP                            3
+                82      SWAP                            2
+                84      STORE_SLICE                     
+                86      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_slice_step
+            Qualified Name: aug_slice_step
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      0: None
+                6       LOAD_CONST                      0: None
+                8       LOAD_CONST                      1: 2
+                10      BUILD_SLICE                     3
+                12      COPY                            2
+                14      COPY                            2
+                16      BINARY_SUBSCR                   
+                20      LOAD_FAST                       1: b
+                22      BINARY_OP                       13 (+=)
+                26      SWAP                            3
+                28      SWAP                            2
+                30      STORE_SUBSCR                    
+                34      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_attr
+            Qualified Name: aug_attr
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'x'
+                'y'
+                'z'
+            [Locals+Names]
+                'o'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: o
+                4       COPY                            1
+                6       LOAD_ATTR                       0: x
+                26      LOAD_FAST                       1: b
+                28      BINARY_OP                       13 (+=)
+                32      SWAP                            2
+                34      STORE_ATTR                      0: x
+                44      LOAD_FAST                       0: o
+                46      LOAD_ATTR                       2: y
+                66      COPY                            1
+                68      LOAD_ATTR                       4: z
+                88      LOAD_FAST                       1: b
+                90      BINARY_OP                       23 (-=)
+                94      SWAP                            2
+                96      STORE_ATTR                      2: z
+                106     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_attr_call
+            Qualified Name: aug_attr_call
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+                'x'
+            [Locals+Names]
+                'o'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + use
+                12      LOAD_FAST                       0: o
+                14      CALL                            1
+                22      COPY                            1
+                24      LOAD_ATTR                       2: x
+                44      LOAD_FAST                       1: b
+                46      BINARY_OP                       13 (+=)
+                50      SWAP                            2
+                52      STORE_ATTR                      1: x
+                62      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_sub_call
+            Qualified Name: aug_sub_call
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_GLOBAL                     1: NULL + use
+                14      LOAD_CONST                      1: 1
+                16      CALL                            1
+                24      COPY                            2
+                26      COPY                            2
+                28      BINARY_SUBSCR                   
+                32      LOAD_FAST                       1: b
+                34      BINARY_OP                       13 (+=)
+                38      SWAP                            3
+                40      SWAP                            2
+                42      STORE_SUBSCR                    
+                46      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_nested
+            Qualified Name: aug_nested
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'i'
+                'j'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       2: i
+                6       BINARY_SUBSCR                   
+                10      LOAD_FAST                       3: j
+                12      COPY                            2
+                14      COPY                            2
+                16      BINARY_SUBSCR                   
+                20      LOAD_FAST                       1: b
+                22      BINARY_OP                       13 (+=)
+                26      SWAP                            3
+                28      SWAP                            2
+                30      STORE_SUBSCR                    
+                34      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_global_like
+            Qualified Name: aug_global_like
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                2
+                1
+                3
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       1: b
+                6       COPY                            2
+                8       COPY                            2
+                10      BINARY_SUBSCR                   
+                14      LOAD_CONST                      1: 2
+                16      BINARY_OP                       15 (//=)
+                20      SWAP                            3
+                22      SWAP                            2
+                24      STORE_SUBSCR                    
+                28      LOAD_FAST                       0: a
+                30      LOAD_FAST                       1: b
+                32      COPY                            2
+                34      COPY                            2
+                36      BINARY_SUBSCR                   
+                40      LOAD_CONST                      2: 1
+                42      BINARY_OP                       16 (<<=)
+                46      SWAP                            3
+                48      SWAP                            2
+                50      STORE_SUBSCR                    
+                54      LOAD_FAST                       0: a
+                56      LOAD_FAST                       1: b
+                58      COPY                            2
+                60      COPY                            2
+                62      BINARY_SUBSCR                   
+                66      LOAD_CONST                      3: 3
+                68      BINARY_OP                       20 (|=)
+                72      SWAP                            3
+                74      SWAP                            2
+                76      STORE_SUBSCR                    
+                80      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: aug_assign.py
+            Object Name: aug_tuple_idx
+            Qualified Name: aug_tuple_idx
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: (1, 2)
+                6       COPY                            2
+                8       COPY                            2
+                10      BINARY_SUBSCR                   
+                14      LOAD_FAST                       1: b
+                16      BINARY_OP                       13 (+=)
+                20      SWAP                            3
+                22      SWAP                            2
+                24      STORE_SUBSCR                    
+                28      RETURN_CONST                    0: None
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> use
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      1: <CODE> aug_idx
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: aug_idx
+        14      LOAD_CONST                      2: <CODE> aug_idx_expr
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: aug_idx_expr
+        20      LOAD_CONST                      3: <CODE> aug_slice
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: aug_slice
+        26      LOAD_CONST                      4: <CODE> aug_slice_open
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      4: aug_slice_open
+        32      LOAD_CONST                      5: <CODE> aug_slice_step
+        34      MAKE_FUNCTION                   0
+        36      STORE_NAME                      5: aug_slice_step
+        38      LOAD_CONST                      6: <CODE> aug_attr
+        40      MAKE_FUNCTION                   0
+        42      STORE_NAME                      6: aug_attr
+        44      LOAD_CONST                      7: <CODE> aug_attr_call
+        46      MAKE_FUNCTION                   0
+        48      STORE_NAME                      7: aug_attr_call
+        50      LOAD_CONST                      8: <CODE> aug_sub_call
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      8: aug_sub_call
+        56      LOAD_CONST                      9: <CODE> aug_nested
+        58      MAKE_FUNCTION                   0
+        60      STORE_NAME                      9: aug_nested
+        62      LOAD_CONST                      10: <CODE> aug_global_like
+        64      MAKE_FUNCTION                   0
+        66      STORE_NAME                      10: aug_global_like
+        68      LOAD_CONST                      11: <CODE> aug_tuple_idx
+        70      MAKE_FUNCTION                   0
+        72      STORE_NAME                      11: aug_tuple_idx
+        74      RETURN_CONST                    12: None
+    [Exception Table]

@@ -1,0 +1,41 @@
+[Code]
+    File Name: ../input/unicode_future.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        '__future__'
+        'unicode_literals'
+        'ustr'
+        'bstr'
+        'dstr'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        0
+        (
+            'unicode_literals'
+        )
+        'Unicode'
+        b'Bytes'
+        'Default'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 0
+        2       LOAD_CONST                      1: ('unicode_literals',)
+        4       IMPORT_NAME                     0: __future__
+        6       IMPORT_FROM                     1: unicode_literals
+        8       STORE_NAME                      1: unicode_literals
+        10      POP_TOP                         
+        12      LOAD_CONST                      2: 'Unicode'
+        14      STORE_NAME                      2: ustr
+        16      LOAD_CONST                      3: b'Bytes'
+        18      STORE_NAME                      3: bstr
+        20      LOAD_CONST                      4: 'Default'
+        22      STORE_NAME                      4: dstr
+        24      LOAD_CONST                      5: None
+        26      RETURN_VALUE                    

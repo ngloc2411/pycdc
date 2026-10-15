@@ -1,0 +1,92 @@
+[Code]
+    File Name: augassign_all.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: augassign_all.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+            [Constants]
+                None
+                1
+                2
+                3
+                7
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 1
+                6       BINARY_OP                       13 (+=)
+                10      STORE_FAST                      0: a
+                12      LOAD_FAST                       0: a
+                14      LOAD_CONST                      2: 2
+                16      BINARY_OP                       23 (-=)
+                20      STORE_FAST                      0: a
+                22      LOAD_FAST                       0: a
+                24      LOAD_CONST                      3: 3
+                26      BINARY_OP                       18 (*=)
+                30      STORE_FAST                      0: a
+                32      LOAD_FAST                       0: a
+                34      LOAD_CONST                      2: 2
+                36      BINARY_OP                       15 (//=)
+                40      STORE_FAST                      0: a
+                42      LOAD_FAST                       0: a
+                44      LOAD_CONST                      4: 7
+                46      BINARY_OP                       19 (%=)
+                50      STORE_FAST                      0: a
+                52      LOAD_FAST                       0: a
+                54      LOAD_CONST                      1: 1
+                56      BINARY_OP                       20 (|=)
+                60      STORE_FAST                      0: a
+                62      LOAD_FAST                       0: a
+                64      LOAD_CONST                      4: 7
+                66      BINARY_OP                       14 (&=)
+                70      STORE_FAST                      0: a
+                72      LOAD_FAST                       0: a
+                74      LOAD_CONST                      2: 2
+                76      BINARY_OP                       25 (^=)
+                80      STORE_FAST                      0: a
+                82      LOAD_FAST                       0: a
+                84      LOAD_CONST                      1: 1
+                86      BINARY_OP                       16 (<<=)
+                90      STORE_FAST                      0: a
+                92      LOAD_FAST                       0: a
+                94      LOAD_CONST                      1: 1
+                96      BINARY_OP                       22 (>>=)
+                100     STORE_FAST                      0: a
+                102     LOAD_FAST                       0: a
+                104     LOAD_CONST                      2: 2
+                106     BINARY_OP                       21 (**=)
+                110     STORE_FAST                      0: a
+                112     LOAD_FAST                       0: a
+                114     LOAD_CONST                      2: 2
+                116     BINARY_OP                       24 (/=)
+                120     STORE_FAST                      0: a
+                122     LOAD_FAST                       0: a
+                124     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       RETURN_CONST                    1: None
+    [Exception Table]

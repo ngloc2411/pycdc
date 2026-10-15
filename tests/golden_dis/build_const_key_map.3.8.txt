@@ -1,0 +1,67 @@
+[Code]
+    File Name: build_const_key_map.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 10
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'cookie'
+        'constant_headers_1'
+        'constant_headers_2'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1
+        'application/json'
+        'gzip, deflate, br'
+        'es,ca;q=0.9,en;q=0.8'
+        'no-cache'
+        'keep-alive'
+        'application/x-www-form-urlencoded'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        (
+            'Accept'
+            'Accept-Encoding'
+            'Accept-Language'
+            'Cache-Control'
+            'Connection'
+            'Content-Type'
+            'Pragma'
+            'User-Agent'
+            'Cookie'
+        )
+        'constant cookie'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 1
+        2       STORE_NAME                      0: cookie
+        4       LOAD_CONST                      1: 'application/json'
+        6       LOAD_CONST                      2: 'gzip, deflate, br'
+        8       LOAD_CONST                      3: 'es,ca;q=0.9,en;q=0.8'
+        10      LOAD_CONST                      4: 'no-cache'
+        12      LOAD_CONST                      5: 'keep-alive'
+        14      LOAD_CONST                      6: 'application/x-www-form-urlencoded'
+        16      LOAD_CONST                      4: 'no-cache'
+        18      LOAD_CONST                      7: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        20      LOAD_NAME                       0: cookie
+        22      LOAD_CONST                      8: ('Accept', 'Accept-Encoding', 'Accept-Language', 'Cache-Control', 'Connection', 'Content-Type', 'Pragma', 'User-Agent', 'Cookie')
+        24      BUILD_CONST_KEY_MAP             9
+        26      STORE_NAME                      1: constant_headers_1
+        28      LOAD_CONST                      1: 'application/json'
+        30      LOAD_CONST                      2: 'gzip, deflate, br'
+        32      LOAD_CONST                      3: 'es,ca;q=0.9,en;q=0.8'
+        34      LOAD_CONST                      4: 'no-cache'
+        36      LOAD_CONST                      5: 'keep-alive'
+        38      LOAD_CONST                      6: 'application/x-www-form-urlencoded'
+        40      LOAD_CONST                      4: 'no-cache'
+        42      LOAD_CONST                      7: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        44      LOAD_CONST                      9: 'constant cookie'
+        46      LOAD_CONST                      8: ('Accept', 'Accept-Encoding', 'Accept-Language', 'Cache-Control', 'Connection', 'Content-Type', 'Pragma', 'User-Agent', 'Cookie')
+        48      BUILD_CONST_KEY_MAP             9
+        50      STORE_NAME                      2: constant_headers_2
+        52      LOAD_CONST                      10: None
+        54      RETURN_VALUE                    

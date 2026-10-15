@@ -1,0 +1,91 @@
+[Code]
+    File Name: import_forms.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 2
+    Flags: 0x00000000
+    [Names]
+        'os.path'
+        'os'
+        'path'
+        'p'
+        'q'
+        'sep'
+        'collections'
+        'OrderedDict'
+        ''
+        'sibling'
+        'parent'
+        'pkg'
+        'thing'
+    [Locals+Names]
+    [Constants]
+        0
+        None
+        (
+            'path'
+            'sep'
+        )
+        (
+            'OrderedDict'
+        )
+        1
+        (
+            'sibling'
+        )
+        2
+        (
+            'parent'
+        )
+        (
+            'thing'
+        )
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: 0
+        4       LOAD_CONST                      1: None
+        6       IMPORT_NAME                     0: os.path
+        8       STORE_NAME                      1: os
+        10      LOAD_CONST                      0: 0
+        12      LOAD_CONST                      1: None
+        14      IMPORT_NAME                     0: os.path
+        16      IMPORT_FROM                     2: path
+        18      STORE_NAME                      3: p
+        20      POP_TOP                         
+        22      LOAD_CONST                      0: 0
+        24      LOAD_CONST                      2: ('path', 'sep')
+        26      IMPORT_NAME                     1: os
+        28      IMPORT_FROM                     2: path
+        30      STORE_NAME                      4: q
+        32      IMPORT_FROM                     5: sep
+        34      STORE_NAME                      5: sep
+        36      POP_TOP                         
+        38      LOAD_CONST                      0: 0
+        40      LOAD_CONST                      3: ('OrderedDict',)
+        42      IMPORT_NAME                     6: collections
+        44      IMPORT_FROM                     7: OrderedDict
+        46      STORE_NAME                      7: OrderedDict
+        48      POP_TOP                         
+        50      LOAD_CONST                      4: 1
+        52      LOAD_CONST                      5: ('sibling',)
+        54      IMPORT_NAME                     8: 
+        56      IMPORT_FROM                     9: sibling
+        58      STORE_NAME                      9: sibling
+        60      POP_TOP                         
+        62      LOAD_CONST                      6: 2
+        64      LOAD_CONST                      7: ('parent',)
+        66      IMPORT_NAME                     8: 
+        68      IMPORT_FROM                     10: parent
+        70      STORE_NAME                      10: parent
+        72      POP_TOP                         
+        74      LOAD_CONST                      4: 1
+        76      LOAD_CONST                      8: ('thing',)
+        78      IMPORT_NAME                     11: pkg
+        80      IMPORT_FROM                     12: thing
+        82      STORE_NAME                      12: thing
+        84      POP_TOP                         
+        86      RETURN_CONST                    1: None
+    [Exception Table]

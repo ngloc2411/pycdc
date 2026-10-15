@@ -1,0 +1,41 @@
+[Code]
+    File Name: ../input/unpack_assign.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'x'
+        'a'
+        'b'
+        'c'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        (
+            1
+            2
+            3
+        )
+        (
+            1
+        )
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: (1, 2, 3)
+        2       STORE_NAME                      0: x
+        4       LOAD_NAME                       0: x
+        6       UNPACK_SEQUENCE                 3
+        8       STORE_NAME                      1: a
+        10      STORE_NAME                      2: b
+        12      STORE_NAME                      3: c
+        14      LOAD_CONST                      1: (1,)
+        16      STORE_NAME                      0: x
+        18      LOAD_NAME                       0: x
+        20      UNPACK_SEQUENCE                 1
+        22      STORE_NAME                      1: a
+        24      LOAD_CONST                      2: None
+        26      RETURN_VALUE                    

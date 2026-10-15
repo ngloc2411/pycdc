@@ -1,0 +1,1132 @@
+[Code]
+    File Name: unpack_star.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'use'
+        'un_basic'
+        'un_nested'
+        'un_star_tail'
+        'un_star_head'
+        'un_star_mid'
+        'un_star_only'
+        'un_star_nested'
+        'un_attr'
+        'un_sub'
+        'un_mixed'
+        'un_swap'
+        'un_swap3'
+        'un_literal'
+        'un_for'
+        'un_comp'
+        'un_chain'
+        'un_chain_unpack'
+        'un_with_assign'
+        'un_star_call'
+        'un_star_list'
+        'un_star_tuple'
+        'un_star_set'
+        'un_dict_star'
+        'un_call_kw'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: use
+            Qualified Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000007 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS)
+            [Names]
+            [Locals+Names]
+                'a'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_basic
+            Qualified Name: un_basic
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 7
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'p'
+                'q'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_SEQUENCE                 2
+                8       STORE_FAST                      1: x
+                10      STORE_FAST                      2: y
+                12      LOAD_FAST                       0: a
+                14      UNPACK_SEQUENCE                 3
+                18      STORE_FAST                      3: p
+                20      STORE_FAST                      4: q
+                22      STORE_FAST                      5: r
+                24      LOAD_GLOBAL                     1: NULL + use
+                36      LOAD_FAST                       1: x
+                38      LOAD_FAST                       2: y
+                40      LOAD_FAST                       3: p
+                42      LOAD_FAST                       4: q
+                44      LOAD_FAST                       5: r
+                46      PRECALL                         5
+                50      CALL                            5
+                60      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_nested
+            Qualified Name: un_nested
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 11
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'r'
+                's'
+                't'
+                'u'
+                'v'
+                'm'
+                'n'
+                'o'
+                'p'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_SEQUENCE                 2
+                8       UNPACK_SEQUENCE                 2
+                12      STORE_FAST                      1: r
+                14      STORE_FAST                      2: s
+                16      STORE_FAST                      3: t
+                18      LOAD_FAST                       0: a
+                20      UNPACK_SEQUENCE                 2
+                24      STORE_FAST                      4: u
+                26      STORE_FAST                      5: v
+                28      LOAD_FAST                       0: a
+                30      UNPACK_SEQUENCE                 2
+                34      UNPACK_SEQUENCE                 2
+                38      STORE_FAST                      6: m
+                40      STORE_FAST                      7: n
+                42      UNPACK_SEQUENCE                 2
+                46      STORE_FAST                      8: o
+                48      STORE_FAST                      9: p
+                50      LOAD_GLOBAL                     1: NULL + use
+                62      LOAD_FAST                       1: r
+                64      LOAD_FAST                       2: s
+                66      LOAD_FAST                       3: t
+                68      LOAD_FAST                       4: u
+                70      LOAD_FAST                       5: v
+                72      LOAD_FAST                       6: m
+                74      LOAD_FAST                       7: n
+                76      LOAD_FAST                       8: o
+                78      LOAD_FAST                       9: p
+                80      PRECALL                         9
+                84      CALL                            9
+                94      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_tail
+            Qualified Name: un_star_tail
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'first'
+                'rest'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_EX                       1
+                6       STORE_FAST                      1: first
+                8       STORE_FAST                      2: rest
+                10      LOAD_GLOBAL                     1: NULL + use
+                22      LOAD_FAST                       1: first
+                24      LOAD_FAST                       2: rest
+                26      PRECALL                         2
+                30      CALL                            2
+                40      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_head
+            Qualified Name: un_star_head
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'init'
+                'last'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_EX                       256
+                8       STORE_FAST                      1: init
+                10      STORE_FAST                      2: last
+                12      LOAD_GLOBAL                     1: NULL + use
+                24      LOAD_FAST                       1: init
+                26      LOAD_FAST                       2: last
+                28      PRECALL                         2
+                32      CALL                            2
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_mid
+            Qualified Name: un_star_mid
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'first'
+                'mid'
+                'last'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_EX                       257
+                8       STORE_FAST                      1: first
+                10      STORE_FAST                      2: mid
+                12      STORE_FAST                      3: last
+                14      LOAD_GLOBAL                     1: NULL + use
+                26      LOAD_FAST                       1: first
+                28      LOAD_FAST                       2: mid
+                30      LOAD_FAST                       3: last
+                32      PRECALL                         3
+                36      CALL                            3
+                46      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_only
+            Qualified Name: un_star_only
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_EX                       2
+                6       STORE_FAST                      1: x
+                8       STORE_FAST                      2: y
+                10      STORE_FAST                      3: z
+                12      LOAD_GLOBAL                     1: NULL + use
+                24      LOAD_FAST                       1: x
+                26      LOAD_FAST                       2: y
+                28      LOAD_FAST                       3: z
+                30      PRECALL                         3
+                34      CALL                            3
+                44      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_nested
+            Qualified Name: un_star_nested
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'p'
+                'q'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       UNPACK_SEQUENCE                 2
+                8       UNPACK_EX                       1
+                10      STORE_FAST                      1: p
+                12      STORE_FAST                      2: q
+                14      STORE_FAST                      3: r
+                16      LOAD_GLOBAL                     1: NULL + use
+                28      LOAD_FAST                       1: p
+                30      LOAD_FAST                       2: q
+                32      LOAD_FAST                       3: r
+                34      PRECALL                         3
+                38      CALL                            3
+                48      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_attr
+            Qualified Name: un_attr
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'x'
+                'y'
+            [Locals+Names]
+                'o'
+                'a'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       1: a
+                4       UNPACK_SEQUENCE                 2
+                8       LOAD_FAST                       0: o
+                10      STORE_ATTR                      0: x
+                20      LOAD_FAST                       0: o
+                22      STORE_ATTR                      1: y
+                32      LOAD_FAST                       0: o
+                34      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_sub
+            Qualified Name: un_sub
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'd'
+                'a'
+            [Constants]
+                None
+                0
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       1: a
+                4       UNPACK_SEQUENCE                 2
+                8       LOAD_FAST                       0: d
+                10      LOAD_CONST                      1: 0
+                12      STORE_SUBSCR                    
+                16      LOAD_FAST                       0: d
+                18      LOAD_CONST                      2: 1
+                20      STORE_SUBSCR                    
+                24      LOAD_FAST                       0: d
+                26      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_mixed
+            Qualified Name: un_mixed
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'x'
+                'use'
+            [Locals+Names]
+                'o'
+                'd'
+                'a'
+                'z'
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       2: a
+                4       UNPACK_SEQUENCE                 3
+                8       LOAD_FAST                       0: o
+                10      STORE_ATTR                      0: x
+                20      LOAD_FAST                       1: d
+                22      LOAD_CONST                      1: 0
+                24      STORE_SUBSCR                    
+                28      STORE_FAST                      3: z
+                30      LOAD_GLOBAL                     3: NULL + use
+                42      LOAD_FAST                       0: o
+                44      LOAD_FAST                       1: d
+                46      LOAD_FAST                       3: z
+                48      PRECALL                         3
+                52      CALL                            3
+                62      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_swap
+            Qualified Name: un_swap
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       1: b
+                4       LOAD_FAST                       0: a
+                6       STORE_FAST                      1: b
+                8       STORE_FAST                      0: a
+                10      LOAD_GLOBAL                     1: NULL + use
+                22      LOAD_FAST                       0: a
+                24      LOAD_FAST                       1: b
+                26      PRECALL                         2
+                30      CALL                            2
+                40      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_swap3
+            Qualified Name: un_swap3
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       2: c
+                4       LOAD_FAST                       0: a
+                6       LOAD_FAST                       1: b
+                8       STORE_FAST                      2: c
+                10      STORE_FAST                      1: b
+                12      STORE_FAST                      0: a
+                14      LOAD_GLOBAL                     1: NULL + use
+                26      LOAD_FAST                       0: a
+                28      LOAD_FAST                       1: b
+                30      LOAD_FAST                       2: c
+                32      PRECALL                         3
+                36      CALL                            3
+                46      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_literal
+            Qualified Name: un_literal
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'x'
+                'y'
+            [Constants]
+                None
+                (
+                    1
+                    2
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: (1, 2)
+                4       UNPACK_SEQUENCE                 2
+                8       STORE_FAST                      0: x
+                10      STORE_FAST                      1: y
+                12      LOAD_GLOBAL                     1: NULL + use
+                24      LOAD_FAST                       0: x
+                26      LOAD_FAST                       1: y
+                28      PRECALL                         2
+                32      CALL                            2
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_for
+            Qualified Name: un_for
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'items'
+                'k'
+                'v'
+                'a'
+                'b'
+                'c'
+                'first'
+                'rest'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        21 (to 50)
+                8       UNPACK_SEQUENCE                 2
+                12      STORE_FAST                      1: k
+                14      STORE_FAST                      2: v
+                16      LOAD_GLOBAL                     1: NULL + use
+                28      LOAD_FAST                       1: k
+                30      LOAD_FAST                       2: v
+                32      PRECALL                         2
+                36      CALL                            2
+                46      POP_TOP                         
+                48      JUMP_BACKWARD                   22 (to 6)
+                50      LOAD_FAST                       0: items
+                52      GET_ITER                        
+                54      FOR_ITER                        25 (to 106)
+                56      UNPACK_SEQUENCE                 2
+                60      STORE_FAST                      3: a
+                62      UNPACK_SEQUENCE                 2
+                66      STORE_FAST                      4: b
+                68      STORE_FAST                      5: c
+                70      LOAD_GLOBAL                     1: NULL + use
+                82      LOAD_FAST                       3: a
+                84      LOAD_FAST                       4: b
+                86      LOAD_FAST                       5: c
+                88      PRECALL                         3
+                92      CALL                            3
+                102     POP_TOP                         
+                104     JUMP_BACKWARD                   26 (to 54)
+                106     LOAD_FAST                       0: items
+                108     GET_ITER                        
+                110     FOR_ITER                        20 (to 152)
+                112     UNPACK_EX                       1
+                114     STORE_FAST                      6: first
+                116     STORE_FAST                      7: rest
+                118     LOAD_GLOBAL                     1: NULL + use
+                130     LOAD_FAST                       6: first
+                132     LOAD_FAST                       7: rest
+                134     PRECALL                         2
+                138     CALL                            2
+                148     POP_TOP                         
+                150     JUMP_BACKWARD                   21 (to 110)
+                152     LOAD_CONST                      0: None
+                154     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_comp
+            Qualified Name: un_comp
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'items'
+            [Constants]
+                None
+                [Code]
+                    File Name: unpack_star.py
+                    Object Name: <listcomp>
+                    Qualified Name: un_comp.<locals>.<listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 4
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'k'
+                        'v'
+                    [Constants]
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       BUILD_LIST                      0
+                        4       LOAD_FAST                       0: .0
+                        6       FOR_ITER                        10 (to 28)
+                        8       UNPACK_SEQUENCE                 2
+                        12      STORE_FAST                      1: k
+                        14      STORE_FAST                      2: v
+                        16      LOAD_FAST                       1: k
+                        18      LOAD_FAST                       2: v
+                        20      BINARY_OP                       0 (+)
+                        24      LIST_APPEND                     2
+                        26      JUMP_BACKWARD                   11 (to 6)
+                        28      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: <CODE> <listcomp>
+                4       MAKE_FUNCTION                   0
+                6       LOAD_FAST                       0: items
+                8       GET_ITER                        
+                10      PRECALL                         0
+                14      CALL                            0
+                24      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_chain
+            Qualified Name: un_chain
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 7
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'p'
+                'q'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       STORE_FAST                      1: x
+                8       STORE_FAST                      2: y
+                10      LOAD_GLOBAL                     1: NULL + use
+                22      LOAD_FAST                       0: a
+                24      PRECALL                         1
+                28      CALL                            1
+                38      COPY                            1
+                40      STORE_FAST                      3: p
+                42      COPY                            1
+                44      STORE_FAST                      4: q
+                46      STORE_FAST                      5: r
+                48      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST                       1: x
+                62      LOAD_FAST                       2: y
+                64      LOAD_FAST                       3: p
+                66      LOAD_FAST                       4: q
+                68      LOAD_FAST                       5: r
+                70      PRECALL                         5
+                74      CALL                            5
+                84      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_chain_unpack
+            Qualified Name: un_chain_unpack
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       UNPACK_SEQUENCE                 2
+                10      STORE_FAST                      1: x
+                12      STORE_FAST                      2: y
+                14      STORE_FAST                      3: z
+                16      LOAD_GLOBAL                     1: NULL + use
+                28      LOAD_FAST                       1: x
+                30      LOAD_FAST                       2: y
+                32      LOAD_FAST                       3: z
+                34      PRECALL                         3
+                38      CALL                            3
+                48      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_with_assign
+            Qualified Name: un_with_assign
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+            [Constants]
+                None
+                1
+                2
+                3
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       LOAD_CONST                      1: 1
+                6       BUILD_TUPLE                     2
+                8       STORE_FAST                      1: x
+                10      LOAD_FAST                       0: a
+                12      LOAD_CONST                      2: 2
+                14      BUILD_TUPLE                     2
+                16      LOAD_CONST                      3: 3
+                18      BUILD_TUPLE                     2
+                20      STORE_FAST                      2: y
+                22      LOAD_GLOBAL                     1: NULL + use
+                34      LOAD_FAST                       1: x
+                36      LOAD_FAST                       2: y
+                38      PRECALL                         2
+                42      CALL                            2
+                52      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_call
+            Qualified Name: un_star_call
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + use
+                14      BUILD_LIST                      0
+                16      LOAD_FAST                       0: a
+                18      LIST_EXTEND                     1
+                20      LOAD_FAST                       1: b
+                22      LIST_EXTEND                     1
+                24      LIST_TO_TUPLE                   
+                26      CALL_FUNCTION_EX                0
+                28      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_list
+            Qualified Name: un_star_list
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+                1
+                2
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_LIST                      0
+                4       LOAD_FAST                       0: a
+                6       LIST_EXTEND                     1
+                8       LOAD_FAST                       1: b
+                10      LIST_EXTEND                     1
+                12      STORE_FAST                      2: x
+                14      BUILD_LIST                      0
+                16      LOAD_FAST                       0: a
+                18      LIST_EXTEND                     1
+                20      LOAD_CONST                      1: 1
+                22      LIST_APPEND                     1
+                24      LOAD_CONST                      2: 2
+                26      LIST_APPEND                     1
+                28      STORE_FAST                      3: y
+                30      LOAD_CONST                      3: 0
+                32      BUILD_LIST                      1
+                34      LOAD_FAST                       0: a
+                36      LIST_EXTEND                     1
+                38      STORE_FAST                      4: z
+                40      LOAD_GLOBAL                     1: NULL + use
+                52      LOAD_FAST                       2: x
+                54      LOAD_FAST                       3: y
+                56      LOAD_FAST                       4: z
+                58      PRECALL                         3
+                62      CALL                            3
+                72      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_tuple
+            Qualified Name: un_star_tuple
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+                1
+                0
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_LIST                      0
+                4       LOAD_FAST                       0: a
+                6       LIST_EXTEND                     1
+                8       LOAD_FAST                       1: b
+                10      LIST_EXTEND                     1
+                12      LIST_TO_TUPLE                   
+                14      STORE_FAST                      2: x
+                16      BUILD_LIST                      0
+                18      LOAD_FAST                       0: a
+                20      LIST_EXTEND                     1
+                22      LOAD_CONST                      1: 1
+                24      LIST_APPEND                     1
+                26      LIST_TO_TUPLE                   
+                28      STORE_FAST                      3: y
+                30      LOAD_CONST                      2: 0
+                32      BUILD_LIST                      1
+                34      LOAD_FAST                       0: a
+                36      LIST_EXTEND                     1
+                38      LOAD_CONST                      3: 2
+                40      LIST_APPEND                     1
+                42      LIST_TO_TUPLE                   
+                44      STORE_FAST                      4: z
+                46      LOAD_GLOBAL                     1: NULL + use
+                58      LOAD_FAST                       2: x
+                60      LOAD_FAST                       3: y
+                62      LOAD_FAST                       4: z
+                64      PRECALL                         3
+                68      CALL                            3
+                78      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_star_set
+            Qualified Name: un_star_set
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_SET                       0
+                4       LOAD_FAST                       0: a
+                6       SET_UPDATE                      1
+                8       LOAD_FAST                       1: b
+                10      SET_UPDATE                      1
+                12      STORE_FAST                      2: x
+                14      BUILD_SET                       0
+                16      LOAD_FAST                       0: a
+                18      SET_UPDATE                      1
+                20      LOAD_CONST                      1: 1
+                22      SET_ADD                         1
+                24      STORE_FAST                      3: y
+                26      LOAD_GLOBAL                     1: NULL + use
+                38      LOAD_FAST                       2: x
+                40      LOAD_FAST                       3: y
+                42      PRECALL                         2
+                46      CALL                            2
+                56      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_dict_star
+            Qualified Name: un_dict_star
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+                'k'
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_MAP                       0
+                4       LOAD_FAST                       0: a
+                6       DICT_UPDATE                     1
+                8       LOAD_FAST                       1: b
+                10      DICT_UPDATE                     1
+                12      STORE_FAST                      2: x
+                14      BUILD_MAP                       0
+                16      LOAD_FAST                       0: a
+                18      DICT_UPDATE                     1
+                20      LOAD_CONST                      1: 'k'
+                22      LOAD_CONST                      2: 1
+                24      BUILD_MAP                       1
+                26      DICT_UPDATE                     1
+                28      STORE_FAST                      3: y
+                30      LOAD_CONST                      1: 'k'
+                32      LOAD_CONST                      2: 1
+                34      BUILD_MAP                       1
+                36      LOAD_FAST                       0: a
+                38      DICT_UPDATE                     1
+                40      STORE_FAST                      4: z
+                42      LOAD_GLOBAL                     1: NULL + use
+                54      LOAD_FAST                       2: x
+                56      LOAD_FAST                       3: y
+                58      LOAD_FAST                       4: z
+                60      PRECALL                         3
+                64      CALL                            3
+                74      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: unpack_star.py
+            Object Name: un_call_kw
+            Qualified Name: un_call_kw
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'f'
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+                'c'
+                'k'
+                (
+                )
+                (
+                    1
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       PUSH_NULL                       
+                4       LOAD_FAST                       0: f
+                6       LOAD_CONST                      4: ()
+                8       BUILD_MAP                       0
+                10      LOAD_FAST                       1: a
+                12      DICT_MERGE                      1
+                14      CALL_FUNCTION_EX                1
+                16      POP_TOP                         
+                18      PUSH_NULL                       
+                20      LOAD_FAST                       0: f
+                22      LOAD_CONST                      5: (1,)
+                24      BUILD_MAP                       0
+                26      LOAD_FAST                       1: a
+                28      DICT_MERGE                      1
+                30      CALL_FUNCTION_EX                1
+                32      POP_TOP                         
+                34      PUSH_NULL                       
+                36      LOAD_FAST                       0: f
+                38      LOAD_FAST                       1: a
+                40      BUILD_MAP                       0
+                42      LOAD_FAST                       2: b
+                44      DICT_MERGE                      1
+                46      CALL_FUNCTION_EX                1
+                48      POP_TOP                         
+                50      PUSH_NULL                       
+                52      LOAD_FAST                       0: f
+                54      LOAD_FAST                       1: a
+                56      BUILD_LIST                      1
+                58      LOAD_FAST                       2: b
+                60      LIST_EXTEND                     1
+                62      LIST_TO_TUPLE                   
+                64      LOAD_CONST                      2: 'c'
+                66      LOAD_CONST                      1: 1
+                68      BUILD_MAP                       1
+                70      LOAD_FAST                       2: b
+                72      DICT_MERGE                      1
+                74      CALL_FUNCTION_EX                1
+                76      POP_TOP                         
+                78      PUSH_NULL                       
+                80      LOAD_FAST                       0: f
+                82      LOAD_CONST                      4: ()
+                84      LOAD_CONST                      3: 'k'
+                86      LOAD_CONST                      1: 1
+                88      BUILD_MAP                       1
+                90      LOAD_FAST                       1: a
+                92      DICT_MERGE                      1
+                94      CALL_FUNCTION_EX                1
+                96      POP_TOP                         
+                98      PUSH_NULL                       
+                100     LOAD_FAST                       0: f
+                102     PRECALL                         0
+                106     CALL                            0
+                116     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> use
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      1: <CODE> un_basic
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: un_basic
+        14      LOAD_CONST                      2: <CODE> un_nested
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: un_nested
+        20      LOAD_CONST                      3: <CODE> un_star_tail
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: un_star_tail
+        26      LOAD_CONST                      4: <CODE> un_star_head
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      4: un_star_head
+        32      LOAD_CONST                      5: <CODE> un_star_mid
+        34      MAKE_FUNCTION                   0
+        36      STORE_NAME                      5: un_star_mid
+        38      LOAD_CONST                      6: <CODE> un_star_only
+        40      MAKE_FUNCTION                   0
+        42      STORE_NAME                      6: un_star_only
+        44      LOAD_CONST                      7: <CODE> un_star_nested
+        46      MAKE_FUNCTION                   0
+        48      STORE_NAME                      7: un_star_nested
+        50      LOAD_CONST                      8: <CODE> un_attr
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      8: un_attr
+        56      LOAD_CONST                      9: <CODE> un_sub
+        58      MAKE_FUNCTION                   0
+        60      STORE_NAME                      9: un_sub
+        62      LOAD_CONST                      10: <CODE> un_mixed
+        64      MAKE_FUNCTION                   0
+        66      STORE_NAME                      10: un_mixed
+        68      LOAD_CONST                      11: <CODE> un_swap
+        70      MAKE_FUNCTION                   0
+        72      STORE_NAME                      11: un_swap
+        74      LOAD_CONST                      12: <CODE> un_swap3
+        76      MAKE_FUNCTION                   0
+        78      STORE_NAME                      12: un_swap3
+        80      LOAD_CONST                      13: <CODE> un_literal
+        82      MAKE_FUNCTION                   0
+        84      STORE_NAME                      13: un_literal
+        86      LOAD_CONST                      14: <CODE> un_for
+        88      MAKE_FUNCTION                   0
+        90      STORE_NAME                      14: un_for
+        92      LOAD_CONST                      15: <CODE> un_comp
+        94      MAKE_FUNCTION                   0
+        96      STORE_NAME                      15: un_comp
+        98      LOAD_CONST                      16: <CODE> un_chain
+        100     MAKE_FUNCTION                   0
+        102     STORE_NAME                      16: un_chain
+        104     LOAD_CONST                      17: <CODE> un_chain_unpack
+        106     MAKE_FUNCTION                   0
+        108     STORE_NAME                      17: un_chain_unpack
+        110     LOAD_CONST                      18: <CODE> un_with_assign
+        112     MAKE_FUNCTION                   0
+        114     STORE_NAME                      18: un_with_assign
+        116     LOAD_CONST                      19: <CODE> un_star_call
+        118     MAKE_FUNCTION                   0
+        120     STORE_NAME                      19: un_star_call
+        122     LOAD_CONST                      20: <CODE> un_star_list
+        124     MAKE_FUNCTION                   0
+        126     STORE_NAME                      20: un_star_list
+        128     LOAD_CONST                      21: <CODE> un_star_tuple
+        130     MAKE_FUNCTION                   0
+        132     STORE_NAME                      21: un_star_tuple
+        134     LOAD_CONST                      22: <CODE> un_star_set
+        136     MAKE_FUNCTION                   0
+        138     STORE_NAME                      22: un_star_set
+        140     LOAD_CONST                      23: <CODE> un_dict_star
+        142     MAKE_FUNCTION                   0
+        144     STORE_NAME                      23: un_dict_star
+        146     LOAD_CONST                      24: <CODE> un_call_kw
+        148     MAKE_FUNCTION                   0
+        150     STORE_NAME                      24: un_call_kw
+        152     LOAD_CONST                      25: None
+        154     RETURN_VALUE                    
+    [Exception Table]

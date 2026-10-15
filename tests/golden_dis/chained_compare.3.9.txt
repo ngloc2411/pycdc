@@ -1,0 +1,1794 @@
+[Code]
+    File Name: chained_compare.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'use'
+        'chain2'
+        'chain_eq'
+        'chain_mixed'
+        'chain3'
+        'chain_in'
+        'chain_is'
+        'chain_consts'
+        'chain_expr'
+        'chain_call'
+        'chain_if'
+        'chain_if_else'
+        'chain_not'
+        'chain_and'
+        'chain_or'
+        'chain_assign'
+        'chain_while'
+        'chain_in_ternary'
+        'chain_attr'
+        'chain_neq'
+        'chain_notin'
+        'chain_elif'
+        'chain4_if'
+        'chain_arg'
+        'chain_value_in_loop'
+        'chain_break'
+        'chain_continue'
+        'chain_and_chain'
+        'chain_or_chain'
+        'chain_while_and'
+        'chain_while_break'
+        'chain_neg_value'
+        'chain_ret_if'
+        'chain_ternary_value'
+        'chain_mixed_ops'
+        'chain_value_or'
+        'chain_value_and'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: chained_compare.py
+            Object Name: use
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000047 (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       RETURN_VALUE                    
+        'use'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain2
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain2'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_eq
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      2 (==)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      2 (==)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_eq'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_mixed
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      1 (<=)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_mixed'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain3
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            28
+                12      LOAD_FAST                       2: c
+                14      DUP_TOP                         
+                16      ROT_THREE                       
+                18      COMPARE_OP                      0 (<)
+                20      JUMP_IF_FALSE_OR_POP            28
+                22      LOAD_FAST                       3: d
+                24      COMPARE_OP                      0 (<)
+                26      RETURN_VALUE                    
+                28      ROT_TWO                         
+                30      POP_TOP                         
+                32      RETURN_VALUE                    
+        'chain3'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_in
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       CONTAINS_OP                     0 (in)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      CONTAINS_OP                     0 (in)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_in'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_is
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       IS_OP                           0 (is)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      IS_OP                           0 (is)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_is'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_consts
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+                10
+            [Disassembly]
+                0       LOAD_CONST                      1: 0
+                2       LOAD_FAST                       0: x
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_CONST                      2: 10
+                14      COMPARE_OP                      0 (<)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_consts'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_expr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       BINARY_ADD                      
+                6       LOAD_FAST                       1: b
+                8       LOAD_CONST                      2: 2
+                10      BINARY_MULTIPLY                 
+                12      DUP_TOP                         
+                14      ROT_THREE                       
+                16      COMPARE_OP                      0 (<)
+                18      JUMP_IF_FALSE_OR_POP            30
+                20      LOAD_FAST                       2: c
+                22      LOAD_CONST                      3: 3
+                24      BINARY_SUBTRACT                 
+                26      COMPARE_OP                      0 (<)
+                28      RETURN_VALUE                    
+                30      ROT_TWO                         
+                32      POP_TOP                         
+                34      RETURN_VALUE                    
+        'chain_expr'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_call
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       CALL_FUNCTION                   1
+                6       LOAD_GLOBAL                     0: use
+                8       LOAD_FAST                       1: b
+                10      CALL_FUNCTION                   1
+                12      DUP_TOP                         
+                14      ROT_THREE                       
+                16      COMPARE_OP                      0 (<)
+                18      JUMP_IF_FALSE_OR_POP            30
+                20      LOAD_GLOBAL                     0: use
+                22      LOAD_FAST                       2: c
+                24      CALL_FUNCTION                   1
+                26      COMPARE_OP                      0 (<)
+                28      RETURN_VALUE                    
+                30      ROT_TWO                         
+                32      POP_TOP                         
+                34      RETURN_VALUE                    
+        'chain_call'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_if
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               32
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    8 (to 32)
+                24      LOAD_GLOBAL                     0: use
+                26      LOAD_CONST                      1: 1
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      LOAD_GLOBAL                     0: use
+                34      LOAD_CONST                      2: 2
+                36      CALL_FUNCTION                   1
+                38      POP_TOP                         
+                40      LOAD_CONST                      0: None
+                42      RETURN_VALUE                    
+        'chain_if'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_if_else
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               34
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    10 (to 34)
+                24      LOAD_GLOBAL                     0: use
+                26      LOAD_CONST                      1: 1
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      JUMP_FORWARD                    8 (to 42)
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_CONST                      2: 2
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      LOAD_GLOBAL                     0: use
+                44      LOAD_CONST                      3: 3
+                46      CALL_FUNCTION                   1
+                48      POP_TOP                         
+                50      LOAD_CONST                      0: None
+                52      RETURN_VALUE                    
+        'chain_if_else'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_not
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_TRUE                30
+                18      JUMP_FORWARD                    2 (to 22)
+                20      POP_TOP                         
+                22      LOAD_GLOBAL                     0: use
+                24      LOAD_CONST                      1: 1
+                26      CALL_FUNCTION                   1
+                28      POP_TOP                         
+                30      LOAD_GLOBAL                     0: use
+                32      LOAD_CONST                      2: 2
+                34      CALL_FUNCTION                   1
+                36      POP_TOP                         
+                38      LOAD_CONST                      0: None
+                40      RETURN_VALUE                    
+        'chain_not'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               36
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    12 (to 36)
+                24      LOAD_FAST                       3: d
+                26      POP_JUMP_IF_FALSE               36
+                28      LOAD_GLOBAL                     0: use
+                30      LOAD_CONST                      1: 1
+                32      CALL_FUNCTION                   1
+                34      POP_TOP                         
+                36      LOAD_GLOBAL                     0: use
+                38      LOAD_CONST                      2: 2
+                40      CALL_FUNCTION                   1
+                42      POP_TOP                         
+                44      LOAD_CONST                      0: None
+                46      RETURN_VALUE                    
+        'chain_and'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_or
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_TRUE                26
+                18      JUMP_FORWARD                    2 (to 22)
+                20      POP_TOP                         
+                22      LOAD_FAST                       3: d
+                24      POP_JUMP_IF_FALSE               34
+                26      LOAD_GLOBAL                     0: use
+                28      LOAD_CONST                      1: 1
+                30      CALL_FUNCTION                   1
+                32      POP_TOP                         
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_CONST                      2: 2
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      LOAD_CONST                      0: None
+                44      RETURN_VALUE                    
+        'chain_or'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_assign
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      JUMP_FORWARD                    4 (to 22)
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      STORE_FAST                      3: r
+                24      LOAD_GLOBAL                     0: use
+                26      LOAD_FAST                       3: r
+                28      CALL_FUNCTION                   1
+                30      LOAD_GLOBAL                     0: use
+                32      LOAD_FAST                       3: r
+                34      CALL_FUNCTION                   1
+                36      BINARY_ADD                      
+                38      RETURN_VALUE                    
+        'chain_assign'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               34
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    10 (to 34)
+                24      LOAD_FAST                       0: a
+                26      LOAD_CONST                      1: 1
+                28      BINARY_ADD                      
+                30      STORE_FAST                      0: a
+                32      JUMP_ABSOLUTE                   0
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_FAST                       0: a
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      LOAD_CONST                      0: None
+                44      RETURN_VALUE                    
+        'chain_while'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_in_ternary
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 6
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               28
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    4 (to 28)
+                24      LOAD_FAST                       3: x
+                26      JUMP_FORWARD                    2 (to 30)
+                28      LOAD_FAST                       4: y
+                30      STORE_FAST                      5: r
+                32      LOAD_GLOBAL                     0: use
+                34      LOAD_FAST                       5: r
+                36      CALL_FUNCTION                   1
+                38      LOAD_GLOBAL                     0: use
+                40      LOAD_FAST                       5: r
+                42      CALL_FUNCTION                   1
+                44      BINARY_ADD                      
+                46      RETURN_VALUE                    
+        'chain_in_ternary'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_attr
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'v'
+            [Var Names]
+                'o'
+                'lo'
+                'hi'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       1: lo
+                2       LOAD_FAST                       0: o
+                4       LOAD_ATTR                       0: v
+                6       DUP_TOP                         
+                8       ROT_THREE                       
+                10      COMPARE_OP                      1 (<=)
+                12      JUMP_IF_FALSE_OR_POP            20
+                14      LOAD_FAST                       2: hi
+                16      COMPARE_OP                      1 (<=)
+                18      RETURN_VALUE                    
+                20      ROT_TWO                         
+                22      POP_TOP                         
+                24      RETURN_VALUE                    
+        'chain_attr'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_neq
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      3 (!=)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      3 (!=)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_neq'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_notin
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       CONTAINS_OP                     1 (not in)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      CONTAINS_OP                     1 (not in)
+                16      RETURN_VALUE                    
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+        'chain_notin'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_elif
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+                4
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               34
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    10 (to 34)
+                24      LOAD_GLOBAL                     0: use
+                26      LOAD_CONST                      1: 1
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      JUMP_FORWARD                    42 (to 76)
+                34      LOAD_FAST                       1: b
+                36      LOAD_FAST                       2: c
+                38      DUP_TOP                         
+                40      ROT_THREE                       
+                42      COMPARE_OP                      0 (<)
+                44      POP_JUMP_IF_FALSE               54
+                46      LOAD_FAST                       3: d
+                48      COMPARE_OP                      0 (<)
+                50      POP_JUMP_IF_FALSE               68
+                52      JUMP_FORWARD                    4 (to 58)
+                54      POP_TOP                         
+                56      JUMP_FORWARD                    10 (to 68)
+                58      LOAD_GLOBAL                     0: use
+                60      LOAD_CONST                      2: 2
+                62      CALL_FUNCTION                   1
+                64      POP_TOP                         
+                66      JUMP_FORWARD                    8 (to 76)
+                68      LOAD_GLOBAL                     0: use
+                70      LOAD_CONST                      3: 3
+                72      CALL_FUNCTION                   1
+                74      POP_TOP                         
+                76      LOAD_GLOBAL                     0: use
+                78      LOAD_CONST                      4: 4
+                80      CALL_FUNCTION                   1
+                82      POP_TOP                         
+                84      LOAD_CONST                      0: None
+                86      RETURN_VALUE                    
+        'chain_elif'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain4_if
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               30
+                12      LOAD_FAST                       2: c
+                14      DUP_TOP                         
+                16      ROT_THREE                       
+                18      COMPARE_OP                      0 (<)
+                20      POP_JUMP_IF_FALSE               30
+                22      LOAD_FAST                       3: d
+                24      COMPARE_OP                      0 (<)
+                26      POP_JUMP_IF_FALSE               42
+                28      JUMP_FORWARD                    4 (to 34)
+                30      POP_TOP                         
+                32      JUMP_FORWARD                    8 (to 42)
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_CONST                      1: 1
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      LOAD_GLOBAL                     0: use
+                44      LOAD_CONST                      2: 2
+                46      CALL_FUNCTION                   1
+                48      POP_TOP                         
+                50      LOAD_CONST                      0: None
+                52      RETURN_VALUE                    
+        'chain4_if'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_arg
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: use
+                2       LOAD_FAST                       0: a
+                4       LOAD_FAST                       1: b
+                6       DUP_TOP                         
+                8       ROT_THREE                       
+                10      COMPARE_OP                      0 (<)
+                12      JUMP_IF_FALSE_OR_POP            20
+                14      LOAD_FAST                       2: c
+                16      COMPARE_OP                      0 (<)
+                18      JUMP_FORWARD                    4 (to 24)
+                20      ROT_TWO                         
+                22      POP_TOP                         
+                24      LOAD_FAST                       1: b
+                26      CALL_FUNCTION                   2
+                28      STORE_FAST                      3: r
+                30      LOAD_GLOBAL                     0: use
+                32      LOAD_FAST                       3: r
+                34      CALL_FUNCTION                   1
+                36      LOAD_GLOBAL                     0: use
+                38      LOAD_FAST                       3: r
+                40      CALL_FUNCTION                   1
+                42      BINARY_ADD                      
+                44      RETURN_VALUE                    
+        'chain_arg'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_in_loop
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 6
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'append'
+            [Var Names]
+                'items'
+                'lo'
+                'hi'
+                'out'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       BUILD_LIST                      0
+                2       STORE_FAST                      3: out
+                4       LOAD_FAST                       0: items
+                6       GET_ITER                        
+                8       FOR_ITER                        34 (to 44)
+                10      STORE_FAST                      4: x
+                12      LOAD_FAST                       3: out
+                14      LOAD_METHOD                     0: append
+                16      LOAD_FAST                       1: lo
+                18      LOAD_FAST                       4: x
+                20      DUP_TOP                         
+                22      ROT_THREE                       
+                24      COMPARE_OP                      0 (<)
+                26      JUMP_IF_FALSE_OR_POP            34
+                28      LOAD_FAST                       2: hi
+                30      COMPARE_OP                      0 (<)
+                32      JUMP_FORWARD                    4 (to 38)
+                34      ROT_TWO                         
+                36      POP_TOP                         
+                38      CALL_METHOD                     1
+                40      POP_TOP                         
+                42      JUMP_ABSOLUTE                   8
+                44      LOAD_FAST                       3: out
+                46      RETURN_VALUE                    
+        'chain_value_in_loop'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_break
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'items'
+                'lo'
+                'hi'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       LOAD_FAST                       0: items
+                2       GET_ITER                        
+                4       FOR_ITER                        40 (to 46)
+                6       STORE_FAST                      3: x
+                8       LOAD_FAST                       3: x
+                10      LOAD_FAST                       1: lo
+                12      DUP_TOP                         
+                14      ROT_THREE                       
+                16      COMPARE_OP                      0 (<)
+                18      POP_JUMP_IF_FALSE               28
+                20      LOAD_FAST                       2: hi
+                22      COMPARE_OP                      0 (<)
+                24      POP_JUMP_IF_FALSE               36
+                26      JUMP_FORWARD                    4 (to 32)
+                28      POP_TOP                         
+                30      JUMP_FORWARD                    4 (to 36)
+                32      POP_TOP                         
+                34      JUMP_ABSOLUTE                   46
+                36      LOAD_GLOBAL                     0: use
+                38      LOAD_FAST                       3: x
+                40      CALL_FUNCTION                   1
+                42      POP_TOP                         
+                44      JUMP_ABSOLUTE                   4
+                46      LOAD_GLOBAL                     0: use
+                48      LOAD_CONST                      1: 0
+                50      CALL_FUNCTION                   1
+                52      POP_TOP                         
+                54      LOAD_CONST                      0: None
+                56      RETURN_VALUE                    
+        'chain_break'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_continue
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'items'
+                'lo'
+                'hi'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       LOAD_FAST                       0: items
+                2       GET_ITER                        
+                4       FOR_ITER                        38 (to 44)
+                6       STORE_FAST                      3: x
+                8       LOAD_FAST                       1: lo
+                10      LOAD_FAST                       3: x
+                12      DUP_TOP                         
+                14      ROT_THREE                       
+                16      COMPARE_OP                      0 (<)
+                18      POP_JUMP_IF_FALSE               28
+                20      LOAD_FAST                       2: hi
+                22      COMPARE_OP                      0 (<)
+                24      POP_JUMP_IF_FALSE               34
+                26      JUMP_ABSOLUTE                   4
+                28      POP_TOP                         
+                30      JUMP_FORWARD                    2 (to 34)
+                32      JUMP_ABSOLUTE                   4
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_FAST                       3: x
+                38      CALL_FUNCTION                   1
+                40      POP_TOP                         
+                42      JUMP_ABSOLUTE                   4
+                44      LOAD_GLOBAL                     0: use
+                46      LOAD_CONST                      1: 0
+                48      CALL_FUNCTION                   1
+                50      POP_TOP                         
+                52      LOAD_CONST                      0: None
+                54      RETURN_VALUE                    
+        'chain_continue'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_and_chain
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               56
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    32 (to 56)
+                24      LOAD_FAST                       2: c
+                26      LOAD_FAST                       3: d
+                28      DUP_TOP                         
+                30      ROT_THREE                       
+                32      COMPARE_OP                      0 (<)
+                34      POP_JUMP_IF_FALSE               44
+                36      LOAD_FAST                       4: e
+                38      COMPARE_OP                      0 (<)
+                40      POP_JUMP_IF_FALSE               56
+                42      JUMP_FORWARD                    4 (to 48)
+                44      POP_TOP                         
+                46      JUMP_FORWARD                    8 (to 56)
+                48      LOAD_GLOBAL                     0: use
+                50      LOAD_CONST                      1: 1
+                52      CALL_FUNCTION                   1
+                54      POP_TOP                         
+                56      LOAD_GLOBAL                     0: use
+                58      LOAD_CONST                      2: 2
+                60      CALL_FUNCTION                   1
+                62      POP_TOP                         
+                64      LOAD_CONST                      0: None
+                66      RETURN_VALUE                    
+        'chain_and_chain'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_or_chain
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_TRUE                46
+                18      JUMP_FORWARD                    2 (to 22)
+                20      POP_TOP                         
+                22      LOAD_FAST                       2: c
+                24      LOAD_FAST                       3: d
+                26      DUP_TOP                         
+                28      ROT_THREE                       
+                30      COMPARE_OP                      0 (<)
+                32      POP_JUMP_IF_FALSE               42
+                34      LOAD_FAST                       4: e
+                36      COMPARE_OP                      0 (<)
+                38      POP_JUMP_IF_FALSE               54
+                40      JUMP_FORWARD                    4 (to 46)
+                42      POP_TOP                         
+                44      JUMP_FORWARD                    8 (to 54)
+                46      LOAD_GLOBAL                     0: use
+                48      LOAD_CONST                      1: 1
+                50      CALL_FUNCTION                   1
+                52      POP_TOP                         
+                54      LOAD_GLOBAL                     0: use
+                56      LOAD_CONST                      2: 2
+                58      CALL_FUNCTION                   1
+                60      POP_TOP                         
+                62      LOAD_CONST                      0: None
+                64      RETURN_VALUE                    
+        'chain_or_chain'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               38
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    14 (to 38)
+                24      LOAD_FAST                       3: d
+                26      POP_JUMP_IF_FALSE               38
+                28      LOAD_FAST                       0: a
+                30      LOAD_CONST                      1: 1
+                32      BINARY_ADD                      
+                34      STORE_FAST                      0: a
+                36      JUMP_ABSOLUTE                   0
+                38      LOAD_GLOBAL                     0: use
+                40      LOAD_FAST                       0: a
+                42      CALL_FUNCTION                   1
+                44      POP_TOP                         
+                46      LOAD_CONST                      0: None
+                48      RETURN_VALUE                    
+        'chain_while_and'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_while_break
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                3
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               44
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    20 (to 44)
+                24      LOAD_FAST                       0: a
+                26      LOAD_CONST                      1: 3
+                28      COMPARE_OP                      2 (==)
+                30      POP_JUMP_IF_FALSE               34
+                32      JUMP_ABSOLUTE                   44
+                34      LOAD_FAST                       0: a
+                36      LOAD_CONST                      2: 1
+                38      BINARY_ADD                      
+                40      STORE_FAST                      0: a
+                42      JUMP_ABSOLUTE                   0
+                44      LOAD_GLOBAL                     0: use
+                46      LOAD_FAST                       0: a
+                48      CALL_FUNCTION                   1
+                50      POP_TOP                         
+                52      LOAD_CONST                      0: None
+                54      RETURN_VALUE                    
+        'chain_while_break'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_neg_value
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      JUMP_FORWARD                    4 (to 22)
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      UNARY_NOT                       
+                24      STORE_FAST                      3: r
+                26      LOAD_GLOBAL                     0: use
+                28      LOAD_FAST                       3: r
+                30      CALL_FUNCTION                   1
+                32      LOAD_GLOBAL                     0: use
+                34      LOAD_FAST                       3: r
+                36      CALL_FUNCTION                   1
+                38      BINARY_ADD                      
+                40      RETURN_VALUE                    
+        'chain_neg_value'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_ret_if
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 3
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'c'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               28
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    4 (to 28)
+                24      LOAD_CONST                      1: 1
+                26      RETURN_VALUE                    
+                28      LOAD_CONST                      2: 2
+                30      RETURN_VALUE                    
+        'chain_ret_if'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_ternary_value
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 6
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      POP_JUMP_IF_FALSE               20
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      POP_JUMP_IF_FALSE               28
+                18      JUMP_FORWARD                    4 (to 24)
+                20      POP_TOP                         
+                22      JUMP_FORWARD                    4 (to 28)
+                24      LOAD_FAST                       3: x
+                26      JUMP_FORWARD                    2 (to 30)
+                28      LOAD_FAST                       4: y
+                30      STORE_FAST                      5: r
+                32      LOAD_GLOBAL                     0: use
+                34      LOAD_FAST                       5: r
+                36      CALL_FUNCTION                   1
+                38      LOAD_GLOBAL                     0: use
+                40      LOAD_FAST                       5: r
+                42      CALL_FUNCTION                   1
+                44      BINARY_ADD                      
+                46      RETURN_VALUE                    
+        'chain_ternary_value'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_mixed_ops
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 4
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       IS_OP                           1 (is not)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      2 (==)
+                16      JUMP_FORWARD                    4 (to 22)
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      STORE_FAST                      3: r
+                24      LOAD_GLOBAL                     0: use
+                26      LOAD_FAST                       3: r
+                28      CALL_FUNCTION                   1
+                30      LOAD_GLOBAL                     0: use
+                32      LOAD_FAST                       3: r
+                34      CALL_FUNCTION                   1
+                36      BINARY_ADD                      
+                38      RETURN_VALUE                    
+        'chain_mixed_ops'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_or
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_FAST                       1: b
+                4       DUP_TOP                         
+                6       ROT_THREE                       
+                8       COMPARE_OP                      0 (<)
+                10      JUMP_IF_FALSE_OR_POP            18
+                12      LOAD_FAST                       2: c
+                14      COMPARE_OP                      0 (<)
+                16      JUMP_FORWARD                    4 (to 22)
+                18      ROT_TWO                         
+                20      POP_TOP                         
+                22      JUMP_IF_TRUE_OR_POP             26
+                24      LOAD_FAST                       3: d
+                26      STORE_FAST                      4: r
+                28      LOAD_GLOBAL                     0: use
+                30      LOAD_FAST                       4: r
+                32      CALL_FUNCTION                   1
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_FAST                       4: r
+                38      CALL_FUNCTION                   1
+                40      BINARY_ADD                      
+                42      RETURN_VALUE                    
+        'chain_value_or'
+        [Code]
+            File Name: chained_compare.py
+            Object Name: chain_value_and
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'use'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'r'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       3: d
+                2       JUMP_IF_FALSE_OR_POP            26
+                4       LOAD_FAST                       0: a
+                6       LOAD_FAST                       1: b
+                8       DUP_TOP                         
+                10      ROT_THREE                       
+                12      COMPARE_OP                      0 (<)
+                14      JUMP_IF_FALSE_OR_POP            22
+                16      LOAD_FAST                       2: c
+                18      COMPARE_OP                      0 (<)
+                20      JUMP_FORWARD                    4 (to 26)
+                22      ROT_TWO                         
+                24      POP_TOP                         
+                26      STORE_FAST                      4: r
+                28      LOAD_GLOBAL                     0: use
+                30      LOAD_FAST                       4: r
+                32      CALL_FUNCTION                   1
+                34      LOAD_GLOBAL                     0: use
+                36      LOAD_FAST                       4: r
+                38      CALL_FUNCTION                   1
+                40      BINARY_ADD                      
+                42      RETURN_VALUE                    
+        'chain_value_and'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> use
+        2       LOAD_CONST                      1: 'use'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: use
+        8       LOAD_CONST                      2: <CODE> chain2
+        10      LOAD_CONST                      3: 'chain2'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: chain2
+        16      LOAD_CONST                      4: <CODE> chain_eq
+        18      LOAD_CONST                      5: 'chain_eq'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: chain_eq
+        24      LOAD_CONST                      6: <CODE> chain_mixed
+        26      LOAD_CONST                      7: 'chain_mixed'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: chain_mixed
+        32      LOAD_CONST                      8: <CODE> chain3
+        34      LOAD_CONST                      9: 'chain3'
+        36      MAKE_FUNCTION                   0
+        38      STORE_NAME                      4: chain3
+        40      LOAD_CONST                      10: <CODE> chain_in
+        42      LOAD_CONST                      11: 'chain_in'
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      5: chain_in
+        48      LOAD_CONST                      12: <CODE> chain_is
+        50      LOAD_CONST                      13: 'chain_is'
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      6: chain_is
+        56      LOAD_CONST                      14: <CODE> chain_consts
+        58      LOAD_CONST                      15: 'chain_consts'
+        60      MAKE_FUNCTION                   0
+        62      STORE_NAME                      7: chain_consts
+        64      LOAD_CONST                      16: <CODE> chain_expr
+        66      LOAD_CONST                      17: 'chain_expr'
+        68      MAKE_FUNCTION                   0
+        70      STORE_NAME                      8: chain_expr
+        72      LOAD_CONST                      18: <CODE> chain_call
+        74      LOAD_CONST                      19: 'chain_call'
+        76      MAKE_FUNCTION                   0
+        78      STORE_NAME                      9: chain_call
+        80      LOAD_CONST                      20: <CODE> chain_if
+        82      LOAD_CONST                      21: 'chain_if'
+        84      MAKE_FUNCTION                   0
+        86      STORE_NAME                      10: chain_if
+        88      LOAD_CONST                      22: <CODE> chain_if_else
+        90      LOAD_CONST                      23: 'chain_if_else'
+        92      MAKE_FUNCTION                   0
+        94      STORE_NAME                      11: chain_if_else
+        96      LOAD_CONST                      24: <CODE> chain_not
+        98      LOAD_CONST                      25: 'chain_not'
+        100     MAKE_FUNCTION                   0
+        102     STORE_NAME                      12: chain_not
+        104     LOAD_CONST                      26: <CODE> chain_and
+        106     LOAD_CONST                      27: 'chain_and'
+        108     MAKE_FUNCTION                   0
+        110     STORE_NAME                      13: chain_and
+        112     LOAD_CONST                      28: <CODE> chain_or
+        114     LOAD_CONST                      29: 'chain_or'
+        116     MAKE_FUNCTION                   0
+        118     STORE_NAME                      14: chain_or
+        120     LOAD_CONST                      30: <CODE> chain_assign
+        122     LOAD_CONST                      31: 'chain_assign'
+        124     MAKE_FUNCTION                   0
+        126     STORE_NAME                      15: chain_assign
+        128     LOAD_CONST                      32: <CODE> chain_while
+        130     LOAD_CONST                      33: 'chain_while'
+        132     MAKE_FUNCTION                   0
+        134     STORE_NAME                      16: chain_while
+        136     LOAD_CONST                      34: <CODE> chain_in_ternary
+        138     LOAD_CONST                      35: 'chain_in_ternary'
+        140     MAKE_FUNCTION                   0
+        142     STORE_NAME                      17: chain_in_ternary
+        144     LOAD_CONST                      36: <CODE> chain_attr
+        146     LOAD_CONST                      37: 'chain_attr'
+        148     MAKE_FUNCTION                   0
+        150     STORE_NAME                      18: chain_attr
+        152     LOAD_CONST                      38: <CODE> chain_neq
+        154     LOAD_CONST                      39: 'chain_neq'
+        156     MAKE_FUNCTION                   0
+        158     STORE_NAME                      19: chain_neq
+        160     LOAD_CONST                      40: <CODE> chain_notin
+        162     LOAD_CONST                      41: 'chain_notin'
+        164     MAKE_FUNCTION                   0
+        166     STORE_NAME                      20: chain_notin
+        168     LOAD_CONST                      42: <CODE> chain_elif
+        170     LOAD_CONST                      43: 'chain_elif'
+        172     MAKE_FUNCTION                   0
+        174     STORE_NAME                      21: chain_elif
+        176     LOAD_CONST                      44: <CODE> chain4_if
+        178     LOAD_CONST                      45: 'chain4_if'
+        180     MAKE_FUNCTION                   0
+        182     STORE_NAME                      22: chain4_if
+        184     LOAD_CONST                      46: <CODE> chain_arg
+        186     LOAD_CONST                      47: 'chain_arg'
+        188     MAKE_FUNCTION                   0
+        190     STORE_NAME                      23: chain_arg
+        192     LOAD_CONST                      48: <CODE> chain_value_in_loop
+        194     LOAD_CONST                      49: 'chain_value_in_loop'
+        196     MAKE_FUNCTION                   0
+        198     STORE_NAME                      24: chain_value_in_loop
+        200     LOAD_CONST                      50: <CODE> chain_break
+        202     LOAD_CONST                      51: 'chain_break'
+        204     MAKE_FUNCTION                   0
+        206     STORE_NAME                      25: chain_break
+        208     LOAD_CONST                      52: <CODE> chain_continue
+        210     LOAD_CONST                      53: 'chain_continue'
+        212     MAKE_FUNCTION                   0
+        214     STORE_NAME                      26: chain_continue
+        216     LOAD_CONST                      54: <CODE> chain_and_chain
+        218     LOAD_CONST                      55: 'chain_and_chain'
+        220     MAKE_FUNCTION                   0
+        222     STORE_NAME                      27: chain_and_chain
+        224     LOAD_CONST                      56: <CODE> chain_or_chain
+        226     LOAD_CONST                      57: 'chain_or_chain'
+        228     MAKE_FUNCTION                   0
+        230     STORE_NAME                      28: chain_or_chain
+        232     LOAD_CONST                      58: <CODE> chain_while_and
+        234     LOAD_CONST                      59: 'chain_while_and'
+        236     MAKE_FUNCTION                   0
+        238     STORE_NAME                      29: chain_while_and
+        240     LOAD_CONST                      60: <CODE> chain_while_break
+        242     LOAD_CONST                      61: 'chain_while_break'
+        244     MAKE_FUNCTION                   0
+        246     STORE_NAME                      30: chain_while_break
+        248     LOAD_CONST                      62: <CODE> chain_neg_value
+        250     LOAD_CONST                      63: 'chain_neg_value'
+        252     MAKE_FUNCTION                   0
+        254     STORE_NAME                      31: chain_neg_value
+        256     LOAD_CONST                      64: <CODE> chain_ret_if
+        258     LOAD_CONST                      65: 'chain_ret_if'
+        260     MAKE_FUNCTION                   0
+        262     STORE_NAME                      32: chain_ret_if
+        264     LOAD_CONST                      66: <CODE> chain_ternary_value
+        266     LOAD_CONST                      67: 'chain_ternary_value'
+        268     MAKE_FUNCTION                   0
+        270     STORE_NAME                      33: chain_ternary_value
+        272     LOAD_CONST                      68: <CODE> chain_mixed_ops
+        274     LOAD_CONST                      69: 'chain_mixed_ops'
+        276     MAKE_FUNCTION                   0
+        278     STORE_NAME                      34: chain_mixed_ops
+        280     LOAD_CONST                      70: <CODE> chain_value_or
+        282     LOAD_CONST                      71: 'chain_value_or'
+        284     MAKE_FUNCTION                   0
+        286     STORE_NAME                      35: chain_value_or
+        288     LOAD_CONST                      72: <CODE> chain_value_and
+        290     LOAD_CONST                      73: 'chain_value_and'
+        292     MAKE_FUNCTION                   0
+        294     STORE_NAME                      36: chain_value_and
+        296     LOAD_CONST                      74: None
+        298     RETURN_VALUE                    

@@ -1,0 +1,200 @@
+[Code]
+    File Name: super_call.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 5
+    Flags: 0x00000000
+    [Names]
+        'A'
+        'B'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: super_call.py
+            Object Name: A
+            Qualified Name: A
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 1
+            Flags: 0x00000000
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                '__init__'
+            [Locals+Names]
+            [Constants]
+                'A'
+                [Code]
+                    File Name: super_call.py
+                    Object Name: __init__
+                    Qualified Name: A.__init__
+                    Arg Count: 2
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'v'
+                    [Locals+Names]
+                        'self'
+                        'v'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       1: v
+                        4       LOAD_FAST                       0: self
+                        6       STORE_ATTR                      0: v
+                        16      LOAD_CONST                      0: None
+                        18      RETURN_VALUE                    
+                    [Exception Table]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_NAME                       0: __name__
+                4       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: 'A'
+                8       STORE_NAME                      2: __qualname__
+                10      LOAD_CONST                      1: <CODE> __init__
+                12      MAKE_FUNCTION                   0
+                14      STORE_NAME                      3: __init__
+                16      LOAD_CONST                      2: None
+                18      RETURN_VALUE                    
+            [Exception Table]
+        'A'
+        [Code]
+            File Name: super_call.py
+            Object Name: B
+            Qualified Name: B
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000000
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                '__init__'
+                'm'
+                '__classcell__'
+            [Locals+Names]
+                '__class__'
+            [Constants]
+                'B'
+                [Code]
+                    File Name: super_call.py
+                    Object Name: __init__
+                    Qualified Name: B.__init__
+                    Arg Count: 3
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 3
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'super'
+                        '__init__'
+                        'w'
+                    [Locals+Names]
+                        'self'
+                        'v'
+                        'w'
+                        '__class__'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       COPY_FREE_VARS                  1
+                        2       RESUME                          0
+                        4       LOAD_GLOBAL                     1: NULL + super
+                        16      PRECALL                         0
+                        20      CALL                            0
+                        30      LOAD_METHOD                     1: __init__
+                        52      LOAD_FAST                       1: v
+                        54      PRECALL                         1
+                        58      CALL                            1
+                        68      POP_TOP                         
+                        70      LOAD_FAST                       2: w
+                        72      LOAD_FAST                       0: self
+                        74      STORE_ATTR                      2: w
+                        84      LOAD_CONST                      0: None
+                        86      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: super_call.py
+                    Object Name: m
+                    Qualified Name: B.m
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        'super'
+                        '__repr__'
+                    [Locals+Names]
+                        'self'
+                        '__class__'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       COPY_FREE_VARS                  1
+                        2       RESUME                          0
+                        4       LOAD_GLOBAL                     1: NULL + super
+                        16      PRECALL                         0
+                        20      CALL                            0
+                        30      LOAD_METHOD                     1: __repr__
+                        52      PRECALL                         0
+                        56      CALL                            0
+                        66      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       MAKE_CELL                       0: __class__
+                2       RESUME                          0
+                4       LOAD_NAME                       0: __name__
+                6       STORE_NAME                      1: __module__
+                8       LOAD_CONST                      0: 'B'
+                10      STORE_NAME                      2: __qualname__
+                12      LOAD_CLOSURE                    0: __class__
+                14      BUILD_TUPLE                     1
+                16      LOAD_CONST                      1: <CODE> __init__
+                18      MAKE_FUNCTION                   8
+                20      STORE_NAME                      3: __init__
+                22      LOAD_CLOSURE                    0: __class__
+                24      BUILD_TUPLE                     1
+                26      LOAD_CONST                      2: <CODE> m
+                28      MAKE_FUNCTION                   8
+                30      STORE_NAME                      4: m
+                32      LOAD_CLOSURE                    0: __class__
+                34      COPY                            1
+                36      STORE_NAME                      5: __classcell__
+                38      RETURN_VALUE                    
+            [Exception Table]
+        'B'
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       PUSH_NULL                       
+        4       LOAD_BUILD_CLASS                
+        6       LOAD_CONST                      0: <CODE> A
+        8       MAKE_FUNCTION                   0
+        10      LOAD_CONST                      1: 'A'
+        12      PRECALL                         2
+        16      CALL                            2
+        26      STORE_NAME                      0: A
+        28      PUSH_NULL                       
+        30      LOAD_BUILD_CLASS                
+        32      LOAD_CONST                      2: <CODE> B
+        34      MAKE_FUNCTION                   0
+        36      LOAD_CONST                      3: 'B'
+        38      LOAD_NAME                       0: A
+        40      PRECALL                         3
+        44      CALL                            3
+        54      STORE_NAME                      1: B
+        56      LOAD_CONST                      4: None
+        58      RETURN_VALUE                    
+    [Exception Table]

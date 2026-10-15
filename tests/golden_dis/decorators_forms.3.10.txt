@@ -1,0 +1,190 @@
+[Code]
+    File Name: decorators_forms.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'deco'
+        'a'
+        'C'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: deco
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'fn'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: fn
+                2       RETURN_VALUE                    
+        'deco'
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: a
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_CONST                      0: None
+                2       RETURN_VALUE                    
+        'a'
+        [Code]
+            File Name: decorators_forms.py
+            Object Name: C
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 3
+            Flags: 0x00000040 (CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                'property'
+                'p'
+                'staticmethod'
+                's'
+                'classmethod'
+                'c'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                'C'
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: p
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                        1
+                    [Disassembly]
+                        0       LOAD_CONST                      1: 1
+                        2       RETURN_VALUE                    
+                'C.p'
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: s
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 1
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_FAST                       0: x
+                        2       RETURN_VALUE                    
+                'C.s'
+                [Code]
+                    File Name: decorators_forms.py
+                    Object Name: c
+                    Arg Count: 2
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 1
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'cls'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_FAST                       0: cls
+                        2       RETURN_VALUE                    
+                'C.c'
+                None
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                2       STORE_NAME                      1: __module__
+                4       LOAD_CONST                      0: 'C'
+                6       STORE_NAME                      2: __qualname__
+                8       LOAD_NAME                       3: property
+                10      LOAD_CONST                      1: <CODE> p
+                12      LOAD_CONST                      2: 'C.p'
+                14      MAKE_FUNCTION                   0
+                16      CALL_FUNCTION                   1
+                18      STORE_NAME                      4: p
+                20      LOAD_NAME                       5: staticmethod
+                22      LOAD_CONST                      3: <CODE> s
+                24      LOAD_CONST                      4: 'C.s'
+                26      MAKE_FUNCTION                   0
+                28      CALL_FUNCTION                   1
+                30      STORE_NAME                      6: s
+                32      LOAD_NAME                       7: classmethod
+                34      LOAD_CONST                      5: <CODE> c
+                36      LOAD_CONST                      6: 'C.c'
+                38      MAKE_FUNCTION                   0
+                40      CALL_FUNCTION                   1
+                42      STORE_NAME                      8: c
+                44      LOAD_CONST                      7: None
+                46      RETURN_VALUE                    
+        'C'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> deco
+        2       LOAD_CONST                      1: 'deco'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: deco
+        8       LOAD_NAME                       0: deco
+        10      LOAD_CONST                      2: <CODE> a
+        12      LOAD_CONST                      3: 'a'
+        14      MAKE_FUNCTION                   0
+        16      CALL_FUNCTION                   1
+        18      STORE_NAME                      1: a
+        20      LOAD_BUILD_CLASS                
+        22      LOAD_CONST                      4: <CODE> C
+        24      LOAD_CONST                      5: 'C'
+        26      MAKE_FUNCTION                   0
+        28      LOAD_CONST                      5: 'C'
+        30      CALL_FUNCTION                   2
+        32      STORE_NAME                      2: C
+        34      LOAD_CONST                      6: None
+        36      RETURN_VALUE                    

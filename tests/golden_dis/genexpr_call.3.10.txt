@@ -1,0 +1,166 @@
+[Code]
+    File Name: genexpr_call.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: genexpr_call.py
+            Object Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 4
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+                'sum'
+                'any'
+                'sorted'
+            [Var Names]
+                'xs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 2
+                    Flags: 0x00000073 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       GEN_START                       0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        5 (to 16)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      YIELD_VALUE                     
+                        12      POP_TOP                         
+                        14      JUMP_ABSOLUTE                   2 (to 4)
+                        16      LOAD_CONST                      0: None
+                        18      RETURN_VALUE                    
+                'f.<locals>.<genexpr>'
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 3
+                    Flags: 0x00000073 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        4
+                        None
+                    [Disassembly]
+                        0       GEN_START                       0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        7 (to 20)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      LOAD_CONST                      0: 4
+                        12      COMPARE_OP                      4 (>)
+                        14      YIELD_VALUE                     
+                        16      POP_TOP                         
+                        18      JUMP_ABSOLUTE                   2 (to 4)
+                        20      LOAD_CONST                      1: None
+                        22      RETURN_VALUE                    
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 2
+                    Flags: 0x00000073 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       GEN_START                       0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        7 (to 20)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      POP_JUMP_IF_FALSE               2 (to 4)
+                        12      LOAD_FAST                       1: x
+                        14      YIELD_VALUE                     
+                        16      POP_TOP                         
+                        18      JUMP_ABSOLUTE                   2 (to 4)
+                        20      LOAD_CONST                      0: None
+                        22      RETURN_VALUE                    
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: print
+                2       LOAD_GLOBAL                     1: sum
+                4       LOAD_CONST                      1: <CODE> <genexpr>
+                6       LOAD_CONST                      2: 'f.<locals>.<genexpr>'
+                8       MAKE_FUNCTION                   0
+                10      LOAD_FAST                       0: xs
+                12      GET_ITER                        
+                14      CALL_FUNCTION                   1
+                16      CALL_FUNCTION                   1
+                18      CALL_FUNCTION                   1
+                20      POP_TOP                         
+                22      LOAD_GLOBAL                     0: print
+                24      LOAD_GLOBAL                     2: any
+                26      LOAD_CONST                      3: <CODE> <genexpr>
+                28      LOAD_CONST                      2: 'f.<locals>.<genexpr>'
+                30      MAKE_FUNCTION                   0
+                32      LOAD_FAST                       0: xs
+                34      GET_ITER                        
+                36      CALL_FUNCTION                   1
+                38      CALL_FUNCTION                   1
+                40      CALL_FUNCTION                   1
+                42      POP_TOP                         
+                44      LOAD_GLOBAL                     3: sorted
+                46      LOAD_CONST                      4: <CODE> <genexpr>
+                48      LOAD_CONST                      2: 'f.<locals>.<genexpr>'
+                50      MAKE_FUNCTION                   0
+                52      LOAD_FAST                       0: xs
+                54      GET_ITER                        
+                56      CALL_FUNCTION                   1
+                58      CALL_FUNCTION                   1
+                60      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

@@ -1,0 +1,91 @@
+[Code]
+    File Name: list_extend.3.9.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+        'c'
+        'd'
+        'e'
+        'f'
+        'g'
+        'h'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        (
+            1
+            2
+            3
+        )
+        (
+            '4'
+            5
+            6
+        )
+        7
+        (
+            8
+            9
+            10
+        )
+        None
+        (
+            'a'
+            'b'
+            'c'
+        )
+        1
+        2
+        3
+        4
+        (
+            None
+            None
+            None
+        )
+    [Disassembly]
+        0       BUILD_LIST                      0
+        2       LOAD_CONST                      0: (1, 2, 3)
+        4       LIST_EXTEND                     1
+        6       STORE_NAME                      0: a
+        8       BUILD_LIST                      0
+        10      LOAD_CONST                      1: ('4', 5, 6)
+        12      LIST_EXTEND                     1
+        14      STORE_NAME                      1: b
+        16      LOAD_CONST                      2: 7
+        18      LOAD_CONST                      3: (8, 9, 10)
+        20      BUILD_LIST                      2
+        22      STORE_NAME                      2: c
+        24      LOAD_CONST                      4: None
+        26      BUILD_LIST                      1
+        28      STORE_NAME                      3: d
+        30      LOAD_CONST                      5: ('a', 'b', 'c')
+        32      BUILD_LIST                      1
+        34      STORE_NAME                      4: e
+        36      LOAD_NAME                       0: a
+        38      LOAD_NAME                       1: b
+        40      BUILD_LIST                      2
+        42      STORE_NAME                      5: f
+        44      BUILD_LIST                      0
+        46      STORE_NAME                      6: g
+        48      LOAD_CONST                      6: 1
+        50      LOAD_CONST                      7: 2
+        52      LOAD_CONST                      8: 3
+        54      LOAD_CONST                      9: 4
+        56      BUILD_LIST                      2
+        58      BUILD_LIST                      3
+        60      STORE_NAME                      7: h
+        62      BUILD_LIST                      0
+        64      LOAD_CONST                      10: (None, None, None)
+        66      LIST_EXTEND                     1
+        68      STORE_NAME                      0: a
+        70      LOAD_CONST                      4: None
+        72      RETURN_VALUE                    

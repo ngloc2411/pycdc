@@ -1,0 +1,40 @@
+[Code]
+    File Name: contains_op.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        10
+        (
+            10
+            20
+            30
+        )
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 10
+        2       STORE_NAME                      0: a
+        4       BUILD_LIST                      0
+        6       LOAD_CONST                      1: (10, 20, 30)
+        8       LIST_EXTEND                     1
+        10      STORE_NAME                      1: b
+        12      LOAD_NAME                       0: a
+        14      LOAD_NAME                       1: b
+        16      CONTAINS_OP                     0 (in)
+        18      POP_JUMP_IF_FALSE               20
+        20      LOAD_NAME                       0: a
+        22      LOAD_NAME                       1: b
+        24      CONTAINS_OP                     1 (not in)
+        26      POP_JUMP_IF_FALSE               28
+        28      LOAD_CONST                      2: None
+        30      RETURN_VALUE                    

@@ -1,0 +1,225 @@
+[Code]
+    File Name: binary_ops.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 5
+    Flags: 0x00000000
+    [Names]
+        'a'
+        'b'
+        'print'
+    [Locals+Names]
+    [Constants]
+        10
+        'Addition:'
+        'Subtraction:'
+        'Multiplication:'
+        'Division:'
+        'Modulo:'
+        'Floor Division:'
+        'Exponentiation:'
+        'Greater than:'
+        'Less than:'
+        'Greater than or equal to:'
+        'Less than or equal to:'
+        'Equal to:'
+        'Not equal to:'
+        'Bitwise AND:'
+        'Bitwise OR:'
+        'Bitwise XOR:'
+        'Bitwise left shift:'
+        'Bitwise right shift:'
+        'Membership in:'
+        'Membership not in:'
+        'Identity equality:'
+        'Identity inequality:'
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_SMALL_INT                  10
+        4       LOAD_SMALL_INT                  3
+        6       SWAP                            2
+        8       STORE_NAME                      0: a
+        10      STORE_NAME                      1: b
+        12      LOAD_NAME                       2: print
+        14      PUSH_NULL                       
+        16      LOAD_CONST                      1: 'Addition:'
+        18      LOAD_NAME                       0: a
+        20      LOAD_NAME                       1: b
+        22      BINARY_OP                       0 (+)
+        34      CALL                            2
+        42      POP_TOP                         
+        44      LOAD_NAME                       2: print
+        46      PUSH_NULL                       
+        48      LOAD_CONST                      2: 'Subtraction:'
+        50      LOAD_NAME                       0: a
+        52      LOAD_NAME                       1: b
+        54      BINARY_OP                       10 (-)
+        66      CALL                            2
+        74      POP_TOP                         
+        76      LOAD_NAME                       2: print
+        78      PUSH_NULL                       
+        80      LOAD_CONST                      3: 'Multiplication:'
+        82      LOAD_NAME                       0: a
+        84      LOAD_NAME                       1: b
+        86      BINARY_OP                       5 (*)
+        98      CALL                            2
+        106     POP_TOP                         
+        108     LOAD_NAME                       2: print
+        110     PUSH_NULL                       
+        112     LOAD_CONST                      4: 'Division:'
+        114     LOAD_NAME                       0: a
+        116     LOAD_NAME                       1: b
+        118     BINARY_OP                       11 (/)
+        130     CALL                            2
+        138     POP_TOP                         
+        140     LOAD_NAME                       2: print
+        142     PUSH_NULL                       
+        144     LOAD_CONST                      5: 'Modulo:'
+        146     LOAD_NAME                       0: a
+        148     LOAD_NAME                       1: b
+        150     BINARY_OP                       6 (%)
+        162     CALL                            2
+        170     POP_TOP                         
+        172     LOAD_NAME                       2: print
+        174     PUSH_NULL                       
+        176     LOAD_CONST                      6: 'Floor Division:'
+        178     LOAD_NAME                       0: a
+        180     LOAD_NAME                       1: b
+        182     BINARY_OP                       2 (//)
+        194     CALL                            2
+        202     POP_TOP                         
+        204     LOAD_NAME                       2: print
+        206     PUSH_NULL                       
+        208     LOAD_CONST                      7: 'Exponentiation:'
+        210     LOAD_NAME                       0: a
+        212     LOAD_NAME                       1: b
+        214     BINARY_OP                       8 (**)
+        226     CALL                            2
+        234     POP_TOP                         
+        236     LOAD_NAME                       2: print
+        238     PUSH_NULL                       
+        240     LOAD_CONST                      8: 'Greater than:'
+        242     LOAD_NAME                       0: a
+        244     LOAD_NAME                       1: b
+        246     COMPARE_OP                      132 (>)
+        250     CALL                            2
+        258     POP_TOP                         
+        260     LOAD_NAME                       2: print
+        262     PUSH_NULL                       
+        264     LOAD_CONST                      9: 'Less than:'
+        266     LOAD_NAME                       0: a
+        268     LOAD_NAME                       1: b
+        270     COMPARE_OP                      2 (<)
+        274     CALL                            2
+        282     POP_TOP                         
+        284     LOAD_NAME                       2: print
+        286     PUSH_NULL                       
+        288     LOAD_CONST                      10: 'Greater than or equal to:'
+        290     LOAD_NAME                       0: a
+        292     LOAD_NAME                       1: b
+        294     COMPARE_OP                      172 (>=)
+        298     CALL                            2
+        306     POP_TOP                         
+        308     LOAD_NAME                       2: print
+        310     PUSH_NULL                       
+        312     LOAD_CONST                      11: 'Less than or equal to:'
+        314     LOAD_NAME                       0: a
+        316     LOAD_NAME                       1: b
+        318     COMPARE_OP                      42 (<=)
+        322     CALL                            2
+        330     POP_TOP                         
+        332     LOAD_NAME                       2: print
+        334     PUSH_NULL                       
+        336     LOAD_CONST                      12: 'Equal to:'
+        338     LOAD_NAME                       0: a
+        340     LOAD_NAME                       1: b
+        342     COMPARE_OP                      72 (==)
+        346     CALL                            2
+        354     POP_TOP                         
+        356     LOAD_NAME                       2: print
+        358     PUSH_NULL                       
+        360     LOAD_CONST                      13: 'Not equal to:'
+        362     LOAD_NAME                       0: a
+        364     LOAD_NAME                       1: b
+        366     COMPARE_OP                      103 (!=)
+        370     CALL                            2
+        378     POP_TOP                         
+        380     LOAD_NAME                       2: print
+        382     PUSH_NULL                       
+        384     LOAD_CONST                      14: 'Bitwise AND:'
+        386     LOAD_NAME                       0: a
+        388     LOAD_NAME                       1: b
+        390     BINARY_OP                       1 (&)
+        402     CALL                            2
+        410     POP_TOP                         
+        412     LOAD_NAME                       2: print
+        414     PUSH_NULL                       
+        416     LOAD_CONST                      15: 'Bitwise OR:'
+        418     LOAD_NAME                       0: a
+        420     LOAD_NAME                       1: b
+        422     BINARY_OP                       7 (|)
+        434     CALL                            2
+        442     POP_TOP                         
+        444     LOAD_NAME                       2: print
+        446     PUSH_NULL                       
+        448     LOAD_CONST                      16: 'Bitwise XOR:'
+        450     LOAD_NAME                       0: a
+        452     LOAD_NAME                       1: b
+        454     BINARY_OP                       12 (^)
+        466     CALL                            2
+        474     POP_TOP                         
+        476     LOAD_NAME                       2: print
+        478     PUSH_NULL                       
+        480     LOAD_CONST                      17: 'Bitwise left shift:'
+        482     LOAD_NAME                       0: a
+        484     LOAD_NAME                       1: b
+        486     BINARY_OP                       3 (<<)
+        498     CALL                            2
+        506     POP_TOP                         
+        508     LOAD_NAME                       2: print
+        510     PUSH_NULL                       
+        512     LOAD_CONST                      18: 'Bitwise right shift:'
+        514     LOAD_NAME                       0: a
+        516     LOAD_NAME                       1: b
+        518     BINARY_OP                       9 (>>)
+        530     CALL                            2
+        538     POP_TOP                         
+        540     LOAD_NAME                       2: print
+        542     PUSH_NULL                       
+        544     LOAD_CONST                      19: 'Membership in:'
+        546     LOAD_NAME                       0: a
+        548     LOAD_NAME                       1: b
+        550     CONTAINS_OP                     0 (in)
+        554     CALL                            2
+        562     POP_TOP                         
+        564     LOAD_NAME                       2: print
+        566     PUSH_NULL                       
+        568     LOAD_CONST                      20: 'Membership not in:'
+        570     LOAD_NAME                       0: a
+        572     LOAD_NAME                       1: b
+        574     CONTAINS_OP                     1 (not in)
+        578     CALL                            2
+        586     POP_TOP                         
+        588     LOAD_NAME                       2: print
+        590     PUSH_NULL                       
+        592     LOAD_CONST                      21: 'Identity equality:'
+        594     LOAD_NAME                       0: a
+        596     LOAD_NAME                       1: b
+        598     IS_OP                           0 (is)
+        600     CALL                            2
+        608     POP_TOP                         
+        610     LOAD_NAME                       2: print
+        612     PUSH_NULL                       
+        614     LOAD_CONST                      22: 'Identity inequality:'
+        616     LOAD_NAME                       0: a
+        618     LOAD_NAME                       1: b
+        620     IS_OP                           1 (is not)
+        622     CALL                            2
+        630     POP_TOP                         
+        632     LOAD_CONST                      23: None
+        634     RETURN_VALUE                    
+    [Exception Table]

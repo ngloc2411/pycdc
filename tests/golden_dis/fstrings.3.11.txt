@@ -1,0 +1,55 @@
+[Code]
+    File Name: fstrings.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 8
+    Flags: 0x00000000
+    [Names]
+        'name'
+        'n'
+        'print'
+    [Locals+Names]
+    [Constants]
+        'x'
+        3
+        '='
+        '>5'
+        ' '
+        1
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: 'x'
+        4       STORE_NAME                      0: name
+        6       LOAD_CONST                      1: 3
+        8       STORE_NAME                      1: n
+        10      PUSH_NULL                       
+        12      LOAD_NAME                       2: print
+        14      LOAD_NAME                       0: name
+        16      FORMAT_VALUE                    0 (FVC_NONE)
+        18      LOAD_CONST                      2: '='
+        20      LOAD_NAME                       1: n
+        22      LOAD_CONST                      3: '>5'
+        24      FORMAT_VALUE                    6 (FVC_REPR | FVS_HAVE_SPEC)
+        26      LOAD_CONST                      4: ' '
+        28      LOAD_NAME                       1: n
+        30      LOAD_CONST                      5: 1
+        32      BINARY_OP                       0 (+)
+        36      FORMAT_VALUE                    0 (FVC_NONE)
+        38      BUILD_STRING                    5
+        40      PRECALL                         1
+        44      CALL                            1
+        54      POP_TOP                         
+        56      PUSH_NULL                       
+        58      LOAD_NAME                       2: print
+        60      LOAD_NAME                       0: name
+        62      FORMAT_VALUE                    0 (FVC_NONE)
+        64      PRECALL                         1
+        68      CALL                            1
+        78      POP_TOP                         
+        80      LOAD_CONST                      6: None
+        82      RETURN_VALUE                    
+    [Exception Table]

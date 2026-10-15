@@ -1,0 +1,59 @@
+[Code]
+    File Name: nan_inf.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'a'
+        'b'
+        'c'
+        'd'
+        'float'
+        'e'
+        'f'
+        'g'
+        'h'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        -nan
+        -nan
+        inf
+        -inf
+        'nan'
+        '-nan'
+        'inf'
+        '-inf'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: float('-nan')
+        2       STORE_NAME                      0: a
+        4       LOAD_CONST                      1: float('-nan')
+        6       STORE_NAME                      1: b
+        8       LOAD_CONST                      2: float('inf')
+        10      STORE_NAME                      2: c
+        12      LOAD_CONST                      3: float('-inf')
+        14      STORE_NAME                      3: d
+        16      LOAD_NAME                       4: float
+        18      LOAD_CONST                      4: 'nan'
+        20      CALL_FUNCTION                   1
+        22      STORE_NAME                      5: e
+        24      LOAD_NAME                       4: float
+        26      LOAD_CONST                      5: '-nan'
+        28      CALL_FUNCTION                   1
+        30      STORE_NAME                      6: f
+        32      LOAD_NAME                       4: float
+        34      LOAD_CONST                      6: 'inf'
+        36      CALL_FUNCTION                   1
+        38      STORE_NAME                      7: g
+        40      LOAD_NAME                       4: float
+        42      LOAD_CONST                      7: '-inf'
+        44      CALL_FUNCTION                   1
+        46      STORE_NAME                      8: h
+        48      LOAD_CONST                      8: None
+        50      RETURN_VALUE                    

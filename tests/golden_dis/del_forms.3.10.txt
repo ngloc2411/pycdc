@@ -1,0 +1,68 @@
+[Code]
+    File Name: del_forms.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'O'
+        'o'
+        'x'
+        'a'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: del_forms.py
+            Object Name: O
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000040 (CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                'O'
+                None
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                2       STORE_NAME                      1: __module__
+                4       LOAD_CONST                      0: 'O'
+                6       STORE_NAME                      2: __qualname__
+                8       LOAD_CONST                      1: None
+                10      RETURN_VALUE                    
+        'O'
+        1
+        None
+    [Disassembly]
+        0       LOAD_BUILD_CLASS                
+        2       LOAD_CONST                      0: <CODE> O
+        4       LOAD_CONST                      1: 'O'
+        6       MAKE_FUNCTION                   0
+        8       LOAD_CONST                      1: 'O'
+        10      CALL_FUNCTION                   2
+        12      STORE_NAME                      0: O
+        14      LOAD_NAME                       0: O
+        16      CALL_FUNCTION                   0
+        18      STORE_NAME                      1: o
+        20      LOAD_CONST                      2: 1
+        22      LOAD_NAME                       1: o
+        24      STORE_ATTR                      2: x
+        26      LOAD_NAME                       1: o
+        28      DELETE_ATTR                     2: x
+        30      LOAD_CONST                      2: 1
+        32      STORE_NAME                      3: a
+        34      DELETE_NAME                     3: a
+        36      LOAD_CONST                      3: None
+        38      RETURN_VALUE                    

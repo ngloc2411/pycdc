@@ -1,0 +1,510 @@
+[Code]
+    File Name: while_loops_more.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'and_cond'
+        'or_cond'
+        'elif_chain'
+        'true_continue'
+        'loop_in_for'
+        'break_in_inner_for'
+        'three_levels'
+        'nested_else'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: and_cond
+            Qualified Name: and_cond
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       POP_JUMP_IF_FALSE               17 (to 40)
+                6       LOAD_FAST                       1: b
+                8       POP_JUMP_IF_FALSE               15 (to 40)
+                10      LOAD_FAST                       0: a
+                12      LOAD_CONST                      1: 1
+                14      BINARY_OP                       10 (-)
+                18      STORE_FAST                      0: a
+                20      LOAD_FAST                       1: b
+                22      LOAD_CONST                      1: 1
+                24      BINARY_OP                       10 (-)
+                28      STORE_FAST                      1: b
+                30      LOAD_FAST                       0: a
+                32      POP_JUMP_IF_FALSE               3 (to 40)
+                34      LOAD_FAST                       1: b
+                36      POP_JUMP_IF_FALSE               1 (to 40)
+                38      JUMP_BACKWARD                   15 (to 10)
+                40      LOAD_FAST                       0: a
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: or_cond
+            Qualified Name: or_cond
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       POP_JUMP_IF_TRUE                2 (to 10)
+                6       LOAD_FAST                       1: b
+                8       POP_JUMP_IF_FALSE               11 (to 32)
+                10      LOAD_FAST                       0: a
+                12      LOAD_CONST                      1: 1
+                14      BINARY_OP                       10 (-)
+                18      STORE_FAST                      0: a
+                20      LOAD_FAST                       0: a
+                22      POP_JUMP_IF_FALSE               1 (to 26)
+                24      JUMP_BACKWARD                   8 (to 10)
+                26      LOAD_FAST                       1: b
+                28      POP_JUMP_IF_FALSE               1 (to 32)
+                30      JUMP_BACKWARD                   11 (to 10)
+                32      LOAD_GLOBAL                     1: NULL + print
+                42      LOAD_FAST                       0: a
+                44      CALL                            1
+                52      POP_TOP                         
+                54      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: elif_chain
+            Qualified Name: elif_chain
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                None
+                0
+                1
+                'one'
+                2
+                'two'
+                'many'
+                'done'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: 0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST                       1: j
+                8       LOAD_FAST                       0: n
+                10      COMPARE_OP                      2 (<)
+                14      POP_JUMP_IF_FALSE               56 (to 128)
+                16      LOAD_FAST                       1: j
+                18      LOAD_CONST                      2: 1
+                20      COMPARE_OP                      40 (==)
+                24      POP_JUMP_IF_FALSE               12 (to 50)
+                26      LOAD_GLOBAL                     1: NULL + print
+                36      LOAD_CONST                      3: 'one'
+                38      CALL                            1
+                46      POP_TOP                         
+                48      JUMP_FORWARD                    28 (to 106)
+                50      LOAD_FAST                       1: j
+                52      LOAD_CONST                      4: 2
+                54      COMPARE_OP                      40 (==)
+                58      POP_JUMP_IF_FALSE               12 (to 84)
+                60      LOAD_GLOBAL                     1: NULL + print
+                70      LOAD_CONST                      5: 'two'
+                72      CALL                            1
+                80      POP_TOP                         
+                82      JUMP_FORWARD                    11 (to 106)
+                84      LOAD_GLOBAL                     1: NULL + print
+                94      LOAD_CONST                      6: 'many'
+                96      CALL                            1
+                104     POP_TOP                         
+                106     LOAD_FAST                       1: j
+                108     LOAD_CONST                      2: 1
+                110     BINARY_OP                       13 (+=)
+                114     STORE_FAST                      1: j
+                116     LOAD_FAST                       1: j
+                118     LOAD_FAST                       0: n
+                120     COMPARE_OP                      2 (<)
+                124     POP_JUMP_IF_FALSE               1 (to 128)
+                126     JUMP_BACKWARD                   56 (to 16)
+                128     LOAD_GLOBAL                     1: NULL + print
+                138     LOAD_CONST                      7: 'done'
+                140     CALL                            1
+                148     POP_TOP                         
+                150     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: true_continue
+            Qualified Name: true_continue
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'get'
+                'print'
+            [Locals+Names]
+                'q'
+                'item'
+            [Constants]
+                None
+                'stop'
+                'stopped'
+            [Disassembly]
+                0       RESUME                          0
+                2       NOP                             
+                4       LOAD_FAST                       0: q
+                6       LOAD_ATTR                       1: get
+                26      CALL                            0
+                34      STORE_FAST                      1: item
+                36      LOAD_FAST                       1: item
+                38      POP_JUMP_IF_NOT_NONE            1 (to 42)
+                40      JUMP_BACKWARD                   20 (to 2)
+                42      LOAD_FAST                       1: item
+                44      LOAD_CONST                      1: 'stop'
+                46      COMPARE_OP                      40 (==)
+                50      POP_JUMP_IF_FALSE               1 (to 54)
+                52      JUMP_FORWARD                    12 (to 78)
+                54      LOAD_GLOBAL                     3: NULL + print
+                64      LOAD_FAST                       1: item
+                66      CALL                            1
+                74      POP_TOP                         
+                76      JUMP_BACKWARD                   37 (to 4)
+                78      LOAD_GLOBAL                     3: NULL + print
+                88      LOAD_CONST                      2: 'stopped'
+                90      CALL                            1
+                98      POP_TOP                         
+                100     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: loop_in_for
+            Qualified Name: loop_in_for
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'len'
+                'print'
+            [Locals+Names]
+                'rows'
+                'row'
+                'k'
+            [Constants]
+                None
+                0
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: rows
+                4       GET_ITER                        
+                6       FOR_ITER                        58 (to 124)
+                10      STORE_FAST                      1: row
+                12      LOAD_CONST                      1: 0
+                14      STORE_FAST                      2: k
+                16      LOAD_FAST                       2: k
+                18      LOAD_GLOBAL                     1: NULL + len
+                28      LOAD_FAST                       1: row
+                30      CALL                            1
+                38      COMPARE_OP                      2 (<)
+                42      POP_JUMP_IF_FALSE               29 (to 102)
+                44      LOAD_FAST                       1: row
+                46      LOAD_FAST                       2: k
+                48      BINARY_SUBSCR                   
+                52      LOAD_CONST                      1: 0
+                54      COMPARE_OP                      40 (==)
+                58      POP_JUMP_IF_FALSE               1 (to 62)
+                60      JUMP_FORWARD                    20 (to 102)
+                62      LOAD_FAST                       2: k
+                64      LOAD_CONST                      2: 1
+                66      BINARY_OP                       13 (+=)
+                70      STORE_FAST                      2: k
+                72      LOAD_FAST                       2: k
+                74      LOAD_GLOBAL                     1: NULL + len
+                84      LOAD_FAST                       1: row
+                86      CALL                            1
+                94      COMPARE_OP                      2 (<)
+                98      POP_JUMP_IF_FALSE               1 (to 102)
+                100     JUMP_BACKWARD                   29 (to 44)
+                102     LOAD_GLOBAL                     3: NULL + print
+                112     LOAD_FAST                       2: k
+                114     CALL                            1
+                122     POP_TOP                         
+                124     JUMP_BACKWARD                   60 (to 6)
+                126     END_FOR                         
+                128     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: break_in_inner_for
+            Qualified Name: break_in_inner_for
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'range'
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+                'x'
+            [Constants]
+                None
+                0
+                2
+                1
+                'end'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: 0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST                       1: j
+                8       LOAD_FAST                       0: n
+                10      COMPARE_OP                      2 (<)
+                14      POP_JUMP_IF_FALSE               45 (to 106)
+                16      LOAD_GLOBAL                     1: NULL + range
+                26      LOAD_FAST                       1: j
+                28      CALL                            1
+                36      GET_ITER                        
+                38      FOR_ITER                        20 (to 80)
+                42      STORE_FAST                      2: x
+                44      LOAD_FAST                       2: x
+                46      LOAD_CONST                      2: 2
+                48      COMPARE_OP                      40 (==)
+                52      POP_JUMP_IF_FALSE               2 (to 58)
+                54      POP_TOP                         
+                56      JUMP_FORWARD                    13 (to 84)
+                58      LOAD_GLOBAL                     3: NULL + print
+                68      LOAD_FAST                       2: x
+                70      CALL                            1
+                78      POP_TOP                         
+                80      JUMP_BACKWARD                   22 (to 38)
+                82      END_FOR                         
+                84      LOAD_FAST                       1: j
+                86      LOAD_CONST                      3: 1
+                88      BINARY_OP                       13 (+=)
+                92      STORE_FAST                      1: j
+                94      LOAD_FAST                       1: j
+                96      LOAD_FAST                       0: n
+                98      COMPARE_OP                      2 (<)
+                102     POP_JUMP_IF_FALSE               1 (to 106)
+                104     JUMP_BACKWARD                   45 (to 16)
+                106     LOAD_GLOBAL                     3: NULL + print
+                116     LOAD_CONST                      4: 'end'
+                118     CALL                            1
+                126     POP_TOP                         
+                128     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: three_levels
+            Qualified Name: three_levels
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+                0
+                1
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: 0
+                4       STORE_FAST                      1: a
+                6       LOAD_FAST                       1: a
+                8       LOAD_FAST                       0: n
+                10      COMPARE_OP                      2 (<)
+                14      POP_JUMP_IF_FALSE               53 (to 122)
+                16      LOAD_CONST                      1: 0
+                18      STORE_FAST                      2: b
+                20      LOAD_FAST                       2: b
+                22      LOAD_FAST                       0: n
+                24      COMPARE_OP                      2 (<)
+                28      POP_JUMP_IF_FALSE               35 (to 100)
+                30      LOAD_CONST                      1: 0
+                32      STORE_FAST                      3: c
+                34      LOAD_FAST                       3: c
+                36      LOAD_FAST                       0: n
+                38      COMPARE_OP                      2 (<)
+                42      POP_JUMP_IF_FALSE               17 (to 78)
+                44      LOAD_FAST                       3: c
+                46      LOAD_CONST                      2: 1
+                48      BINARY_OP                       13 (+=)
+                52      STORE_FAST                      3: c
+                54      LOAD_FAST                       3: c
+                56      LOAD_CONST                      3: 2
+                58      COMPARE_OP                      40 (==)
+                62      POP_JUMP_IF_FALSE               1 (to 66)
+                64      JUMP_FORWARD                    6 (to 78)
+                66      LOAD_FAST                       3: c
+                68      LOAD_FAST                       0: n
+                70      COMPARE_OP                      2 (<)
+                74      POP_JUMP_IF_FALSE               1 (to 78)
+                76      JUMP_BACKWARD                   17 (to 44)
+                78      LOAD_FAST                       2: b
+                80      LOAD_CONST                      2: 1
+                82      BINARY_OP                       13 (+=)
+                86      STORE_FAST                      2: b
+                88      LOAD_FAST                       2: b
+                90      LOAD_FAST                       0: n
+                92      COMPARE_OP                      2 (<)
+                96      POP_JUMP_IF_FALSE               1 (to 100)
+                98      JUMP_BACKWARD                   35 (to 30)
+                100     LOAD_FAST                       1: a
+                102     LOAD_CONST                      2: 1
+                104     BINARY_OP                       13 (+=)
+                108     STORE_FAST                      1: a
+                110     LOAD_FAST                       1: a
+                112     LOAD_FAST                       0: n
+                114     COMPARE_OP                      2 (<)
+                118     POP_JUMP_IF_FALSE               1 (to 122)
+                120     JUMP_BACKWARD                   53 (to 16)
+                122     LOAD_GLOBAL                     1: NULL + print
+                132     LOAD_FAST                       1: a
+                134     CALL                            1
+                142     POP_TOP                         
+                144     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: while_loops_more.py
+            Object Name: nested_else
+            Qualified Name: nested_else
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'i'
+                'j'
+            [Constants]
+                None
+                0
+                1
+                4
+                'inner done'
+                'x'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: 0
+                4       STORE_FAST                      1: i
+                6       LOAD_FAST                       1: i
+                8       LOAD_FAST                       0: n
+                10      COMPARE_OP                      2 (<)
+                14      POP_JUMP_IF_FALSE               46 (to 108)
+                16      LOAD_CONST                      1: 0
+                18      STORE_FAST                      2: j
+                20      LOAD_FAST                       2: j
+                22      LOAD_FAST                       0: n
+                24      COMPARE_OP                      2 (<)
+                28      POP_JUMP_IF_FALSE               17 (to 64)
+                30      LOAD_FAST                       2: j
+                32      LOAD_CONST                      2: 1
+                34      BINARY_OP                       13 (+=)
+                38      STORE_FAST                      2: j
+                40      LOAD_FAST                       2: j
+                42      LOAD_CONST                      3: 4
+                44      COMPARE_OP                      40 (==)
+                48      POP_JUMP_IF_FALSE               1 (to 52)
+                50      JUMP_FORWARD                    17 (to 86)
+                52      LOAD_FAST                       2: j
+                54      LOAD_FAST                       0: n
+                56      COMPARE_OP                      2 (<)
+                60      POP_JUMP_IF_FALSE               1 (to 64)
+                62      JUMP_BACKWARD                   17 (to 30)
+                64      LOAD_GLOBAL                     1: NULL + print
+                74      LOAD_CONST                      4: 'inner done'
+                76      CALL                            1
+                84      POP_TOP                         
+                86      LOAD_FAST                       1: i
+                88      LOAD_CONST                      2: 1
+                90      BINARY_OP                       13 (+=)
+                94      STORE_FAST                      1: i
+                96      LOAD_FAST                       1: i
+                98      LOAD_FAST                       0: n
+                100     COMPARE_OP                      2 (<)
+                104     POP_JUMP_IF_FALSE               1 (to 108)
+                106     JUMP_BACKWARD                   46 (to 16)
+                108     LOAD_GLOBAL                     1: NULL + print
+                118     LOAD_CONST                      5: 'x'
+                120     CALL                            1
+                128     POP_TOP                         
+                130     RETURN_CONST                    0: None
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> and_cond
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: and_cond
+        8       LOAD_CONST                      1: <CODE> or_cond
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: or_cond
+        14      LOAD_CONST                      2: <CODE> elif_chain
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: elif_chain
+        20      LOAD_CONST                      3: <CODE> true_continue
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: true_continue
+        26      LOAD_CONST                      4: <CODE> loop_in_for
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      4: loop_in_for
+        32      LOAD_CONST                      5: <CODE> break_in_inner_for
+        34      MAKE_FUNCTION                   0
+        36      STORE_NAME                      5: break_in_inner_for
+        38      LOAD_CONST                      6: <CODE> three_levels
+        40      MAKE_FUNCTION                   0
+        42      STORE_NAME                      6: three_levels
+        44      LOAD_CONST                      7: <CODE> nested_else
+        46      MAKE_FUNCTION                   0
+        48      STORE_NAME                      7: nested_else
+        50      RETURN_CONST                    8: None
+    [Exception Table]

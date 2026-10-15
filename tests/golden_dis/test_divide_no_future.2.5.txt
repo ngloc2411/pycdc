@@ -1,0 +1,64 @@
+[Code]
+    File Name: ../input/test_divide_no_future.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'ai'
+        'bi'
+        'af'
+        'bf'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1
+        2
+        1.5
+        2.5
+        '  1 // 2   ='
+        '1.5 // 2.5 ='
+        '  1 /  2   ='
+        '1.5 /  2.5 ='
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 1
+        3       STORE_NAME                      0: ai
+        6       LOAD_CONST                      1: 2
+        9       STORE_NAME                      1: bi
+        12      LOAD_CONST                      2: 1.5
+        15      STORE_NAME                      2: af
+        18      LOAD_CONST                      3: 2.5
+        21      STORE_NAME                      3: bf
+        24      LOAD_CONST                      4: '  1 // 2   ='
+        27      PRINT_ITEM                      
+        28      LOAD_NAME                       0: ai
+        31      LOAD_NAME                       1: bi
+        34      BINARY_FLOOR_DIVIDE             
+        35      PRINT_ITEM                      
+        36      PRINT_NEWLINE                   
+        37      LOAD_CONST                      5: '1.5 // 2.5 ='
+        40      PRINT_ITEM                      
+        41      LOAD_NAME                       2: af
+        44      LOAD_NAME                       3: bf
+        47      BINARY_FLOOR_DIVIDE             
+        48      PRINT_ITEM                      
+        49      PRINT_NEWLINE                   
+        50      LOAD_CONST                      6: '  1 /  2   ='
+        53      PRINT_ITEM                      
+        54      LOAD_NAME                       0: ai
+        57      LOAD_NAME                       1: bi
+        60      BINARY_DIVIDE                   
+        61      PRINT_ITEM                      
+        62      PRINT_NEWLINE                   
+        63      LOAD_CONST                      7: '1.5 /  2.5 ='
+        66      PRINT_ITEM                      
+        67      LOAD_NAME                       2: af
+        70      LOAD_NAME                       3: bf
+        73      BINARY_DIVIDE                   
+        74      PRINT_ITEM                      
+        75      PRINT_NEWLINE                   
+        76      LOAD_CONST                      8: None
+        79      RETURN_VALUE                    

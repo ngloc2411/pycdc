@@ -1,0 +1,178 @@
+[Code]
+    File Name: tests/input/conditional_expressions_py2.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'sys'
+        'a'
+        'result'
+        'stdout'
+        'write'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        -1
+        None
+        1
+        2
+        0
+        'even'
+        'odd'
+        3
+        'even\n'
+        'odd\n'
+        -2
+        'negative and even'
+        'positive or odd'
+    [Disassembly]
+        0       LOAD_CONST                      0: -1
+        3       LOAD_CONST                      1: None
+        6       IMPORT_NAME                     0: sys
+        9       STORE_NAME                      0: sys
+        12      LOAD_CONST                      2: 1
+        15      STORE_NAME                      1: a
+        18      LOAD_NAME                       1: a
+        21      LOAD_CONST                      3: 2
+        24      BINARY_MODULO                   
+        25      LOAD_CONST                      4: 0
+        28      COMPARE_OP                      2 (==)
+        31      POP_JUMP_IF_FALSE               40
+        34      LOAD_CONST                      5: 'even'
+        37      JUMP_FORWARD                    3 (to 43)
+        40      LOAD_CONST                      6: 'odd'
+        43      STORE_NAME                      2: result
+        46      LOAD_NAME                       2: result
+        49      PRINT_ITEM                      
+        50      PRINT_NEWLINE                   
+        51      LOAD_CONST                      3: 2
+        54      STORE_NAME                      1: a
+        57      LOAD_NAME                       1: a
+        60      LOAD_CONST                      3: 2
+        63      BINARY_MODULO                   
+        64      LOAD_CONST                      4: 0
+        67      COMPARE_OP                      2 (==)
+        70      POP_JUMP_IF_FALSE               79
+        73      LOAD_CONST                      5: 'even'
+        76      JUMP_FORWARD                    3 (to 82)
+        79      LOAD_CONST                      6: 'odd'
+        82      STORE_NAME                      2: result
+        85      LOAD_NAME                       2: result
+        88      PRINT_ITEM                      
+        89      PRINT_NEWLINE                   
+        90      LOAD_CONST                      2: 1
+        93      STORE_NAME                      1: a
+        96      LOAD_NAME                       1: a
+        99      LOAD_CONST                      3: 2
+        102     BINARY_MODULO                   
+        103     LOAD_CONST                      4: 0
+        106     COMPARE_OP                      2 (==)
+        109     POP_JUMP_IF_FALSE               122
+        112     LOAD_NAME                       1: a
+        115     LOAD_CONST                      3: 2
+        118     BINARY_MULTIPLY                 
+        119     JUMP_FORWARD                    7 (to 129)
+        122     LOAD_NAME                       1: a
+        125     LOAD_CONST                      7: 3
+        128     BINARY_MULTIPLY                 
+        129     STORE_NAME                      2: result
+        132     LOAD_NAME                       2: result
+        135     PRINT_ITEM                      
+        136     PRINT_NEWLINE                   
+        137     LOAD_CONST                      3: 2
+        140     STORE_NAME                      1: a
+        143     LOAD_NAME                       1: a
+        146     LOAD_CONST                      3: 2
+        149     BINARY_MODULO                   
+        150     LOAD_CONST                      4: 0
+        153     COMPARE_OP                      2 (==)
+        156     POP_JUMP_IF_FALSE               169
+        159     LOAD_NAME                       1: a
+        162     LOAD_CONST                      3: 2
+        165     BINARY_MULTIPLY                 
+        166     JUMP_FORWARD                    7 (to 176)
+        169     LOAD_NAME                       1: a
+        172     LOAD_CONST                      7: 3
+        175     BINARY_MULTIPLY                 
+        176     STORE_NAME                      2: result
+        179     LOAD_NAME                       2: result
+        182     PRINT_ITEM                      
+        183     PRINT_NEWLINE                   
+        184     LOAD_CONST                      2: 1
+        187     STORE_NAME                      1: a
+        190     LOAD_NAME                       1: a
+        193     LOAD_CONST                      3: 2
+        196     BINARY_MODULO                   
+        197     LOAD_CONST                      4: 0
+        200     COMPARE_OP                      2 (==)
+        203     POP_JUMP_IF_FALSE               224
+        206     LOAD_NAME                       0: sys
+        209     LOAD_ATTR                       3: stdout
+        212     LOAD_ATTR                       4: write
+        215     LOAD_CONST                      8: 'even\n'
+        218     CALL_FUNCTION                   1
+        221     JUMP_FORWARD                    15 (to 239)
+        224     LOAD_NAME                       0: sys
+        227     LOAD_ATTR                       3: stdout
+        230     LOAD_ATTR                       4: write
+        233     LOAD_CONST                      9: 'odd\n'
+        236     CALL_FUNCTION                   1
+        239     POP_TOP                         
+        240     LOAD_CONST                      2: 1
+        243     STORE_NAME                      1: a
+        246     LOAD_NAME                       1: a
+        249     LOAD_CONST                      3: 2
+        252     BINARY_MODULO                   
+        253     LOAD_CONST                      4: 0
+        256     COMPARE_OP                      2 (==)
+        259     POP_JUMP_IF_FALSE               270
+        262     LOAD_CONST                      5: 'even'
+        265     PRINT_ITEM                      
+        266     PRINT_NEWLINE                   
+        267     JUMP_FORWARD                    5 (to 275)
+        270     LOAD_CONST                      6: 'odd'
+        273     PRINT_ITEM                      
+        274     PRINT_NEWLINE                   
+        275     LOAD_CONST                      10: -2
+        278     STORE_NAME                      1: a
+        281     LOAD_NAME                       1: a
+        284     LOAD_CONST                      4: 0
+        287     COMPARE_OP                      0 (<)
+        290     POP_JUMP_IF_FALSE               315
+        293     LOAD_NAME                       1: a
+        296     LOAD_CONST                      3: 2
+        299     BINARY_MODULO                   
+        300     LOAD_CONST                      4: 0
+        303     COMPARE_OP                      2 (==)
+        306     POP_JUMP_IF_FALSE               315
+        309     LOAD_CONST                      11: 'negative and even'
+        312     JUMP_FORWARD                    3 (to 318)
+        315     LOAD_CONST                      12: 'positive or odd'
+        318     STORE_NAME                      2: result
+        321     LOAD_NAME                       2: result
+        324     PRINT_ITEM                      
+        325     PRINT_NEWLINE                   
+        326     LOAD_CONST                      0: -1
+        329     STORE_NAME                      1: a
+        332     LOAD_NAME                       1: a
+        335     LOAD_CONST                      4: 0
+        338     COMPARE_OP                      0 (<)
+        341     POP_JUMP_IF_FALSE               366
+        344     LOAD_NAME                       1: a
+        347     LOAD_CONST                      3: 2
+        350     BINARY_MODULO                   
+        351     LOAD_CONST                      4: 0
+        354     COMPARE_OP                      2 (==)
+        357     POP_JUMP_IF_FALSE               366
+        360     LOAD_CONST                      11: 'negative and even'
+        363     JUMP_FORWARD                    3 (to 369)
+        366     LOAD_CONST                      12: 'positive or odd'
+        369     STORE_NAME                      2: result
+        372     LOAD_NAME                       2: result
+        375     PRINT_ITEM                      
+        376     PRINT_NEWLINE                   
+        377     LOAD_CONST                      1: None
+        380     RETURN_VALUE                    

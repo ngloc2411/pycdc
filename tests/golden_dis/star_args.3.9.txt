@@ -1,0 +1,72 @@
+[Code]
+    File Name: star_args.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        2
+        3
+        (
+            'c'
+        )
+        [Code]
+            File Name: star_args.py
+            Object Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 1
+            Locals: 5
+            Stack Size: 4
+            Flags: 0x0000004F (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_VARKEYWORDS | CO_NOFREE)
+            [Names]
+                'g'
+            [Var Names]
+                'a'
+                'b'
+                'c'
+                'args'
+                'kw'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'c'
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: g
+                2       LOAD_FAST                       0: a
+                4       BUILD_LIST                      1
+                6       LOAD_FAST                       3: args
+                8       LIST_EXTEND                     1
+                10      LIST_TO_TUPLE                   
+                12      LOAD_CONST                      1: 'c'
+                14      LOAD_FAST                       2: c
+                16      BUILD_MAP                       1
+                18      LOAD_FAST                       4: kw
+                20      DICT_MERGE                      1
+                22      CALL_FUNCTION_EX                1
+                24      RETURN_VALUE                    
+        'f'
+        None
+        (
+            2
+        )
+    [Disassembly]
+        0       LOAD_CONST                      6: (2,)
+        2       LOAD_CONST                      1: 3
+        4       LOAD_CONST                      2: ('c',)
+        6       BUILD_CONST_KEY_MAP             1
+        8       LOAD_CONST                      3: <CODE> f
+        10      LOAD_CONST                      4: 'f'
+        12      MAKE_FUNCTION                   3
+        14      STORE_NAME                      0: f
+        16      LOAD_CONST                      5: None
+        18      RETURN_VALUE                    

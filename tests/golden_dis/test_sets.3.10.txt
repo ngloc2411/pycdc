@@ -1,0 +1,48 @@
+[Code]
+    File Name: test_sets.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'set'
+        'a'
+        'b'
+        'c'
+        'd'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1
+        2
+        'AB'
+        'CD'
+        frozenset({
+            1
+            2
+            3
+            4
+        })
+        None
+    [Disassembly]
+        0       LOAD_NAME                       0: set
+        2       CALL_FUNCTION                   0
+        4       STORE_NAME                      1: a
+        6       LOAD_CONST                      0: 1
+        8       LOAD_CONST                      1: 2
+        10      BUILD_SET                       2
+        12      STORE_NAME                      2: b
+        14      LOAD_CONST                      2: 'AB'
+        16      LOAD_CONST                      3: 'CD'
+        18      BUILD_SET                       2
+        20      STORE_NAME                      3: c
+        22      BUILD_SET                       0
+        24      LOAD_CONST                      4: frozenset({1, 2, 3, 4})
+        26      SET_UPDATE                      1
+        28      STORE_NAME                      4: d
+        30      LOAD_CONST                      5: None
+        32      RETURN_VALUE                    

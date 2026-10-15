@@ -1,0 +1,77 @@
+[Code]
+    File Name: bool_ops_assign.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: bool_ops_assign.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_TRUE                3 (to 22)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      BUILD_MAP                       0
+                24      STORE_FAST                      2: x
+                26      LOAD_FAST                       0: a
+                28      COPY                            1
+                30      TO_BOOL                         
+                38      POP_JUMP_IF_FALSE               3 (to 46)
+                42      NOT_TAKEN                       
+                44      POP_TOP                         
+                46      LOAD_FAST                       1: b
+                48      STORE_FAST                      3: y
+                50      LOAD_FAST                       0: a
+                52      COPY                            1
+                54      TO_BOOL                         
+                62      POP_JUMP_IF_TRUE                11 (to 86)
+                66      NOT_TAKEN                       
+                68      POP_TOP                         
+                70      LOAD_FAST                       1: b
+                72      COPY                            1
+                74      TO_BOOL                         
+                82      POP_JUMP_IF_FALSE               3 (to 90)
+                86      NOT_TAKEN                       
+                88      POP_TOP                         
+                90      LOAD_FAST                       0: a
+                92      STORE_FAST                      4: z
+                94      LOAD_FAST_BORROW_LOAD_FAST_BORROW  35
+                96      LOAD_FAST_BORROW                4
+                98      BUILD_TUPLE                     3
+                100     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

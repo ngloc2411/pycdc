@@ -1,0 +1,519 @@
+[Code]
+    File Name: match_stmt.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'literals'
+        'sequences'
+        'mappings'
+        'classes'
+        'guards'
+        'bodies'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: literals
+            Qualified Name: literals
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'Color'
+                'RED'
+            [Locals+Names]
+                'x'
+            [Constants]
+                None
+                1
+                'one'
+                'none'
+                -5
+                'neg'
+                'a'
+                'b'
+                'ab'
+                'red'
+                'other'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       LOAD_CONST                      1: 1
+                8       COMPARE_OP                      40 (==)
+                12      POP_JUMP_IF_FALSE               2 (to 18)
+                14      POP_TOP                         
+                16      RETURN_CONST                    2: 'one'
+                18      COPY                            1
+                20      POP_JUMP_IF_NOT_NONE            2 (to 26)
+                22      POP_TOP                         
+                24      RETURN_CONST                    3: 'none'
+                26      COPY                            1
+                28      LOAD_CONST                      4: -5
+                30      COMPARE_OP                      40 (==)
+                34      POP_JUMP_IF_FALSE               2 (to 40)
+                36      POP_TOP                         
+                38      RETURN_CONST                    5: 'neg'
+                40      COPY                            1
+                42      COPY                            1
+                44      LOAD_CONST                      6: 'a'
+                46      COMPARE_OP                      40 (==)
+                50      POP_JUMP_IF_FALSE               3 (to 58)
+                52      POP_TOP                         
+                54      POP_TOP                         
+                56      RETURN_CONST                    8: 'ab'
+                58      COPY                            1
+                60      LOAD_CONST                      7: 'b'
+                62      COMPARE_OP                      40 (==)
+                66      POP_JUMP_IF_FALSE               3 (to 74)
+                68      POP_TOP                         
+                70      POP_TOP                         
+                72      RETURN_CONST                    8: 'ab'
+                74      POP_TOP                         
+                76      LOAD_GLOBAL                     0: Color
+                86      LOAD_ATTR                       2: RED
+                106     COMPARE_OP                      40 (==)
+                110     POP_JUMP_IF_FALSE               1 (to 114)
+                112     RETURN_CONST                    9: 'red'
+                114     NOP                             
+                116     RETURN_CONST                    10: 'other'
+            [Exception Table]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: sequences
+            Qualified Name: sequences
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'x'
+                'a'
+                'b'
+                'first'
+                'rest'
+                'c'
+            [Constants]
+                None
+                0
+                1
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       MATCH_SEQUENCE                  
+                8       POP_JUMP_IF_FALSE               8 (to 26)
+                10      GET_LEN                         
+                12      LOAD_CONST                      1: 0
+                14      COMPARE_OP                      40 (==)
+                18      POP_JUMP_IF_FALSE               3 (to 26)
+                20      POP_TOP                         
+                22      POP_TOP                         
+                24      RETURN_CONST                    1: 0
+                26      POP_TOP                         
+                28      COPY                            1
+                30      MATCH_SEQUENCE                  
+                32      POP_JUMP_IF_FALSE               11 (to 56)
+                34      GET_LEN                         
+                36      LOAD_CONST                      2: 1
+                38      COMPARE_OP                      40 (==)
+                42      POP_JUMP_IF_FALSE               6 (to 56)
+                44      UNPACK_SEQUENCE                 1
+                48      STORE_FAST                      1: a
+                50      POP_TOP                         
+                52      LOAD_FAST                       1: a
+                54      RETURN_VALUE                    
+                56      POP_TOP                         
+                58      COPY                            1
+                60      MATCH_SEQUENCE                  
+                62      POP_JUMP_IF_FALSE               12 (to 88)
+                64      GET_LEN                         
+                66      LOAD_CONST                      3: 2
+                68      COMPARE_OP                      40 (==)
+                72      POP_JUMP_IF_FALSE               7 (to 88)
+                74      UNPACK_SEQUENCE                 2
+                78      STORE_FAST                      1: a
+                80      STORE_FAST                      2: b
+                82      POP_TOP                         
+                84      LOAD_FAST                       2: b
+                86      RETURN_VALUE                    
+                88      POP_TOP                         
+                90      COPY                            1
+                92      MATCH_SEQUENCE                  
+                94      POP_JUMP_IF_FALSE               11 (to 118)
+                96      GET_LEN                         
+                98      LOAD_CONST                      2: 1
+                100     COMPARE_OP                      92 (>=)
+                104     POP_JUMP_IF_FALSE               6 (to 118)
+                106     UNPACK_EX                       1
+                108     STORE_FAST                      3: first
+                110     STORE_FAST                      4: rest
+                112     POP_TOP                         
+                114     LOAD_FAST                       4: rest
+                116     RETURN_VALUE                    
+                118     POP_TOP                         
+                120     MATCH_SEQUENCE                  
+                122     POP_JUMP_IF_FALSE               22 (to 168)
+                124     GET_LEN                         
+                126     LOAD_CONST                      3: 2
+                128     COMPARE_OP                      40 (==)
+                132     POP_JUMP_IF_FALSE               17 (to 168)
+                134     UNPACK_SEQUENCE                 2
+                138     MATCH_SEQUENCE                  
+                140     POP_JUMP_IF_FALSE               12 (to 166)
+                142     GET_LEN                         
+                144     LOAD_CONST                      3: 2
+                146     COMPARE_OP                      40 (==)
+                150     POP_JUMP_IF_FALSE               7 (to 166)
+                152     UNPACK_SEQUENCE                 2
+                156     STORE_FAST                      1: a
+                158     STORE_FAST                      2: b
+                160     STORE_FAST                      5: c
+                162     LOAD_FAST                       5: c
+                164     RETURN_VALUE                    
+                166     POP_TOP                         
+                168     POP_TOP                         
+                170     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: mappings
+            Qualified Name: mappings
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'x'
+                'v'
+                'w'
+                'rest'
+            [Constants]
+                None
+                0
+                1
+                2
+                (
+                    'k'
+                )
+                (
+                    'k'
+                    'j'
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       MATCH_MAPPING                   
+                8       POP_JUMP_IF_FALSE               3 (to 16)
+                10      POP_TOP                         
+                12      POP_TOP                         
+                14      RETURN_CONST                    1: 0
+                16      POP_TOP                         
+                18      COPY                            1
+                20      MATCH_MAPPING                   
+                22      POP_JUMP_IF_FALSE               19 (to 62)
+                24      GET_LEN                         
+                26      LOAD_CONST                      2: 1
+                28      COMPARE_OP                      92 (>=)
+                32      POP_JUMP_IF_FALSE               14 (to 62)
+                34      LOAD_CONST                      4: ('k',)
+                36      MATCH_KEYS                      
+                38      COPY                            1
+                40      POP_JUMP_IF_NONE                8 (to 58)
+                42      UNPACK_SEQUENCE                 1
+                46      STORE_FAST                      1: v
+                48      POP_TOP                         
+                50      POP_TOP                         
+                52      POP_TOP                         
+                54      LOAD_FAST                       1: v
+                56      RETURN_VALUE                    
+                58      POP_TOP                         
+                60      POP_TOP                         
+                62      POP_TOP                         
+                64      MATCH_MAPPING                   
+                66      POP_JUMP_IF_FALSE               34 (to 136)
+                68      GET_LEN                         
+                70      LOAD_CONST                      3: 2
+                72      COMPARE_OP                      92 (>=)
+                76      POP_JUMP_IF_FALSE               29 (to 136)
+                78      LOAD_CONST                      5: ('k', 'j')
+                80      MATCH_KEYS                      
+                82      COPY                            1
+                84      POP_JUMP_IF_NONE                23 (to 132)
+                86      UNPACK_SEQUENCE                 2
+                90      LOAD_CONST                      2: 1
+                92      COMPARE_OP                      40 (==)
+                96      POP_JUMP_IF_FALSE               17 (to 132)
+                98      SWAP                            3
+                100     SWAP                            2
+                102     BUILD_MAP                       0
+                104     SWAP                            3
+                106     DICT_UPDATE                     2
+                108     UNPACK_SEQUENCE                 2
+                112     COPY                            3
+                114     SWAP                            2
+                116     DELETE_SUBSCR                   
+                118     COPY                            2
+                120     SWAP                            2
+                122     DELETE_SUBSCR                   
+                124     STORE_FAST                      3: rest
+                126     STORE_FAST                      2: w
+                128     LOAD_FAST                       3: rest
+                130     RETURN_VALUE                    
+                132     POP_TOP                         
+                134     POP_TOP                         
+                136     POP_TOP                         
+                138     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: classes
+            Qualified Name: classes
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'Point'
+                'str'
+                'bytes'
+            [Locals+Names]
+                'x'
+                'a'
+                'b'
+                'p'
+            [Constants]
+                None
+                (
+                    'x'
+                    'y'
+                )
+                0
+                'origin'
+                (
+                )
+                'text'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       LOAD_GLOBAL                     0: Point
+                16      LOAD_CONST                      1: ('x', 'y')
+                18      MATCH_CLASS                     0
+                20      COPY                            1
+                22      POP_JUMP_IF_NONE                12 (to 48)
+                24      UNPACK_SEQUENCE                 2
+                28      LOAD_CONST                      2: 0
+                30      COMPARE_OP                      40 (==)
+                34      POP_JUMP_IF_FALSE               6 (to 48)
+                36      LOAD_CONST                      2: 0
+                38      COMPARE_OP                      40 (==)
+                42      POP_JUMP_IF_FALSE               3 (to 50)
+                44      POP_TOP                         
+                46      RETURN_CONST                    3: 'origin'
+                48      POP_TOP                         
+                50      COPY                            1
+                52      COPY                            1
+                54      LOAD_GLOBAL                     0: Point
+                64      LOAD_CONST                      4: ()
+                66      MATCH_CLASS                     2
+                68      COPY                            1
+                70      POP_JUMP_IF_NONE                8 (to 88)
+                72      UNPACK_SEQUENCE                 2
+                76      STORE_FAST                      1: a
+                78      STORE_FAST                      2: b
+                80      STORE_FAST                      3: p
+                82      POP_TOP                         
+                84      LOAD_FAST                       3: p
+                86      RETURN_VALUE                    
+                88      POP_TOP                         
+                90      POP_TOP                         
+                92      COPY                            1
+                94      LOAD_GLOBAL                     2: str
+                104     LOAD_CONST                      4: ()
+                106     MATCH_CLASS                     0
+                108     COPY                            1
+                110     POP_JUMP_IF_NONE                4 (to 120)
+                112     UNPACK_SEQUENCE                 0
+                116     POP_TOP                         
+                118     RETURN_CONST                    5: 'text'
+                120     POP_TOP                         
+                122     COPY                            1
+                124     LOAD_GLOBAL                     4: bytes
+                134     LOAD_CONST                      4: ()
+                136     MATCH_CLASS                     0
+                138     COPY                            1
+                140     POP_JUMP_IF_NONE                4 (to 150)
+                142     UNPACK_SEQUENCE                 0
+                146     POP_TOP                         
+                148     RETURN_CONST                    5: 'text'
+                150     POP_TOP                         
+                152     POP_TOP                         
+                154     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: guards
+            Qualified Name: guards
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'x'
+                'y'
+                'a'
+                'b'
+                'n'
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       MATCH_SEQUENCE                  
+                8       POP_JUMP_IF_FALSE               17 (to 44)
+                10      GET_LEN                         
+                12      LOAD_CONST                      1: 2
+                14      COMPARE_OP                      40 (==)
+                18      POP_JUMP_IF_FALSE               12 (to 44)
+                20      UNPACK_SEQUENCE                 2
+                24      STORE_FAST                      2: a
+                26      STORE_FAST                      3: b
+                28      LOAD_FAST                       2: a
+                30      LOAD_FAST                       3: b
+                32      COMPARE_OP                      68 (>)
+                36      POP_JUMP_IF_FALSE               4 (to 46)
+                38      POP_TOP                         
+                40      LOAD_FAST                       2: a
+                42      RETURN_VALUE                    
+                44      POP_TOP                         
+                46      STORE_FAST                      4: n
+                48      LOAD_FAST                       4: n
+                50      LOAD_FAST                       1: y
+                52      COMPARE_OP                      68 (>)
+                56      POP_JUMP_IF_FALSE               2 (to 62)
+                58      LOAD_FAST                       4: n
+                60      RETURN_VALUE                    
+                62      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: match_stmt.py
+            Object Name: bodies
+            Qualified Name: bodies
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'append'
+                'print'
+            [Locals+Names]
+                'x'
+                'out'
+                'a'
+                'b'
+            [Constants]
+                None
+                1
+                2
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_LIST                      0
+                4       STORE_FAST                      1: out
+                6       LOAD_FAST                       0: x
+                8       COPY                            1
+                10      LOAD_CONST                      1: 1
+                12      COMPARE_OP                      40 (==)
+                16      POP_JUMP_IF_FALSE               36 (to 90)
+                18      POP_TOP                         
+                20      LOAD_FAST                       1: out
+                22      LOAD_ATTR                       1: append
+                42      LOAD_CONST                      1: 1
+                44      CALL                            1
+                52      POP_TOP                         
+                54      LOAD_FAST                       1: out
+                56      LOAD_ATTR                       1: append
+                76      LOAD_CONST                      2: 2
+                78      CALL                            1
+                86      POP_TOP                         
+                88      JUMP_FORWARD                    68 (to 226)
+                90      MATCH_SEQUENCE                  
+                92      POP_JUMP_IF_FALSE               47 (to 188)
+                94      GET_LEN                         
+                96      LOAD_CONST                      2: 2
+                98      COMPARE_OP                      40 (==)
+                102     POP_JUMP_IF_FALSE               42 (to 188)
+                104     UNPACK_SEQUENCE                 2
+                108     STORE_FAST                      2: a
+                110     STORE_FAST                      3: b
+                112     LOAD_FAST                       2: a
+                114     POP_JUMP_IF_FALSE               18 (to 152)
+                116     LOAD_FAST                       1: out
+                118     LOAD_ATTR                       1: append
+                138     LOAD_FAST                       2: a
+                140     CALL                            1
+                148     POP_TOP                         
+                150     JUMP_FORWARD                    37 (to 226)
+                152     LOAD_FAST                       1: out
+                154     LOAD_ATTR                       1: append
+                174     LOAD_FAST                       3: b
+                176     CALL                            1
+                184     POP_TOP                         
+                186     JUMP_FORWARD                    19 (to 226)
+                188     POP_TOP                         
+                190     NOP                             
+                192     LOAD_FAST                       1: out
+                194     LOAD_ATTR                       1: append
+                214     LOAD_CONST                      3: 0
+                216     CALL                            1
+                224     POP_TOP                         
+                226     LOAD_GLOBAL                     3: NULL + print
+                236     LOAD_FAST                       1: out
+                238     CALL                            1
+                246     POP_TOP                         
+                248     LOAD_FAST                       1: out
+                250     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> literals
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: literals
+        8       LOAD_CONST                      1: <CODE> sequences
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: sequences
+        14      LOAD_CONST                      2: <CODE> mappings
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: mappings
+        20      LOAD_CONST                      3: <CODE> classes
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: classes
+        26      LOAD_CONST                      4: <CODE> guards
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      4: guards
+        32      LOAD_CONST                      5: <CODE> bodies
+        34      MAKE_FUNCTION                   0
+        36      STORE_NAME                      5: bodies
+        38      RETURN_CONST                    6: None
+    [Exception Table]

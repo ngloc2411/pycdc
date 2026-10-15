@@ -1,0 +1,180 @@
+[Code]
+    File Name: genexpr_call.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: genexpr_call.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+                'sum'
+                'any'
+                'sorted'
+            [Locals+Names]
+                'xs'
+            [Constants]
+                None
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       GET_ITER                        
+                        10      FOR_ITER                        6 (to 24)
+                        14      STORE_FAST_LOAD_FAST            17: x, x
+                        16      YIELD_VALUE                     0
+                        18      RESUME                          5
+                        20      POP_TOP                         
+                        22      JUMP_BACKWARD                   8 (to 8)
+                        26      END_FOR                         
+                        28      POP_TOP                         
+                        30      RETURN_CONST                    0: None
+                        32      CALL_INTRINSIC_1                3 (INTRINSIC_STOPITERATION_ERROR)
+                        34      RERAISE                         1
+                    [Exception Table]
+                        4 to 32 -> 32 [0] lasti
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 3
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        4
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       GET_ITER                        
+                        10      FOR_ITER                        9 (to 30)
+                        14      STORE_FAST_LOAD_FAST            17: x, x
+                        16      LOAD_CONST                      0: 4
+                        18      COMPARE_OP                      132 (>)
+                        22      YIELD_VALUE                     0
+                        24      RESUME                          5
+                        26      POP_TOP                         
+                        28      JUMP_BACKWARD                   11 (to 8)
+                        32      END_FOR                         
+                        34      POP_TOP                         
+                        36      RETURN_CONST                    1: None
+                        38      CALL_INTRINSIC_1                3 (INTRINSIC_STOPITERATION_ERROR)
+                        40      RERAISE                         1
+                    [Exception Table]
+                        4 to 38 -> 38 [0] lasti
+                [Code]
+                    File Name: genexpr_call.py
+                    Object Name: <genexpr>
+                    Qualified Name: f.<locals>.<genexpr>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000033 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_GENERATOR)
+                    [Names]
+                    [Locals+Names]
+                        '.0'
+                        'x'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RETURN_GENERATOR                
+                        2       POP_TOP                         
+                        4       RESUME                          0
+                        6       LOAD_FAST                       0: .0
+                        8       GET_ITER                        
+                        10      FOR_ITER                        15 (to 42)
+                        14      STORE_FAST_LOAD_FAST            17: x, x
+                        16      TO_BOOL                         
+                        24      POP_JUMP_IF_TRUE                2 (to 30)
+                        28      JUMP_BACKWARD                   11 (to 8)
+                        32      LOAD_FAST                       1: x
+                        34      YIELD_VALUE                     0
+                        36      RESUME                          5
+                        38      POP_TOP                         
+                        40      JUMP_BACKWARD                   17 (to 8)
+                        44      END_FOR                         
+                        46      POP_TOP                         
+                        48      RETURN_CONST                    0: None
+                        50      CALL_INTRINSIC_1                3 (INTRINSIC_STOPITERATION_ERROR)
+                        52      RERAISE                         1
+                    [Exception Table]
+                        4 to 24 -> 50 [0] lasti
+                        32 to 50 -> 50 [0] lasti
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + print
+                12      LOAD_GLOBAL                     3: NULL + sum
+                22      LOAD_CONST                      1: <CODE> <genexpr>
+                24      MAKE_FUNCTION                   
+                26      LOAD_FAST                       0: xs
+                28      GET_ITER                        
+                30      CALL                            0
+                38      CALL                            1
+                46      CALL                            1
+                54      POP_TOP                         
+                56      LOAD_GLOBAL                     1: NULL + print
+                66      LOAD_GLOBAL                     5: NULL + any
+                76      LOAD_CONST                      2: <CODE> <genexpr>
+                78      MAKE_FUNCTION                   
+                80      LOAD_FAST                       0: xs
+                82      GET_ITER                        
+                84      CALL                            0
+                92      CALL                            1
+                100     CALL                            1
+                108     POP_TOP                         
+                110     LOAD_GLOBAL                     7: NULL + sorted
+                120     LOAD_CONST                      3: <CODE> <genexpr>
+                122     MAKE_FUNCTION                   
+                124     LOAD_FAST                       0: xs
+                126     GET_ITER                        
+                128     CALL                            0
+                136     CALL                            1
+                144     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       RETURN_CONST                    1: None
+    [Exception Table]

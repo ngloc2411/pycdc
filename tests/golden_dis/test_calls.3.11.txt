@@ -1,0 +1,81 @@
+[Code]
+    File Name: tests/input/test_calls.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 6
+    Flags: 0x00000000
+    [Names]
+        'sys'
+        'os'
+        'stdout'
+        'write'
+        'path'
+        'join'
+        'print'
+        'eval'
+    [Locals+Names]
+    [Constants]
+        0
+        None
+        'Test\n'
+        'foo'
+        'bar'
+        '\n'
+        '4 * 13'
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: 0
+        4       LOAD_CONST                      1: None
+        6       IMPORT_NAME                     0: sys
+        8       STORE_NAME                      0: sys
+        10      LOAD_CONST                      0: 0
+        12      LOAD_CONST                      1: None
+        14      IMPORT_NAME                     1: os
+        16      STORE_NAME                      1: os
+        18      LOAD_NAME                       0: sys
+        20      LOAD_ATTR                       2: stdout
+        30      LOAD_METHOD                     3: write
+        52      LOAD_CONST                      2: 'Test\n'
+        54      PRECALL                         1
+        58      CALL                            1
+        68      POP_TOP                         
+        70      LOAD_NAME                       0: sys
+        72      LOAD_ATTR                       2: stdout
+        82      LOAD_METHOD                     3: write
+        104     LOAD_NAME                       1: os
+        106     LOAD_ATTR                       4: path
+        116     LOAD_METHOD                     5: join
+        138     LOAD_CONST                      3: 'foo'
+        140     LOAD_CONST                      4: 'bar'
+        142     PRECALL                         2
+        146     CALL                            2
+        156     PRECALL                         1
+        160     CALL                            1
+        170     POP_TOP                         
+        172     PUSH_NULL                       
+        174     LOAD_NAME                       6: print
+        176     LOAD_CONST                      5: '\n'
+        178     PRECALL                         1
+        182     CALL                            1
+        192     POP_TOP                         
+        194     PUSH_NULL                       
+        196     LOAD_NAME                       6: print
+        198     PUSH_NULL                       
+        200     LOAD_NAME                       7: eval
+        202     LOAD_CONST                      6: '4 * 13'
+        204     PRECALL                         1
+        208     CALL                            1
+        218     PRECALL                         1
+        222     CALL                            1
+        232     POP_TOP                         
+        234     PUSH_NULL                       
+        236     LOAD_NAME                       6: print
+        238     PRECALL                         0
+        242     CALL                            0
+        252     POP_TOP                         
+        254     LOAD_CONST                      1: None
+        256     RETURN_VALUE                    
+    [Exception Table]

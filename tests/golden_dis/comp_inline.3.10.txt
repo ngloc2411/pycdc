@@ -1,0 +1,235 @@
+[Code]
+    File Name: comp_inline.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: comp_inline.py
+            Object Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 7
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Var Names]
+                'xs'
+                'ys'
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+            [Free Vars]
+            [Cell Vars]
+                'ys'
+            [Constants]
+                None
+                [Code]
+                    File Name: comp_inline.py
+                    Object Name: <listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 4
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        1
+                    [Disassembly]
+                        0       BUILD_LIST                      0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        6 (to 18)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      LOAD_CONST                      0: 1
+                        12      BINARY_ADD                      
+                        14      LIST_APPEND                     2
+                        16      JUMP_ABSOLUTE                   2 (to 4)
+                        18      RETURN_VALUE                    
+                'f.<locals>.<listcomp>'
+                [Code]
+                    File Name: comp_inline.py
+                    Object Name: <listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 3
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                    [Disassembly]
+                        0       BUILD_LIST                      0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        6 (to 18)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      POP_JUMP_IF_FALSE               2 (to 4)
+                        12      LOAD_FAST                       1: x
+                        14      LIST_APPEND                     2
+                        16      JUMP_ABSOLUTE                   2 (to 4)
+                        18      RETURN_VALUE                    
+                [Code]
+                    File Name: comp_inline.py
+                    Object Name: <listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 3
+                    Stack Size: 5
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                        'y'
+                    [Free Vars]
+                        'ys'
+                    [Cell Vars]
+                    [Constants]
+                    [Disassembly]
+                        0       BUILD_LIST                      0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        11 (to 28)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_DEREF                      0: ys
+                        10      GET_ITER                        
+                        12      FOR_ITER                        6 (to 26)
+                        14      STORE_FAST                      2: y
+                        16      LOAD_FAST                       1: x
+                        18      LOAD_FAST                       2: y
+                        20      BUILD_TUPLE                     2
+                        22      LIST_APPEND                     3
+                        24      JUMP_ABSOLUTE                   6 (to 12)
+                        26      JUMP_ABSOLUTE                   2 (to 4)
+                        28      RETURN_VALUE                    
+                [Code]
+                    File Name: comp_inline.py
+                    Object Name: <setcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 3
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                    [Disassembly]
+                        0       BUILD_SET                       0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        4 (to 14)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      SET_ADD                         2
+                        12      JUMP_ABSOLUTE                   2 (to 4)
+                        14      RETURN_VALUE                    
+                'f.<locals>.<setcomp>'
+                [Code]
+                    File Name: comp_inline.py
+                    Object Name: <dictcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 4
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                    [Disassembly]
+                        0       BUILD_MAP                       0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        5 (to 16)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_FAST                       1: x
+                        10      LOAD_FAST                       1: x
+                        12      MAP_ADD                         2
+                        14      JUMP_ABSOLUTE                   2 (to 4)
+                        16      RETURN_VALUE                    
+                'f.<locals>.<dictcomp>'
+            [Disassembly]
+                0       LOAD_CONST                      1: <CODE> <listcomp>
+                2       LOAD_CONST                      2: 'f.<locals>.<listcomp>'
+                4       MAKE_FUNCTION                   0
+                6       LOAD_FAST                       0: xs
+                8       GET_ITER                        
+                10      CALL_FUNCTION                   1
+                12      STORE_FAST                      2: a
+                14      LOAD_CONST                      3: <CODE> <listcomp>
+                16      LOAD_CONST                      2: 'f.<locals>.<listcomp>'
+                18      MAKE_FUNCTION                   0
+                20      LOAD_FAST                       0: xs
+                22      GET_ITER                        
+                24      CALL_FUNCTION                   1
+                26      STORE_FAST                      3: b
+                28      LOAD_CLOSURE                    0: ys
+                30      BUILD_TUPLE                     1
+                32      LOAD_CONST                      4: <CODE> <listcomp>
+                34      LOAD_CONST                      2: 'f.<locals>.<listcomp>'
+                36      MAKE_FUNCTION                   8
+                38      LOAD_FAST                       0: xs
+                40      GET_ITER                        
+                42      CALL_FUNCTION                   1
+                44      STORE_FAST                      4: c
+                46      LOAD_CONST                      5: <CODE> <setcomp>
+                48      LOAD_CONST                      6: 'f.<locals>.<setcomp>'
+                50      MAKE_FUNCTION                   0
+                52      LOAD_FAST                       0: xs
+                54      GET_ITER                        
+                56      CALL_FUNCTION                   1
+                58      STORE_FAST                      5: d
+                60      LOAD_CONST                      7: <CODE> <dictcomp>
+                62      LOAD_CONST                      8: 'f.<locals>.<dictcomp>'
+                64      MAKE_FUNCTION                   0
+                66      LOAD_FAST                       0: xs
+                68      GET_ITER                        
+                70      CALL_FUNCTION                   1
+                72      STORE_FAST                      6: e
+                74      LOAD_FAST                       2: a
+                76      LOAD_FAST                       3: b
+                78      LOAD_FAST                       4: c
+                80      LOAD_FAST                       5: d
+                82      LOAD_FAST                       6: e
+                84      BUILD_LIST                      5
+                86      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

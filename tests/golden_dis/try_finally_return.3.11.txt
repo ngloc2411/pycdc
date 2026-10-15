@@ -1,0 +1,64 @@
+[Code]
+    File Name: try_finally_return.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: try_finally_return.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'x'
+            [Constants]
+                None
+                10
+                'done'
+            [Disassembly]
+                0       RESUME                          0
+                2       NOP                             
+                4       LOAD_CONST                      1: 10
+                6       LOAD_FAST                       0: x
+                8       BINARY_OP                       2 (//)
+                12      LOAD_GLOBAL                     1: NULL + print
+                24      LOAD_CONST                      2: 'done'
+                26      PRECALL                         1
+                30      CALL                            1
+                40      POP_TOP                         
+                42      RETURN_VALUE                    
+                44      PUSH_EXC_INFO                   
+                46      LOAD_GLOBAL                     1: NULL + print
+                58      LOAD_CONST                      2: 'done'
+                60      PRECALL                         1
+                64      CALL                            1
+                74      POP_TOP                         
+                76      RERAISE                         0
+                78      COPY                            3
+                80      POP_EXCEPT                      
+                82      RERAISE                         1
+            [Exception Table]
+                4 to 12 -> 44 [0] 
+                44 to 78 -> 78 [1] lasti
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

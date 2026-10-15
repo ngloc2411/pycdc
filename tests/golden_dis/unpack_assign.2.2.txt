@@ -1,0 +1,48 @@
+[Code]
+    File Name: ../input/unpack_assign.py
+    Object Name: ?
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000000
+    [Names]
+        'x'
+        'a'
+        'b'
+        'c'
+    [Var Names]
+        'a'
+        'x'
+        'c'
+        'b'
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        1
+        2
+        3
+        None
+    [Disassembly]
+        0       SET_LINENO                      0
+        3       SET_LINENO                      1
+        6       LOAD_CONST                      0: 1
+        9       LOAD_CONST                      1: 2
+        12      LOAD_CONST                      2: 3
+        15      BUILD_TUPLE                     3
+        18      STORE_NAME                      0: x
+        21      SET_LINENO                      2
+        24      LOAD_NAME                       0: x
+        27      UNPACK_SEQUENCE                 3
+        30      STORE_NAME                      1: a
+        33      STORE_NAME                      2: b
+        36      STORE_NAME                      3: c
+        39      SET_LINENO                      6
+        42      LOAD_CONST                      0: 1
+        45      BUILD_TUPLE                     1
+        48      STORE_NAME                      0: x
+        51      SET_LINENO                      7
+        54      LOAD_NAME                       0: x
+        57      UNPACK_SEQUENCE                 1
+        60      STORE_NAME                      1: a
+        63      LOAD_CONST                      3: None
+        66      RETURN_VALUE                    

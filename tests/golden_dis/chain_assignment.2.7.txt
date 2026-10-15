@@ -1,0 +1,431 @@
+[Code]
+    File Name: chain_assignment.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 5
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'myfunc'
+        'x'
+        'a'
+        'y'
+        'z'
+        'k1'
+        'k2'
+        'k3'
+        'c'
+        'X'
+        'keyA'
+        'g'
+        'Gq1'
+        'Gx'
+        'Gy'
+        'Gz'
+        'Gq2'
+        'b'
+        'store_global'
+        'func_with_global'
+        'store_subscr'
+        'D'
+        'Q'
+        'F'
+        'q'
+        'v'
+        'arr'
+        'store_attr1'
+        'store_attr2'
+        'e'
+        'f'
+        'h'
+        'd'
+        'store_deref'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        3
+        [Code]
+            File Name: chain_assignment.py
+            Object Name: func_with_global
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'Gq'
+                'Gx'
+                'Gy'
+                'Gz'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: Gq
+                3       DUP_TOP                         
+                4       STORE_GLOBAL                    1: Gx
+                7       DUP_TOP                         
+                8       STORE_GLOBAL                    2: Gy
+                11      STORE_GLOBAL                    3: Gz
+                14      LOAD_CONST                      0: None
+                17      RETURN_VALUE                    
+        0
+        4
+        'store_attr1'
+        [Code]
+            File Name: chain_assignment.py
+            Object Name: store_attr1
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000042 (CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__init__'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                [Code]
+                    File Name: chain_assignment.py
+                    Object Name: __init__
+                    Arg Count: 4
+                    Locals: 4
+                    Stack Size: 3
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                        'x'
+                        'a'
+                        'b'
+                        'c'
+                        'y'
+                        'd'
+                    [Var Names]
+                        'self'
+                        'a'
+                        'b'
+                        'c'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_GLOBAL                     0: x
+                        3       DUP_TOP                         
+                        4       LOAD_FAST                       0: self
+                        7       STORE_ATTR                      1: a
+                        10      DUP_TOP                         
+                        11      LOAD_FAST                       0: self
+                        14      STORE_ATTR                      2: b
+                        17      LOAD_FAST                       0: self
+                        20      STORE_ATTR                      3: c
+                        23      LOAD_GLOBAL                     4: y
+                        26      LOAD_FAST                       0: self
+                        29      STORE_ATTR                      5: d
+                        32      LOAD_CONST                      0: None
+                        35      RETURN_VALUE                    
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                3       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: <CODE> __init__
+                9       MAKE_FUNCTION                   0
+                12      STORE_NAME                      2: __init__
+                15      LOAD_LOCALS                     
+                16      RETURN_VALUE                    
+        'store_attr2'
+        [Code]
+            File Name: chain_assignment.py
+            Object Name: store_attr2
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000042 (CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__init__'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                [Code]
+                    File Name: chain_assignment.py
+                    Object Name: __init__
+                    Arg Count: 4
+                    Locals: 4
+                    Stack Size: 3
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                        'x'
+                        'a'
+                        'b'
+                        'c'
+                    [Var Names]
+                        'self'
+                        'a'
+                        'b'
+                        'c'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_GLOBAL                     0: x
+                        3       DUP_TOP                         
+                        4       LOAD_FAST                       0: self
+                        7       STORE_ATTR                      1: a
+                        10      UNPACK_SEQUENCE                 2
+                        13      LOAD_FAST                       0: self
+                        16      STORE_ATTR                      2: b
+                        19      LOAD_FAST                       0: self
+                        22      STORE_ATTR                      3: c
+                        25      LOAD_CONST                      0: None
+                        28      RETURN_VALUE                    
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                3       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: <CODE> __init__
+                9       MAKE_FUNCTION                   0
+                12      STORE_NAME                      2: __init__
+                15      LOAD_LOCALS                     
+                16      RETURN_VALUE                    
+        [Code]
+            File Name: chain_assignment.py
+            Object Name: store_deref
+            Arg Count: 0
+            Locals: 1
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'I'
+                'R1'
+                'R2'
+            [Var Names]
+                'store_fast'
+            [Free Vars]
+            [Cell Vars]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+                [Code]
+                    File Name: chain_assignment.py
+                    Object Name: store_fast
+                    Arg Count: 0
+                    Locals: 6
+                    Stack Size: 2
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                        's'
+                    [Var Names]
+                        'x'
+                        'y'
+                        'z'
+                        'p'
+                        'q'
+                        'r'
+                    [Free Vars]
+                        'a'
+                        'b'
+                        'c'
+                    [Cell Vars]
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       LOAD_DEREF                      0: a
+                        3       STORE_FAST                      0: x
+                        6       LOAD_DEREF                      1: b
+                        9       STORE_FAST                      1: y
+                        12      LOAD_DEREF                      2: c
+                        15      STORE_FAST                      2: z
+                        18      LOAD_GLOBAL                     0: s
+                        21      DUP_TOP                         
+                        22      STORE_FAST                      3: p
+                        25      DUP_TOP                         
+                        26      STORE_FAST                      4: q
+                        29      STORE_FAST                      5: r
+                        32      LOAD_GLOBAL                     0: s
+                        35      DUP_TOP                         
+                        36      STORE_FAST                      3: p
+                        39      UNPACK_SEQUENCE                 2
+                        42      STORE_FAST                      4: q
+                        45      STORE_FAST                      5: r
+                        48      LOAD_CONST                      0: None
+                        51      RETURN_VALUE                    
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: I
+                3       STORE_DEREF                     0: a
+                6       LOAD_GLOBAL                     1: R1
+                9       DUP_TOP                         
+                10      STORE_DEREF                     0: a
+                13      DUP_TOP                         
+                14      STORE_DEREF                     1: b
+                17      STORE_DEREF                     2: c
+                20      LOAD_GLOBAL                     2: R2
+                23      DUP_TOP                         
+                24      STORE_DEREF                     0: a
+                27      UNPACK_SEQUENCE                 2
+                30      STORE_DEREF                     1: b
+                33      STORE_DEREF                     2: c
+                36      LOAD_CLOSURE                    0: a
+                39      LOAD_CLOSURE                    1: b
+                42      LOAD_CLOSURE                    2: c
+                45      BUILD_TUPLE                     3
+                48      LOAD_CONST                      1: <CODE> store_fast
+                51      MAKE_CLOSURE                    0
+                54      STORE_FAST                      0: store_fast
+                57      LOAD_CONST                      0: None
+                60      RETURN_VALUE                    
+        None
+        (
+        )
+        (
+        )
+    [Disassembly]
+        0       LOAD_NAME                       0: myfunc
+        3       LOAD_NAME                       1: x
+        6       CALL_FUNCTION                   1
+        9       LOAD_CONST                      0: 3
+        12      BINARY_ADD                      
+        13      DUP_TOP                         
+        14      STORE_NAME                      2: a
+        17      DUP_TOP                         
+        18      UNPACK_SEQUENCE                 2
+        21      STORE_NAME                      3: y
+        24      STORE_NAME                      4: z
+        27      DUP_TOP                         
+        28      STORE_NAME                      1: x
+        31      DUP_TOP                         
+        32      UNPACK_SEQUENCE                 3
+        35      STORE_NAME                      5: k1
+        38      STORE_NAME                      6: k2
+        41      STORE_NAME                      7: k3
+        44      DUP_TOP                         
+        45      UNPACK_SEQUENCE                 0
+        48      STORE_NAME                      8: c
+        51      BUILD_MAP                       1
+        54      LOAD_NAME                       9: X
+        57      LOAD_NAME                       10: keyA
+        60      STORE_MAP                       
+        61      DUP_TOP                         
+        62      STORE_NAME                      1: x
+        65      DUP_TOP                         
+        66      STORE_NAME                      3: y
+        69      STORE_NAME                      11: g
+        72      LOAD_NAME                       12: Gq1
+        75      DUP_TOP                         
+        76      STORE_GLOBAL                    13: Gx
+        79      DUP_TOP                         
+        80      STORE_GLOBAL                    14: Gy
+        83      STORE_GLOBAL                    15: Gz
+        86      LOAD_NAME                       16: Gq2
+        89      DUP_TOP                         
+        90      STORE_GLOBAL                    13: Gx
+        93      UNPACK_SEQUENCE                 2
+        96      STORE_GLOBAL                    14: Gy
+        99      STORE_GLOBAL                    15: Gz
+        102     LOAD_NAME                       8: c
+        105     DUP_TOP                         
+        106     STORE_NAME                      2: a
+        109     DUP_TOP                         
+        110     STORE_NAME                      17: b
+        113     STORE_GLOBAL                    18: store_global
+        116     LOAD_CONST                      1: <CODE> func_with_global
+        119     MAKE_FUNCTION                   0
+        122     STORE_NAME                      19: func_with_global
+        125     LOAD_NAME                       1: x
+        128     DUP_TOP                         
+        129     STORE_NAME                      3: y
+        132     LOAD_NAME                       20: store_subscr
+        135     LOAD_CONST                      2: 0
+        138     STORE_SUBSCR                    
+        139     LOAD_NAME                       21: D
+        142     LOAD_CONST                      3: 4
+        145     BINARY_SUBSCR                   
+        146     DUP_TOP                         
+        147     LOAD_NAME                       2: a
+        150     LOAD_CONST                      2: 0
+        153     STORE_SUBSCR                    
+        154     DUP_TOP                         
+        155     LOAD_NAME                       17: b
+        158     LOAD_NAME                       1: x
+        161     STORE_SUBSCR                    
+        162     LOAD_NAME                       8: c
+        165     LOAD_CONST                      0: 3
+        168     STORE_SUBSCR                    
+        169     LOAD_NAME                       21: D
+        172     LOAD_CONST                      3: 4
+        175     BINARY_SUBSCR                   
+        176     DUP_TOP                         
+        177     LOAD_NAME                       2: a
+        180     LOAD_CONST                      2: 0
+        183     STORE_SUBSCR                    
+        184     UNPACK_SEQUENCE                 2
+        187     LOAD_NAME                       17: b
+        190     LOAD_NAME                       1: x
+        193     STORE_SUBSCR                    
+        194     LOAD_NAME                       8: c
+        197     LOAD_CONST                      0: 3
+        200     STORE_SUBSCR                    
+        201     LOAD_NAME                       21: D
+        204     LOAD_CONST                      3: 4
+        207     BINARY_SUBSCR                   
+        208     DUP_TOP                         
+        209     LOAD_NAME                       2: a
+        212     LOAD_CONST                      2: 0
+        215     STORE_SUBSCR                    
+        216     DUP_TOP                         
+        217     STORE_NAME                      22: Q
+        220     DUP_TOP                         
+        221     UNPACK_SEQUENCE                 2
+        224     LOAD_NAME                       17: b
+        227     LOAD_NAME                       1: x
+        230     STORE_SUBSCR                    
+        231     LOAD_NAME                       8: c
+        234     LOAD_CONST                      0: 3
+        237     STORE_SUBSCR                    
+        238     STORE_NAME                      23: F
+        241     LOAD_NAME                       1: x
+        244     DUP_TOP                         
+        245     STORE_NAME                      24: q
+        248     DUP_TOP                         
+        249     STORE_NAME                      25: v
+        252     LOAD_NAME                       26: arr
+        255     LOAD_NAME                       2: a
+        258     LOAD_NAME                       17: b
+        261     LOAD_NAME                       8: c
+        264     BUILD_SLICE                     3
+        267     STORE_SUBSCR                    
+        268     LOAD_CONST                      4: 'store_attr1'
+        271     LOAD_CONST                      10: ()
+        274     LOAD_CONST                      5: <CODE> store_attr1
+        277     MAKE_FUNCTION                   0
+        280     CALL_FUNCTION                   0
+        283     BUILD_CLASS                     
+        284     STORE_NAME                      27: store_attr1
+        287     LOAD_CONST                      6: 'store_attr2'
+        290     LOAD_CONST                      11: ()
+        293     LOAD_CONST                      7: <CODE> store_attr2
+        296     MAKE_FUNCTION                   0
+        299     CALL_FUNCTION                   0
+        302     BUILD_CLASS                     
+        303     STORE_NAME                      28: store_attr2
+        306     LOAD_NAME                       29: e
+        309     LOAD_ATTR                       30: f
+        312     LOAD_NAME                       11: g
+        315     LOAD_ATTR                       31: h
+        318     BINARY_ADD                      
+        319     DUP_TOP                         
+        320     LOAD_NAME                       2: a
+        323     STORE_ATTR                      17: b
+        326     LOAD_NAME                       8: c
+        329     STORE_ATTR                      32: d
+        332     LOAD_CONST                      8: <CODE> store_deref
+        335     MAKE_FUNCTION                   0
+        338     STORE_NAME                      33: store_deref
+        341     LOAD_CONST                      9: None
+        344     RETURN_VALUE                    

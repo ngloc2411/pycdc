@@ -1,0 +1,96 @@
+[Code]
+    File Name: ../input/test_class_method.py
+    Object Name: <module>
+    Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'MyClass'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        'MyClass'
+        [Code]
+            File Name: ../input/test_class_method.py
+            Object Name: MyClass
+            Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000042 (CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                'method'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                [Code]
+                    File Name: ../input/test_class_method.py
+                    Object Name: method
+                    Arg Count: 2
+                    Locals: 2
+                    Stack Size: 2
+                    Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+                    [Names]
+                    [Var Names]
+                        'self'
+                        'i'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        None
+                        5
+                        'five'
+                        2
+                        'not two'
+                        '2'
+                    [Disassembly]
+                        0       LOAD_FAST                       1: i
+                        3       LOAD_CONST                      1: 5
+                        6       COMPARE_OP                      8 (is)
+                        9       JUMP_IF_FALSE                   9 (to 21)
+                        12      POP_TOP                         
+                        13      LOAD_CONST                      2: 'five'
+                        16      PRINT_ITEM                      
+                        17      PRINT_NEWLINE                   
+                        18      JUMP_FORWARD                    28 (to 49)
+                        21      POP_TOP                         
+                        22      LOAD_FAST                       1: i
+                        25      LOAD_CONST                      3: 2
+                        28      COMPARE_OP                      9 (is not)
+                        31      JUMP_IF_FALSE                   9 (to 43)
+                        34      POP_TOP                         
+                        35      LOAD_CONST                      4: 'not two'
+                        38      PRINT_ITEM                      
+                        39      PRINT_NEWLINE                   
+                        40      JUMP_FORWARD                    6 (to 49)
+                        43      POP_TOP                         
+                        44      LOAD_CONST                      5: '2'
+                        47      PRINT_ITEM                      
+                        48      PRINT_NEWLINE                   
+                        49      LOAD_CONST                      0: None
+                        52      RETURN_VALUE                    
+            [Disassembly]
+                0       LOAD_NAME                       0: __name__
+                3       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: <CODE> method
+                9       MAKE_FUNCTION                   0
+                12      STORE_NAME                      2: method
+                15      LOAD_LOCALS                     
+                16      RETURN_VALUE                    
+        None
+        (
+        )
+    [Disassembly]
+        0       LOAD_CONST                      0: 'MyClass'
+        3       LOAD_CONST                      3: ()
+        6       LOAD_CONST                      1: <CODE> MyClass
+        9       MAKE_FUNCTION                   0
+        12      CALL_FUNCTION                   0
+        15      BUILD_CLASS                     
+        16      STORE_NAME                      0: MyClass
+        19      LOAD_CONST                      2: None
+        22      RETURN_VALUE                    

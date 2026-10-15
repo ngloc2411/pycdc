@@ -1,0 +1,563 @@
+[Code]
+    File Name: while_loops.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'plain'
+        'with_break'
+        'with_continue'
+        'forever'
+        'while_else'
+        'nested'
+        'if_else_in_loop'
+        'for_in_while'
+        'while_not'
+        'while_call'
+        'break_continue_mix'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: while_loops.py
+            Object Name: plain
+            Qualified Name: plain
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               12 (to 38)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      1: j
+                36      JUMP_BACKWARD                   17 (to 4)
+                40      LOAD_FAST_BORROW                1
+                42      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: with_break
+            Qualified Name: with_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               20 (to 54)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      1: j
+                36      LOAD_FAST_BORROW                1
+                38      LOAD_SMALL_INT                  5
+                40      COMPARE_OP                      148 (>)
+                44      POP_JUMP_IF_TRUE                3 (to 52)
+                48      NOT_TAKEN                       
+                50      JUMP_BACKWARD                   24 (to 4)
+                54      NOP                             
+                56      LOAD_GLOBAL                     1: NULL + print
+                66      LOAD_FAST_BORROW                1
+                68      CALL                            1
+                76      POP_TOP                         
+                78      LOAD_FAST_BORROW                1
+                80      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: with_continue
+            Qualified Name: with_continue
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               40 (to 94)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      1: j
+                36      LOAD_FAST_BORROW                1
+                38      LOAD_SMALL_INT                  2
+                40      BINARY_OP                       6 (%)
+                52      TO_BOOL                         
+                60      POP_JUMP_IF_FALSE               3 (to 68)
+                64      NOT_TAKEN                       
+                66      JUMP_BACKWARD                   32 (to 4)
+                70      LOAD_GLOBAL                     1: NULL + print
+                80      LOAD_FAST_BORROW                1
+                82      CALL                            1
+                90      POP_TOP                         
+                92      JUMP_BACKWARD                   45 (to 4)
+                96      LOAD_FAST_BORROW                1
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: forever
+            Qualified Name: forever
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+                'end'
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       NOP                             
+                8       LOAD_FAST_BORROW                1
+                10      LOAD_SMALL_INT                  1
+                12      BINARY_OP                       13 (+=)
+                24      STORE_FAST                      1: j
+                26      LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                28      COMPARE_OP                      148 (>)
+                32      POP_JUMP_IF_FALSE               2 (to 38)
+                36      NOT_TAKEN                       
+                38      JUMP_FORWARD                    13 (to 66)
+                40      LOAD_GLOBAL                     1: NULL + print
+                50      LOAD_FAST_BORROW                1
+                52      CALL                            1
+                60      POP_TOP                         
+                62      JUMP_BACKWARD                   30 (to 4)
+                66      LOAD_GLOBAL                     1: NULL + print
+                76      LOAD_CONST                      1: 'end'
+                78      CALL                            1
+                86      POP_TOP                         
+                88      LOAD_CONST                      2: None
+                90      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_else
+            Qualified Name: while_else
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+                'no break'
+                'after'
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               20 (to 54)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      1: j
+                36      LOAD_FAST_BORROW                1
+                38      LOAD_SMALL_INT                  7
+                40      COMPARE_OP                      88 (==)
+                44      POP_JUMP_IF_TRUE                3 (to 52)
+                48      NOT_TAKEN                       
+                50      JUMP_BACKWARD                   24 (to 4)
+                54      JUMP_FORWARD                    11 (to 78)
+                56      LOAD_GLOBAL                     1: NULL + print
+                66      LOAD_CONST                      1: 'no break'
+                68      CALL                            1
+                76      POP_TOP                         
+                78      LOAD_GLOBAL                     1: NULL + print
+                88      LOAD_CONST                      2: 'after'
+                90      CALL                            1
+                98      POP_TOP                         
+                100     LOAD_CONST                      3: None
+                102     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: nested
+            Qualified Name: nested
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'total'
+                'i'
+                'k'
+            [Constants]
+                0
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: total
+                6       LOAD_SMALL_INT                  0
+                8       STORE_FAST                      2: i
+                10      LOAD_FAST_BORROW_LOAD_FAST_BORROW  32
+                12      COMPARE_OP                      18 (<)
+                16      POP_JUMP_IF_FALSE               47 (to 112)
+                20      NOT_TAKEN                       
+                22      LOAD_SMALL_INT                  0
+                24      STORE_FAST                      3: k
+                26      LOAD_FAST_BORROW_LOAD_FAST_BORROW  50
+                28      COMPARE_OP                      18 (<)
+                32      POP_JUMP_IF_FALSE               28 (to 90)
+                36      NOT_TAKEN                       
+                38      LOAD_FAST_BORROW                3
+                40      LOAD_SMALL_INT                  1
+                42      BINARY_OP                       13 (+=)
+                54      STORE_FAST                      3: k
+                56      LOAD_FAST_BORROW                3
+                58      LOAD_SMALL_INT                  3
+                60      COMPARE_OP                      88 (==)
+                64      POP_JUMP_IF_FALSE               2 (to 70)
+                68      NOT_TAKEN                       
+                70      JUMP_FORWARD                    10 (to 92)
+                72      LOAD_FAST_BORROW_LOAD_FAST_BORROW  19
+                74      BINARY_OP                       13 (+=)
+                86      STORE_FAST                      1: total
+                88      JUMP_BACKWARD                   33 (to 24)
+                92      LOAD_FAST_BORROW                2
+                94      LOAD_SMALL_INT                  1
+                96      BINARY_OP                       13 (+=)
+                108     STORE_FAST                      2: i
+                110     JUMP_BACKWARD                   52 (to 8)
+                114     LOAD_GLOBAL                     1: NULL + print
+                124     LOAD_FAST_BORROW                1
+                126     CALL                            1
+                134     POP_TOP                         
+                136     LOAD_CONST                      1: None
+                138     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: if_else_in_loop
+            Qualified Name: if_else_in_loop
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+                'odd'
+                'even'
+                'done'
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               50 (to 114)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  2
+                22      BINARY_OP                       6 (%)
+                34      TO_BOOL                         
+                42      POP_JUMP_IF_FALSE               13 (to 70)
+                46      NOT_TAKEN                       
+                48      LOAD_GLOBAL                     1: NULL + print
+                58      LOAD_CONST                      1: 'odd'
+                60      CALL                            1
+                68      POP_TOP                         
+                70      JUMP_FORWARD                    11 (to 94)
+                72      LOAD_GLOBAL                     1: NULL + print
+                82      LOAD_CONST                      2: 'even'
+                84      CALL                            1
+                92      POP_TOP                         
+                94      LOAD_FAST_BORROW                1
+                96      LOAD_SMALL_INT                  1
+                98      BINARY_OP                       13 (+=)
+                110     STORE_FAST                      1: j
+                112     JUMP_BACKWARD                   55 (to 4)
+                116     LOAD_GLOBAL                     1: NULL + print
+                126     LOAD_CONST                      3: 'done'
+                128     CALL                            1
+                136     POP_TOP                         
+                138     LOAD_CONST                      4: None
+                140     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: for_in_while
+            Qualified Name: for_in_while
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'n'
+                'x'
+            [Constants]
+                0
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: n
+                6       LOAD_FAST_BORROW                1
+                8       LOAD_SMALL_INT                  3
+                10      COMPARE_OP                      18 (<)
+                14      POP_JUMP_IF_FALSE               32 (to 80)
+                18      NOT_TAKEN                       
+                20      LOAD_FAST_BORROW                0
+                22      GET_ITER                        
+                24      FOR_ITER                        14 (to 54)
+                28      STORE_FAST                      2: x
+                30      LOAD_GLOBAL                     1: NULL + print
+                40      LOAD_FAST_BORROW                2
+                42      CALL                            1
+                50      POP_TOP                         
+                52      JUMP_BACKWARD                   16 (to 22)
+                56      END_FOR                         
+                58      POP_ITER                        
+                60      LOAD_FAST_BORROW                1
+                62      LOAD_SMALL_INT                  1
+                64      BINARY_OP                       13 (+=)
+                76      STORE_FAST                      1: n
+                78      JUMP_BACKWARD                   38 (to 4)
+                82      LOAD_GLOBAL                     1: NULL + print
+                92      LOAD_FAST_BORROW                1
+                94      CALL                            1
+                102     POP_TOP                         
+                104     LOAD_CONST                      1: None
+                106     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_not
+            Qualified Name: while_not
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'step'
+                'print'
+            [Locals+Names]
+                'flag'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_TRUE                14 (to 42)
+                16      NOT_TAKEN                       
+                18      LOAD_GLOBAL                     1: NULL + step
+                28      LOAD_FAST_BORROW                0
+                30      CALL                            1
+                38      STORE_FAST                      0: flag
+                40      JUMP_BACKWARD                   21 (to 0)
+                44      LOAD_GLOBAL                     3: NULL + print
+                54      LOAD_FAST_BORROW                0
+                56      CALL                            1
+                64      POP_TOP                         
+                66      LOAD_CONST                      0: None
+                68      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: while_call
+            Qualified Name: while_call
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'pending'
+                'pop'
+                'print'
+            [Locals+Names]
+                'q'
+            [Constants]
+                'empty'
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       LOAD_ATTR                       1: pending
+                24      CALL                            0
+                32      TO_BOOL                         
+                40      POP_JUMP_IF_FALSE               19 (to 80)
+                44      NOT_TAKEN                       
+                46      LOAD_FAST_BORROW                0
+                48      LOAD_ATTR                       3: pop
+                68      CALL                            0
+                76      POP_TOP                         
+                78      JUMP_BACKWARD                   40 (to 0)
+                82      LOAD_GLOBAL                     5: NULL + print
+                92      LOAD_CONST                      0: 'empty'
+                94      CALL                            1
+                102     POP_TOP                         
+                104     LOAD_CONST                      1: None
+                106     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: while_loops.py
+            Object Name: break_continue_mix
+            Qualified Name: break_continue_mix
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'n'
+                'j'
+            [Constants]
+                0
+                'x'
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_SMALL_INT                  0
+                4       STORE_FAST                      1: j
+                6       LOAD_FAST_BORROW_LOAD_FAST_BORROW  16
+                8       COMPARE_OP                      18 (<)
+                12      POP_JUMP_IF_FALSE               40 (to 94)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      LOAD_SMALL_INT                  1
+                22      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      1: j
+                36      LOAD_FAST_BORROW                1
+                38      LOAD_SMALL_INT                  3
+                40      COMPARE_OP                      18 (<)
+                44      POP_JUMP_IF_FALSE               3 (to 52)
+                48      NOT_TAKEN                       
+                50      JUMP_BACKWARD                   24 (to 4)
+                54      LOAD_FAST_BORROW                1
+                56      LOAD_SMALL_INT                  8
+                58      COMPARE_OP                      148 (>)
+                62      POP_JUMP_IF_FALSE               2 (to 68)
+                66      NOT_TAKEN                       
+                68      JUMP_FORWARD                    13 (to 96)
+                70      LOAD_GLOBAL                     1: NULL + print
+                80      LOAD_FAST_BORROW                1
+                82      CALL                            1
+                90      POP_TOP                         
+                92      JUMP_BACKWARD                   45 (to 4)
+                96      LOAD_GLOBAL                     1: NULL + print
+                106     LOAD_CONST                      1: 'x'
+                108     CALL                            1
+                116     POP_TOP                         
+                118     LOAD_CONST                      2: None
+                120     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> plain
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: plain
+        8       LOAD_CONST                      1: <CODE> with_break
+        10      MAKE_FUNCTION                   
+        12      STORE_NAME                      1: with_break
+        14      LOAD_CONST                      2: <CODE> with_continue
+        16      MAKE_FUNCTION                   
+        18      STORE_NAME                      2: with_continue
+        20      LOAD_CONST                      3: <CODE> forever
+        22      MAKE_FUNCTION                   
+        24      STORE_NAME                      3: forever
+        26      LOAD_CONST                      4: <CODE> while_else
+        28      MAKE_FUNCTION                   
+        30      STORE_NAME                      4: while_else
+        32      LOAD_CONST                      5: <CODE> nested
+        34      MAKE_FUNCTION                   
+        36      STORE_NAME                      5: nested
+        38      LOAD_CONST                      6: <CODE> if_else_in_loop
+        40      MAKE_FUNCTION                   
+        42      STORE_NAME                      6: if_else_in_loop
+        44      LOAD_CONST                      7: <CODE> for_in_while
+        46      MAKE_FUNCTION                   
+        48      STORE_NAME                      7: for_in_while
+        50      LOAD_CONST                      8: <CODE> while_not
+        52      MAKE_FUNCTION                   
+        54      STORE_NAME                      8: while_not
+        56      LOAD_CONST                      9: <CODE> while_call
+        58      MAKE_FUNCTION                   
+        60      STORE_NAME                      9: while_call
+        62      LOAD_CONST                      10: <CODE> break_continue_mix
+        64      MAKE_FUNCTION                   
+        66      STORE_NAME                      10: break_continue_mix
+        68      LOAD_CONST                      11: None
+        70      RETURN_VALUE                    
+    [Exception Table]

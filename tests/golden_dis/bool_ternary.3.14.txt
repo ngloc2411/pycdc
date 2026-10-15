@@ -1,0 +1,1291 @@
+[Code]
+    File Name: bool_ternary.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'or_and'
+        'paren_groups'
+        'and_chain_or'
+        'not_group'
+        'not_or'
+        'tern_and_cond'
+        'tern_or_cond'
+        'tern_in_arith'
+        'tern_in_call'
+        'tern_then_nested'
+        'tern_chain'
+        'calls_bool'
+        'compare_and'
+        'is_none_or'
+        'default_arg'
+        'tern_in_lambda'
+        'tern_in_comp'
+        'tern_none_test'
+        'tern_not_none_test'
+        'bool_in_cond'
+        'bool_in_while'
+        'bool_assign_tern_str'
+        'tern_arg_default_mix'
+        'tern_nested_cond'
+        'tern_nested_both'
+        'tern_in_args'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: or_and
+            Qualified Name: or_and
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_TRUE                13 (to 42)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: b
+                24      COPY                            1
+                26      TO_BOOL                         
+                34      POP_JUMP_IF_FALSE               3 (to 42)
+                38      NOT_TAKEN                       
+                40      POP_TOP                         
+                42      LOAD_FAST                       2: c
+                44      STORE_FAST                      3: r
+                46      LOAD_GLOBAL                     1: NULL + use
+                56      LOAD_FAST_BORROW                3
+                58      CALL                            1
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                3
+                78      CALL                            1
+                86      BINARY_OP                       0 (+)
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: paren_groups
+            Qualified Name: paren_groups
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_TRUE                11 (to 38)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: b
+                24      COPY                            1
+                26      TO_BOOL                         
+                34      POP_JUMP_IF_FALSE               13 (to 62)
+                38      NOT_TAKEN                       
+                40      POP_TOP                         
+                42      LOAD_FAST                       2: c
+                44      COPY                            1
+                46      TO_BOOL                         
+                54      POP_JUMP_IF_TRUE                3 (to 62)
+                58      NOT_TAKEN                       
+                60      POP_TOP                         
+                62      LOAD_FAST                       3: d
+                64      STORE_FAST                      4: r
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                4
+                78      CALL                            1
+                86      LOAD_GLOBAL                     1: NULL + use
+                96      LOAD_FAST_BORROW                4
+                98      CALL                            1
+                106     BINARY_OP                       0 (+)
+                118     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: and_chain_or
+            Qualified Name: and_chain_or
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_FALSE               21 (to 58)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: b
+                24      COPY                            1
+                26      TO_BOOL                         
+                34      POP_JUMP_IF_FALSE               11 (to 58)
+                38      NOT_TAKEN                       
+                40      POP_TOP                         
+                42      LOAD_FAST                       2: c
+                44      COPY                            1
+                46      TO_BOOL                         
+                54      POP_JUMP_IF_TRUE                13 (to 82)
+                58      NOT_TAKEN                       
+                60      POP_TOP                         
+                62      LOAD_FAST                       3: d
+                64      COPY                            1
+                66      TO_BOOL                         
+                74      POP_JUMP_IF_FALSE               3 (to 82)
+                78      NOT_TAKEN                       
+                80      POP_TOP                         
+                82      LOAD_FAST                       4: e
+                84      STORE_FAST                      5: r
+                86      LOAD_GLOBAL                     1: NULL + use
+                96      LOAD_FAST_BORROW                5
+                98      CALL                            1
+                106     LOAD_GLOBAL                     1: NULL + use
+                116     LOAD_FAST_BORROW                5
+                118     CALL                            1
+                126     BINARY_OP                       0 (+)
+                138     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: not_group
+            Qualified Name: not_group
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_FALSE               3 (to 22)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: b
+                24      TO_BOOL                         
+                32      UNARY_NOT                       
+                34      STORE_FAST                      2: r
+                36      LOAD_GLOBAL                     1: NULL + use
+                46      LOAD_FAST_BORROW                2
+                48      CALL                            1
+                56      LOAD_GLOBAL                     1: NULL + use
+                66      LOAD_FAST_BORROW                2
+                68      CALL                            1
+                76      BINARY_OP                       0 (+)
+                88      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: not_or
+            Qualified Name: not_or
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      UNARY_NOT                       
+                14      COPY                            1
+                16      TO_BOOL                         
+                24      POP_JUMP_IF_TRUE                3 (to 32)
+                28      NOT_TAKEN                       
+                30      POP_TOP                         
+                32      LOAD_FAST                       1: b
+                34      STORE_FAST                      2: r
+                36      LOAD_GLOBAL                     1: NULL + use
+                46      LOAD_FAST_BORROW                2
+                48      CALL                            1
+                56      LOAD_GLOBAL                     1: NULL + use
+                66      LOAD_FAST_BORROW                2
+                68      CALL                            1
+                76      BINARY_OP                       0 (+)
+                88      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_and_cond
+            Qualified Name: tern_and_cond
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               11 (to 36)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       2: x
+                36      JUMP_FORWARD                    1 (to 40)
+                38      LOAD_FAST                       3: y
+                40      STORE_FAST                      4: r
+                42      LOAD_GLOBAL                     1: NULL + use
+                52      LOAD_FAST_BORROW                4
+                54      CALL                            1
+                62      LOAD_GLOBAL                     1: NULL + use
+                72      LOAD_FAST_BORROW                4
+                74      CALL                            1
+                82      BINARY_OP                       0 (+)
+                94      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_or_cond
+            Qualified Name: tern_or_cond
+            Arg Count: 4
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_TRUE                9 (to 32)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       2: x
+                36      JUMP_FORWARD                    1 (to 40)
+                38      LOAD_FAST                       3: y
+                40      STORE_FAST                      4: r
+                42      LOAD_GLOBAL                     1: NULL + use
+                52      LOAD_FAST_BORROW                4
+                54      CALL                            1
+                62      LOAD_GLOBAL                     1: NULL + use
+                72      LOAD_FAST_BORROW                4
+                74      CALL                            1
+                82      BINARY_OP                       0 (+)
+                94      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_in_arith
+            Qualified Name: tern_in_arith
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               3 (to 20)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST                       1: x
+                20      JUMP_FORWARD                    1 (to 24)
+                22      LOAD_FAST                       2: y
+                24      LOAD_SMALL_INT                  1
+                26      BINARY_OP                       0 (+)
+                38      STORE_FAST                      3: r
+                40      LOAD_GLOBAL                     1: NULL + use
+                50      LOAD_FAST_BORROW                3
+                52      CALL                            1
+                60      LOAD_GLOBAL                     1: NULL + use
+                70      LOAD_FAST_BORROW                3
+                72      CALL                            1
+                80      BINARY_OP                       0 (+)
+                92      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_in_call
+            Qualified Name: tern_in_call
+            Arg Count: 6
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'f'
+                'c'
+                'a'
+                'b'
+                'd'
+                'e'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: f
+                4       PUSH_NULL                       
+                6       LOAD_FAST_BORROW                1
+                8       TO_BOOL                         
+                16      POP_JUMP_IF_FALSE               3 (to 24)
+                20      NOT_TAKEN                       
+                22      LOAD_FAST                       2: a
+                24      JUMP_FORWARD                    1 (to 28)
+                26      LOAD_FAST                       3: b
+                28      LOAD_FAST                       4: d
+                30      COPY                            1
+                32      TO_BOOL                         
+                40      POP_JUMP_IF_TRUE                3 (to 48)
+                44      NOT_TAKEN                       
+                46      POP_TOP                         
+                48      LOAD_FAST                       5: e
+                50      CALL                            2
+                58      STORE_FAST                      6: r
+                60      LOAD_GLOBAL                     1: NULL + use
+                70      LOAD_FAST_BORROW                6
+                72      CALL                            1
+                80      LOAD_GLOBAL                     1: NULL + use
+                90      LOAD_FAST_BORROW                6
+                92      CALL                            1
+                100     BINARY_OP                       0 (+)
+                112     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_then_nested
+            Qualified Name: tern_then_nested
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'd'
+                'e'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               13 (to 40)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                2
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       1: b
+                36      JUMP_FORWARD                    3 (to 44)
+                38      LOAD_FAST                       3: d
+                40      JUMP_FORWARD                    1 (to 44)
+                42      LOAD_FAST                       4: e
+                44      STORE_FAST                      5: r
+                46      LOAD_GLOBAL                     1: NULL + use
+                56      LOAD_FAST_BORROW                5
+                58      CALL                            1
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                5
+                78      CALL                            1
+                86      BINARY_OP                       0 (+)
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_chain
+            Qualified Name: tern_chain
+            Arg Count: 6
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'z'
+                'r'
+            [Constants]
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               3 (to 20)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST                       3: x
+                20      JUMP_FORWARD                    21 (to 64)
+                22      LOAD_FAST_BORROW                1
+                24      TO_BOOL                         
+                32      POP_JUMP_IF_FALSE               3 (to 40)
+                36      NOT_TAKEN                       
+                38      LOAD_FAST                       4: y
+                40      JUMP_FORWARD                    11 (to 64)
+                42      LOAD_FAST_BORROW                2
+                44      TO_BOOL                         
+                52      POP_JUMP_IF_FALSE               3 (to 60)
+                56      NOT_TAKEN                       
+                58      LOAD_FAST                       5: z
+                60      JUMP_FORWARD                    1 (to 64)
+                62      LOAD_SMALL_INT                  0
+                64      STORE_FAST                      6: r
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                6
+                78      CALL                            1
+                86      LOAD_GLOBAL                     1: NULL + use
+                96      LOAD_FAST_BORROW                6
+                98      CALL                            1
+                106     BINARY_OP                       0 (+)
+                118     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: calls_bool
+            Qualified Name: calls_bool
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'f'
+                'g'
+                'r'
+                's'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       PUSH_NULL                       
+                6       CALL                            0
+                14      COPY                            1
+                16      TO_BOOL                         
+                24      POP_JUMP_IF_TRUE                8 (to 42)
+                28      NOT_TAKEN                       
+                30      POP_TOP                         
+                32      LOAD_FAST_BORROW                1
+                34      PUSH_NULL                       
+                36      CALL                            0
+                44      STORE_FAST                      2: r
+                46      LOAD_FAST_BORROW                0
+                48      PUSH_NULL                       
+                50      CALL                            0
+                58      COPY                            1
+                60      TO_BOOL                         
+                68      POP_JUMP_IF_FALSE               8 (to 86)
+                72      NOT_TAKEN                       
+                74      POP_TOP                         
+                76      LOAD_FAST_BORROW                1
+                78      PUSH_NULL                       
+                80      CALL                            0
+                88      STORE_FAST                      3: s
+                90      LOAD_GLOBAL                     1: NULL + use
+                100     LOAD_FAST_BORROW                2
+                102     CALL                            1
+                110     LOAD_GLOBAL                     1: NULL + use
+                120     LOAD_FAST_BORROW                3
+                122     CALL                            1
+                130     BINARY_OP                       0 (+)
+                142     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: compare_and
+            Qualified Name: compare_and
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW_LOAD_FAST_BORROW  1
+                4       COMPARE_OP                      2 (<)
+                8       COPY                            1
+                10      TO_BOOL                         
+                18      POP_JUMP_IF_FALSE               5 (to 30)
+                22      NOT_TAKEN                       
+                24      POP_TOP                         
+                26      LOAD_FAST_BORROW_LOAD_FAST_BORROW  18
+                28      COMPARE_OP                      2 (<)
+                32      STORE_FAST                      3: r
+                34      LOAD_GLOBAL                     1: NULL + use
+                44      LOAD_FAST_BORROW                3
+                46      CALL                            1
+                54      LOAD_GLOBAL                     1: NULL + use
+                64      LOAD_FAST_BORROW                3
+                66      CALL                            1
+                74      BINARY_OP                       0 (+)
+                86      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: is_none_or
+            Qualified Name: is_none_or
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       LOAD_CONST                      0: None
+                6       IS_OP                           0 (is)
+                8       COPY                            1
+                10      TO_BOOL                         
+                18      POP_JUMP_IF_TRUE                3 (to 26)
+                22      NOT_TAKEN                       
+                24      POP_TOP                         
+                26      LOAD_FAST                       1: b
+                28      STORE_FAST                      2: r
+                30      LOAD_GLOBAL                     1: NULL + use
+                40      LOAD_FAST_BORROW                2
+                42      CALL                            1
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST_BORROW                2
+                62      CALL                            1
+                70      BINARY_OP                       0 (+)
+                82      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: default_arg
+            Qualified Name: default_arg
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'x'
+                'default'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: x
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_TRUE                3 (to 22)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: default
+                24      STORE_FAST                      0: x
+                26      LOAD_GLOBAL                     1: NULL + use
+                36      LOAD_FAST_BORROW                0
+                38      CALL                            1
+                46      LOAD_GLOBAL                     1: NULL + use
+                56      LOAD_FAST_BORROW                0
+                58      CALL                            1
+                66      BINARY_OP                       0 (+)
+                78      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_in_lambda
+            Qualified Name: tern_in_lambda
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'a'
+            [Constants]
+                [Code]
+                    File Name: bool_ternary.py
+                    Object Name: <lambda>
+                    Qualified Name: tern_in_lambda.<locals>.<lambda>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 1
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        'x'
+                        'a'
+                    [Constants]
+                        1
+                    [Disassembly]
+                        0       COPY_FREE_VARS                  1
+                        2       RESUME                          0
+                        4       LOAD_FAST_BORROW                0
+                        6       TO_BOOL                         
+                        14      POP_JUMP_IF_FALSE               3 (to 22)
+                        18      NOT_TAKEN                       
+                        20      LOAD_SMALL_INT                  1
+                        22      RETURN_VALUE                    
+                        24      LOAD_DEREF                      1: a
+                        26      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       MAKE_CELL                       0: a
+                2       RESUME                          0
+                4       LOAD_FAST_BORROW                0
+                6       BUILD_TUPLE                     1
+                8       LOAD_CONST                      0: <CODE> <lambda>
+                10      MAKE_FUNCTION                   
+                12      SET_FUNCTION_ATTRIBUTE          8 (MAKE_FUNCTION_CLOSURE)
+                14      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_in_comp
+            Qualified Name: tern_in_comp
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'items'
+                'x'
+                'r'
+            [Constants]
+                1
+                -1
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       LOAD_FAST_AND_CLEAR             1: x
+                8       SWAP                            2
+                10      BUILD_LIST                      0
+                12      SWAP                            2
+                14      FOR_ITER                        14 (to 44)
+                18      STORE_FAST_LOAD_FAST            17: x, x
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       1: x
+                36      JUMP_FORWARD                    1 (to 40)
+                38      LOAD_CONST                      1: -1
+                40      LIST_APPEND                     2
+                42      JUMP_BACKWARD                   16 (to 12)
+                46      END_FOR                         
+                48      POP_ITER                        
+                50      STORE_FAST                      2: r
+                52      STORE_FAST                      1: x
+                54      LOAD_GLOBAL                     1: NULL + use
+                64      LOAD_FAST_BORROW                2
+                66      CALL                            1
+                74      LOAD_GLOBAL                     1: NULL + use
+                84      LOAD_FAST_BORROW                2
+                86      CALL                            1
+                94      BINARY_OP                       0 (+)
+                106     RETURN_VALUE                    
+                108     SWAP                            2
+                110     POP_TOP                         
+                112     SWAP                            2
+                114     STORE_FAST                      1: x
+                116     RERAISE                         0
+            [Exception Table]
+                10 to 50 -> 108 [2] 
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_none_test
+            Qualified Name: tern_none_test
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       POP_JUMP_IF_NOT_NONE            3 (to 12)
+                8       NOT_TAKEN                       
+                10      LOAD_SMALL_INT                  1
+                12      JUMP_FORWARD                    1 (to 16)
+                14      LOAD_FAST                       1: b
+                16      STORE_FAST                      2: r
+                18      LOAD_GLOBAL                     1: NULL + use
+                28      LOAD_FAST_BORROW                2
+                30      CALL                            1
+                38      LOAD_GLOBAL                     1: NULL + use
+                48      LOAD_FAST_BORROW                2
+                50      CALL                            1
+                58      BINARY_OP                       0 (+)
+                70      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_not_none_test
+            Qualified Name: tern_not_none_test
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       POP_JUMP_IF_NONE                3 (to 12)
+                8       NOT_TAKEN                       
+                10      LOAD_SMALL_INT                  1
+                12      JUMP_FORWARD                    1 (to 16)
+                14      LOAD_FAST                       1: b
+                16      STORE_FAST                      2: r
+                18      LOAD_GLOBAL                     1: NULL + use
+                28      LOAD_FAST_BORROW                2
+                30      CALL                            1
+                38      LOAD_GLOBAL                     1: NULL + use
+                48      LOAD_FAST_BORROW                2
+                50      CALL                            1
+                58      BINARY_OP                       0 (+)
+                70      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: bool_in_cond
+            Qualified Name: bool_in_cond
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               9 (to 32)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_TRUE                9 (to 48)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST_BORROW                2
+                36      TO_BOOL                         
+                44      POP_JUMP_IF_FALSE               12 (to 70)
+                48      NOT_TAKEN                       
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST_BORROW                0
+                62      CALL                            1
+                70      POP_TOP                         
+                72      LOAD_FAST_BORROW                0
+                74      TO_BOOL                         
+                82      POP_JUMP_IF_TRUE                20 (to 124)
+                86      NOT_TAKEN                       
+                88      LOAD_FAST_BORROW                1
+                90      TO_BOOL                         
+                98      POP_JUMP_IF_TRUE                12 (to 124)
+                102     NOT_TAKEN                       
+                104     LOAD_GLOBAL                     1: NULL + use
+                114     LOAD_FAST_BORROW                1
+                116     CALL                            1
+                124     POP_TOP                         
+                126     LOAD_GLOBAL                     1: NULL + use
+                136     LOAD_FAST_BORROW                2
+                138     CALL                            1
+                146     POP_TOP                         
+                148     LOAD_CONST                      0: None
+                150     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: bool_in_while
+            Qualified Name: bool_in_while
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               22 (to 58)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                1
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_TRUE                14 (to 58)
+                32      NOT_TAKEN                       
+                34      LOAD_GLOBAL                     1: NULL + use
+                44      LOAD_FAST_BORROW                0
+                46      CALL                            1
+                54      STORE_FAST                      0: a
+                56      JUMP_BACKWARD                   29 (to 0)
+                60      LOAD_GLOBAL                     1: NULL + use
+                70      LOAD_FAST_BORROW                1
+                72      CALL                            1
+                80      POP_TOP                         
+                82      LOAD_CONST                      0: None
+                84      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: bool_assign_tern_str
+            Qualified Name: bool_assign_tern_str
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                's'
+                't'
+            [Constants]
+                'yes'
+                'no'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               3 (to 20)
+                16      NOT_TAKEN                       
+                18      LOAD_CONST                      0: 'yes'
+                20      JUMP_FORWARD                    1 (to 24)
+                22      LOAD_CONST                      1: 'no'
+                24      STORE_FAST                      1: s
+                26      LOAD_FAST_BORROW                0
+                28      TO_BOOL                         
+                36      POP_JUMP_IF_TRUE                3 (to 44)
+                40      NOT_TAKEN                       
+                42      LOAD_CONST                      0: 'yes'
+                44      JUMP_FORWARD                    1 (to 48)
+                46      LOAD_CONST                      1: 'no'
+                48      STORE_FAST                      2: t
+                50      LOAD_GLOBAL                     1: NULL + use
+                60      LOAD_FAST_BORROW                1
+                62      CALL                            1
+                70      LOAD_GLOBAL                     1: NULL + use
+                80      LOAD_FAST_BORROW                2
+                82      CALL                            1
+                90      BINARY_OP                       0 (+)
+                102     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_arg_default_mix
+            Qualified Name: tern_arg_default_mix
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: a
+                4       COPY                            1
+                6       TO_BOOL                         
+                14      POP_JUMP_IF_TRUE                3 (to 22)
+                18      NOT_TAKEN                       
+                20      POP_TOP                         
+                22      LOAD_FAST                       1: b
+                24      LOAD_FAST                       2: c
+                26      COPY                            1
+                28      TO_BOOL                         
+                36      POP_JUMP_IF_FALSE               3 (to 44)
+                40      NOT_TAKEN                       
+                42      POP_TOP                         
+                44      LOAD_FAST                       0: a
+                46      LOAD_FAST_BORROW                2
+                48      TO_BOOL                         
+                56      POP_JUMP_IF_FALSE               3 (to 64)
+                60      NOT_TAKEN                       
+                62      LOAD_FAST                       1: b
+                64      JUMP_FORWARD                    1 (to 68)
+                66      LOAD_FAST                       0: a
+                68      BUILD_LIST                      3
+                70      STORE_FAST                      3: r
+                72      LOAD_GLOBAL                     1: NULL + use
+                82      LOAD_FAST_BORROW                3
+                84      CALL                            1
+                92      LOAD_GLOBAL                     1: NULL + use
+                102     LOAD_FAST_BORROW                3
+                104     CALL                            1
+                112     BINARY_OP                       0 (+)
+                124     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_nested_cond
+            Qualified Name: tern_nested_cond
+            Arg Count: 5
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                1
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               13 (to 40)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                0
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       2: x
+                36      JUMP_FORWARD                    3 (to 44)
+                38      LOAD_FAST                       3: y
+                40      JUMP_FORWARD                    1 (to 44)
+                42      LOAD_FAST                       4: z
+                44      STORE_FAST                      5: r
+                46      LOAD_GLOBAL                     1: NULL + use
+                56      LOAD_FAST_BORROW                5
+                58      CALL                            1
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                5
+                78      CALL                            1
+                86      BINARY_OP                       0 (+)
+                98      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_nested_both
+            Qualified Name: tern_nested_both
+            Arg Count: 7
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'b'
+                'c'
+                'x'
+                'y'
+                'z'
+                'w'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                1
+                4       TO_BOOL                         
+                12      POP_JUMP_IF_FALSE               13 (to 40)
+                16      NOT_TAKEN                       
+                18      LOAD_FAST_BORROW                0
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_FALSE               3 (to 36)
+                32      NOT_TAKEN                       
+                34      LOAD_FAST                       3: x
+                36      JUMP_FORWARD                    13 (to 64)
+                38      LOAD_FAST                       4: y
+                40      JUMP_FORWARD                    11 (to 64)
+                42      LOAD_FAST_BORROW                2
+                44      TO_BOOL                         
+                52      POP_JUMP_IF_FALSE               3 (to 60)
+                56      NOT_TAKEN                       
+                58      LOAD_FAST                       5: z
+                60      JUMP_FORWARD                    1 (to 64)
+                62      LOAD_FAST                       6: w
+                64      STORE_FAST                      7: r
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                7
+                78      CALL                            1
+                86      LOAD_GLOBAL                     1: NULL + use
+                96      LOAD_FAST_BORROW                7
+                98      CALL                            1
+                106     BINARY_OP                       0 (+)
+                118     RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: bool_ternary.py
+            Object Name: tern_in_args
+            Qualified Name: tern_in_args
+            Arg Count: 3
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'use'
+            [Locals+Names]
+                'a'
+                'x'
+                'y'
+                'r'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + use
+                12      LOAD_FAST_BORROW                0
+                14      TO_BOOL                         
+                22      POP_JUMP_IF_FALSE               3 (to 30)
+                26      NOT_TAKEN                       
+                28      LOAD_FAST                       1: x
+                30      JUMP_FORWARD                    1 (to 34)
+                32      LOAD_FAST                       2: y
+                34      LOAD_FAST_BORROW                0
+                36      TO_BOOL                         
+                44      POP_JUMP_IF_FALSE               3 (to 52)
+                48      NOT_TAKEN                       
+                50      LOAD_FAST                       2: y
+                52      JUMP_FORWARD                    1 (to 56)
+                54      LOAD_FAST                       1: x
+                56      CALL                            2
+                64      STORE_FAST                      3: r
+                66      LOAD_GLOBAL                     1: NULL + use
+                76      LOAD_FAST_BORROW                3
+                78      CALL                            1
+                86      LOAD_GLOBAL                     1: NULL + use
+                96      LOAD_FAST_BORROW                3
+                98      CALL                            1
+                106     BINARY_OP                       0 (+)
+                118     RETURN_VALUE                    
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> or_and
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: or_and
+        8       LOAD_CONST                      1: <CODE> paren_groups
+        10      MAKE_FUNCTION                   
+        12      STORE_NAME                      1: paren_groups
+        14      LOAD_CONST                      2: <CODE> and_chain_or
+        16      MAKE_FUNCTION                   
+        18      STORE_NAME                      2: and_chain_or
+        20      LOAD_CONST                      3: <CODE> not_group
+        22      MAKE_FUNCTION                   
+        24      STORE_NAME                      3: not_group
+        26      LOAD_CONST                      4: <CODE> not_or
+        28      MAKE_FUNCTION                   
+        30      STORE_NAME                      4: not_or
+        32      LOAD_CONST                      5: <CODE> tern_and_cond
+        34      MAKE_FUNCTION                   
+        36      STORE_NAME                      5: tern_and_cond
+        38      LOAD_CONST                      6: <CODE> tern_or_cond
+        40      MAKE_FUNCTION                   
+        42      STORE_NAME                      6: tern_or_cond
+        44      LOAD_CONST                      7: <CODE> tern_in_arith
+        46      MAKE_FUNCTION                   
+        48      STORE_NAME                      7: tern_in_arith
+        50      LOAD_CONST                      8: <CODE> tern_in_call
+        52      MAKE_FUNCTION                   
+        54      STORE_NAME                      8: tern_in_call
+        56      LOAD_CONST                      9: <CODE> tern_then_nested
+        58      MAKE_FUNCTION                   
+        60      STORE_NAME                      9: tern_then_nested
+        62      LOAD_CONST                      10: <CODE> tern_chain
+        64      MAKE_FUNCTION                   
+        66      STORE_NAME                      10: tern_chain
+        68      LOAD_CONST                      11: <CODE> calls_bool
+        70      MAKE_FUNCTION                   
+        72      STORE_NAME                      11: calls_bool
+        74      LOAD_CONST                      12: <CODE> compare_and
+        76      MAKE_FUNCTION                   
+        78      STORE_NAME                      12: compare_and
+        80      LOAD_CONST                      13: <CODE> is_none_or
+        82      MAKE_FUNCTION                   
+        84      STORE_NAME                      13: is_none_or
+        86      LOAD_CONST                      14: <CODE> default_arg
+        88      MAKE_FUNCTION                   
+        90      STORE_NAME                      14: default_arg
+        92      LOAD_CONST                      15: <CODE> tern_in_lambda
+        94      MAKE_FUNCTION                   
+        96      STORE_NAME                      15: tern_in_lambda
+        98      LOAD_CONST                      16: <CODE> tern_in_comp
+        100     MAKE_FUNCTION                   
+        102     STORE_NAME                      16: tern_in_comp
+        104     LOAD_CONST                      17: <CODE> tern_none_test
+        106     MAKE_FUNCTION                   
+        108     STORE_NAME                      17: tern_none_test
+        110     LOAD_CONST                      18: <CODE> tern_not_none_test
+        112     MAKE_FUNCTION                   
+        114     STORE_NAME                      18: tern_not_none_test
+        116     LOAD_CONST                      19: <CODE> bool_in_cond
+        118     MAKE_FUNCTION                   
+        120     STORE_NAME                      19: bool_in_cond
+        122     LOAD_CONST                      20: <CODE> bool_in_while
+        124     MAKE_FUNCTION                   
+        126     STORE_NAME                      20: bool_in_while
+        128     LOAD_CONST                      21: <CODE> bool_assign_tern_str
+        130     MAKE_FUNCTION                   
+        132     STORE_NAME                      21: bool_assign_tern_str
+        134     LOAD_CONST                      22: <CODE> tern_arg_default_mix
+        136     MAKE_FUNCTION                   
+        138     STORE_NAME                      22: tern_arg_default_mix
+        140     LOAD_CONST                      23: <CODE> tern_nested_cond
+        142     MAKE_FUNCTION                   
+        144     STORE_NAME                      23: tern_nested_cond
+        146     LOAD_CONST                      24: <CODE> tern_nested_both
+        148     MAKE_FUNCTION                   
+        150     STORE_NAME                      24: tern_nested_both
+        152     LOAD_CONST                      25: <CODE> tern_in_args
+        154     MAKE_FUNCTION                   
+        156     STORE_NAME                      25: tern_in_args
+        158     LOAD_CONST                      26: None
+        160     RETURN_VALUE                    
+    [Exception Table]

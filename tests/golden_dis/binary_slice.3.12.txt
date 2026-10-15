@@ -1,0 +1,84 @@
+[Code]
+    File Name: ../tests/input/binary_slice.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 5
+    Flags: 0x00000000
+    [Names]
+        'l'
+        'print'
+    [Locals+Names]
+    [Constants]
+        (
+            1
+            2
+            3
+            4
+            5
+            6
+        )
+        1
+        3
+        None
+        2
+        -4
+        -2
+    [Disassembly]
+        0       RESUME                          0
+        2       BUILD_LIST                      0
+        4       LOAD_CONST                      0: (1, 2, 3, 4, 5, 6)
+        6       LIST_EXTEND                     1
+        8       STORE_NAME                      0: l
+        10      PUSH_NULL                       
+        12      LOAD_NAME                       1: print
+        14      LOAD_NAME                       0: l
+        16      LOAD_CONST                      1: 1
+        18      LOAD_CONST                      2: 3
+        20      BINARY_SLICE                    
+        22      CALL                            1
+        30      POP_TOP                         
+        32      PUSH_NULL                       
+        34      LOAD_NAME                       1: print
+        36      LOAD_NAME                       0: l
+        38      LOAD_CONST                      3: None
+        40      LOAD_CONST                      4: 2
+        42      BINARY_SLICE                    
+        44      CALL                            1
+        52      POP_TOP                         
+        54      PUSH_NULL                       
+        56      LOAD_NAME                       1: print
+        58      LOAD_NAME                       0: l
+        60      LOAD_CONST                      2: 3
+        62      LOAD_CONST                      3: None
+        64      BINARY_SLICE                    
+        66      CALL                            1
+        74      POP_TOP                         
+        76      PUSH_NULL                       
+        78      LOAD_NAME                       1: print
+        80      LOAD_NAME                       0: l
+        82      LOAD_CONST                      5: -4
+        84      LOAD_CONST                      3: None
+        86      BINARY_SLICE                    
+        88      CALL                            1
+        96      POP_TOP                         
+        98      PUSH_NULL                       
+        100     LOAD_NAME                       1: print
+        102     LOAD_NAME                       0: l
+        104     LOAD_CONST                      3: None
+        106     LOAD_CONST                      6: -2
+        108     BINARY_SLICE                    
+        110     CALL                            1
+        118     POP_TOP                         
+        120     PUSH_NULL                       
+        122     LOAD_NAME                       1: print
+        124     LOAD_NAME                       0: l
+        126     LOAD_CONST                      3: None
+        128     LOAD_CONST                      3: None
+        130     BINARY_SLICE                    
+        132     CALL                            1
+        140     POP_TOP                         
+        142     RETURN_CONST                    3: None
+    [Exception Table]

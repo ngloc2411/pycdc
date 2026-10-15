@@ -1,0 +1,29 @@
+[Code]
+    File Name: ../input/unicode.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 1
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'ustr'
+        'bstr'
+        'dstr'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        'Unicode'
+        b'Bytes'
+        'Default'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 'Unicode'
+        3       STORE_NAME                      0: ustr
+        6       LOAD_CONST                      1: b'Bytes'
+        9       STORE_NAME                      1: bstr
+        12      LOAD_CONST                      2: 'Default'
+        15      STORE_NAME                      2: dstr
+        18      LOAD_CONST                      3: None
+        21      RETURN_VALUE                    

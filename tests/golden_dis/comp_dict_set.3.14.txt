@@ -1,0 +1,93 @@
+[Code]
+    File Name: comp_dict_set.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: comp_dict_set.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'xs'
+                'x'
+                'a'
+                'b'
+            [Constants]
+                3
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST_BORROW                0
+                4       GET_ITER                        
+                6       LOAD_FAST_AND_CLEAR             1: x
+                8       SWAP                            2
+                10      BUILD_MAP                       0
+                12      SWAP                            2
+                14      FOR_ITER                        14 (to 44)
+                18      STORE_FAST_LOAD_FAST            17: x, x
+                20      TO_BOOL                         
+                28      POP_JUMP_IF_TRUE                3 (to 36)
+                32      NOT_TAKEN                       
+                34      JUMP_BACKWARD                   12 (to 12)
+                38      LOAD_FAST_BORROW_LOAD_FAST_BORROW  17
+                40      MAP_ADD                         2
+                42      JUMP_BACKWARD                   16 (to 12)
+                46      END_FOR                         
+                48      POP_ITER                        
+                50      STORE_FAST                      2: a
+                52      STORE_FAST                      1: x
+                54      LOAD_FAST_BORROW                0
+                56      GET_ITER                        
+                58      LOAD_FAST_AND_CLEAR             1: x
+                60      SWAP                            2
+                62      BUILD_SET                       0
+                64      SWAP                            2
+                66      FOR_ITER                        11 (to 90)
+                70      STORE_FAST_LOAD_FAST            17: x, x
+                72      LOAD_SMALL_INT                  3
+                74      BINARY_OP                       6 (%)
+                86      SET_ADD                         2
+                88      JUMP_BACKWARD                   13 (to 64)
+                92      END_FOR                         
+                94      POP_ITER                        
+                96      STORE_FAST                      3: b
+                98      STORE_FAST                      1: x
+                100     LOAD_FAST_BORROW_LOAD_FAST_BORROW  35
+                102     BUILD_TUPLE                     2
+                104     RETURN_VALUE                    
+                106     SWAP                            2
+                108     POP_TOP                         
+                110     SWAP                            2
+                112     STORE_FAST                      1: x
+                114     RERAISE                         0
+                116     SWAP                            2
+                118     POP_TOP                         
+                120     SWAP                            2
+                122     STORE_FAST                      1: x
+                124     RERAISE                         0
+            [Exception Table]
+                10 to 28 -> 106 [2] 
+                38 to 50 -> 106 [2] 
+                62 to 96 -> 116 [2] 
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      1: None
+        10      RETURN_VALUE                    
+    [Exception Table]

@@ -1,0 +1,505 @@
+[Code]
+    File Name: for_loops.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'for_break'
+        'for_continue'
+        'for_else'
+        'for_else_nobreak'
+        'nested_for_break'
+        'for_unpack_break'
+        'for_while_break'
+        'for_break_continue'
+        'for_return'
+        'for_two_breaks'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_break
+            Qualified Name: for_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                3
+                'end'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        20 (to 48)
+                10      STORE_FAST                      1: x
+                12      LOAD_FAST                       1: x
+                14      LOAD_CONST                      1: 3
+                16      COMPARE_OP                      68 (>)
+                20      POP_JUMP_IF_FALSE               2 (to 26)
+                22      POP_TOP                         
+                24      JUMP_FORWARD                    13 (to 52)
+                26      LOAD_GLOBAL                     1: NULL + print
+                36      LOAD_FAST                       1: x
+                38      CALL                            1
+                46      POP_TOP                         
+                48      JUMP_BACKWARD                   22 (to 6)
+                50      END_FOR                         
+                52      LOAD_GLOBAL                     1: NULL + print
+                62      LOAD_CONST                      2: 'end'
+                64      CALL                            1
+                72      POP_TOP                         
+                74      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_continue
+            Qualified Name: for_continue
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                2
+                'end'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        19 (to 46)
+                10      STORE_FAST                      1: x
+                12      LOAD_FAST                       1: x
+                14      LOAD_CONST                      1: 2
+                16      BINARY_OP                       6 (%)
+                20      POP_JUMP_IF_FALSE               1 (to 24)
+                22      JUMP_BACKWARD                   9 (to 6)
+                24      LOAD_GLOBAL                     1: NULL + print
+                34      LOAD_FAST                       1: x
+                36      CALL                            1
+                44      POP_TOP                         
+                46      JUMP_BACKWARD                   21 (to 6)
+                48      END_FOR                         
+                50      LOAD_GLOBAL                     1: NULL + print
+                60      LOAD_CONST                      2: 'end'
+                62      CALL                            1
+                70      POP_TOP                         
+                72      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_else
+            Qualified Name: for_else
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                'a'
+                'not found'
+                'after'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        9 (to 26)
+                10      STORE_FAST                      1: x
+                12      LOAD_FAST                       1: x
+                14      LOAD_CONST                      1: 'a'
+                16      COMPARE_OP                      40 (==)
+                20      POP_JUMP_IF_TRUE                1 (to 24)
+                22      JUMP_BACKWARD                   9 (to 6)
+                24      POP_TOP                         
+                26      JUMP_FORWARD                    12 (to 52)
+                28      END_FOR                         
+                30      LOAD_GLOBAL                     1: NULL + print
+                40      LOAD_CONST                      2: 'not found'
+                42      CALL                            1
+                50      POP_TOP                         
+                52      LOAD_GLOBAL                     1: NULL + print
+                62      LOAD_CONST                      3: 'after'
+                64      CALL                            1
+                72      POP_TOP                         
+                74      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_else_nobreak
+            Qualified Name: for_else_nobreak
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                'after'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        13 (to 34)
+                10      STORE_FAST                      1: x
+                12      LOAD_GLOBAL                     1: NULL + print
+                22      LOAD_FAST                       1: x
+                24      CALL                            1
+                32      POP_TOP                         
+                34      JUMP_BACKWARD                   15 (to 6)
+                36      END_FOR                         
+                38      LOAD_GLOBAL                     1: NULL + print
+                48      LOAD_CONST                      1: 'after'
+                50      CALL                            1
+                58      POP_TOP                         
+                60      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: nested_for_break
+            Qualified Name: nested_for_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'rows'
+                'row'
+                'cell'
+            [Constants]
+                None
+                'row'
+                'end'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: rows
+                4       GET_ITER                        
+                6       FOR_ITER                        35 (to 78)
+                10      STORE_FAST                      1: row
+                12      LOAD_FAST                       1: row
+                14      GET_ITER                        
+                16      FOR_ITER                        17 (to 52)
+                20      STORE_FAST                      2: cell
+                22      LOAD_FAST                       2: cell
+                24      POP_JUMP_IF_NOT_NONE            2 (to 30)
+                26      POP_TOP                         
+                28      JUMP_FORWARD                    13 (to 56)
+                30      LOAD_GLOBAL                     1: NULL + print
+                40      LOAD_FAST                       2: cell
+                42      CALL                            1
+                50      POP_TOP                         
+                52      JUMP_BACKWARD                   19 (to 16)
+                54      END_FOR                         
+                56      LOAD_GLOBAL                     1: NULL + print
+                66      LOAD_CONST                      1: 'row'
+                68      CALL                            1
+                76      POP_TOP                         
+                78      JUMP_BACKWARD                   37 (to 6)
+                80      END_FOR                         
+                82      LOAD_GLOBAL                     1: NULL + print
+                92      LOAD_CONST                      2: 'end'
+                94      CALL                            1
+                102     POP_TOP                         
+                104     RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_unpack_break
+            Qualified Name: for_unpack_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 5
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'pairs'
+                'k'
+                'v'
+            [Constants]
+                None
+                'done'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: pairs
+                4       GET_ITER                        
+                6       FOR_ITER                        24 (to 56)
+                10      UNPACK_SEQUENCE                 2
+                14      STORE_FAST                      1: k
+                16      STORE_FAST                      2: v
+                18      LOAD_FAST                       1: k
+                20      LOAD_FAST                       2: v
+                22      COMPARE_OP                      40 (==)
+                26      POP_JUMP_IF_FALSE               2 (to 32)
+                28      POP_TOP                         
+                30      JUMP_FORWARD                    14 (to 60)
+                32      LOAD_GLOBAL                     1: NULL + print
+                42      LOAD_FAST                       1: k
+                44      LOAD_FAST                       2: v
+                46      CALL                            2
+                54      POP_TOP                         
+                56      JUMP_BACKWARD                   26 (to 6)
+                58      END_FOR                         
+                60      LOAD_GLOBAL                     1: NULL + print
+                70      LOAD_CONST                      1: 'done'
+                72      CALL                            1
+                80      POP_TOP                         
+                82      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_while_break
+            Qualified Name: for_while_break
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+                'n'
+            [Constants]
+                None
+                0
+                1
+                5
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        37 (to 82)
+                10      STORE_FAST                      1: x
+                12      LOAD_CONST                      1: 0
+                14      STORE_FAST                      2: n
+                16      LOAD_FAST                       2: n
+                18      LOAD_FAST                       1: x
+                20      COMPARE_OP                      2 (<)
+                24      POP_JUMP_IF_FALSE               17 (to 60)
+                26      LOAD_FAST                       2: n
+                28      LOAD_CONST                      2: 1
+                30      BINARY_OP                       13 (+=)
+                34      STORE_FAST                      2: n
+                36      LOAD_FAST                       2: n
+                38      LOAD_CONST                      3: 5
+                40      COMPARE_OP                      40 (==)
+                44      POP_JUMP_IF_FALSE               1 (to 48)
+                46      JUMP_FORWARD                    6 (to 60)
+                48      LOAD_FAST                       2: n
+                50      LOAD_FAST                       1: x
+                52      COMPARE_OP                      2 (<)
+                56      POP_JUMP_IF_FALSE               1 (to 60)
+                58      JUMP_BACKWARD                   17 (to 26)
+                60      LOAD_GLOBAL                     1: NULL + print
+                70      LOAD_FAST                       2: n
+                72      CALL                            1
+                80      POP_TOP                         
+                82      JUMP_BACKWARD                   39 (to 6)
+                84      END_FOR                         
+                86      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_break_continue
+            Qualified Name: for_break_continue
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 3
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'total'
+                'x'
+            [Constants]
+                None
+                0
+                100
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: 0
+                4       STORE_FAST                      1: total
+                6       LOAD_FAST                       0: items
+                8       GET_ITER                        
+                10      FOR_ITER                        20 (to 52)
+                14      STORE_FAST                      2: x
+                16      LOAD_FAST                       2: x
+                18      LOAD_CONST                      1: 0
+                20      COMPARE_OP                      2 (<)
+                24      POP_JUMP_IF_FALSE               1 (to 28)
+                26      JUMP_BACKWARD                   9 (to 10)
+                28      LOAD_FAST                       2: x
+                30      LOAD_CONST                      2: 100
+                32      COMPARE_OP                      68 (>)
+                36      POP_JUMP_IF_FALSE               2 (to 42)
+                38      POP_TOP                         
+                40      JUMP_FORWARD                    7 (to 56)
+                42      LOAD_FAST                       1: total
+                44      LOAD_FAST                       2: x
+                46      BINARY_OP                       13 (+=)
+                50      STORE_FAST                      1: total
+                52      JUMP_BACKWARD                   22 (to 10)
+                54      END_FOR                         
+                56      LOAD_GLOBAL                     1: NULL + print
+                66      LOAD_FAST                       1: total
+                68      CALL                            1
+                76      POP_TOP                         
+                78      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_return
+            Qualified Name: for_return
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                'skip'
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        19 (to 46)
+                10      STORE_FAST                      1: x
+                12      LOAD_FAST                       1: x
+                14      POP_JUMP_IF_FALSE               4 (to 24)
+                16      LOAD_FAST                       1: x
+                18      SWAP                            2
+                20      POP_TOP                         
+                22      RETURN_VALUE                    
+                24      LOAD_GLOBAL                     1: NULL + print
+                34      LOAD_CONST                      1: 'skip'
+                36      CALL                            1
+                44      POP_TOP                         
+                46      JUMP_BACKWARD                   21 (to 6)
+                48      END_FOR                         
+                50      RETURN_CONST                    2: 0
+            [Exception Table]
+        [Code]
+            File Name: for_loops.py
+            Object Name: for_two_breaks
+            Qualified Name: for_two_breaks
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'print'
+            [Locals+Names]
+                'items'
+                'x'
+            [Constants]
+                None
+                1
+                2
+                'done'
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: items
+                4       GET_ITER                        
+                6       FOR_ITER                        27 (to 62)
+                10      STORE_FAST                      1: x
+                12      LOAD_FAST                       1: x
+                14      LOAD_CONST                      1: 1
+                16      COMPARE_OP                      40 (==)
+                20      POP_JUMP_IF_FALSE               2 (to 26)
+                22      POP_TOP                         
+                24      JUMP_FORWARD                    20 (to 66)
+                26      LOAD_FAST                       1: x
+                28      LOAD_CONST                      2: 2
+                30      COMPARE_OP                      40 (==)
+                34      POP_JUMP_IF_FALSE               2 (to 40)
+                36      POP_TOP                         
+                38      JUMP_FORWARD                    13 (to 66)
+                40      LOAD_GLOBAL                     1: NULL + print
+                50      LOAD_FAST                       1: x
+                52      CALL                            1
+                60      POP_TOP                         
+                62      JUMP_BACKWARD                   29 (to 6)
+                64      END_FOR                         
+                66      LOAD_GLOBAL                     1: NULL + print
+                76      LOAD_CONST                      3: 'done'
+                78      CALL                            1
+                86      POP_TOP                         
+                88      RETURN_CONST                    0: None
+            [Exception Table]
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> for_break
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: for_break
+        8       LOAD_CONST                      1: <CODE> for_continue
+        10      MAKE_FUNCTION                   0
+        12      STORE_NAME                      1: for_continue
+        14      LOAD_CONST                      2: <CODE> for_else
+        16      MAKE_FUNCTION                   0
+        18      STORE_NAME                      2: for_else
+        20      LOAD_CONST                      3: <CODE> for_else_nobreak
+        22      MAKE_FUNCTION                   0
+        24      STORE_NAME                      3: for_else_nobreak
+        26      LOAD_CONST                      4: <CODE> nested_for_break
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      4: nested_for_break
+        32      LOAD_CONST                      5: <CODE> for_unpack_break
+        34      MAKE_FUNCTION                   0
+        36      STORE_NAME                      5: for_unpack_break
+        38      LOAD_CONST                      6: <CODE> for_while_break
+        40      MAKE_FUNCTION                   0
+        42      STORE_NAME                      6: for_while_break
+        44      LOAD_CONST                      7: <CODE> for_break_continue
+        46      MAKE_FUNCTION                   0
+        48      STORE_NAME                      7: for_break_continue
+        50      LOAD_CONST                      8: <CODE> for_return
+        52      MAKE_FUNCTION                   0
+        54      STORE_NAME                      8: for_return
+        56      LOAD_CONST                      9: <CODE> for_two_breaks
+        58      MAKE_FUNCTION                   0
+        60      STORE_NAME                      9: for_two_breaks
+        62      RETURN_CONST                    10: None
+    [Exception Table]

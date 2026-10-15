@@ -1,0 +1,69 @@
+[Code]
+    File Name: tests/input/test_calls.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 6
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'sys'
+        'os'
+        'stdout'
+        'write'
+        'path'
+        'join'
+        'print'
+        'eval'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        0
+        None
+        'Test\n'
+        'foo'
+        'bar'
+        '\n'
+        '4 * 13'
+    [Disassembly]
+        0       LOAD_CONST                      0: 0
+        3       LOAD_CONST                      1: None
+        6       IMPORT_NAME                     0: sys
+        9       STORE_NAME                      0: sys
+        12      LOAD_CONST                      0: 0
+        15      LOAD_CONST                      1: None
+        18      IMPORT_NAME                     1: os
+        21      STORE_NAME                      1: os
+        24      LOAD_NAME                       0: sys
+        27      LOAD_ATTR                       2: stdout
+        30      LOAD_ATTR                       3: write
+        33      LOAD_CONST                      2: 'Test\n'
+        36      CALL_FUNCTION                   1
+        39      POP_TOP                         
+        40      LOAD_NAME                       0: sys
+        43      LOAD_ATTR                       2: stdout
+        46      LOAD_ATTR                       3: write
+        49      LOAD_NAME                       1: os
+        52      LOAD_ATTR                       4: path
+        55      LOAD_ATTR                       5: join
+        58      LOAD_CONST                      3: 'foo'
+        61      LOAD_CONST                      4: 'bar'
+        64      CALL_FUNCTION                   2
+        67      CALL_FUNCTION                   1
+        70      POP_TOP                         
+        71      LOAD_NAME                       6: print
+        74      LOAD_CONST                      5: '\n'
+        77      CALL_FUNCTION                   1
+        80      POP_TOP                         
+        81      LOAD_NAME                       6: print
+        84      LOAD_NAME                       7: eval
+        87      LOAD_CONST                      6: '4 * 13'
+        90      CALL_FUNCTION                   1
+        93      CALL_FUNCTION                   1
+        96      POP_TOP                         
+        97      LOAD_NAME                       6: print
+        100     CALL_FUNCTION                   0
+        103     POP_TOP                         
+        104     LOAD_CONST                      1: None
+        107     RETURN_VALUE                    

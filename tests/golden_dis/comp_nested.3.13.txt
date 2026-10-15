@@ -1,0 +1,91 @@
+[Code]
+    File Name: comp_nested.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: comp_nested.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 8
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'range'
+            [Locals+Names]
+                'xs'
+                'x'
+                'y'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: xs
+                4       GET_ITER                        
+                6       LOAD_FAST_AND_CLEAR             1: x
+                8       LOAD_FAST_AND_CLEAR             2: y
+                10      SWAP                            3
+                12      BUILD_LIST                      0
+                14      SWAP                            2
+                16      GET_ITER                        
+                18      FOR_ITER                        30 (to 80)
+                22      STORE_FAST                      1: x
+                24      LOAD_GLOBAL                     1: NULL + range
+                34      LOAD_FAST                       1: x
+                36      CALL                            1
+                44      GET_ITER                        
+                46      LOAD_FAST_AND_CLEAR             2: y
+                48      SWAP                            2
+                50      BUILD_LIST                      0
+                52      SWAP                            2
+                54      GET_ITER                        
+                56      FOR_ITER                        4 (to 66)
+                60      STORE_FAST_LOAD_FAST            34: y, y
+                62      LIST_APPEND                     2
+                64      JUMP_BACKWARD                   6 (to 54)
+                68      END_FOR                         
+                70      POP_TOP                         
+                72      SWAP                            2
+                74      STORE_FAST                      2: y
+                76      LIST_APPEND                     2
+                78      JUMP_BACKWARD                   32 (to 16)
+                82      END_FOR                         
+                84      POP_TOP                         
+                86      SWAP                            3
+                88      STORE_FAST                      2: y
+                90      STORE_FAST                      1: x
+                92      RETURN_VALUE                    
+                94      SWAP                            2
+                96      POP_TOP                         
+                98      SWAP                            2
+                100     STORE_FAST                      2: y
+                102     RERAISE                         0
+                104     SWAP                            2
+                106     POP_TOP                         
+                108     SWAP                            3
+                110     STORE_FAST                      2: y
+                112     STORE_FAST                      1: x
+                114     RERAISE                         0
+            [Exception Table]
+                12 to 50 -> 104 [3] 
+                50 to 72 -> 94 [6] 
+                72 to 86 -> 104 [3] 
+                94 to 104 -> 104 [3] 
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   
+        6       STORE_NAME                      0: f
+        8       RETURN_CONST                    1: None
+    [Exception Table]

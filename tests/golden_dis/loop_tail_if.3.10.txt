@@ -1,0 +1,194 @@
+[Code]
+    File Name: loop_tail_if.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+        'g'
+        'h'
+        'gen'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'xs'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+            [Disassembly]
+                0       LOAD_FAST                       0: xs
+                2       GET_ITER                        
+                4       FOR_ITER                        8 (to 22)
+                6       STORE_FAST                      1: x
+                8       LOAD_FAST                       1: x
+                10      POP_JUMP_IF_FALSE               10 (to 20)
+                12      LOAD_GLOBAL                     0: print
+                14      LOAD_FAST                       1: x
+                16      CALL_FUNCTION                   1
+                18      POP_TOP                         
+                20      JUMP_ABSOLUTE                   2 (to 4)
+                22      LOAD_CONST                      1: 1
+                24      RETURN_VALUE                    
+        'f'
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: g
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'xs'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+                'big'
+                5
+                'huge'
+            [Disassembly]
+                0       LOAD_FAST                       0: xs
+                2       GET_ITER                        
+                4       FOR_ITER                        22 (to 50)
+                6       STORE_FAST                      1: x
+                8       LOAD_GLOBAL                     0: print
+                10      LOAD_FAST                       1: x
+                12      CALL_FUNCTION                   1
+                14      POP_TOP                         
+                16      LOAD_FAST                       1: x
+                18      LOAD_CONST                      1: 2
+                20      COMPARE_OP                      4 (>)
+                22      POP_JUMP_IF_FALSE               24 (to 48)
+                24      LOAD_GLOBAL                     0: print
+                26      LOAD_CONST                      2: 'big'
+                28      CALL_FUNCTION                   1
+                30      POP_TOP                         
+                32      LOAD_FAST                       1: x
+                34      LOAD_CONST                      3: 5
+                36      COMPARE_OP                      4 (>)
+                38      POP_JUMP_IF_FALSE               24 (to 48)
+                40      LOAD_GLOBAL                     0: print
+                42      LOAD_CONST                      4: 'huge'
+                44      CALL_FUNCTION                   1
+                46      POP_TOP                         
+                48      JUMP_ABSOLUTE                   2 (to 4)
+                50      LOAD_CONST                      0: None
+                52      RETURN_VALUE                    
+        'g'
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: h
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'xs'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                'zero'
+                'done'
+            [Disassembly]
+                0       LOAD_FAST                       0: xs
+                2       GET_ITER                        
+                4       FOR_ITER                        8 (to 22)
+                6       STORE_FAST                      1: x
+                8       LOAD_FAST                       1: x
+                10      POP_JUMP_IF_TRUE                10 (to 20)
+                12      LOAD_GLOBAL                     0: print
+                14      LOAD_CONST                      1: 'zero'
+                16      CALL_FUNCTION                   1
+                18      POP_TOP                         
+                20      JUMP_ABSOLUTE                   2 (to 4)
+                22      LOAD_GLOBAL                     0: print
+                24      LOAD_CONST                      2: 'done'
+                26      CALL_FUNCTION                   1
+                28      POP_TOP                         
+                30      LOAD_CONST                      0: None
+                32      RETURN_VALUE                    
+        'h'
+        [Code]
+            File Name: loop_tail_if.py
+            Object Name: gen
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 2
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'xs'
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       GEN_START                       0
+                2       LOAD_FAST                       0: xs
+                4       GET_ITER                        
+                6       FOR_ITER                        7 (to 22)
+                8       STORE_FAST                      1: x
+                10      LOAD_FAST                       1: x
+                12      POP_JUMP_IF_FALSE               10 (to 20)
+                14      LOAD_FAST                       1: x
+                16      YIELD_VALUE                     
+                18      POP_TOP                         
+                20      JUMP_ABSOLUTE                   3 (to 6)
+                22      LOAD_CONST                      0: None
+                24      RETURN_VALUE                    
+        'gen'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: <CODE> g
+        10      LOAD_CONST                      3: 'g'
+        12      MAKE_FUNCTION                   0
+        14      STORE_NAME                      1: g
+        16      LOAD_CONST                      4: <CODE> h
+        18      LOAD_CONST                      5: 'h'
+        20      MAKE_FUNCTION                   0
+        22      STORE_NAME                      2: h
+        24      LOAD_CONST                      6: <CODE> gen
+        26      LOAD_CONST                      7: 'gen'
+        28      MAKE_FUNCTION                   0
+        30      STORE_NAME                      3: gen
+        32      LOAD_CONST                      8: None
+        34      RETURN_VALUE                    

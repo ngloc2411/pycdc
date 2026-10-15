@@ -1,0 +1,108 @@
+[Code]
+    File Name: comp_nested.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: comp_nested.py
+            Object Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'xs'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                [Code]
+                    File Name: comp_nested.py
+                    Object Name: <listcomp>
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Locals: 2
+                    Stack Size: 5
+                    Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                    [Names]
+                        'range'
+                    [Var Names]
+                        '.0'
+                        'x'
+                    [Free Vars]
+                    [Cell Vars]
+                    [Constants]
+                        [Code]
+                            File Name: comp_nested.py
+                            Object Name: <listcomp>
+                            Arg Count: 1
+                            Pos Only Arg Count: 0
+                            KW Only Arg Count: 0
+                            Locals: 2
+                            Stack Size: 3
+                            Flags: 0x00000053 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED | CO_NOFREE)
+                            [Names]
+                            [Var Names]
+                                '.0'
+                                'y'
+                            [Free Vars]
+                            [Cell Vars]
+                            [Constants]
+                            [Disassembly]
+                                0       BUILD_LIST                      0
+                                2       LOAD_FAST                       0: .0
+                                4       FOR_ITER                        8 (to 14)
+                                6       STORE_FAST                      1: y
+                                8       LOAD_FAST                       1: y
+                                10      LIST_APPEND                     2
+                                12      JUMP_ABSOLUTE                   4
+                                14      RETURN_VALUE                    
+                        'f.<locals>.<listcomp>.<listcomp>'
+                    [Disassembly]
+                        0       BUILD_LIST                      0
+                        2       LOAD_FAST                       0: .0
+                        4       FOR_ITER                        22 (to 28)
+                        6       STORE_FAST                      1: x
+                        8       LOAD_CONST                      0: <CODE> <listcomp>
+                        10      LOAD_CONST                      1: 'f.<locals>.<listcomp>.<listcomp>'
+                        12      MAKE_FUNCTION                   0
+                        14      LOAD_GLOBAL                     0: range
+                        16      LOAD_FAST                       1: x
+                        18      CALL_FUNCTION                   1
+                        20      GET_ITER                        
+                        22      CALL_FUNCTION                   1
+                        24      LIST_APPEND                     2
+                        26      JUMP_ABSOLUTE                   4
+                        28      RETURN_VALUE                    
+                'f.<locals>.<listcomp>'
+            [Disassembly]
+                0       LOAD_CONST                      1: <CODE> <listcomp>
+                2       LOAD_CONST                      2: 'f.<locals>.<listcomp>'
+                4       MAKE_FUNCTION                   0
+                6       LOAD_FAST                       0: xs
+                8       GET_ITER                        
+                10      CALL_FUNCTION                   1
+                12      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

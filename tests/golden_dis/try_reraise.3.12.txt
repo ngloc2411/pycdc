@@ -1,0 +1,58 @@
+[Code]
+    File Name: try_reraise.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 1
+    Flags: 0x00000000
+    [Names]
+        'f'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: try_reraise.py
+            Object Name: f
+            Qualified Name: f
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'ZeroDivisionError'
+            [Locals+Names]
+            [Constants]
+                None
+                1
+                0
+            [Disassembly]
+                0       RESUME                          0
+                2       NOP                             
+                4       LOAD_CONST                      1: 1
+                6       LOAD_CONST                      2: 0
+                8       BINARY_OP                       11 (/)
+                12      POP_TOP                         
+                14      RETURN_CONST                    0: None
+                16      PUSH_EXC_INFO                   
+                18      LOAD_GLOBAL                     0: ZeroDivisionError
+                28      CHECK_EXC_MATCH                 
+                30      POP_JUMP_IF_FALSE               2 (to 36)
+                32      POP_TOP                         
+                34      RAISE_VARARGS                   0
+                36      RERAISE                         0
+                38      COPY                            3
+                40      POP_EXCEPT                      
+                42      RERAISE                         1
+            [Exception Table]
+                4 to 14 -> 16 [0] 
+                16 to 38 -> 38 [1] lasti
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> f
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       RETURN_CONST                    1: None
+    [Exception Table]

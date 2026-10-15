@@ -1,0 +1,64 @@
+[Code]
+    File Name: bool_ops_assign.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: bool_ops_assign.py
+            Object Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 5
+            Stack Size: 3
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       JUMP_IF_TRUE_OR_POP             6
+                4       BUILD_MAP                       0
+                6       STORE_FAST                      2: x
+                8       LOAD_FAST                       0: a
+                10      JUMP_IF_FALSE_OR_POP            14
+                12      LOAD_FAST                       1: b
+                14      STORE_FAST                      3: y
+                16      LOAD_FAST                       0: a
+                18      POP_JUMP_IF_TRUE                24
+                20      LOAD_FAST                       1: b
+                22      JUMP_IF_FALSE_OR_POP            26
+                24      LOAD_FAST                       0: a
+                26      STORE_FAST                      4: z
+                28      LOAD_FAST                       2: x
+                30      LOAD_FAST                       3: y
+                32      LOAD_FAST                       4: z
+                34      BUILD_TUPLE                     3
+                36      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

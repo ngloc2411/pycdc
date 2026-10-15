@@ -1,0 +1,115 @@
+[Code]
+    File Name: tests/input/test_integers_py3.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 4
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        '__doc__'
+        'sys'
+        'i'
+        'maxsize'
+        'minsize'
+        'print'
+        'repr'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        "\ntest_integers.py -- source test pattern for integers\n\nThis source is part of the decompyle test suite.\nSnippet taken from python libs's test_class.py\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n"
+        0
+        None
+        1
+        42
+        2147483647
+        0x80000000
+        0x80000001
+        -1
+        -42
+        -2147483647
+        -2147483648
+        -0x80000001
+    [Disassembly]
+        0       LOAD_CONST                      0: "\ntest_integers.py -- source test pattern for integers\n\nThis source is part of the decompyle test suite.\nSnippet taken from python libs's test_class.py\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n"
+        3       STORE_NAME                      0: __doc__
+        6       LOAD_CONST                      1: 0
+        9       LOAD_CONST                      2: None
+        12      IMPORT_NAME                     1: sys
+        15      STORE_NAME                      1: sys
+        18      LOAD_CONST                      3: 1
+        21      STORE_NAME                      2: i
+        24      LOAD_CONST                      4: 42
+        27      STORE_NAME                      2: i
+        30      LOAD_CONST                      8: -1
+        33      STORE_NAME                      2: i
+        36      LOAD_CONST                      9: -42
+        39      STORE_NAME                      2: i
+        42      LOAD_NAME                       1: sys
+        45      LOAD_ATTR                       3: maxsize
+        48      STORE_NAME                      2: i
+        51      LOAD_NAME                       1: sys
+        54      LOAD_ATTR                       3: maxsize
+        57      UNARY_NEGATIVE                  
+        58      LOAD_CONST                      3: 1
+        61      BINARY_SUBTRACT                 
+        62      STORE_NAME                      4: minsize
+        65      LOAD_NAME                       5: print
+        68      LOAD_NAME                       1: sys
+        71      LOAD_ATTR                       3: maxsize
+        74      CALL_FUNCTION                   1
+        77      POP_TOP                         
+        78      LOAD_NAME                       5: print
+        81      LOAD_NAME                       4: minsize
+        84      CALL_FUNCTION                   1
+        87      POP_TOP                         
+        88      LOAD_NAME                       5: print
+        91      LOAD_NAME                       4: minsize
+        94      LOAD_CONST                      3: 1
+        97      BINARY_SUBTRACT                 
+        98      CALL_FUNCTION                   1
+        101     POP_TOP                         
+        102     LOAD_NAME                       5: print
+        105     CALL_FUNCTION                   0
+        108     POP_TOP                         
+        109     LOAD_CONST                      10: -2147483647
+        112     STORE_NAME                      2: i
+        115     LOAD_NAME                       5: print
+        118     LOAD_NAME                       2: i
+        121     LOAD_NAME                       6: repr
+        124     LOAD_NAME                       2: i
+        127     CALL_FUNCTION                   1
+        130     CALL_FUNCTION                   2
+        133     POP_TOP                         
+        134     LOAD_NAME                       2: i
+        137     LOAD_CONST                      3: 1
+        140     BINARY_SUBTRACT                 
+        141     STORE_NAME                      2: i
+        144     LOAD_NAME                       5: print
+        147     LOAD_NAME                       2: i
+        150     LOAD_NAME                       6: repr
+        153     LOAD_NAME                       2: i
+        156     CALL_FUNCTION                   1
+        159     CALL_FUNCTION                   2
+        162     POP_TOP                         
+        163     LOAD_CONST                      11: -2147483648
+        166     STORE_NAME                      2: i
+        169     LOAD_NAME                       5: print
+        172     LOAD_NAME                       2: i
+        175     LOAD_NAME                       6: repr
+        178     LOAD_NAME                       2: i
+        181     CALL_FUNCTION                   1
+        184     CALL_FUNCTION                   2
+        187     POP_TOP                         
+        188     LOAD_CONST                      12: -0x80000001
+        191     STORE_NAME                      2: i
+        194     LOAD_NAME                       5: print
+        197     LOAD_NAME                       2: i
+        200     LOAD_NAME                       6: repr
+        203     LOAD_NAME                       2: i
+        206     CALL_FUNCTION                   1
+        209     CALL_FUNCTION                   2
+        212     POP_TOP                         
+        213     LOAD_CONST                      2: None
+        216     RETURN_VALUE                    

@@ -1,0 +1,255 @@
+[Code]
+    File Name: ../tests/input/test_loops3.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 5
+    Flags: 0x00000000
+    [Names]
+        'loop1'
+        'loop2'
+        'loop3'
+        'loop4'
+        'j'
+        'print'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: ../tests/input/test_loops3.py
+            Object Name: loop1
+            Qualified Name: loop1
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'iterable'
+                'item'
+            [Constants]
+                None
+                (
+                    1
+                    2
+                    3
+                )
+            [Disassembly]
+                0       RESUME                          0
+                2       BUILD_LIST                      0
+                4       LOAD_CONST                      1: (1, 2, 3)
+                6       LIST_EXTEND                     1
+                8       STORE_FAST                      0: iterable
+                10      LOAD_FAST                       0: iterable
+                12      GET_ITER                        
+                14      FOR_ITER                        2 (to 20)
+                18      STORE_FAST                      1: item
+                20      JUMP_BACKWARD                   4 (to 14)
+                22      END_FOR                         
+                24      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: ../tests/input/test_loops3.py
+            Object Name: loop2
+            Qualified Name: loop2
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'range'
+                'print'
+            [Locals+Names]
+                'i'
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + range
+                12      LOAD_CONST                      1: 2
+                14      CALL                            1
+                22      GET_ITER                        
+                24      FOR_ITER                        13 (to 52)
+                28      STORE_FAST                      0: i
+                30      LOAD_GLOBAL                     3: NULL + print
+                40      LOAD_FAST                       0: i
+                42      CALL                            1
+                50      POP_TOP                         
+                52      JUMP_BACKWARD                   15 (to 24)
+                54      END_FOR                         
+                56      RETURN_CONST                    0: None
+            [Exception Table]
+        [Code]
+            File Name: ../tests/input/test_loops3.py
+            Object Name: loop3
+            Qualified Name: loop3
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'loop'
+            [Constants]
+                None
+                [Code]
+                    File Name: ../tests/input/test_loops3.py
+                    Object Name: loop
+                    Qualified Name: loop3.<locals>.loop
+                    Arg Count: 0
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 4
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                        'append'
+                    [Locals+Names]
+                        'x'
+                        'l'
+                        'i'
+                    [Constants]
+                        None
+                        (
+                            1
+                            2
+                            3
+                        )
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_CONST                      1: (1, 2, 3)
+                        4       STORE_FAST                      0: x
+                        6       BUILD_LIST                      0
+                        8       STORE_FAST                      1: l
+                        10      LOAD_FAST                       0: x
+                        12      GET_ITER                        
+                        14      FOR_ITER                        19 (to 54)
+                        18      STORE_FAST                      2: i
+                        20      LOAD_FAST                       1: l
+                        22      LOAD_ATTR                       1: append
+                        42      LOAD_FAST                       2: i
+                        44      CALL                            1
+                        52      POP_TOP                         
+                        54      JUMP_BACKWARD                   21 (to 14)
+                        56      END_FOR                         
+                        58      LOAD_FAST                       1: l
+                        60      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_CONST                      1: <CODE> loop
+                4       MAKE_FUNCTION                   0
+                6       STORE_FAST                      0: loop
+                8       PUSH_NULL                       
+                10      LOAD_FAST                       0: loop
+                12      CALL                            0
+                20      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: ../tests/input/test_loops3.py
+            Object Name: loop4
+            Qualified Name: loop4
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 6
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+                'range'
+                'print'
+            [Locals+Names]
+                'i'
+                'j'
+            [Constants]
+                None
+                3
+                2
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_GLOBAL                     1: NULL + range
+                12      LOAD_CONST                      1: 3
+                14      CALL                            1
+                22      GET_ITER                        
+                24      FOR_ITER                        32 (to 90)
+                28      STORE_FAST                      0: i
+                30      LOAD_GLOBAL                     1: NULL + range
+                40      LOAD_CONST                      2: 2
+                42      CALL                            1
+                50      GET_ITER                        
+                52      FOR_ITER                        16 (to 86)
+                56      STORE_FAST                      1: j
+                58      LOAD_GLOBAL                     3: NULL + print
+                68      LOAD_FAST                       0: i
+                70      LOAD_FAST                       1: j
+                72      BINARY_OP                       5 (*)
+                76      CALL                            1
+                84      POP_TOP                         
+                86      JUMP_BACKWARD                   18 (to 52)
+                88      END_FOR                         
+                90      JUMP_BACKWARD                   34 (to 24)
+                92      END_FOR                         
+                94      RETURN_CONST                    0: None
+            [Exception Table]
+        (
+            1
+            2
+            3
+        )
+        None
+        -1
+        'hi'
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_CONST                      0: <CODE> loop1
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: loop1
+        8       PUSH_NULL                       
+        10      LOAD_NAME                       0: loop1
+        12      CALL                            0
+        20      POP_TOP                         
+        22      LOAD_CONST                      1: <CODE> loop2
+        24      MAKE_FUNCTION                   0
+        26      STORE_NAME                      1: loop2
+        28      PUSH_NULL                       
+        30      LOAD_NAME                       1: loop2
+        32      CALL                            0
+        40      POP_TOP                         
+        42      LOAD_CONST                      2: <CODE> loop3
+        44      MAKE_FUNCTION                   0
+        46      STORE_NAME                      2: loop3
+        48      PUSH_NULL                       
+        50      LOAD_NAME                       2: loop3
+        52      CALL                            0
+        60      POP_TOP                         
+        62      LOAD_CONST                      3: <CODE> loop4
+        64      MAKE_FUNCTION                   0
+        66      STORE_NAME                      3: loop4
+        68      PUSH_NULL                       
+        70      LOAD_NAME                       3: loop4
+        72      CALL                            0
+        80      POP_TOP                         
+        82      BUILD_LIST                      0
+        84      LOAD_CONST                      4: (1, 2, 3)
+        86      LIST_EXTEND                     1
+        88      LOAD_CONST                      5: None
+        90      LOAD_CONST                      5: None
+        92      LOAD_CONST                      6: -1
+        94      BUILD_SLICE                     3
+        96      BINARY_SUBSCR                   
+        100     GET_ITER                        
+        102     FOR_ITER                        11 (to 126)
+        106     STORE_NAME                      4: j
+        108     PUSH_NULL                       
+        110     LOAD_NAME                       5: print
+        112     LOAD_CONST                      7: 'hi'
+        114     LOAD_NAME                       4: j
+        116     CALL                            2
+        124     POP_TOP                         
+        126     JUMP_BACKWARD                   13 (to 102)
+        128     END_FOR                         
+        130     RETURN_CONST                    5: None
+    [Exception Table]

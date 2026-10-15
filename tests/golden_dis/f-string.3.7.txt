@@ -1,0 +1,436 @@
+[Code]
+    File Name: input/f-string.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 21
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'var1'
+        'var2'
+        'x'
+        's1'
+        'var3'
+        'a'
+        'some_dict'
+        'assigned'
+        'print'
+        'max'
+        'msg'
+        'now'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        'x'
+        'y'
+        1.23456
+        15
+        3
+        2
+        123
+        'ok'
+        '4.5'
+        'f-string '
+        ':\\s+'
+        12
+        'f-string. \t\tformat value 0: '
+        ', 1 (!s): '
+        ', 2 (!r): '
+        ', 3 (!a): '
+        ', 4: '
+        '6.3'
+        ', constant: '
+        '. End.'
+        'percent format %d '
+        444
+        ' and '
+        ' add another f-str '
+        '2.3'
+        ' regular string  regular string '
+        "'''"
+        'single quoted string'
+        " 'singles in f-string' "
+        "single quote ' inside"
+        ' "doubles in f-string" '
+        'double quoted string'
+        ' " both \' '
+        'double quotes " inside'
+        '"""'
+        'single quote \t\t'
+        '"'
+        '" \''
+        '.2f'
+        '\' """'
+        '""" \'\'\''
+        'double quote \t\t'
+        ' '
+        '.5f'
+        '02'
+        '3'
+        '4'
+        '>10'
+        'o'
+        'e'
+        'some {braces} '
+        'inner literal: {braces} {{double braces}}'
+        'f-string dict '
+        ' and {function call in expression}: '
+        1
+        20
+        [Code]
+            File Name: input/f-string.py
+            Object Name: <lambda>
+            Arg Count: 1
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                2
+            [Disassembly]
+                0       LOAD_FAST                       0: x
+                2       LOAD_CONST                      1: 2
+                4       BINARY_MULTIPLY                 
+                6       RETURN_VALUE                    
+        '<lambda>'
+        'a '
+        'coolmultiline '
+        '\nf-string '
+        '%Y-%m-%d %H:%M'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: 'x'
+        2       STORE_NAME                      0: var1
+        4       LOAD_CONST                      1: 'y'
+        6       STORE_NAME                      1: var2
+        8       LOAD_CONST                      2: 1.23456
+        10      DUP_TOP                         
+        12      STORE_NAME                      2: x
+        14      DUP_TOP                         
+        16      STORE_NAME                      3: s1
+        18      STORE_NAME                      4: var3
+        20      LOAD_CONST                      3: 15
+        22      STORE_NAME                      5: a
+        24      BUILD_MAP                       0
+        26      STORE_NAME                      6: some_dict
+        28      LOAD_CONST                      4: 3
+        30      LOAD_NAME                       6: some_dict
+        32      LOAD_CONST                      5: 2
+        34      STORE_SUBSCR                    
+        36      BUILD_STRING                    0
+        38      POP_TOP                         
+        40      LOAD_CONST                      6: 123
+        42      FORMAT_VALUE                    0 (FVC_NONE)
+        44      POP_TOP                         
+        46      LOAD_CONST                      6: 123
+        48      FORMAT_VALUE                    0 (FVC_NONE)
+        50      LOAD_NAME                       0: var1
+        52      FORMAT_VALUE                    0 (FVC_NONE)
+        54      BUILD_STRING                    2
+        56      POP_TOP                         
+        58      LOAD_CONST                      6: 123
+        60      FORMAT_VALUE                    0 (FVC_NONE)
+        62      LOAD_CONST                      7: 'ok'
+        64      BUILD_STRING                    2
+        66      POP_TOP                         
+        68      LOAD_CONST                      7: 'ok'
+        70      LOAD_CONST                      6: 123
+        72      FORMAT_VALUE                    0 (FVC_NONE)
+        74      BUILD_STRING                    2
+        76      POP_TOP                         
+        78      LOAD_CONST                      6: 123
+        80      FORMAT_VALUE                    0 (FVC_NONE)
+        82      STORE_NAME                      7: assigned
+        84      LOAD_NAME                       8: print
+        86      LOAD_CONST                      6: 123
+        88      FORMAT_VALUE                    0 (FVC_NONE)
+        90      CALL_FUNCTION                   1
+        92      POP_TOP                         
+        94      LOAD_NAME                       8: print
+        96      LOAD_CONST                      6: 123
+        98      FORMAT_VALUE                    0 (FVC_NONE)
+        100     LOAD_CONST                      6: 123
+        102     FORMAT_VALUE                    0 (FVC_NONE)
+        104     LOAD_NAME                       4: var3
+        106     FORMAT_VALUE                    0 (FVC_NONE)
+        108     LOAD_CONST                      6: 123
+        110     FORMAT_VALUE                    0 (FVC_NONE)
+        112     BUILD_STRING                    4
+        114     CALL_FUNCTION                   1
+        116     POP_TOP                         
+        118     LOAD_NAME                       8: print
+        120     LOAD_NAME                       4: var3
+        122     FORMAT_VALUE                    0 (FVC_NONE)
+        124     CALL_FUNCTION                   1
+        126     POP_TOP                         
+        128     LOAD_NAME                       8: print
+        130     LOAD_NAME                       4: var3
+        132     LOAD_CONST                      8: '4.5'
+        134     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        136     CALL_FUNCTION                   1
+        138     POP_TOP                         
+        140     LOAD_NAME                       8: print
+        142     LOAD_CONST                      9: 'f-string '
+        144     LOAD_CONST                      6: 123
+        146     FORMAT_VALUE                    0 (FVC_NONE)
+        148     BUILD_STRING                    2
+        150     CALL_FUNCTION                   1
+        152     POP_TOP                         
+        154     LOAD_NAME                       8: print
+        156     LOAD_CONST                      6: 123
+        158     FORMAT_VALUE                    0 (FVC_NONE)
+        160     LOAD_CONST                      10: ':\\s+'
+        162     BUILD_STRING                    2
+        164     CALL_FUNCTION                   1
+        166     POP_TOP                         
+        168     LOAD_NAME                       8: print
+        170     LOAD_CONST                      0: 'x'
+        172     LOAD_CONST                      11: 12
+        174     FORMAT_VALUE                    0 (FVC_NONE)
+        176     BUILD_STRING                    2
+        178     LOAD_CONST                      4: 3
+        180     BINARY_MULTIPLY                 
+        182     CALL_FUNCTION                   1
+        184     POP_TOP                         
+        186     LOAD_NAME                       8: print
+        188     LOAD_CONST                      12: 'f-string. \t\tformat value 0: '
+        190     LOAD_NAME                       0: var1
+        192     FORMAT_VALUE                    0 (FVC_NONE)
+        194     LOAD_CONST                      13: ', 1 (!s): '
+        196     LOAD_NAME                       1: var2
+        198     FORMAT_VALUE                    1 (FVC_STR)
+        200     LOAD_CONST                      14: ', 2 (!r): '
+        202     LOAD_NAME                       1: var2
+        204     FORMAT_VALUE                    2 (FVC_REPR)
+        206     LOAD_CONST                      15: ', 3 (!a): '
+        208     LOAD_NAME                       1: var2
+        210     FORMAT_VALUE                    3 (FVC_ASCII)
+        212     LOAD_CONST                      16: ', 4: '
+        214     LOAD_NAME                       4: var3
+        216     LOAD_CONST                      17: '6.3'
+        218     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        220     LOAD_CONST                      18: ', constant: '
+        222     LOAD_CONST                      6: 123
+        224     FORMAT_VALUE                    0 (FVC_NONE)
+        226     LOAD_CONST                      19: '. End.'
+        228     BUILD_STRING                    13
+        230     CALL_FUNCTION                   1
+        232     POP_TOP                         
+        234     LOAD_NAME                       8: print
+        236     LOAD_CONST                      20: 'percent format %d '
+        238     LOAD_CONST                      21: 444
+        240     BINARY_MODULO                   
+        242     LOAD_CONST                      9: 'f-string '
+        244     LOAD_CONST                      6: 123
+        246     FORMAT_VALUE                    0 (FVC_NONE)
+        248     LOAD_CONST                      22: ' and '
+        250     LOAD_NAME                       0: var1
+        252     FORMAT_VALUE                    1 (FVC_STR)
+        254     BUILD_STRING                    4
+        256     BINARY_ADD                      
+        258     LOAD_CONST                      23: ' add another f-str '
+        260     LOAD_NAME                       4: var3
+        262     LOAD_CONST                      24: '2.3'
+        264     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        266     BUILD_STRING                    2
+        268     BINARY_ADD                      
+        270     LOAD_CONST                      25: ' regular string  regular string '
+        272     BINARY_ADD                      
+        274     CALL_FUNCTION                   1
+        276     POP_TOP                         
+        278     LOAD_NAME                       8: print
+        280     LOAD_CONST                      26: "'''"
+        282     LOAD_CONST                      27: 'single quoted string'
+        284     FORMAT_VALUE                    0 (FVC_NONE)
+        286     LOAD_CONST                      28: " 'singles in f-string' "
+        288     LOAD_CONST                      29: "single quote ' inside"
+        290     FORMAT_VALUE                    0 (FVC_NONE)
+        292     LOAD_CONST                      30: ' "doubles in f-string" '
+        294     LOAD_CONST                      31: 'double quoted string'
+        296     FORMAT_VALUE                    0 (FVC_NONE)
+        298     LOAD_CONST                      32: ' " both \' '
+        300     LOAD_CONST                      33: 'double quotes " inside'
+        302     FORMAT_VALUE                    0 (FVC_NONE)
+        304     LOAD_CONST                      26: "'''"
+        306     BUILD_STRING                    9
+        308     CALL_FUNCTION                   1
+        310     POP_TOP                         
+        312     LOAD_NAME                       8: print
+        314     LOAD_CONST                      34: '"""'
+        316     LOAD_CONST                      27: 'single quoted string'
+        318     FORMAT_VALUE                    0 (FVC_NONE)
+        320     LOAD_CONST                      28: " 'singles in f-string' "
+        322     LOAD_CONST                      29: "single quote ' inside"
+        324     FORMAT_VALUE                    0 (FVC_NONE)
+        326     LOAD_CONST                      30: ' "doubles in f-string" '
+        328     LOAD_CONST                      31: 'double quoted string'
+        330     FORMAT_VALUE                    0 (FVC_NONE)
+        332     LOAD_CONST                      32: ' " both \' '
+        334     LOAD_CONST                      33: 'double quotes " inside'
+        336     FORMAT_VALUE                    0 (FVC_NONE)
+        338     LOAD_CONST                      34: '"""'
+        340     BUILD_STRING                    9
+        342     CALL_FUNCTION                   1
+        344     POP_TOP                         
+        346     LOAD_NAME                       8: print
+        348     LOAD_CONST                      35: 'single quote \t\t'
+        350     LOAD_NAME                       0: var1
+        352     FORMAT_VALUE                    0 (FVC_NONE)
+        354     LOAD_CONST                      36: '"'
+        356     LOAD_NAME                       0: var1
+        358     FORMAT_VALUE                    1 (FVC_STR)
+        360     LOAD_CONST                      37: '" \''
+        362     LOAD_NAME                       1: var2
+        364     FORMAT_VALUE                    3 (FVC_ASCII)
+        366     LOAD_NAME                       4: var3
+        368     LOAD_CONST                      38: '.2f'
+        370     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        372     LOAD_CONST                      39: '\' """'
+        374     LOAD_NAME                       0: var1
+        376     FORMAT_VALUE                    2 (FVC_REPR)
+        378     LOAD_CONST                      40: '""" \'\'\''
+        380     LOAD_NAME                       1: var2
+        382     FORMAT_VALUE                    0 (FVC_NONE)
+        384     LOAD_CONST                      26: "'''"
+        386     BUILD_STRING                    12
+        388     CALL_FUNCTION                   1
+        390     POP_TOP                         
+        392     LOAD_NAME                       8: print
+        394     LOAD_CONST                      41: 'double quote \t\t'
+        396     LOAD_NAME                       0: var1
+        398     FORMAT_VALUE                    0 (FVC_NONE)
+        400     LOAD_CONST                      36: '"'
+        402     LOAD_NAME                       0: var1
+        404     FORMAT_VALUE                    1 (FVC_STR)
+        406     LOAD_CONST                      37: '" \''
+        408     LOAD_NAME                       1: var2
+        410     FORMAT_VALUE                    3 (FVC_ASCII)
+        412     LOAD_NAME                       4: var3
+        414     LOAD_CONST                      38: '.2f'
+        416     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        418     LOAD_CONST                      39: '\' """'
+        420     LOAD_NAME                       0: var1
+        422     FORMAT_VALUE                    2 (FVC_REPR)
+        424     LOAD_CONST                      40: '""" \'\'\''
+        426     LOAD_NAME                       1: var2
+        428     FORMAT_VALUE                    0 (FVC_NONE)
+        430     LOAD_CONST                      26: "'''"
+        432     BUILD_STRING                    12
+        434     CALL_FUNCTION                   1
+        436     POP_TOP                         
+        438     LOAD_NAME                       8: print
+        440     LOAD_NAME                       4: var3
+        442     LOAD_NAME                       2: x
+        444     BINARY_MULTIPLY                 
+        446     FORMAT_VALUE                    0 (FVC_NONE)
+        448     LOAD_CONST                      42: ' '
+        450     LOAD_NAME                       4: var3
+        452     LOAD_CONST                      38: '.2f'
+        454     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        456     LOAD_CONST                      42: ' '
+        458     LOAD_NAME                       4: var3
+        460     LOAD_CONST                      43: '.5f'
+        462     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        464     LOAD_CONST                      42: ' '
+        466     LOAD_NAME                       2: x
+        468     LOAD_CONST                      44: '02'
+        470     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        472     LOAD_CONST                      42: ' '
+        474     LOAD_NAME                       2: x
+        476     LOAD_NAME                       2: x
+        478     BINARY_MULTIPLY                 
+        480     LOAD_CONST                      45: '3'
+        482     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        484     LOAD_CONST                      42: ' '
+        486     LOAD_NAME                       2: x
+        488     LOAD_NAME                       2: x
+        490     BINARY_MULTIPLY                 
+        492     LOAD_NAME                       2: x
+        494     BINARY_MULTIPLY                 
+        496     LOAD_CONST                      46: '4'
+        498     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        500     LOAD_CONST                      42: ' '
+        502     LOAD_NAME                       3: s1
+        504     LOAD_CONST                      47: '>10'
+        506     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        508     LOAD_CONST                      42: ' '
+        510     LOAD_NAME                       5: a
+        512     LOAD_CONST                      0: 'x'
+        514     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        516     LOAD_CONST                      42: ' '
+        518     LOAD_NAME                       5: a
+        520     LOAD_CONST                      48: 'o'
+        522     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        524     LOAD_CONST                      42: ' '
+        526     LOAD_NAME                       5: a
+        528     LOAD_CONST                      49: 'e'
+        530     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        532     BUILD_STRING                    19
+        534     CALL_FUNCTION                   1
+        536     POP_TOP                         
+        538     LOAD_NAME                       8: print
+        540     LOAD_CONST                      50: 'some {braces} '
+        542     LOAD_CONST                      51: 'inner literal: {braces} {{double braces}}'
+        544     FORMAT_VALUE                    0 (FVC_NONE)
+        546     BUILD_STRING                    2
+        548     CALL_FUNCTION                   1
+        550     POP_TOP                         
+        552     LOAD_NAME                       8: print
+        554     LOAD_CONST                      52: 'f-string dict '
+        556     LOAD_NAME                       6: some_dict
+        558     LOAD_CONST                      5: 2
+        560     BINARY_SUBSCR                   
+        562     FORMAT_VALUE                    0 (FVC_NONE)
+        564     LOAD_CONST                      53: ' and {function call in expression}: '
+        566     LOAD_NAME                       9: max
+        568     LOAD_CONST                      54: 1
+        570     LOAD_CONST                      55: 20
+        572     LOAD_CONST                      4: 3
+        574     BUILD_LIST                      3
+        576     CALL_FUNCTION                   1
+        578     FORMAT_VALUE                    0 (FVC_NONE)
+        580     BUILD_STRING                    4
+        582     CALL_FUNCTION                   1
+        584     POP_TOP                         
+        586     LOAD_NAME                       8: print
+        588     LOAD_CONST                      56: <CODE> <lambda>
+        590     LOAD_CONST                      57: '<lambda>'
+        592     MAKE_FUNCTION                   0
+        594     LOAD_CONST                      4: 3
+        596     CALL_FUNCTION                   1
+        598     FORMAT_VALUE                    0 (FVC_NONE)
+        600     CALL_FUNCTION                   1
+        602     POP_TOP                         
+        604     LOAD_NAME                       8: print
+        606     LOAD_NAME                       4: var3
+        608     LOAD_CONST                      8: '4.5'
+        610     FORMAT_VALUE                    5 (FVC_STR | FVS_HAVE_SPEC)
+        612     CALL_FUNCTION                   1
+        614     POP_TOP                         
+        616     LOAD_CONST                      58: 'a '
+        618     LOAD_NAME                       0: var1
+        620     FORMAT_VALUE                    0 (FVC_NONE)
+        622     LOAD_CONST                      59: 'coolmultiline '
+        624     LOAD_NAME                       1: var2
+        626     FORMAT_VALUE                    0 (FVC_NONE)
+        628     LOAD_CONST                      60: '\nf-string '
+        630     LOAD_NAME                       4: var3
+        632     FORMAT_VALUE                    0 (FVC_NONE)
+        634     BUILD_STRING                    6
+        636     STORE_NAME                      10: msg
+        638     LOAD_NAME                       8: print
+        640     LOAD_NAME                       11: now
+        642     LOAD_CONST                      61: '%Y-%m-%d %H:%M'
+        644     FORMAT_VALUE                    4 (FVC_NONE | FVS_HAVE_SPEC)
+        646     CALL_FUNCTION                   1
+        648     POP_TOP                         
+        650     LOAD_CONST                      62: None
+        652     RETURN_VALUE                    

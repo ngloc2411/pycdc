@@ -1,0 +1,51 @@
+[Code]
+    File Name: test_for_loop_py3.8.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 3
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        '__doc__'
+        'print'
+        'a'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        '\ntest_for_loop_3.8.py -- source test\nFor-loops have changed in python 3.8. The test and PR\n(https://github.com/zrax/pycdc/pull/270) add some support.\nIt also fixes a problem with nested if- and for blocks.\n\nThis source is part of the decompyle test suite.\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n'
+        1
+        'block1'
+        'foo'
+        'block2'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: '\ntest_for_loop_3.8.py -- source test\nFor-loops have changed in python 3.8. The test and PR\n(https://github.com/zrax/pycdc/pull/270) add some support.\nIt also fixes a problem with nested if- and for blocks.\n\nThis source is part of the decompyle test suite.\n\ndecompyle is a Python byte-code decompiler\nSee http://www.goebel-consult.de/decompyle/ for download and\nfor further information\n'
+        2       STORE_NAME                      0: __doc__
+        4       LOAD_CONST                      1: 1
+        6       LOAD_CONST                      1: 1
+        8       COMPARE_OP                      2 (==)
+        10      POP_JUMP_IF_FALSE               10 (to 20)
+        12      LOAD_NAME                       1: print
+        14      LOAD_CONST                      2: 'block1'
+        16      CALL_FUNCTION                   1
+        18      POP_TOP                         
+        20      LOAD_CONST                      1: 1
+        22      LOAD_CONST                      1: 1
+        24      COMPARE_OP                      2 (==)
+        26      POP_JUMP_IF_FALSE               23 (to 46)
+        28      LOAD_CONST                      3: 'foo'
+        30      GET_ITER                        
+        32      FOR_ITER                        8 (to 50)
+        34      STORE_NAME                      2: a
+        36      LOAD_NAME                       1: print
+        38      LOAD_CONST                      4: 'block2'
+        40      CALL_FUNCTION                   1
+        42      POP_TOP                         
+        44      JUMP_ABSOLUTE                   16 (to 32)
+        46      LOAD_CONST                      5: None
+        48      RETURN_VALUE                    
+        50      LOAD_CONST                      5: None
+        52      RETURN_VALUE                    

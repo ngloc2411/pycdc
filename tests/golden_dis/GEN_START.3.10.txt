@@ -1,0 +1,47 @@
+[Code]
+    File Name: GEN_START.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'GEN_START'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: GEN_START.py
+            Object Name: GEN_START
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 1
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                0
+            [Disassembly]
+                0       GEN_START                       0
+                2       LOAD_CONST                      1: 0
+                4       YIELD_VALUE                     
+                6       POP_TOP                         
+                8       LOAD_CONST                      0: None
+                10      RETURN_VALUE                    
+        'GEN_START'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> GEN_START
+        2       LOAD_CONST                      1: 'GEN_START'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: GEN_START
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

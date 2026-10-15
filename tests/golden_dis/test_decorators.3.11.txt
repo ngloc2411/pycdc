@@ -1,0 +1,344 @@
+[Code]
+    File Name: test_decorators.py
+    Object Name: <module>
+    Qualified Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Stack Size: 5
+    Flags: 0x00000000
+    [Names]
+        'staticmethod'
+        'square'
+        'synchronized'
+        'threading'
+        'Lock'
+        'cache_lock'
+        'object'
+        'Cache'
+    [Locals+Names]
+    [Constants]
+        [Code]
+            File Name: test_decorators.py
+            Object Name: square
+            Qualified Name: square
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'n'
+            [Constants]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_FAST                       0: n
+                4       LOAD_FAST                       0: n
+                6       BINARY_OP                       5 (*)
+                10      RETURN_VALUE                    
+            [Exception Table]
+        [Code]
+            File Name: test_decorators.py
+            Object Name: synchronized
+            Qualified Name: synchronized
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 2
+            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+            [Names]
+            [Locals+Names]
+                'lock'
+                'wrap'
+            [Constants]
+                'Synchronization decorator.'
+                [Code]
+                    File Name: test_decorators.py
+                    Object Name: wrap
+                    Qualified Name: synchronized.<locals>.wrap
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000013 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NESTED)
+                    [Names]
+                    [Locals+Names]
+                        'f'
+                        'new_function'
+                        'lock'
+                    [Constants]
+                        None
+                        [Code]
+                            File Name: test_decorators.py
+                            Object Name: new_function
+                            Qualified Name: synchronized.<locals>.wrap.<locals>.new_function
+                            Arg Count: 0
+                            Pos Only Arg Count: 0
+                            KW Only Arg Count: 0
+                            Stack Size: 5
+                            Flags: 0x0000001F (CO_OPTIMIZED | CO_NEWLOCALS | CO_VARARGS | CO_VARKEYWORDS | CO_NESTED)
+                            [Names]
+                                'acquire'
+                                'release'
+                            [Locals+Names]
+                                'args'
+                                'kw'
+                                'f'
+                                'lock'
+                            [Constants]
+                                None
+                            [Disassembly]
+                                0       COPY_FREE_VARS                  2
+                                2       RESUME                          0
+                                4       LOAD_DEREF                      3: lock
+                                6       LOAD_METHOD                     0: acquire
+                                28      PRECALL                         0
+                                32      CALL                            0
+                                42      POP_TOP                         
+                                44      NOP                             
+                                46      PUSH_NULL                       
+                                48      LOAD_DEREF                      2: f
+                                50      LOAD_FAST                       0: args
+                                52      BUILD_MAP                       0
+                                54      LOAD_FAST                       1: kw
+                                56      DICT_MERGE                      1
+                                58      CALL_FUNCTION_EX                1
+                                60      LOAD_DEREF                      3: lock
+                                62      LOAD_METHOD                     1: release
+                                84      PRECALL                         0
+                                88      CALL                            0
+                                98      POP_TOP                         
+                                100     RETURN_VALUE                    
+                                102     PUSH_EXC_INFO                   
+                                104     LOAD_DEREF                      3: lock
+                                106     LOAD_METHOD                     1: release
+                                128     PRECALL                         0
+                                132     CALL                            0
+                                142     POP_TOP                         
+                                144     RERAISE                         0
+                                146     COPY                            3
+                                148     POP_EXCEPT                      
+                                150     RERAISE                         1
+                            [Exception Table]
+                                46 to 60 -> 102 [0] 
+                                102 to 146 -> 146 [1] lasti
+                    [Disassembly]
+                        0       COPY_FREE_VARS                  1
+                        2       MAKE_CELL                       0: f
+                        4       RESUME                          0
+                        6       LOAD_CLOSURE                    0: f
+                        8       LOAD_CLOSURE                    2: lock
+                        10      BUILD_TUPLE                     2
+                        12      LOAD_CONST                      1: <CODE> new_function
+                        14      MAKE_FUNCTION                   8
+                        16      STORE_FAST                      1: new_function
+                        18      LOAD_FAST                       1: new_function
+                        20      RETURN_VALUE                    
+                    [Exception Table]
+            [Disassembly]
+                0       MAKE_CELL                       0: lock
+                2       RESUME                          0
+                4       LOAD_CLOSURE                    0: lock
+                6       BUILD_TUPLE                     1
+                8       LOAD_CONST                      1: <CODE> wrap
+                10      MAKE_FUNCTION                   8
+                12      STORE_FAST                      1: wrap
+                14      LOAD_FAST                       1: wrap
+                16      RETURN_VALUE                    
+            [Exception Table]
+        0
+        (
+            'Lock'
+        )
+        [Code]
+            File Name: test_decorators.py
+            Object Name: Cache
+            Qualified Name: Cache
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Stack Size: 4
+            Flags: 0x00000000
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                '__init__'
+                'classmethod'
+                'synchronized'
+                'cache_lock'
+                'cache'
+                'property'
+                'name'
+                'setter'
+            [Locals+Names]
+            [Constants]
+                'Cache'
+                [Code]
+                    File Name: test_decorators.py
+                    Object Name: __init__
+                    Qualified Name: Cache.__init__
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        '_name'
+                    [Locals+Names]
+                        'self'
+                    [Constants]
+                        None
+                        'default'
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_CONST                      1: 'default'
+                        4       LOAD_FAST                       0: self
+                        6       STORE_ATTR                      0: _name
+                        16      LOAD_CONST                      0: None
+                        18      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: test_decorators.py
+                    Object Name: cache
+                    Qualified Name: Cache.cache
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                    [Locals+Names]
+                        'cls'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       PUSH_NULL                       
+                        4       LOAD_FAST                       0: cls
+                        6       PRECALL                         0
+                        10      CALL                            0
+                        20      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: test_decorators.py
+                    Object Name: name
+                    Qualified Name: Cache.name
+                    Arg Count: 1
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 1
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        '_name'
+                    [Locals+Names]
+                        'self'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       0: self
+                        4       LOAD_ATTR                       0: _name
+                        14      RETURN_VALUE                    
+                    [Exception Table]
+                [Code]
+                    File Name: test_decorators.py
+                    Object Name: name
+                    Qualified Name: Cache.name
+                    Arg Count: 2
+                    Pos Only Arg Count: 0
+                    KW Only Arg Count: 0
+                    Stack Size: 2
+                    Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)
+                    [Names]
+                        '_name'
+                    [Locals+Names]
+                        'self'
+                        'new_name'
+                    [Constants]
+                        None
+                    [Disassembly]
+                        0       RESUME                          0
+                        2       LOAD_FAST                       1: new_name
+                        4       LOAD_FAST                       0: self
+                        6       STORE_ATTR                      0: _name
+                        16      LOAD_CONST                      0: None
+                        18      RETURN_VALUE                    
+                    [Exception Table]
+                None
+            [Disassembly]
+                0       RESUME                          0
+                2       LOAD_NAME                       0: __name__
+                4       STORE_NAME                      1: __module__
+                6       LOAD_CONST                      0: 'Cache'
+                8       STORE_NAME                      2: __qualname__
+                10      LOAD_CONST                      1: <CODE> __init__
+                12      MAKE_FUNCTION                   0
+                14      STORE_NAME                      3: __init__
+                16      LOAD_NAME                       4: classmethod
+                18      PUSH_NULL                       
+                20      LOAD_NAME                       5: synchronized
+                22      LOAD_NAME                       6: cache_lock
+                24      PRECALL                         1
+                28      CALL                            1
+                38      LOAD_CONST                      2: <CODE> cache
+                40      MAKE_FUNCTION                   0
+                42      PRECALL                         0
+                46      CALL                            0
+                56      PRECALL                         0
+                60      CALL                            0
+                70      STORE_NAME                      7: cache
+                72      LOAD_NAME                       8: property
+                74      LOAD_CONST                      3: <CODE> name
+                76      MAKE_FUNCTION                   0
+                78      PRECALL                         0
+                82      CALL                            0
+                92      STORE_NAME                      9: name
+                94      LOAD_NAME                       9: name
+                96      LOAD_ATTR                       10: setter
+                106     LOAD_CONST                      4: <CODE> name
+                108     MAKE_FUNCTION                   0
+                110     PRECALL                         0
+                114     CALL                            0
+                124     STORE_NAME                      9: name
+                126     LOAD_CONST                      5: None
+                128     RETURN_VALUE                    
+            [Exception Table]
+        'Cache'
+        None
+    [Disassembly]
+        0       RESUME                          0
+        2       LOAD_NAME                       0: staticmethod
+        4       LOAD_CONST                      0: <CODE> square
+        6       MAKE_FUNCTION                   0
+        8       PRECALL                         0
+        12      CALL                            0
+        22      STORE_NAME                      1: square
+        24      LOAD_CONST                      1: <CODE> synchronized
+        26      MAKE_FUNCTION                   0
+        28      STORE_NAME                      2: synchronized
+        30      LOAD_CONST                      2: 0
+        32      LOAD_CONST                      3: ('Lock',)
+        34      IMPORT_NAME                     3: threading
+        36      IMPORT_FROM                     4: Lock
+        38      STORE_NAME                      4: Lock
+        40      POP_TOP                         
+        42      PUSH_NULL                       
+        44      LOAD_NAME                       4: Lock
+        46      PRECALL                         0
+        50      CALL                            0
+        60      STORE_NAME                      5: cache_lock
+        62      PUSH_NULL                       
+        64      LOAD_BUILD_CLASS                
+        66      LOAD_CONST                      4: <CODE> Cache
+        68      MAKE_FUNCTION                   0
+        70      LOAD_CONST                      5: 'Cache'
+        72      LOAD_NAME                       6: object
+        74      PRECALL                         3
+        78      CALL                            3
+        88      STORE_NAME                      7: Cache
+        90      LOAD_CONST                      6: None
+        92      RETURN_VALUE                    
+    [Exception Table]

@@ -1,0 +1,114 @@
+[Code]
+    File Name: conditional_assign.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: conditional_assign.py
+            Object Name: f
+            Arg Count: 2
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 8
+            Stack Size: 6
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                'print'
+            [Var Names]
+                'a'
+                'b'
+                'x'
+                'y'
+                'z'
+                'w'
+                'v'
+                'u'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                0
+                3
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       POP_JUMP_IF_FALSE               8
+                4       LOAD_FAST                       0: a
+                6       JUMP_FORWARD                    2 (to 10)
+                8       LOAD_CONST                      0: None
+                10      STORE_FAST                      2: x
+                12      LOAD_GLOBAL                     0: print
+                14      LOAD_FAST                       2: x
+                16      CALL_FUNCTION                   1
+                18      POP_TOP                         
+                20      LOAD_FAST                       0: a
+                22      LOAD_CONST                      1: 1
+                24      COMPARE_OP                      4 (>)
+                26      POP_JUMP_IF_FALSE               32
+                28      LOAD_FAST                       0: a
+                30      JUMP_FORWARD                    10 (to 42)
+                32      LOAD_FAST                       1: b
+                34      POP_JUMP_IF_FALSE               40
+                36      LOAD_FAST                       1: b
+                38      JUMP_FORWARD                    2 (to 42)
+                40      LOAD_CONST                      2: 0
+                42      STORE_FAST                      3: y
+                44      LOAD_FAST                       0: a
+                46      POP_JUMP_IF_FALSE               52
+                48      LOAD_FAST                       1: b
+                50      JUMP_IF_TRUE_OR_POP             54
+                52      LOAD_CONST                      3: 3
+                54      STORE_FAST                      4: z
+                56      LOAD_FAST                       1: b
+                58      POP_JUMP_IF_FALSE               68
+                60      LOAD_FAST                       0: a
+                62      JUMP_IF_FALSE_OR_POP            70
+                64      LOAD_FAST                       1: b
+                66      JUMP_FORWARD                    2 (to 70)
+                68      LOAD_FAST                       0: a
+                70      STORE_FAST                      5: w
+                72      LOAD_FAST                       1: b
+                74      POP_JUMP_IF_FALSE               84
+                76      LOAD_FAST                       0: a
+                78      JUMP_IF_TRUE_OR_POP             86
+                80      LOAD_FAST                       1: b
+                82      JUMP_FORWARD                    2 (to 86)
+                84      LOAD_FAST                       0: a
+                86      STORE_FAST                      6: v
+                88      LOAD_FAST                       1: b
+                90      POP_JUMP_IF_FALSE               96
+                92      LOAD_FAST                       0: a
+                94      JUMP_FORWARD                    6 (to 102)
+                96      LOAD_FAST                       1: b
+                98      JUMP_IF_FALSE_OR_POP            102
+                100     LOAD_FAST                       0: a
+                102     STORE_FAST                      7: u
+                104     LOAD_GLOBAL                     0: print
+                106     LOAD_FAST                       3: y
+                108     LOAD_FAST                       4: z
+                110     LOAD_FAST                       5: w
+                112     LOAD_FAST                       6: v
+                114     LOAD_FAST                       7: u
+                116     CALL_FUNCTION                   5
+                118     POP_TOP                         
+                120     LOAD_FAST                       0: a
+                122     RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    

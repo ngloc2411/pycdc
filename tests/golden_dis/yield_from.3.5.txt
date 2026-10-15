@@ -1,0 +1,132 @@
+[Code]
+    File Name: ../input/yield_from.py
+    Object Name: <module>
+    Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'gen10'
+        'gen20'
+        'generator'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: ../input/yield_from.py
+            Object Name: gen10
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+                'range'
+            [Var Names]
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                10
+            [Disassembly]
+                0       SETUP_LOOP                      25 (to 28)
+                3       LOAD_GLOBAL                     0: range
+                6       LOAD_CONST                      1: 10
+                9       CALL_FUNCTION                   1
+                12      GET_ITER                        
+                13      FOR_ITER                        11 (to 27)
+                16      STORE_FAST                      0: i
+                19      LOAD_FAST                       0: i
+                22      YIELD_VALUE                     
+                23      POP_TOP                         
+                24      JUMP_ABSOLUTE                   13
+                27      POP_BLOCK                       
+                28      LOAD_CONST                      0: None
+                31      RETURN_VALUE                    
+        'gen10'
+        [Code]
+            File Name: ../input/yield_from.py
+            Object Name: gen20
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 3
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+                'range'
+            [Var Names]
+                'i'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                10
+                20
+            [Disassembly]
+                0       SETUP_LOOP                      28 (to 31)
+                3       LOAD_GLOBAL                     0: range
+                6       LOAD_CONST                      1: 10
+                9       LOAD_CONST                      2: 20
+                12      CALL_FUNCTION                   2
+                15      GET_ITER                        
+                16      FOR_ITER                        11 (to 30)
+                19      STORE_FAST                      0: i
+                22      LOAD_FAST                       0: i
+                25      YIELD_VALUE                     
+                26      POP_TOP                         
+                27      JUMP_ABSOLUTE                   16
+                30      POP_BLOCK                       
+                31      LOAD_CONST                      0: None
+                34      RETURN_VALUE                    
+        'gen20'
+        [Code]
+            File Name: ../input/yield_from.py
+            Object Name: generator
+            Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 2
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+                'gen10'
+                'gen20'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL                     0: gen10
+                3       CALL_FUNCTION                   0
+                6       GET_YIELD_FROM_ITER             
+                7       LOAD_CONST                      0: None
+                10      YIELD_FROM                      
+                11      POP_TOP                         
+                12      LOAD_GLOBAL                     1: gen20
+                15      CALL_FUNCTION                   0
+                18      GET_YIELD_FROM_ITER             
+                19      LOAD_CONST                      0: None
+                22      YIELD_FROM                      
+                23      POP_TOP                         
+                24      LOAD_CONST                      0: None
+                27      RETURN_VALUE                    
+        'generator'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> gen10
+        3       LOAD_CONST                      1: 'gen10'
+        6       MAKE_FUNCTION                   0
+        9       STORE_NAME                      0: gen10
+        12      LOAD_CONST                      2: <CODE> gen20
+        15      LOAD_CONST                      3: 'gen20'
+        18      MAKE_FUNCTION                   0
+        21      STORE_NAME                      1: gen20
+        24      LOAD_CONST                      4: <CODE> generator
+        27      LOAD_CONST                      5: 'generator'
+        30      MAKE_FUNCTION                   0
+        33      STORE_NAME                      2: generator
+        36      LOAD_CONST                      6: None
+        39      RETURN_VALUE                    

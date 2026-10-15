@@ -1,0 +1,95 @@
+[Code]
+    File Name: augassign_all.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 2
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        'f'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        [Code]
+            File Name: augassign_all.py
+            Object Name: f
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+            [Var Names]
+                'a'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+                1
+                2
+                3
+                7
+            [Disassembly]
+                0       LOAD_FAST                       0: a
+                2       LOAD_CONST                      1: 1
+                4       INPLACE_ADD                     
+                6       STORE_FAST                      0: a
+                8       LOAD_FAST                       0: a
+                10      LOAD_CONST                      2: 2
+                12      INPLACE_SUBTRACT                
+                14      STORE_FAST                      0: a
+                16      LOAD_FAST                       0: a
+                18      LOAD_CONST                      3: 3
+                20      INPLACE_MULTIPLY                
+                22      STORE_FAST                      0: a
+                24      LOAD_FAST                       0: a
+                26      LOAD_CONST                      2: 2
+                28      INPLACE_FLOOR_DIVIDE            
+                30      STORE_FAST                      0: a
+                32      LOAD_FAST                       0: a
+                34      LOAD_CONST                      4: 7
+                36      INPLACE_MODULO                  
+                38      STORE_FAST                      0: a
+                40      LOAD_FAST                       0: a
+                42      LOAD_CONST                      1: 1
+                44      INPLACE_OR                      
+                46      STORE_FAST                      0: a
+                48      LOAD_FAST                       0: a
+                50      LOAD_CONST                      4: 7
+                52      INPLACE_AND                     
+                54      STORE_FAST                      0: a
+                56      LOAD_FAST                       0: a
+                58      LOAD_CONST                      2: 2
+                60      INPLACE_XOR                     
+                62      STORE_FAST                      0: a
+                64      LOAD_FAST                       0: a
+                66      LOAD_CONST                      1: 1
+                68      INPLACE_LSHIFT                  
+                70      STORE_FAST                      0: a
+                72      LOAD_FAST                       0: a
+                74      LOAD_CONST                      1: 1
+                76      INPLACE_RSHIFT                  
+                78      STORE_FAST                      0: a
+                80      LOAD_FAST                       0: a
+                82      LOAD_CONST                      2: 2
+                84      INPLACE_POWER                   
+                86      STORE_FAST                      0: a
+                88      LOAD_FAST                       0: a
+                90      LOAD_CONST                      2: 2
+                92      INPLACE_TRUE_DIVIDE             
+                94      STORE_FAST                      0: a
+                96      LOAD_FAST                       0: a
+                98      RETURN_VALUE                    
+        'f'
+        None
+    [Disassembly]
+        0       LOAD_CONST                      0: <CODE> f
+        2       LOAD_CONST                      1: 'f'
+        4       MAKE_FUNCTION                   0
+        6       STORE_NAME                      0: f
+        8       LOAD_CONST                      2: None
+        10      RETURN_VALUE                    
