@@ -1,0 +1,19 @@
+# Source Generated with Decompyle++
+# File: call_forms.3.9.pyc (Python 3.9)
+
+
+def f(fn, a, b, obj):
+    fn(a, b)
+    fn(a, b = 1)
+    fn(x = a, y = b, z = 3)
+    fn(*a, **b)
+    fn(a, *b, c = 1, **b)
+    fn(a, b, *a)
+    fn(**a)
+    fn(*a)
+    obj.m(a, k = b)
+    obj.m(*a, k = b)
+    obj.attr.m(a)(b, c = a)
+    print(fn(a, key = lambda q: q + 1), sep = '')
+    return fn()
+

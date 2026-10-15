@@ -1,0 +1,20 @@
+# Source Generated with Decompyle++
+# File: yield_from.3.3.pyc (Python 3.3)
+
+
+def gen10():
+    for i in range(10):
+        yield i
+    
+
+
+def gen20():
+    for i in range(10, 20):
+        yield i
+    
+
+
+def generator():
+    yield from gen10()
+    yield from gen20()
+

@@ -2,8 +2,8 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/ngloc2411/pycdc/decomp"
@@ -43,27 +43,11 @@ func main() {
 		cli.Fatal(fmt.Sprintf("Could not load file %s", a.InFile))
 	}
 
-	var buf bytes.Buffer
-	unicode := ""
-	if m.MajorVer() < 3 && m.IsUnicode() {
-		unicode = " Unicode"
-	}
-	buf.WriteString("# Source Generated with Decompyle++\n")
-	fmt.Fprintf(&buf, "# File: %s (Python %d.%d%s)\n\n", cli.BaseName(a.InFile), m.MajorVer(), m.MinorVer(), unicode)
-
-	code := 0
-	func() {
-		defer func() {
-			if r := recover(); r != nil {
-				fmt.Fprintf(os.Stderr, "Error decompyling %s: %v\n", a.InFile, r)
-				code = 1
-			}
-		}()
-		decomp.Decompyle(m.Code, m, &buf)
-	}()
-	out.Write(buf.Bytes())
-	if code != 0 {
+	src, err := decomp.DecompileModule(m, cli.BaseName(a.InFile))
+	io.WriteString(out, src)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error decompyling %s: %v\n", a.InFile, err)
 		out.Close()
-		os.Exit(code)
+		os.Exit(1)
 	}
 }
